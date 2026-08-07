@@ -259,17 +259,17 @@ Prefijo: `menu/`. Uso exclusivo en sidebar de navegación del dashboard.
 |--------|-------------|
 | `menu/home` | Inicio / dashboard principal |
 | `menu/user` | Perfil de usuario |
-| `menu/online-store` | T1tienda |
-| `menu/marketing` | T1marketing |
+| `menu/online-store` | T1 Tienda |
+| `menu/marketing` | T1 Marketing |
 | `menu/gallery` | Galería de productos |
 | `menu/discount` | Descuentos y promociones |
 | `menu/product` | Catálogo de productos |
 | `menu/channel` | Canales de venta |
 | `menu/orders` | Gestión de pedidos |
-| `menu/shipping` | T1envíos — logística |
+| `menu/shipping` | T1 Envíos — logística |
 | `menu/analytics` | Reportes y analíticas |
 | `menu/insumos` | Tienda de insumos |
-| `menu/payments` | T1pagos |
+| `menu/payments` | T1 Pagos |
 | `menu/balance` | Balance y saldos |
 | `menu/link` | Links de cobro |
 | `menu/transactions` | Historial de transacciones |
@@ -362,7 +362,7 @@ import { BrandLogo } from '@/components/Icon/BrandLogo'
 <BrandLogo name="mastercard" category="payments" alt="Mastercard" />
 
 // Logo T1 — isotipo en header
-<BrandLogo name="t1pagos-default" category="t1" width={120} height={32} alt="T1pagos" />
+<BrandLogo name="t1pagos-default" category="t1" width={120} height={32} alt="T1 Pagos" />
 
 // Logo paquetería
 <BrandLogo name="dhl-iso" category="carriers" alt="DHL" />
@@ -382,11 +382,11 @@ import { BrandLogo } from '@/components/Icon/BrandLogo'
 | Nombre de archivo | Uso |
 |------------------|-----|
 | `t1-logotipo` | Logotipo T1 — header landing principal |
-| `t1pagos-default` | T1pagos — color, sobre fondo claro |
-| `t1pagos-white` | T1pagos — blanco, sobre fondo oscuro o rojo |
-| `t1envios-default` | T1envíos — color, sobre fondo claro |
-| `t1score-default` | T1score — color, sobre fondo claro |
-| `t1marketing-default` | T1marketing — color, sobre fondo claro |
+| `t1pagos-default` | T1 Pagos — color, sobre fondo claro |
+| `t1pagos-white` | T1 Pagos — blanco, sobre fondo oscuro o rojo |
+| `t1envios-default` | T1 Envíos — color, sobre fondo claro |
+| `t1score-default` | T1 Score — color, sobre fondo claro |
+| `t1marketing-default` | T1 Marketing — color, sobre fondo claro |
 
 > Para el listado completo de logos de terceros disponibles, ver **[ICONOGRAPHY.md — sección 4](../assets/ICONOGRAPHY.md#4-logos-de-terceros-icons-logos)**.
 
@@ -522,7 +522,7 @@ Cuando el ícono es el único elemento comunicativo, el contexto semántico va e
 </button>
 
 // ✅ Ícono con tooltip — aria-label en el ícono
-<Icon name="status-help" size={16} aria-label="¿Qué es el contracargo?" />
+<Icon name="status-help" size={16} aria-label="¿Qué es una reclamación?" />
 ```
 
 ### Comportamiento por default del componente

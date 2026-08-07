@@ -85,7 +85,7 @@ Barra fija en la parte superior, siempre visible.
 | **Altura** | 64px |
 | **Posición** | Fijo en top, full-width |
 | **Background** | `#FFFFFF` |
-| **Contenido izquierdo** | Logo T1 + producto (T1tienda, T1envíos, etc.) |
+| **Contenido izquierdo** | Logo T1 + producto (T1 Tienda, T1 Envíos, etc.) |
 | **Contenido centro** | Selector de tienda (avatar + nombre + chevron) |
 | **Contenido derecho** | Íconos de acción (grid, ayuda, notificaciones) + avatar de usuario |
 

@@ -131,7 +131,7 @@ Logo T1 centrado + spinner
 
 ## 3. Crear envío
 
-**Producto:** T1envíos
+**Producto:** T1 Envíos
 **Figma:** `T1envios---Crear-envio` · node `5:29808`
 
 ### Estructura del flujo
@@ -192,7 +192,7 @@ La pantalla está dividida en dos secciones dentro de la misma vista:
 
 ## 4. Checkout — Tienda en línea
 
-**Producto:** T1tienda (tienda en línea del comerciante)
+**Producto:** T1 Tienda (tienda en línea del comerciante)
 **Contexto:** El comprador final llega desde el carrito de compras de la tienda.
 
 ### Estructura del flujo
@@ -228,7 +228,7 @@ La pantalla está dividida en dos secciones dentro de la misma vista:
 
 ## 5. Checkout — Link de pago
 
-**Producto:** T1pagos (link de pago o gateway de integración)
+**Producto:** T1 Pagos (link de pago o gateway de integración)
 **Contexto:** El comprador llega directamente a través de un link, sin pasar por carrito.
 
 ### Estructura del flujo
@@ -240,7 +240,7 @@ La pantalla está dividida en dos secciones dentro de la misma vista:
     Método de pago:
         Tarjeta de crédito/débito
         SPEI / Transferencia
-        Otros métodos configurados en T1pagos
+        Otros métodos configurados en T1 Pagos
          ↓
 [Confirmación]
     Pago exitoso · Referencia de transacción

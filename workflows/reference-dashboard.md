@@ -163,7 +163,7 @@ Subitems: ml-7 (28px), sin ícono
 </a>
 ```
 
-**CTA en sidebar** (solo productos con acción frecuente, ej. T1envíos):
+**CTA en sidebar** (solo productos con acción frecuente, ej. T1 Envíos):
 ```tsx
 // Expandido
 <T1Button variant="primary" className="mx-3 w-[calc(100%-24px)]">+ Crear envío</T1Button>
@@ -173,9 +173,9 @@ Subitems: ml-7 (28px), sin ícono
 </button>
 ```
 
-**T1pagos colapsado** — excepción visual: íconos en círculo `bg-red-50` con ícono `red-500` (no sobre white).
+**T1 Pagos colapsado** — excepción visual: íconos en círculo `bg-red-50` con ícono `red-500` (no sobre white).
 
-**T1cuenta** — sin estado colapsado. Sin íconos en items. Labels de grupo en `10px SemiBold uppercase gray-400 tracking-wider`.
+**T1 Cuenta** — sin estado colapsado. Sin íconos en items. Labels de grupo en `10px SemiBold uppercase gray-400 tracking-wider`.
 
 ---
 

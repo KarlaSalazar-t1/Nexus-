@@ -13,11 +13,13 @@ Este proyecto pertenece al ecosistema **T1**, una plataforma integral de e-comme
 
 | Producto | Descripción |
 |---|---|
-| T1tienda | Creación y gestión de tiendas en línea |
-| T1envíos | Gestión logística y envíos nacionales e internacionales |
-| T1pagos | Procesamiento de pagos, facturación y finanzas |
-| T1score | Analytics y métricas de rendimiento |
-| T1marketing | Campañas, canales de venta y herramientas de marketing |
+| T1 Tienda | Creación y gestión de tiendas en línea |
+| T1 Envíos | Gestión logística y envíos nacionales e internacionales |
+| T1 Pagos | Procesamiento de pagos, facturación y finanzas |
+| T1 Score | Analytics y métricas de rendimiento |
+| T1 Marketing | Campañas, canales de venta y herramientas de marketing |
+| T1 POS | Punto de venta físico |
+| T1 Cuenta | Cuenta única de acceso al ecosistema |
 
 **Fuente de verdad:** Figma (`SD - Migration V2`). Cuando cualquier archivo del repo contradiga valores de Figma, Figma gana.
 
@@ -36,6 +38,16 @@ Antes de comenzar cualquier tarea, identifica el tipo de proyecto por las keywor
 | **Componente sin contexto claro** | nombre de componente sin plataforma definida | Pregunta antes de continuar |
 | **Ambos contextos** | request que menciona landing Y dashboard | Carga ambos references |
 
+### Enrutamiento de tareas de copy
+
+| Si la tarea es… | Cargar |
+|---|---|
+| Escribir copy de landing, sublanding o superficie de marketing | `content/MARKETING-COPY.md` + `workflows/COPY-WORKFLOW.md` (modo escritura) |
+| Auditar o corregir copy de una página existente | `workflows/COPY-WORKFLOW.md` (modo revisión) |
+| Microcopy de dashboard o App | `content/UX-WRITING.md` |
+
+`CLAUDE-CONTROLLER.md` sigue siendo el único router del repo. No se crea un controller de copy.
+
 ### Regla de carga condicional
 
 ```
@@ -51,6 +63,9 @@ SI dashboard detectado:
 
 SI se piden componentes específicos:
   → references/components.md
+
+SI se pide copy de landing o marketing:
+  → references/marketing-copy.md
 ```
 
 ### Si el contexto no está claro
@@ -264,5 +279,6 @@ Los archivos de `references/` son versiones condensadas de la documentación com
 | `references/landing.md` | Tokens + patrones específicos de landing pages | Contexto landing |
 | `references/dashboard.md` | Tokens + patrones específicos del admin/backoffice | Contexto dashboard |
 | `references/components.md` | Catálogo compacto de componentes con variantes y estados | Cuando se piden componentes |
+| `references/marketing-copy.md` | Reglas accionables de copy de landing y marketing | Contexto landing / copy de marketing |
 
 Para documentación completa dirigida a humanos, ver los archivos en `foundation/`, `components/`, `platforms/` y `patterns/`.

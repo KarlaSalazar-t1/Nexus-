@@ -69,13 +69,13 @@ Cada plataforma del ecosistema T1 tiene su imagotipo: la combinación del isotip
 
 | Plataforma | Nombre de archivo base | Variantes disponibles |
 |------------|----------------------|----------------------|
-| T1pagos | `t1pagos-default.svg` | Default (color) · White |
-| T1envíos | `t1envios-default.svg` | Default · Variant2 (alternativa tipográfica) |
+| T1 Pagos | `t1pagos-default.svg` | Default (color) · White |
+| T1 Envíos | `t1envios-default.svg` | Default · Variant2 (alternativa tipográfica) |
 | T1partners | `t1partners-default.svg` | Default · Variant2 |
-| T1score | `t1score-default.svg` | Default · White |
+| T1 Score | `t1score-default.svg` | Default · White |
 | T1pos | `t1pos-default.svg` | Default · White |
 | T1ai | `t1ai-default.svg` | Default · White |
-| T1cuenta | `t1cuenta-default.svg` | Default · White |
+| T1 Cuenta | `t1cuenta-default.svg` | Default · White |
 | T1store | `t1store-default.svg` | Default · White |
 
 ### Sistema de variantes
@@ -84,7 +84,7 @@ Cada plataforma del ecosistema T1 tiene su imagotipo: la combinación del isotip
 
 **White:** Sobre fondos oscuros, fondos de color intenso o sobre el brand red. Todo el imagotipo en blanco `#FFFFFF`.
 
-**Variant2 (T1envíos y T1partners):** Alternativa tipográfica para contextos específicos — consultar con el equipo de diseño antes de usar.
+**Variant2 (T1 Envíos y T1partners):** Alternativa tipográfica para contextos específicos — consultar con el equipo de diseño antes de usar.
 
 ### Convención de naming en `/public/assets/logos/t1/`
 
@@ -145,7 +145,7 @@ Los imagotipos **no tienen espacio de color propio** — siempre se muestran sob
 
 ## 4. Logos de terceros — Pagos
 
-Procesadores y métodos de pago integrados en T1pagos. Usar siempre en sus versiones oficiales.
+Procesadores y métodos de pago integrados en T1 Pagos. Usar siempre en sus versiones oficiales.
 
 ### Procesadores principales
 
@@ -186,7 +186,7 @@ Existe un componente `grupo-bancos` con los logos de las principales redes de ta
 
 ## 5. Logos de terceros — Carriers
 
-Paqueterías y operadores logísticos integrados en T1envíos.
+Paqueterías y operadores logísticos integrados en T1 Envíos.
 
 ### Carriers principales
 
@@ -307,7 +307,7 @@ ERPs, plataformas de e-commerce y herramientas de gestión con integración a T1
 
 ## 8. Logos de terceros — Social Media
 
-Redes sociales para integración en T1marketing y perfiles de seller.
+Redes sociales para integración en T1 Marketing y perfiles de seller.
 
 | Marca | Nombre de archivo | Variantes |
 |-------|-----------------|-----------|
@@ -328,7 +328,7 @@ Redes sociales para integración en T1marketing y perfiles de seller.
 
 ## 9. Logos de terceros — Marketing
 
-Herramientas de marketing y publicidad integradas con T1marketing.
+Herramientas de marketing y publicidad integradas con T1 Marketing.
 
 | Marca | Nombre de archivo | Descripción |
 |-------|-----------------|-------------|
@@ -351,11 +351,11 @@ Ver **[ICON-COMPONENT.md — sección 5](../components/ICON-COMPONENT.md#5-compo
 ```tsx
 import { BrandLogo } from '@/components/Icon/BrandLogo'
 
-// Imagotipo T1pagos — sobre fondo claro
-<BrandLogo name="t1pagos-default" category="t1" width={120} height={32} alt="T1pagos" />
+// Imagotipo T1 Pagos — sobre fondo claro
+<BrandLogo name="t1pagos-default" category="t1" width={120} height={32} alt="T1 Pagos" />
 
 // Imagotipo sobre fondo oscuro o rojo
-<BrandLogo name="t1pagos-white" category="t1" width={120} height={32} alt="T1pagos" />
+<BrandLogo name="t1pagos-white" category="t1" width={120} height={32} alt="T1 Pagos" />
 
 // Logo de pago en checkout
 <BrandLogo name="visa" category="payments" width={40} height={30} alt="Visa" />

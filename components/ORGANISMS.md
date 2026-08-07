@@ -89,7 +89,7 @@ export default function DashboardLayout({ children }) {
 
 El header es consistente en todos los productos del ecosistema. Sus elementos varían levemente por producto.
 
-**Figma node:** `232:7298` (T1envíos full) — referencia del header
+**Figma node:** `232:7298` (T1 Envíos full) — referencia del header
 
 ### 2.1 Anatomía
 
@@ -104,10 +104,10 @@ El header es consistente en todos los productos del ecosistema. Sus elementos va
 | Elemento | Descripción | Aparece en |
 |---|---|---|
 | **Toggle sidebar** | Ícono `≡` — colapsa/expande el sidebar | Todos los productos |
-| **Logo producto** | Logotipo del producto activo (T1tienda, T1envíos, T1pagos…) | Todos |
-| **Selector de tienda** | Avatar color + nombre de tienda + chevron `∨` — abre dropdown para cambiar tienda | T1tienda, T1envíos |
-| **Búsqueda** | Input centrado con placeholder contextual (ej: "Número de rastreo") | T1envíos |
-| **Saldo** | `$` + monto + `›` — abre panel de saldo/recarga | T1envíos |
+| **Logo producto** | Logotipo del producto activo (T1 Tienda, T1 Envíos, T1 Pagos…) | Todos |
+| **Selector de tienda** | Avatar color + nombre de tienda + chevron `∨` — abre dropdown para cambiar tienda | T1 Tienda, T1 Envíos |
+| **Búsqueda** | Input centrado con placeholder contextual (ej: "Número de rastreo") | T1 Envíos |
+| **Saldo** | `$` + monto + `›` — abre panel de saldo/recarga | T1 Envíos |
 | **Switch de productos** | Ícono `⊞` — abre selector de productos del ecosistema | Todos |
 | **Ayuda** | Ícono `?` | Todos |
 | **Notificaciones** | Ícono `🔔` con badge rojo de contador | Todos |
@@ -145,10 +145,10 @@ padding: 0 16px;
 
 | Producto | Búsqueda | Saldo | Selector tienda |
 |---|---|---|---|
-| **T1tienda** | — | — | ✅ |
-| **T1envíos** | ✅ "Número de rastreo" | ✅ | ✅ |
-| **T1pagos** | — | — | ✅ |
-| **T1cuenta** | — | — | ❌ (es config de cuenta) |
+| **T1 Tienda** | — | — | ✅ |
+| **T1 Envíos** | ✅ "Número de rastreo" | ✅ | ✅ |
+| **T1 Pagos** | — | — | ✅ |
+| **T1 Cuenta** | — | — | ❌ (es config de cuenta) |
 
 ### 2.7 Snippet
 
@@ -177,14 +177,14 @@ padding: 0 16px;
     </button>
   </div>
 
-  {/* Centro — búsqueda (solo T1envíos) */}
+  {/* Centro — búsqueda (solo T1 Envíos) */}
   <div className="flex max-w-[400px] flex-1 mx-8">
     <T1Search placeholder="Número de rastreo" className="w-full" />
   </div>
 
   {/* Lado derecho */}
   <div className="flex items-center gap-2">
-    {/* Saldo (solo T1envíos) */}
+    {/* Saldo (solo T1 Envíos) */}
     <button className="flex items-center gap-1 rounded-[8px] border border-gray-200 px-3 py-1 hover:bg-gray-50">
       <CurrencyDollarIcon className="h-4 w-4 text-oxford" />
       <span className="font-manrope text-[13px] font-medium text-oxford">$9,456.00</span>
@@ -274,7 +274,7 @@ padding-bottom: 24px;
 | Item nivel 1 (con ícono) | Manrope | `14px` | Regular (400) | `oxford` |
 | Subitem nivel 2 | Manrope | `14px` | Regular (400) | `oxford` |
 | Subitem activo | Manrope | `14px` | Regular (400) | `oxford` · BG `gray-50` |
-| Label de grupo (T1cuenta) | Manrope | `10px` | SemiBold (600) | `gray-600` · uppercase |
+| Label de grupo (T1 Cuenta) | Manrope | `10px` | SemiBold (600) | `gray-600` · uppercase |
 
 ### 3.5 Toggle de colapso
 
@@ -287,7 +287,7 @@ padding-bottom: 24px;
 
 ## 4. Sidebar — variantes por producto
 
-### 4.1 T1envíos — Expandido
+### 4.1 T1 Envíos — Expandido
 
 **Figma node:** `232:7298`
 
@@ -318,7 +318,7 @@ Configuración ∧
   Zonas
 ```
 
-### 4.2 T1envíos — Colapsado
+### 4.2 T1 Envíos — Colapsado
 
 **Figma node:** `232:7759`
 
@@ -328,7 +328,7 @@ Configuración ∧
 - Hover: BG `gray-50` en el área del ícono
 - Al hacer hover sobre un item → tooltip con el nombre (ver `components/MOLECULES.md`)
 
-### 4.3 T1tienda — Expandido
+### 4.3 T1 Tienda — Expandido
 
 **Figma node:** `232:8205`
 
@@ -354,15 +354,15 @@ Reportes
 Mis pagos
 ```
 
-### 4.4 T1tienda — Colapsado
+### 4.4 T1 Tienda — Colapsado
 
 **Figma node:** `232:9042`
 
 - Solo íconos · sin texto · sin CTA
 - Íconos: `24×24px` · color `oxford`
-- Mismo comportamiento de hover y tooltip que T1envíos colapsado
+- Mismo comportamiento de hover y tooltip que T1 Envíos colapsado
 
-### 4.5 T1pagos — Expandido
+### 4.5 T1 Pagos — Expandido
 
 **Figma node:** `232:8112`
 
@@ -380,14 +380,14 @@ Métodos de pago
 Desarrolladores
 ```
 
-### 4.6 T1pagos — Colapsado
+### 4.6 T1 Pagos — Colapsado
 
 **Figma node:** `232:8014`
 
-Variante visual diferente: los íconos se muestran en **círculos con BG `red-50`** y ícono en `red-500`. Esto diferencia visualmente T1pagos del resto cuando está colapsado.
+Variante visual diferente: los íconos se muestran en **círculos con BG `red-50`** y ícono en `red-500`. Esto diferencia visualmente T1 Pagos del resto cuando está colapsado.
 
 ```css
-/* Ícono colapsado T1pagos */
+/* Ícono colapsado T1 Pagos */
 background: var(--color-red-50);
 border-radius: 50%;
 width: 36px;
@@ -395,7 +395,7 @@ height: 36px;
 color: var(--color-red-500);
 ```
 
-### 4.7 T1cuenta — Expandido
+### 4.7 T1 Cuenta — Expandido
 
 **Figma node:** `232:8321`
 
@@ -425,7 +425,7 @@ ADMINISTRACIÓN
   Planes
 ```
 
-> ⚠️ **T1cuenta** no tiene estado colapsado — es una sección de configuración, no un dashboard de trabajo. No implementar toggle de colapso en T1cuenta.
+> ⚠️ **T1 Cuenta** no tiene estado colapsado — es una sección de configuración, no un dashboard de trabajo. No implementar toggle de colapso en T1 Cuenta.
 
 ---
 
@@ -485,7 +485,7 @@ ADMINISTRACIÓN
 
 ### 5.3 CTA primario en sidebar
 
-Solo en productos con acción principal frecuente (T1envíos → "Crear envío").
+Solo en productos con acción principal frecuente (T1 Envíos → "Crear envío").
 
 ```tsx
 // Expandido
@@ -499,7 +499,7 @@ Solo en productos con acción principal frecuente (T1envíos → "Crear envío")
 </button>
 ```
 
-### 5.4 Labels de grupo (T1cuenta)
+### 5.4 Labels de grupo (T1 Cuenta)
 
 ```tsx
 <div className="px-3 pb-1 pt-4">
@@ -545,8 +545,8 @@ El nav item es la unidad mínima del sidebar. Está documentado en `components/M
 - **El sidebar nunca tiene shadow** — solo borde derecho `gray-200`.
 - **El header nunca tiene shadow** — solo borde inferior `gray-200`.
 - **La transición de colapso** es `200ms ease` en width — el contenido desaparece con `overflow: hidden`.
-- **T1cuenta no tiene estado colapsado** — no implementar el toggle.
-- **T1pagos colapsado** usa íconos en círculo `red-50` — diferente a los demás productos que usan ícono directo sobre `white`.
+- **T1 Cuenta no tiene estado colapsado** — no implementar el toggle.
+- **T1 Pagos colapsado** usa íconos en círculo `red-50` — diferente a los demás productos que usan ícono directo sobre `white`.
 - **Los subitems no tienen ícono** — solo indentación y texto.
 - **El item activo** resalta el subitem (si hay subitems), no el item padre — el padre se mantiene expandido pero sin BG propio.
 - **Tooltip en colapsado** — al hover sobre un ícono colapsado, mostrar el label del item. Ver `components/MOLECULES.md → Tooltip`.
@@ -562,14 +562,14 @@ El nav item es la unidad mínima del sidebar. Está documentado en `components/M
 ### 8.1 Visual
 
 ```
-[T1tienda logo]    Ecosistema ∨    ¿Qué es T1?    Iniciar sesión →    [Empieza gratis]
+[T1 Tienda logo]    Ecosistema ∨    ¿Qué es T1?    Iniciar sesión →    [Empieza gratis]
 ```
 
 ### 8.2 Anatomía
 
 | Elemento | Descripción |
 |---|---|
-| **Logo producto** | Imagotipo del producto (ej: T1tienda) — izquierda · `126×42px` |
+| **Logo producto** | Imagotipo del producto (ej: T1 Tienda) — izquierda · `126×42px` |
 | **Navegación central** | Links: "Ecosistema ∨" (con dropdown) · "¿Qué es T1?" |
 | **Iniciar sesión** | Link con chevron `→` — abre flujo de login |
 | **CTA primario** | `button/primary` · texto: "Empieza gratis" · `156×45px` |
@@ -634,7 +634,7 @@ padding: 0 0;               /* el contenedor maneja el centrado */
 
 - El header de landing usa **Sora** para los links de navegación — diferente al dashboard que usa Manrope.
 - El CTA "Empieza gratis" usa **Inter SemiBold** — mismo que los botones del sistema en landing.
-- El logo varía según el producto de la landing: T1tienda, T1pagos, T1envíos.
+- El logo varía según el producto de la landing: T1 Tienda, T1 Pagos, T1 Envíos.
 - Sin borde inferior visible — el header flota sobre el contenido de la landing.
 - En mobile → menú hamburguesa que despliega los links en vertical.
 
@@ -651,10 +651,10 @@ Footer oscuro de 3 columnas + barra legal inferior.
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  [T1 logo blanco]          Soluciones   T1          Planes      │
-│  [Li][In][X][Fb][TikTok]  T1tienda     ¿Qué es T1? Precios     │
-│                             T1pagos     Únete a T1  Enterprise  │
-│                             T1envíos    Historias                │
-│                             T1score     Contacto                 │
+│  [Li][In][X][Fb][TikTok]  T1 Tienda     ¿Qué es T1? Precios     │
+│                             T1 Pagos     Únete a T1  Enterprise  │
+│                             T1 Envíos    Historias                │
+│                             T1 Score     Contacto                 │
 ├─────────────────────────────────────────────────────────────────┤
 │  🇲🇽 México (Español) ∨    Términos | Privacidad  © 2025 T1.   │
 └─────────────────────────────────────────────────────────────────┘
@@ -678,7 +678,7 @@ margin: 0 auto;
 
 | Columna | Encabezado | Links |
 |---|---|---|
-| **1** | Soluciones | T1tienda · T1pagos · T1envíos · T1score |
+| **1** | Soluciones | T1 Tienda · T1 Pagos · T1 Envíos · T1 Score |
 | **2** | T1 | ¿Qué es T1? · Únete a T1 · Historias e éxito · Contacto |
 | **3** | Planes | Precios · Enterprise |
 
@@ -725,7 +725,7 @@ Tres elementos en fila justificados:
       {/* Soluciones */}
       <div className="flex flex-col gap-4">
         <p className="font-inter text-[16px] font-semibold text-white">Soluciones</p>
-        {['T1tienda', 'T1pagos', 'T1envíos', 'T1score'].map(item => (
+        {['T1 Tienda', 'T1 Pagos', 'T1 Envíos', 'T1 Score'].map(item => (
           <a key={item} href={`/${item.toLowerCase()}`}
             className="font-inter text-[14px] text-gray-600 hover:text-white transition-colors">
             {item}
@@ -903,7 +903,7 @@ Usada en listados principales (Mis pedidos, Mis productos, etc.).
 
 ### 11.2 Variante B — Flecha atrás + Título (navegación anidada)
 
-Usada en vistas de detalle, flows de creación multi-paso y sub-secciones. Visible en el flujo "Crear envío" de T1envíos.
+Usada en vistas de detalle, flows de creación multi-paso y sub-secciones. Visible en el flujo "Crear envío" de T1 Envíos.
 
 **Figma node:** `76:80387` · Archivo: `T1envios - Crear envio`
 
@@ -992,7 +992,7 @@ Usada en vistas de detalle, flows de creación multi-paso y sub-secciones. Visib
 **Figma nodes:** `2:4211` (Step 1) · `8:41155` (Step 2) · `18:38862` (Step 3) · `76:80387` (Step 2 mobile con IA)  
 **Contexto:** Dashboard · Mobile-first (existe versión desktop y mobile)
 
-El Wizard es el organismo que estructura flujos de creación que requieren múltiples pasos secuenciales. El caso canónico es "Crear envío" en T1envíos, pero el patrón aplica a cualquier flujo guiado del ecosistema.
+El Wizard es el organismo que estructura flujos de creación que requieren múltiples pasos secuenciales. El caso canónico es "Crear envío" en T1 Envíos, pero el patrón aplica a cualquier flujo guiado del ecosistema.
 
 ### 10.1 Anatomía
 
@@ -1223,10 +1223,10 @@ El footer mobile apila las columnas verticalmente en lugar del grid horizontal d
 │  [Li][In][X][Fb][TikTok]        │
 │                                  │
 │  Soluciones                      │
-│  T1tienda                        │
-│  T1pagos                         │
-│  T1envíos                        │
-│  T1score                         │
+│  T1 Tienda                        │
+│  T1 Pagos                         │
+│  T1 Envíos                        │
+│  T1 Score                         │
 │                                  │
 │  T1                              │
 │  ¿Qué es T1?                     │
@@ -1275,7 +1275,7 @@ Idénticos al footer desktop — `bg-black`, texto `white`, links `gray-600` →
   <div className="border-t border-white/10 py-8">
     <p className="mb-4 font-inter text-[16px] font-semibold text-white">Soluciones</p>
     <div className="flex flex-col gap-3">
-      {['T1tienda', 'T1pagos', 'T1envíos', 'T1score'].map(item => (
+      {['T1 Tienda', 'T1 Pagos', 'T1 Envíos', 'T1 Score'].map(item => (
         <a key={item} href="#"
           className="font-inter text-[14px] text-gray-600 hover:text-white">
           {item}

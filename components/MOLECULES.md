@@ -486,7 +486,7 @@ El Submenu en mobile se presenta como bottom sheet con la lista de acciones.
 
 **Figma node:** `172:6917` · Indicadores: `178:7126`
 
-Componente de línea de tiempo para tracking de pedidos y eventos. Usado principalmente en T1envíos y T1tienda.
+Componente de línea de tiempo para tracking de pedidos y eventos. Usado principalmente en T1 Envíos y T1 Tienda.
 
 ### 9.1 Variantes de item
 

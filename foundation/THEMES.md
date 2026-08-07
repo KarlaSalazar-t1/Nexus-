@@ -2,7 +2,7 @@
 
 > Dos ejes de variación: **plataforma** (landing vs dashboard) y **modo** (light vs dark). Los tokens semánticos adaptan su valor según el contexto, los absolutos permanecen fijos.
 
-**Última actualización:** Marzo 2026 · **Fuente de verdad:** Figma (variables, modos Light/Dark) · **Owner:** Karla Salazar — Lead UX/UI
+**Última actualización:** Marzo 2026 · **Fuente de verdad:** Figma (variables, modos Light/Dark) · **Owner:** Karla Salazar — Head of UX/UI
 
 ---
 
@@ -35,9 +35,7 @@ El botón primario sigue siendo `bg-[#DB3B2B] text-white` en dark mode. No se in
 
 ## Dark mode — Solo dashboard
 
-El **modo oscuro toggleable** (el que el usuario activa como preferencia) aplica actualmente solo al dashboard. Landing pages y sublandings no tienen modo oscuro toggleable.
-
-> ⚠️ **No confundir con secciones oscuras autorales.** El landing principal ya usa secciones oscuras fijas (Ecosistema `#0f1219`, CTA Final `bg-gray-900`, footer `#000000`), y los **sublandings** abren con un hero oscuro `#0F1419` y agrupan fondos en bloques. Eso es **composición de diseño**, no "modo oscuro": no se activa ni desactiva, es una decisión fija por página. Tokens y reglas en `platforms/LANDING.md` §16.
+El dark mode aplica actualmente solo al dashboard. Landing pages no tienen dark mode.
 
 ### Color / Base
 
@@ -250,7 +248,7 @@ Independiente de light/dark, estos tokens cambian entre plataformas. Documentado
 - ❌ Invertir el botón primario en dark mode — es un absoluto, siempre rojo con texto blanco.
 - ❌ Asumir que los colores contextuales (success, warning, error) cambian en dark — no cambian.
 - ❌ Usar shades claros (100) como background en dark sin mappear al equivalente oscuro.
-- ❌ Implementar **modo oscuro toggleable** en landing pages o sublandings — solo aplica a dashboard por ahora. (Las secciones y heroes oscuros autorales de landing/sublanding sí son válidos — ver `platforms/LANDING.md` §16.)
+- ❌ Implementar dark mode en landing pages — solo aplica a dashboard por ahora.
 
 ---
 

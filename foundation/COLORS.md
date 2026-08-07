@@ -2,7 +2,7 @@
 
 > Todas las escalas van de 50/100 a 900. El valor **500 es el base**. Variantes claras (100-300) para backgrounds, medias (400-500) para elementos principales, oscuras (700-900) para texto y acentos.
 
-**Última actualización:** Marzo 2026 · **Fuente de verdad:** Figma (variables) · **Owner:** Karla Salazar — Lead UX/UI
+**Última actualización:** Marzo 2026 · **Fuente de verdad:** Figma (variables) · **Owner:** Karla Salazar — Head of UX/UI
 
 ---
 
@@ -241,7 +241,7 @@ Sistema de overlays semitransparentes para backgrounds suaves en cards, badges y
 
 ### Fondos de sección (landing)
 
-Landing principal: alternar para crear ritmo visual. Sublanding: agrupar en bloques (ver `LANDING.md` §16).
+Alternar para crear ritmo visual:
 
 | Color | Hex | Uso |
 |---|---|---|
@@ -250,7 +250,6 @@ Landing principal: alternar para crear ritmo visual. Sublanding: agrupar en bloq
 | Degradado rosa | `#E59086 → #FFFFFF` | Hero section |
 | Negro | `#000000` | Footer |
 | Gris 900 | `#1F2937` | Secciones oscuras (ecosistema, etc.) |
-| Superficie oscura | `#0F1419` / `#0f1219` | Hero oscuro de sublanding y secciones oscuras profundas |
 
 ### Fondos de sección (dashboard)
 

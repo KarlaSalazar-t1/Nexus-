@@ -2,7 +2,7 @@
 
 > La personalidad de T1 no vive solo en el visual — vive en cada palabra que el usuario lee. Este documento define cómo habla T1: su carácter, su tono y las reglas que hacen que cada texto suene coherente en todo el ecosistema.
 
-**Última actualización:** Marzo 2026 · **Owner:** Karla Salazar — Head of UX/UI
+**Última actualización:** Agosto 2026 · **Owner:** Karla Salazar — Head of UX/UI
 
 ---
 
@@ -75,7 +75,7 @@ Escribimos como personas, no como sistemas. Usamos contracciones naturales del e
 Demostramos expertise a través de claridad y precisión, no a través de vocabulario técnico o sofisticado. Si podemos simplificar algo sin perder exactitud, lo simplificamos.
 
 **Consistente.**
-Los mismos conceptos se nombran igual en todo el ecosistema. Un "seller" es siempre "seller" o "comerciante" — no cambia a "vendedor", "usuario", "cliente" o "merchant" dependiendo del contexto.
+Los mismos conceptos se nombran igual en todo el ecosistema. T1 se dirige siempre al **negocio** y a la **tienda** — no alterna entre "seller", "comerciante", "vendedor", "merchant" o "usuario" según el contexto. Ver §4.5.
 
 ---
 
@@ -125,7 +125,7 @@ Empático ←——————————————————————�
 |---|---|---|
 | Títulos de sección | Solo primera letra en mayúscula | "Gestión de productos" |
 | CTAs / botones | Solo primera letra en mayúscula | "Guardar cambios", "Crear pedido" |
-| Nombres de plataformas T1 | Siempre capitalizados | T1tienda, T1envíos, T1pagos |
+| Nombres de producto T1 | Espacio y ambas iniciales en mayúscula | T1 Tienda, T1 Envíos, T1 Pagos, T1 Score, T1 POS |
 | Terminología técnica | Minúsculas salvo nombre propio | "código de barras", "EAN", "CSV" |
 
 ### 4.3 Puntuación
@@ -136,6 +136,10 @@ Empático ←——————————————————————�
 - Los **placeholders** no llevan punto final.
 - Los **títulos de sección** no llevan punto final.
 - Las **listas de helper text** sí llevan punto final si son oraciones completas.
+
+> **Alcance de la regla de título.** "Los títulos de sección no llevan punto final" aplica también a
+> H1, H2 y H3 de landing y sublandings. Los subtítulos, párrafos de apoyo y respuestas de FAQ sí
+> llevan punto.
 
 ### 4.4 Longitud
 
@@ -148,20 +152,44 @@ Empático ←——————————————————————�
 | Descripción de empty state | 1–2 oraciones (máx. 25 palabras) |
 | Modal de confirmación destructiva | 2–3 oraciones con contexto y alternativa cuando existe |
 
+> El rango de 1–3 palabras aplica a **producto**. En landing el CTA se lee sin contexto previo y
+> necesita cargar la promesa completa: ahí el rango es de 2 a 5 palabras. Ver
+> [`MARKETING-COPY.md`](./MARKETING-COPY.md) §5.
+
 ### 4.5 Terminología consistente
 
 Estos términos tienen una forma canónica en T1. No usar sinónimos sin justificación.
 
 | ✅ Usar | ❌ Evitar | Nota |
 |---|---|---|
-| Seller / Comerciante | Vendedor, merchant, usuario | Ambas formas son válidas e intercambiables |
 | Listado de productos | Catálogo | "Catálogo" = agrupación curada para carruseles/páginas |
 | Catálogo | Lista de productos | Solo cuando es una agrupación curada |
 | Fulfillment | Almacenamiento y envío, logística completa | Servicio 360°: storage + pick & pack + envío |
-| Contracargo / Reclamación | Chargeback, disputa | Ambas formas son válidas en plataforma |
+| Reclamación | Contracargo, chargeback, disputa, CB | Término único en todas las superficies |
 | Sucursal | Almacén, tienda, punto de venta | A menos que el contexto especifique otro tipo |
 | Pausar | Desactivar temporalmente | Para acciones reversibles |
 | Eliminar | Borrar, remover | Para acciones permanentes e irreversibles |
+
+> **Reclamación.** Es el término único porque es el que usa la interfaz del producto. `Contracargo`
+> se admite exclusivamente en metadata de páginas públicas, como término secundario de búsqueda.
+> `Chargeback` y `disputa` no se usan en ninguna superficie. No confundir con `devolución`, que es la
+> entrega física del producto por parte del comprador — ver [`GLOSSARY.md`](../GLOSSARY.md).
+
+> **Cómo se nombra a la persona.** T1 no nombra a la persona. El copy se dirige al **negocio** y a la
+> **tienda**, en segunda persona: `tu negocio`, `tu tienda`, `tus pedidos`. Evitar `seller`,
+> `merchant`, `comerciante`, `vendedor` y `usuario`.
+
+### 4.6 Modo verbal por plataforma
+
+| Superficie | Modo | Ejemplo |
+|---|---|---|
+| Landing y sublandings | Imperativo tú | `Crea tu tienda gratis` |
+| Dashboard y App | Infinitivo | `Crear tienda` |
+| Tabs, pestañas y filtros (todas las superficies) | Sustantivo | `Cotización`, `Rastreo` |
+
+Fundamento: §1.5 ya prefiere *"Crea tu primera tienda"* sobre *"Comenzar proceso de alta"*. El
+imperativo pone al usuario en control; en producto, el infinitivo describe la operación de forma
+neutra. Un tab no promete una acción: nombra un destino, por eso va en sustantivo.
 
 ---
 
@@ -214,17 +242,32 @@ T1 es un ecosistema de plataformas. Aunque la voz es consistente, cada plataform
 
 | Plataforma | Énfasis de tono | Ejemplo característico |
 |---|---|---|
-| **T1tienda** | Empoderador, de crecimiento | "Convierte tus visitas en ventas." |
-| **T1envíos** | Eficiente, confiable, operativo | "Tu envío está en camino. Seguimiento en tiempo real." |
-| **T1pagos** | Seguro, preciso, tranquilizador | "Pago procesado. Tu dinero está protegido." |
-| **T1score** | Analítico, revelador, motivador | "Tu score mejoró 12 puntos este mes." |
-| **T1marketing** | Creativo, estratégico, orientado a resultados | "Llega a más clientes con menos esfuerzo." |
+| **T1 Tienda** | Empoderador, de crecimiento | "Convierte tus visitas en ventas." |
+| **T1 Envíos** | Eficiente, confiable, operativo | "Tu envío está en camino. Seguimiento en tiempo real." |
+| **T1 Pagos** | Seguro, preciso, tranquilizador | "Pago procesado. Tu dinero está protegido." |
+| **T1 Score** | Analítico, revelador, motivador | "Tu score mejoró 12 puntos este mes." |
+| **T1 Marketing** | Creativo, estratégico, orientado a resultados | "Llega a más clientes con menos esfuerzo." |
+
+### 7.1 Voz por superficie
+
+El producto marca el **énfasis**; la superficie marca el **tono**. Este es el eje que más cambia la
+escritura, y opera sobre cualquier producto de la tabla anterior.
+
+| Superficie | Tono | Modo verbal | Ejemplo |
+|---|---|---|---|
+| **Landing y sublandings** | Inspirador, empoderador, con energía. Carga la promesa completa | Imperativo tú | "Crea tu tienda gratis y vende hoy mismo" |
+| **Dashboard** | Claro, eficiente, neutro positivo. Describe la operación | Infinitivo | "Crear tienda" |
+| **App** | Igual que dashboard, con mayor economía de palabras por el ancho de pantalla | Infinitivo | "Crear envío" |
+
+Para copy de superficies de marketing —headlines, cifras, claims, testimoniales, jerarquía de CTA,
+FAQ, metadata— ver [`MARKETING-COPY.md`](./MARKETING-COPY.md).
 
 ---
 
 ## Referencias
 
-- [UX-WRITING.md](./UX-WRITING.md) — Microcopy: errores, CTAs, labels, confirmaciones
+- [UX-WRITING.md](./UX-WRITING.md) — Microcopy de producto: errores, CTAs, labels, confirmaciones
+- [MARKETING-COPY.md](./MARKETING-COPY.md) — Copy de landing y superficies de marketing
 - [foundation/PRINCIPLES.md](../foundation/PRINCIPLES.md) — Principio de Tecnología Humanizada
 - [GLOSSARY.md](../GLOSSARY.md) — Terminología canónica del ecosistema T1
 - [assets/BRAND-ASSETS.md](../assets/BRAND-ASSETS.md) — Logos y recursos de marca

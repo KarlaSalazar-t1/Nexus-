@@ -64,7 +64,7 @@ El poder del ecosistema T1 reside en la integración de sus diferentes plataform
 Utilizamos los mismos patrones para acciones similares, mantenemos un lenguaje visual coherente y aplicamos terminología consistente en todas las plataformas.
 
 **Esto significa:**
-- Los mismos tokens de color, spacing y elevación en T1tienda, T1envíos, T1pagos, T1score y T1marketing.
+- Los mismos tokens de color, spacing y elevación en T1 Tienda, T1 Envíos, T1 Pagos, T1 Score y T1 Marketing.
 - Componentes con los mismos 10 estados obligatorios en toda la plataforma: Default, Hover, Active, Focus, Disabled, Loading, Error, Success, Selected, Empty.
 - Nomenclatura de tokens estandarizada: `{categoría}/{rol}/{variante}` (ej: `color/brand/red/500`).
 - Diferencias entre landing y dashboard documentadas explícitamente en [THEMES.md](./THEMES.md), no improvisadas.

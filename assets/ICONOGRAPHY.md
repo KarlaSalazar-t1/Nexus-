@@ -62,18 +62,18 @@ La mayoría de los íconos del sistema cuentan con una o más de estas variantes
 |--------|-----------|-------------|
 | Home | `Nuevo home` | Inicio / dashboard principal |
 | User | `User nuevo` | Perfil de usuario / cuenta |
-| Online Store | `Nuevo online store` | T1tienda — gestión de tienda en línea |
-| Marketing | `marketing` | T1marketing — campañas y marketing |
+| Online Store | `Nuevo online store` | T1 Tienda — gestión de tienda en línea |
+| Marketing | `marketing` | T1 Marketing — campañas y marketing |
 | Gallery | `gallery` | Galería de productos / medios |
 | Discount | `Nuevo descuento` | Descuentos y promociones |
 | Product | `Nuevo producto` | Catálogo / listado de productos |
 | Channel | `Nuevo canales` | Canales de venta |
 | Orders | `Nuevo pedidos` | Gestión de pedidos |
-| Shipping | `Nuevo envios` | T1envíos — logística |
+| Shipping | `Nuevo envios` | T1 Envíos — logística |
 | Online Store (T1) | `Nuevo online store` | Tienda virtual |
 | Analytics | `Nuevo reportes` | Reportes y analíticas |
 | Tienda de insumos | `insumos 3` | Insumos y materiales |
-| Payments | `payments` | T1pagos — métodos de pago |
+| Payments | `payments` | T1 Pagos — métodos de pago |
 | Balance / Saldos | `Saldos nuevo` | Balance y saldos |
 | Link de pago | `Nuevo link` | Links de cobro |
 | Transactions | `Nuevo transacciones 2` | Historial de transacciones |
@@ -383,13 +383,13 @@ Logos de marcas externas organizados por categoría. Todos los logos de terceros
 | Marca | Componente Figma | Variantes |
 |-------|-----------------|-----------|
 | T1 (logotipo) | `t1-logotipo` | color, gray |
-| T1pagos | `t1pagos-imagotipo` | Default, White |
-| T1envíos | `t1envios-imagotipo` | Default, Variant2 |
+| T1 Pagos | `t1pagos-imagotipo` | Default, White |
+| T1 Envíos | `t1envios-imagotipo` | Default, Variant2 |
 | T1partners | `t1partners-imagotipo` | Default, Variant2 |
-| T1score | `t1score-imagotipo` | Default, White |
+| T1 Score | `t1score-imagotipo` | Default, White |
 | T1pos | `t1pos-imagotipo` | Default, White |
 | T1ai | `t1ai-imagotipo` | Default, White |
-| T1cuenta | `t1cuenta-imagotipo` | Default, White |
+| T1 Cuenta | `t1cuenta-imagotipo` | Default, White |
 | T1store | `t1store-imagotipo` | Default, White |
 
 > **Nota de uso:** Los imagotipos T1 combinan el isotipo (N) con el nombre de la plataforma. Usar siempre la versión correcta según el fondo (Default = fondo blanco/claro, White = fondo oscuro/de color).
@@ -512,7 +512,7 @@ Logos de marcas externas organizados por categoría. Todos los logos de terceros
 
 ## 5. Bancos mexicanos (Banks)
 
-Catálogo de logos de instituciones bancarias mexicanas. Usados principalmente en flujos de transferencia, conciliación y T1pagos. Tamaño estándar: **30×30px**.
+Catálogo de logos de instituciones bancarias mexicanas. Usados principalmente en flujos de transferencia, conciliación y T1 Pagos. Tamaño estándar: **30×30px**.
 
 ### Bancos principales
 

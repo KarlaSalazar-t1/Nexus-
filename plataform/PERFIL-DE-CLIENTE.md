@@ -1,6 +1,6 @@
-# STOREFRONT.md — Contexto de plataforma: Storefront / Perfil de cliente
+# PERFIL-DE-CLIENTE.md — Contexto de plataforma: Perfil de cliente
 
-> Este archivo documenta los tokens, reglas y componentes exclusivos del **storefront** del ecosistema T1 — la experiencia que ve el **comprador final**, no el comerciante.
+> Este archivo documenta los tokens, reglas y componentes exclusivos del **perfil de cliente** del ecosistema T1 — la experiencia que ve el **comprador final**, no el comerciante.
 > Cubre el perfil de cliente: inicio, historial de pedidos, detalle de pedido, métodos de pago, direcciones de envío y datos de facturación.
 > **No aplica** en landing pages públicas ni en el admin/backoffice del comerciante.
 > Para los contextos opuestos, ver [`platforms/LANDING.md`](./LANDING.md) y [`platforms/DASHBOARD.md`](./DASHBOARD.md).
@@ -9,15 +9,15 @@
 
 ---
 
-## ¿Qué es el storefront?
+## ¿Qué es el perfil de cliente?
 
-El **storefront** es la tienda en línea visible para el comprador final: el lado público de T1tienda donde una persona compra, da seguimiento a sus pedidos y administra su cuenta de comprador. Es un tercer contexto de plataforma, distinto de los otros dos:
+El **perfil de cliente** es la cuenta del comprador final en T1 Tienda: el lado público donde una persona da seguimiento a sus pedidos y administra sus métodos de pago, direcciones y datos de facturación. Es un tercer contexto de plataforma, distinto de los otros dos:
 
 | Contexto | Usuario | Propósito |
 |---|---|---|
 | **Landing** | Visitante / prospecto | Convencer a un comerciante de usar T1 |
-| **Dashboard** | Comerciante / seller | Operar el negocio (vender, enviar, cobrar) |
-| **Storefront** | Comprador final | Comprar y dar seguimiento a sus pedidos |
+| **Dashboard** | Negocio | Operar el negocio (vender, enviar, cobrar) |
+| **Perfil de cliente** | Comprador final | Comprar y dar seguimiento a sus pedidos |
 
 > Este archivo documenta el **perfil de cliente**: las pantallas de cuenta del comprador. El escaparate de venta y el checkout se documentan en [`patterns/FLOWS.md`](../patterns/FLOWS.md) §4.
 
@@ -25,9 +25,9 @@ El **storefront** es la tienda en línea visible para el comprador final: el lad
 
 ## Relación con Dashboard
 
-El storefront **comparte la base visual del Dashboard**, no la de Landing. Usa los mismos tokens de fundación: Manrope como única familia tipográfica, Red 500 (`#DB3B2B`) como primario, la misma paleta semántica y los mismos radios. La diferencia no está en los tokens sino en el **layout, la densidad y el tono**.
+El perfil de cliente **comparte la base visual del Dashboard**, no la de Landing. Usa los mismos tokens de fundación: Manrope como única familia tipográfica, Red 500 (`#DB3B2B`) como primario, la misma paleta semántica y los mismos radios. La diferencia no está en los tokens sino en el **layout, la densidad y el tono**.
 
-| Propiedad | Storefront | Dashboard |
+| Propiedad | Perfil de cliente | Dashboard |
 |---|---|---|
 | Tipografía | Manrope (única familia) | Manrope (única familia) |
 | Color primario | `#DB3B2B` (Red 500) | `#DB3B2B` (Red 500) |
@@ -39,16 +39,16 @@ El storefront **comparte la base visual del Dashboard**, no la de Landing. Usa l
 | Sidebar | `284px`, navegación de cuenta del comprador | `284px`, navegación del producto |
 | Tono | Cercano, de servicio al comprador | Funcional, operativo |
 
-> ❌ **No usar** la tipografía Sora/Inter ni los radios de `24px`/`18px` de Landing. El storefront es un contexto Manrope.
-> El storefront es Dashboard "en modo comprador": misma fundación, layout más simple y centrado.
+> ❌ **No usar** la tipografía Sora/Inter ni los radios de `24px`/`18px` de Landing. El perfil de cliente es un contexto Manrope.
+> El perfil de cliente es Dashboard "en modo comprador": misma fundación, layout más simple y centrado.
 
 ---
 
 ## 1. Tipografía
 
-El storefront usa **Manrope** como única familia tipográfica. Sora e Inter están **prohibidas** en este contexto, igual que en Dashboard — incluyendo el bloque de "Ayuda" y los links del sidebar.
+El perfil de cliente usa **Manrope** como única familia tipográfica. Sora e Inter están **prohibidas** en este contexto, igual que en Dashboard — incluyendo el bloque de "Ayuda" y los links del sidebar.
 
-> ✅ **EXCEPCIÓN DECLARADA (Inter en la tarjeta del historial).** Por decisión de la owner (Mayo 2026), la **tarjeta de pedido del historial (§9.17)** usa **Inter Bold `17px`** (line-height `25.5px`, tracking `-0.4316px`) en exactamente **tres roles**: **nombre de tienda**, **monto Total** y el **encabezado "N artículos totales"**. Es la única excepción sancionada al principio "Manrope única familia" en el storefront. Fuera de esos tres roles —y fuera de §9.17— **Inter sigue prohibida**. Esta excepción debe replicarse en `foundation/TYPOGRAPHY.md`.
+> ✅ **EXCEPCIÓN DECLARADA (Inter en la tarjeta del historial).** Por decisión de la owner (Mayo 2026), la **tarjeta de pedido del historial (§9.17)** usa **Inter Bold `17px`** (line-height `25.5px`, tracking `-0.4316px`) en exactamente **tres roles**: **nombre de tienda**, **monto Total** y el **encabezado "N artículos totales"**. Es la única excepción sancionada al principio "Manrope única familia" en el perfil de cliente. Fuera de esos tres roles —y fuera de §9.17— **Inter sigue prohibida**. Esta excepción debe replicarse en `foundation/TYPOGRAPHY.md`.
 
 ### Escala en uso
 
@@ -77,11 +77,11 @@ Todo el texto usa tokens del sistema — nunca hex crudo.
 | Secondary | `Gray 3` | `#828282` | Texto secundario, labels, metadata, **narrativa de envío** |
 | Disabled | Gray 400 | `#A3A3A3` | Texto deshabilitado, placeholders |
 | Inverse | `color/base/white` | `#FFFFFF` | Texto sobre fondos primarios u oscuros |
-| Link | Blue 500 | `#2180FF` | Links interactivos *(de uso restringido — la convención del storefront es texto significativo en Oxford con `underline` para interactividad; este azul se reserva para enlaces externos o casos específicos)* |
+| Link | Blue 500 | `#2180FF` | Links interactivos *(de uso restringido — la convención del perfil de cliente es texto significativo en Oxford con `underline` para interactividad; este azul se reserva para enlaces externos o casos específicos)* |
 
 ### Anti-patrones tipográficos
 
-- ❌ Sora o Inter en cualquier elemento del storefront, incluido el sidebar
+- ❌ Sora o Inter en cualquier elemento del perfil de cliente, incluido el sidebar
 - ❌ Pesos fuera de los válidos (400/500/600/700/800)
 - ❌ Hex crudo de texto — siempre token (`black-oxford`, `Gray 3`)
 - ❌ Texto en rojo para acentos decorativos — el rojo comunica error o CTA primario, igual que en Dashboard
@@ -91,13 +91,13 @@ Todo el texto usa tokens del sistema — nunca hex crudo.
 
 ## 2. Layout y contenedor
 
-El storefront usa un **layout de columna central angosta** dentro de la estructura header + sidebar + contenido. A diferencia del Dashboard, el contenido no ocupa el ancho completo: se centra en una columna de lectura cómoda.
+El perfil de cliente usa un **layout de columna central angosta** dentro de la estructura header + sidebar + contenido. A diferencia del Dashboard, el contenido no ocupa el ancho completo: se centra en una columna de lectura cómoda.
 
 ### Estructura base de página
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  Header (logo T1tienda + notificaciones + avatar)         │
+│  Header (logo T1 Tienda + notificaciones + avatar)         │
 ├───────────────┬──────────────────────────────────────────┤
 │               │                                          │
 │   Sidebar     │        Columna central de contenido      │
@@ -121,7 +121,7 @@ El storefront usa un **layout de columna central angosta** dentro de la estructu
 | Tablet `768px` | Colapsado | Columna fluida centrada | |
 | Desktop `1280px`+ | `284px` visible | Columna `~672px` centrada | El contenido **no** se estira al ancho completo |
 
-> El canvas de Figma es `1440px`. La columna de contenido se mantiene angosta (`~672px`) y centrada dentro del área disponible para mantener legibilidad — el storefront es un contexto de lectura, no de operación densa.
+> El canvas de Figma es `1440px`. La columna de contenido se mantiene angosta (`~672px`) y centrada dentro del área disponible para mantener legibilidad — el perfil de cliente es un contexto de lectura, no de operación densa.
 
 ### Estructura base de código
 
@@ -178,7 +178,7 @@ Circular `44×44`, `border-radius: 56px` (circular completo). Dos variantes:
 
 ## 4. Sidebar — Navegación del comprador
 
-El sidebar del storefront es la navegación de la **cuenta del comprador**, no del producto. Es plano y corto.
+El sidebar del perfil de cliente es la navegación de la **cuenta del comprador**, no del producto. Es plano y corto.
 
 | Propiedad | Valor |
 |---|---|
@@ -230,7 +230,7 @@ Cada ítem del sidebar usa un glifo específico — no son intercambiables. Todo
 </a>
 ```
 
-> A diferencia del Dashboard, el ítem seleccionado se marca con una **píldora gris de fondo completo** (radius `10px`), no con borde izquierdo rojo. El sidebar del storefront es navegación plana de un solo nivel — sin submenús anidados ni flyouts.
+> A diferencia del Dashboard, el ítem seleccionado se marca con una **píldora gris de fondo completo** (radius `10px`), no con borde izquierdo rojo. El sidebar del perfil de cliente es navegación plana de un solo nivel — sin submenús anidados ni flyouts.
 
 ### Bloque "Ayuda"
 
@@ -253,7 +253,7 @@ Anclado al fondo del sidebar, **centrado horizontalmente** en su contenedor (`fl
 
 ## 5. Cards
 
-La card es el componente estructural dominante del storefront. Toda la información se organiza en cards apiladas verticalmente dentro de la columna central.
+La card es el componente estructural dominante del perfil de cliente. Toda la información se organiza en cards apiladas verticalmente dentro de la columna central.
 
 > ⚠ **Regla crítica de composición:** los **section headings** ("Pago", "Envío #1001", "Enviado a", "Datos de facturación") viven **fuera y arriba** de la card, no dentro de ella. La card contiene solo los datos; el título precede a la card como hermano anterior. Ver §8.3 para el patrón completo.
 
@@ -283,7 +283,7 @@ La card es el componente estructural dominante del storefront. Toda la informaci
 | Separación entre cards | `24px` (`margins/xl`) |
 | Sombra | Sin sombra — la card se delimita con borde |
 
-### Tipos de card en el storefront
+### Tipos de card en el perfil de cliente
 
 | Card | Uso | Contenido |
 |---|---|---|
@@ -304,13 +304,13 @@ La card es el componente estructural dominante del storefront. Toda la informaci
 </div>
 ```
 
-> ❌ **No usar** la sombra de las cards de Landing (`0 0 25px...`). El storefront delimita cards con **borde** `#E7E7E7`, no con sombra.
+> ❌ **No usar** la sombra de las cards de Landing (`0 0 25px...`). El perfil de cliente delimita cards con **borde** `#E7E7E7`, no con sombra.
 
 ---
 
 ## 6. Botones
 
-El storefront usa los botones del Dashboard. Hay **tres variantes**: primario, secundario y enlace (text link). Todas comparten `border-radius: 10px` y texto Manrope `12px` (token `text/size/body`).
+El perfil de cliente usa los botones del Dashboard. Hay **tres variantes**: primario, secundario y enlace (text link). Todas comparten `border-radius: 10px` y texto Manrope `12px` (token `text/size/body`).
 
 ### 6.1 Primario y secundario
 
@@ -373,7 +373,7 @@ La matriz completa por estatus está en §9.18; las densidades de tarjeta en §9
 
 ## 7. Badges de estado del pedido
 
-El estado del pedido se comunica con un badge (chip). El storefront maneja un sistema amplio de estados con código de color.
+El estado del pedido se comunica con un badge (chip). El perfil de cliente maneja un sistema amplio de estados con código de color.
 
 | Propiedad | Valor |
 |---|---|
@@ -463,7 +463,7 @@ Empty state centrado, sin CTA. El comprador no crea pedidos desde su perfil — 
 | Elemento | Especificación |
 |---|---|
 | Título | "Aún no tienes pedidos realizados" — Manrope **ExtraBold 800**, `24px`, color `#0F172B`, line-height `32px`, tracking `0.0703px` |
-| Texto de apoyo | "Cuando compres en cualquier tienda de T1tiendas, tus pedidos y su seguimiento aparecerán aquí." — Manrope Regular 400, `16px`, color `#62748E`, line-height `24px`, centrado, max-width `400px` |
+| Texto de apoyo | "Cuando compres en cualquier tienda de T1 Tienda, tus pedidos y su seguimiento aparecerán aquí." — Manrope Regular 400, `16px`, color `#62748E`, line-height `24px`, centrado, max-width `400px` |
 | Gap título↔texto | `24px` |
 | Posición | Centrado vertical y horizontalmente en la columna de contenido (`672px`, padding `16px 32px`) |
 
@@ -473,7 +473,7 @@ Empty state centrado, sin CTA. El comprador no crea pedidos desde su perfil — 
     Aún no tienes pedidos realizados
   </h2>
   <p className="max-w-[400px] text-center font-manrope text-[16px] font-normal leading-6 tracking-[-0.31px] text-[#62748E]">
-    Cuando compres en cualquier tienda de T1tiendas, tus pedidos y su seguimiento aparecerán aquí.
+    Cuando compres en cualquier tienda de T1 Tienda, tus pedidos y su seguimiento aparecerán aquí.
   </p>
 </div>
 ```
@@ -643,11 +643,11 @@ Pantalla de entrada de los ajustes del comprador. Fuente canónica: nodo `1979:1
 **Valores de la sección Cuenta:** Nombre → nombre completo; Correo → email; Teléfono → enmascarado `••• ••• ••32`.
 
 > Las filas de **Cuenta** abren un **modal de edición** (§9.24). Cambiar correo o teléfono dispara además la **verificación por código** (§9.25). Las filas de Facturación/Seguridad/Soporte navegan a su sub-vista.
-> ⚠ **Capas de fondo en el Figma:** los artboards de este nodo arrastran capas **ocultas** del dashboard de comerciante (nav Ventas/Inventario/Pagos, "Selecciona tu tienda", bloques SAT/Bank/Industry). **No son parte del storefront** y no deben implementarse aquí — ver §15 · nota de capas. Los nombres internos de las filas ("Industry/SAT/Bank block") son solo el nombre del componente reutilizado, no contenido fiscal.
+> ⚠ **Capas de fondo en el Figma:** los artboards de este nodo arrastran capas **ocultas** del dashboard de comerciante (nav Ventas/Inventario/Pagos, "Selecciona tu tienda", bloques SAT/Bank/Industry). **No son parte del perfil de cliente** y no deben implementarse aquí — ver §15 · nota de capas. Los nombres internos de las filas ("Industry/SAT/Bank block") son solo el nombre del componente reutilizado, no contenido fiscal.
 
 ---
 
-## 9. Componentes específicos del storefront
+## 9. Componentes específicos del perfil de cliente
 
 ### 9.1 Línea de desglose de pago
 
@@ -674,7 +674,7 @@ Label a la izquierda (Manrope Medium, `10px`, Oxford), valor a la derecha alinea
 | Ancho del bloque | `112px` (acomoda 13 dígitos típicos de guía) |
 | Border-radius del bloque | `10px` (área clickeable) |
 
-> ⚠ **El número de guía NO es azul** (`#2180FF`). Es **Oxford `#4C4C4C` Bold subrayado** — sigue la convención del storefront de que el texto significativo es Oxford, no link-style. El subrayado señala la interactividad sin recurrir al azul.
+> ⚠ **El número de guía NO es azul** (`#2180FF`). Es **Oxford `#4C4C4C` Bold subrayado** — sigue la convención del perfil de cliente de que el texto significativo es Oxford, no link-style. El subrayado señala la interactividad sin recurrir al azul.
 
 > El Figma del detalle de pedido **no** muestra ícono de copiar junto al número de guía — solo el ícono de paquetería + el número. Si tu implementación necesita copiar, agrégalo fuera del bloque del link (no dentro), respetando el patrón de ícono+número como un solo componente.
 
@@ -750,7 +750,7 @@ Dentro de la card de envío del detalle. **Es una tabla real**, no una lista —
 2. **Editar** — Oxford `#4C4C4C`
 3. **Eliminar** — **rojo `#DB362B`** (`text/input/hint_error`), única acción destructiva
 
-> Esta es la **única sombra** del storefront, exclusiva de submenús flotantes. Las cards no llevan sombra. Fuente canónica del flujo de métodos de pago: nodo `1979:19440`.
+> Esta es la **única sombra** del perfil de cliente, exclusiva de submenús flotantes. Las cards no llevan sombra. Fuente canónica del flujo de métodos de pago: nodo `1979:19440`.
 
 ### 9.6 Card de acceso con chevron
 
@@ -964,7 +964,7 @@ Bloque que identifica la tarjeta usada en un pedido, dentro de la card de Pago d
 | Visa | Fondo blanco con borde `#E7E7E7`, logo Visa centrado |
 | Amex | Fondo azul `#006FCF`, logo Amex centrado |
 
-> ⚠ La **fecha del método de pago se documenta con su formato literal `Jul 14, 12:39 PM`**, distinto del formato relativo-primero del resto del storefront (§10). Es una excepción aceptada por compatibilidad con el comprobante de pago del procesador.
+> ⚠ La **fecha del método de pago se documenta con su formato literal `Jul 14, 12:39 PM`**, distinto del formato relativo-primero del resto del perfil de cliente (§10). Es una excepción aceptada por compatibilidad con el comprobante de pago del procesador.
 
 > ❌ **No usar** label "Fecha del pedido:" ni texto "Método de pago:". El bloque se autodescribe visualmente.
 
@@ -1038,7 +1038,7 @@ Cada pedido se representa con una tarjeta clicable que resume tienda, estado, en
 > ⚠ **Aquí "Pedido #NNNN" SÍ lleva ícono de copiar** y es texto secundario gris `13px`. En el **detalle** (§9.14) es el título `18px` SemiBold y **NO** lleva copiar. Son roles distintos.
 
 **Fila de envío** (varía por tipo de envío y por estatus — ver §9.18). Empieza con un **icono de paquetería** y luego usa el patrón **label / valor**:
-- **Icono de paquetería al inicio de la fila** — `39×39`, radius `5px`. `t1-logotipo` (T1envíos) o `dhl-iso` (paquetería). *(Resuelto Mayo 2026 a favor del nodo `2350:19452`: la fila de envío **sí** lleva este icono inicial. El nodo anterior `2341` no lo mostraba; gana `2350`.)*
+- **Icono de paquetería al inicio de la fila** — `39×39`, radius `5px`. `t1-logotipo` (T1 Envíos) o `dhl-iso` (paquetería). *(Resuelto Mayo 2026 a favor del nodo `2350:19452`: la fila de envío **sí** lleva este icono inicial. El nodo anterior `2341` no lo mostraba; gana `2350`.)*
 - Label: Manrope **SemiBold `12px`**, negro, line-height `25.5px`, tracking `-0.4316px` ("Enviado por:", "Llegada estimada:", "Entregado:", "Número de guía").
 - Valor: Manrope **Bold `12px`** (Medium `13px` en algunas variantes), color `#4C4C4C`, line-height `19.5px`, tracking `-0.0762px`.
 
@@ -1072,7 +1072,7 @@ Idéntica a la Cerrada hasta el resumen; entre el resumen y los botones se inser
 
 | Variante | "Enviado por" | "Llegada estimada" | "Número de guía" |
 |---|---|---|---|
-| **T1envíos** | `T1enviós` | `18-20 ene` | — (no se muestra guía) |
+| **T1 Envíos** | `T1enviós` | `18-20 ene` | — (no se muestra guía) |
 | **Paquetería** (DHL, etc.) | `DHL express` | `18-20 ene` | ícono iso de paquetería `20×20` + número + ícono copiar `16×16` |
 | **Manual** | `Paquetería X` | — (sin ETA) | ícono `truck 24×24` + número + ícono copiar `16×16` |
 
@@ -1185,7 +1185,7 @@ Input de número de tarjeta (placeholder `0000 0000 0000 0000`) que muestra, ali
 
 ### 9.22 Campo de formulario (input de texto)
 
-Átomo base de los formularios del storefront (§9.11, §9.20). Hereda de [`components/ATOMS.md`](../components/ATOMS.md); tokens en uso:
+Átomo base de los formularios del perfil de cliente (§9.11, §9.20). Hereda de [`components/ATOMS.md`](../components/ATOMS.md); tokens en uso:
 
 | Propiedad | Token / valor |
 |---|---|
@@ -1250,7 +1250,7 @@ Al abrir el modal se dispara el **toast** (§9.9) "Se envió un código…". La 
 
 ## 10. Formato de datos
 
-El storefront sigue las convenciones de [`content/UX-WRITING.md`](../content/UX-WRITING.md):
+El perfil de cliente sigue las convenciones de [`content/UX-WRITING.md`](../content/UX-WRITING.md):
 
 | Dato | Formato | Ejemplo |
 |---|---|---|
@@ -1266,15 +1266,15 @@ El storefront sigue las convenciones de [`content/UX-WRITING.md`](../content/UX-
 | Vigencia de tarjeta | "Vigencia MM/YY" | "Vigencia 07/27" |
 | Tipo de tarjeta | Abreviatura minúscula | `tdc` (crédito), `tdd` (débito) |
 
-> ⚠ La **fecha del método de pago** (línea superior de la card de Pago, §9.15) usa formato literal en inglés con AM/PM por compatibilidad con el comprobante del procesador. Es la única excepción al formato relativo-primero/24h del resto del storefront.
+> ⚠ La **fecha del método de pago** (línea superior de la card de Pago, §9.15) usa formato literal en inglés con AM/PM por compatibilidad con el comprobante del procesador. Es la única excepción al formato relativo-primero/24h del resto del perfil de cliente.
 
 ---
 
 ## 11. Estados
 
-El storefront debe cubrir todos los estados obligatorios de [`components/STATES.md`](../components/STATES.md). Los más relevantes:
+El perfil de cliente debe cubrir todos los estados obligatorios de [`components/STATES.md`](../components/STATES.md). Los más relevantes:
 
-| Estado | Aplicación en storefront |
+| Estado | Aplicación en perfil de cliente |
 |---|---|
 | **Empty** | **Página completa:** "Aún no tienes pedidos realizados" (§8.2, sin CTA). **De sección:** "Sin pedidos activos" (§8.1.1, con text link). **Métodos de pago / Direcciones:** título Bold `20px` + cuerpo Regular `14px` + **CTA primario** "Agregar nueva tarjeta" `236px` (§8.4) |
 | **Loading** | Skeleton mientras carga datos del perfil |
@@ -1294,19 +1294,19 @@ En ambos casos el texto de apoyo va en Manrope Regular `16px`, color `#62748E`, 
 
 ---
 
-## 12. Anti-patrones del storefront
+## 12. Anti-patrones del perfil de cliente
 
 | Anti-patrón | Corrección |
 |---|---|
-| Usar Sora o Inter | El storefront es contexto Manrope, igual que Dashboard — incluido el sidebar |
+| Usar Sora o Inter | El perfil de cliente es contexto Manrope, igual que Dashboard — incluido el sidebar |
 | Hex crudo de color | Usar siempre tokens del sistema |
-| Radius `24px` en cards | Cards de storefront: `10px` |
-| Sombra en cards | El storefront delimita cards con borde `#E7E7E7`; la única sombra (`0 0 2.5px...`) es para submenús flotantes |
+| Radius `24px` en cards | Cards de perfil de cliente: `10px` |
+| Sombra en cards | El perfil de cliente delimita cards con borde `#E7E7E7`; la única sombra (`0 0 2.5px...`) es para submenús flotantes |
 | Estirar el contenido al ancho completo | La columna de contenido se mantiene angosta (`~672px`) y centrada |
-| Sidebar con borde izquierdo rojo en ítem activo | El storefront marca el activo con píldora gris (`#F3F3F3`, radius `10px`) |
+| Sidebar con borde izquierdo rojo en ítem activo | El perfil de cliente marca el activo con píldora gris (`#F3F3F3`, radius `10px`) |
 | Rojo decorativo | El rojo es CTA primario o error — nunca decoración |
 | Empty state del historial con CTA | El historial es informativo, sin botón. (Direcciones y métodos de pago **sí** llevan CTA — el comprador crea ese contenido) |
-| Tablas densas para listar pedidos | El storefront lista pedidos como cards, no como filas de tabla |
+| Tablas densas para listar pedidos | El perfil de cliente lista pedidos como cards, no como filas de tabla |
 | Submenús anidados / flyouts en el sidebar | El sidebar del comprador es navegación plana de un nivel |
 | Chips de estado de pedido en un solo color | Cada familia de estado tiene su color: neutral, éxito, informativo, negativo |
 | **Section headings dentro de la card** | Los títulos "Pago", "Envío #N", "Enviado a", "Datos de facturación" viven **arriba** de la card como hermano anterior. Ver §5 y §8.3 |
@@ -1422,7 +1422,7 @@ export default function T1OrderCard() {
 
 ## 15. Estado de canonización y componentes restringidos
 
-Esta sección es la **fuente única** del estado de cada componente del storefront. Si un componente está marcado 🛑 **PROHIBIDO IMPLEMENTAR**, no se implementa ni se infiere su anatomía: se levanta ticket de diseño. Un componente solo pasa a ✅ cuando existe un nodo Figma canónico que lo respalde.
+Esta sección es la **fuente única** del estado de cada componente del perfil de cliente. Si un componente está marcado 🛑 **PROHIBIDO IMPLEMENTAR**, no se implementa ni se infiere su anatomía: se levanta ticket de diseño. Un componente solo pasa a ✅ cuando existe un nodo Figma canónico que lo respalde.
 
 | Componente | Estado | Respaldo / nota |
 |---|---|---|
@@ -1453,11 +1453,11 @@ Esta sección es la **fuente única** del estado de cada componente del storefro
 | D6 | En la lista de direcciones (`468:95280`), el botón de agregar dice **"Añadir tarjeta"** | §8.5 | ⚠ **Bug de contenido en Figma — no replicar.** Debe decir **"Añadir dirección"** (paralelo a "Añadir tarjeta" de pagos). Pendiente corregir el label en el archivo de Figma. |
 | D7 | Toast de Configuraciones dice "Se envió **en** código" | §9.9 | ⚠ **Bug de contenido — no replicar.** Debe ser "Se envió **un** código". |
 | D8 | Modal de edición de correo: el label dice "Nombre completo" sobre un campo de email | §9.24 | ⚠ **Bug de contenido — no replicar.** Debe ser "Correo electrónico". |
-| Capas | Los artboards de Configuraciones (`1979:19442`) arrastran capas **ocultas** del dashboard de comerciante (nav Ventas/Inventario/Pagos, "Selecciona tu tienda", bloques SAT/Bank/Industry) | §8.7 | ℹ️ **Fuera de alcance del storefront.** No documentar ni implementar; los nombres "SAT/Bank/Industry block" son solo el nombre del componente de fila reutilizado. |
+| Capas | Los artboards de Configuraciones (`1979:19442`) arrastran capas **ocultas** del dashboard de comerciante (nav Ventas/Inventario/Pagos, "Selecciona tu tienda", bloques SAT/Bank/Industry) | §8.7 | ℹ️ **Fuera de alcance del perfil de cliente.** No documentar ni implementar; los nombres "SAT/Bank/Industry block" son solo el nombre del componente de fila reutilizado. |
 
 > §9.17 ya documenta los valores reales canonizados. El único punto abierto es **D3** (corrección de contenido en Figma); no afecta la implementación, que usa el número de guía real.
 
-**Flag abierto (a) — logotipo del header.** El §3 fija el asset `t1-logotipo` ("solo T1"), pero los nodos canónicos del header (`2350`, `593`, `633`) referencian **`t1store-imagotipo`** (logo + "tienda", `117×38`). Además, en validaciones visuales el logotipo aparece **sólido en rojo**, lo que contradice `assets/BRAND-ASSETS.md` §1 (negro `#1A1A1A` + acento rojo `#DB3B2B`). **Pendiente decidir** cuál es el asset correcto del header del storefront antes de fijarlo en §3. No resuelto.
+**Flag abierto (a) — logotipo del header.** El §3 fija el asset `t1-logotipo` ("solo T1"), pero los nodos canónicos del header (`2350`, `593`, `633`) referencian **`t1store-imagotipo`** (logo + "tienda", `117×38`). Además, en validaciones visuales el logotipo aparece **sólido en rojo**, lo que contradice `assets/BRAND-ASSETS.md` §1 (negro `#1A1A1A` + acento rojo `#DB3B2B`). **Pendiente decidir** cuál es el asset correcto del header del perfil de cliente antes de fijarlo en §3. No resuelto.
 
 ---
 

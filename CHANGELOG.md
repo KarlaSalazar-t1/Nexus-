@@ -4,6 +4,73 @@ Todos los cambios relevantes al sistema de diseño se documentan aquí. Formato 
 
 ---
 
+## [2.3.0] — 2026-08-07
+
+### Capa de contenido: copy de marketing, terminología y nomenclatura de producto
+
+Origen: auditoría de copy de la home y las 19 landings y sublandings de `T1landing`, agosto 2026.
+A diferencia de 2.1.0 y 2.2.0, que trabajaron la capa visual de landing, esta versión toca solo la
+capa de contenido: `content/`, `GLOSSARY.md` y `workflows/`. No modifica componentes ni tokens.
+
+**Owner:** Karla Salazar — Head of UX/UI
+
+**Archivos afectados:**
+- `content/VOICE-TONE.md` — §2, §4.2, §4.3, §4.4, §4.5, §4.6 nueva, §7.1 nueva, referencias
+- `content/UX-WRITING.md` — nota de alcance, §1, referencias
+- `GLOSSARY.md` — productos, terminología de negocio, pagos, convenciones de nombres
+- `workflows/CLAUDE-CONTROLLER.md` — enrutamiento de tareas de copy y mapa de references
+- `content/MARKETING-COPY.md` — archivo nuevo
+- `workflows/COPY-WORKFLOW.md` — archivo nuevo
+- `workflows/references/marketing-copy.md` — archivo nuevo
+- 20 archivos de `components/`, `patterns/`, `platforms/`, `foundation/` y `references/` — migración de nomenclatura
+
+#### Añadido
+
+- **`content/MARKETING-COPY.md` v1.2 — reglas de copy para landing y superficies de marketing.** 17 secciones normativas: headlines, cifras y social proof, claims, testimoniales, jerarquía de CTA, segmentación, copy dentro de mockups, estructura narrativa de sublanding, FAQ, bloque de cierre, metadata, promesa de marca y muletillas, página de referencia canónica, plantillas por bloque, léxico y checklist de entrega. `UX-WRITING.md` cubre el microcopy de producto; nada de eso existe en una landing.
+- **`workflows/COPY-WORKFLOW.md` — modos de escritura y revisión de copy de marketing.** Modo escritura para páginas que no existen; modo revisión en cuatro fases (inventario, propuestas, aprobación, ejecución) con alto entre cada una. La separación entre reglas y proceso sigue el precedente de `SCREENSHOT-QA.md`. Regla que sostiene el flujo: Claude propone, Karla aprueba, la ejecución lleva la lista exacta.
+- **`workflows/references/marketing-copy.md` — espejo condensado** de `MARKETING-COPY.md` para el context window de Claude. Solo reglas accionables, sin ejemplos extensos ni justificaciones, siguiendo el formato de los `reference-*.md` existentes.
+- **`content/VOICE-TONE.md` §4.6 — Modo verbal por plataforma.** Imperativo tú en landing y sublandings, infinitivo en dashboard y App, sustantivo en tabs, pestañas y filtros. El fundamento ya existía en §1.5 (*"Crea tu primera tienda"* sobre *"Comenzar proceso de alta"*); esta sección lo formaliza como regla por superficie. Un tab no promete una acción: nombra un destino.
+- **`content/VOICE-TONE.md` §7.1 — Voz por superficie.** §7 organizaba la voz por producto, pero el eje que realmente cambia el tono es landing / dashboard / App. §7.1 documenta ese eje sin quitar la tabla por producto: el producto marca el énfasis, la superficie marca el tono.
+- **`content/UX-WRITING.md` §1 — Regla "una etiqueta, un destino".** Ninguna etiqueta de botón o enlace puede apuntar a dos rutas distintas dentro del mismo producto. Si el destino cambia, la etiqueta cambia.
+- **`GLOSSARY.md` — 8 entradas nuevas:** `T1 POS`, `T1 Cuenta`, `Reclamación`, `Devolución`, `Punto de venta`, `Estatus del servicio`, `Negocio`, `Tienda`.
+- **`workflows/CLAUDE-CONTROLLER.md` — tabla de enrutamiento de tareas de copy** en §2, más `references/marketing-copy.md` registrado en el mapa de §10. `CLAUDE-CONTROLLER.md` sigue siendo el único router del repo; no se crea un controller de copy.
+
+#### Cambiado
+
+- **Nomenclatura de producto migrada a forma con espacio:** `T1tienda` → `T1 Tienda`, `T1envíos` → `T1 Envíos`, `T1pagos` → `T1 Pagos`, `T1score` → `T1 Score`, `T1marketing` → `T1 Marketing`, `T1cuenta` → `T1 Cuenta`. Migración completa: 185 ocurrencias de prosa en 24 archivos `.md` — 24 en los cuatro archivos de contenido y 161 en los 20 restantes. Los identificadores de código quedan intactos: nombres de archivo `.svg`, claves de asset, rutas `public/assets/logos/t1/`, slugs `/productos/t1tienda/*`, dominio `app.t1pagos.com` y nombres de archivo de Figma (`T1envios---Crear-envio`). Los wireframes ASCII, comentarios JSX, arreglos de strings renderizados y atributos `alt` sí se migraron: son texto que lee una persona.
+- **`patterns/EMPTY-STATES.md` — empty state de T1 Pagos alineado a la terminología nueva.** `Disputas / Sin disputas activas / …las disputas o contracargos que requieran tu atención` pasa a `Reclamaciones / Sin reclamaciones activas / …las reclamaciones que requieran tu atención`. Es la única superficie de producto que quedaba usando los términos retirados en §4.5.
+- **`VOICE-TONE.md` §2 — el rasgo "Consistente"** ejemplificaba con `seller` / `comerciante` y contradecía la decisión de §4.5. Ahora remite a la regla de negocio y tienda.
+- **`VOICE-TONE.md` §4.2 — capitalización de producto.** La fila pasa de "Nombres de plataformas T1 / Siempre capitalizados / T1tienda, T1envíos, T1pagos" a "Nombres de producto T1 / Espacio y ambas iniciales en mayúscula / T1 Tienda, T1 Envíos, T1 Pagos, T1 Score, T1 POS".
+- **`VOICE-TONE.md` §4.3 — alcance explícito de la regla de punto final.** "Los títulos de sección no llevan punto final" se leía como regla exclusiva de producto. Aplica también a H1, H2 y H3 de landing y sublandings. Subtítulos, párrafos de apoyo y respuestas de FAQ sí llevan punto.
+- **`VOICE-TONE.md` §4.4 — longitud de CTA acotada por superficie.** El rango de 1–3 palabras aplica a producto. En landing el CTA se lee sin contexto previo y necesita cargar la promesa completa: 2 a 5 palabras.
+- **`VOICE-TONE.md` §4.5 — `Reclamación` como término único.** Confirmado con el dueño del dominio de T1 Pagos: `reclamación`, `disputa` y `contracargo` son el mismo concepto, la plataforma dice "Reclamaciones" y no hay obligación regulatoria de nomenclatura. `Contracargo` se admite exclusivamente en metadata de páginas públicas como término secundario de búsqueda. `Chargeback`, `disputa` y `CB` quedan fuera de toda superficie.
+- **`GLOSSARY.md` — `Contracargo / Reclamación` reescrita como `Reclamación`,** con `Devolución` registrada por separado. La reclamación es bancaria; la devolución es la entrega física del producto por parte del comprador. Se documentan aparte para evitar que se unifiquen en una limpieza futura.
+- **`GLOSSARY.md` — convenciones de nombres** adopta la forma con espacio.
+- **`content/UX-WRITING.md` — nota de alcance en el encabezado:** el documento cubre microcopy de producto (dashboard y App).
+
+#### Eliminado
+
+- **`VOICE-TONE.md` §4.5 — fila `Seller / Comerciante`.** `Seller` se descarta por anglicismo y `comerciante` deja de usarse. T1 no nombra a la persona: el copy se dirige al **negocio** y a la **tienda**, en segunda persona (`tu negocio`, `tu tienda`, `tus pedidos`). Se evitan `seller`, `merchant`, `comerciante`, `vendedor` y `usuario`.
+- **`GLOSSARY.md` — entrada `Comerciante / Seller`,** sustituida por `Negocio` y `Tienda`.
+
+#### Corregido
+
+- **`content/MARKETING-COPY.md` §5 — referencia cruzada de longitud de CTA.** Apuntaba a `UX-WRITING.md` §4.4; la regla `Botón / CTA: 1–3 palabras` vive en `VOICE-TONE.md` §4.4.
+- **`content/MARKETING-COPY.md` §15 — nota sobre `Seller / Comerciante`.** Decía que la fila seguía viva en `VOICE-TONE.md` §4.5 y había que retirarla. Ya se retiró en esta misma versión.
+- **`content/MARKETING-COPY.md` §16 — punto 3 del checklist.** Listaba `fácil y seguro` como muletilla, contradiciendo a §12, que la documenta como promesa real porque en pagos la seguridad es diferenciador.
+
+- **`platforms/PERFIL-DE-CLIENTE.md` — `T1tiendas` en plural retirado.** La nomenclatura nueva no tiene forma plural válida. Las 2 ocurrencias del empty state de Perfil de Cliente pasan a `T1 Tienda`.
+- **Campo `Owner` normalizado a `Karla Salazar — Head of UX/UI`** en 22 archivos. `Lead UX/UI` no es un título vigente.
+- **`platforms/STOREFRONT.md` renombrado a `platforms/PERFIL-DE-CLIENTE.md`,** y `storefront` sustituido por `perfil de cliente` en las 41 ocurrencias del archivo. El anglicismo queda retirado; `GLOSSARY.md` registra `Perfil de cliente` como forma canónica y `storefront` como término a evitar. La definición se acotó: el archivo documenta la cuenta del comprador —seguimiento de pedidos, métodos de pago, direcciones y facturación—, no el catálogo, carrito ni checkout, que el término anterior abarcaba y el documento nunca cubrió.
+- **`platforms/PERFIL-DE-CLIENTE.md` §1 — tabla de contextos de plataforma.** La fila de Dashboard decía `Comerciante / seller`; ahora dice `Negocio`, conforme a §4.5 de `VOICE-TONE.md`.
+- **`disputa` y `contracargo` retirados de las superficies restantes.** `patterns/EMPTY-STATES.md` (empty state de T1 Pagos), `components/ICON-COMPONENT.md` (`aria-label` de ejemplo) y `T1_Admin_App_Context.md` (prosa de contexto). Los términos solo sobreviven en las columnas de "evitar" de `VOICE-TONE.md` §4.5, `GLOSSARY.md` y `MARKETING-COPY.md`, donde documentan qué no se usa.
+
+#### Pendiente
+
+- **`content/MARKETING-COPY.md` — decisión abierta #1:** reglas de `/precios` y `/contacto-ventas`, pendientes de captura.
+
+---
+
 ## [2.2.0] — 2026-05-06
 
 ### Refactor a filosofía catálogo

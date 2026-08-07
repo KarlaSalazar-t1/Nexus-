@@ -279,7 +279,7 @@ Los filtros en listados mobile van en una fila con scroll horizontal. Sin wrap.
 // Screenshot siempre con Next.js Image
 <Image
   src="/screenshot.png"
-  alt="Dashboard T1tienda"
+  alt="Dashboard T1 Tienda"
   width={800}
   height={500}
   className="w-full h-auto rounded-[10px]"

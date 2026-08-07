@@ -2,7 +2,10 @@
 
 > El microcopy es la capa de texto que hace que una interfaz sea comprensible, confiable y humana. Este documento define las reglas y patrones de escritura para cada tipo de texto en el ecosistema T1, con ejemplos reales de la plataforma.
 
-**Última actualización:** Marzo 2026 · **Owner:** Karla Salazar — Head of UX/UI
+**Última actualización:** Agosto 2026 · **Owner:** Karla Salazar — Head of UX/UI
+
+> **Alcance:** este documento cubre el microcopy de producto — dashboard y App. Para landing,
+> sublandings y superficies de marketing, ver [`MARKETING-COPY.md`](./MARKETING-COPY.md).
 
 ---
 
@@ -33,6 +36,11 @@ Los CTAs son el texto más leído y más accionado en la interfaz. Deben ser ine
 - **Solo primera letra en mayúscula** (sentence case).
 - Verbos en **infinitivo** para acciones principales; **imperativo** es aceptable en contextos conversacionales.
 - El texto del botón debe poder leerse independientemente del contexto visual — no depender del título de la página para tener sentido.
+- **Una etiqueta, un destino.** Ninguna etiqueta de botón o enlace puede apuntar a dos rutas distintas dentro del mismo producto. Si el destino cambia, la etiqueta cambia.
+
+> **Longitud.** El rango de 1–3 palabras (`VOICE-TONE.md` §4.4) aplica a producto. En landing el CTA
+> se lee sin contexto previo y necesita cargar la promesa completa: ahí el rango es de 2 a 5
+> palabras. Ver [`MARKETING-COPY.md`](./MARKETING-COPY.md) §5.
 
 ### Patrones de CTA por tipo
 
@@ -50,7 +58,7 @@ Los CTAs son el texto más leído y más accionado en la interfaz. Deben ser ine
 
 | CTA | Contexto de uso | Tipo de botón |
 |---|---|---|
-| Crear tienda | Alta de nueva tienda en T1tienda | Primario |
+| Crear tienda | Alta de nueva tienda en T1 Tienda | Primario |
 | Crear pedido | Creación manual de pedido | Primario |
 | Agregar producto | Adición de producto al listado | Primario |
 | Más opciones | Menú secundario de acciones | Secundario / Ghost |
@@ -240,13 +248,13 @@ Los empty states son oportunidades de orientar y motivar, no solo de informar qu
 
 ### Empty states del sistema
 
-**Dirección de origen (T1envíos)**
+**Dirección de origen (T1 Envíos)**
 
 > **Título:** Aún no cuentas con una dirección de origen.
 > **Descripción:** Antes de realizar tu primer envío, necesitamos saber desde dónde se enviarán tus paquetes.
 > **CTA sugerido:** Agregar dirección de origen
 
-**Productos (T1tienda)**
+**Productos (T1 Tienda)**
 
 > **Título:** Aún no tienes productos.
 > **Descripción:** Empieza a cargar tus productos — puedes hacerlo de manera masiva o individual.
@@ -376,6 +384,7 @@ El helper text aparece debajo del label o campo para dar contexto adicional ante
 ## Referencias
 
 - [VOICE-TONE.md](./VOICE-TONE.md) — Personalidad de marca, principios de voz y tono
+- [MARKETING-COPY.md](./MARKETING-COPY.md) — Copy de landing y superficies de marketing
 - [foundation/PRINCIPLES.md](../foundation/PRINCIPLES.md) — Principio de Tecnología Humanizada
 - [GLOSSARY.md](../GLOSSARY.md) — Terminología canónica del ecosistema T1
 - [patterns/NOTIFICATIONS.md](../patterns/NOTIFICATIONS.md) — Cuándo usar toast vs banner vs modal

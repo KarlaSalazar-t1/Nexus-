@@ -14,11 +14,11 @@ Cada decisión de diseño, cada token de color, cada componente y cada patrón d
 
 | Producto | Descripción |
 |---|---|
-| **T1tienda** | Creación y gestión de tiendas en línea |
-| **T1envíos** | Gestión logística y envíos nacionales e internacionales |
-| **T1pagos** | Procesamiento de pagos, facturación y finanzas |
-| **T1score** | Analytics y métricas de rendimiento |
-| **T1marketing** | Campañas, canales de venta y herramientas de marketing |
+| **T1 Tienda** | Creación y gestión de tiendas en línea |
+| **T1 Envíos** | Gestión logística y envíos nacionales e internacionales |
+| **T1 Pagos** | Procesamiento de pagos, facturación y finanzas |
+| **T1 Score** | Analytics y métricas de rendimiento |
+| **T1 Marketing** | Campañas, canales de venta y herramientas de marketing |
 
 ---
 

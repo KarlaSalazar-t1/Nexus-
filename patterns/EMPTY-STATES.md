@@ -128,7 +128,7 @@ El contenido se genera automáticamente (ej: historial, reportes sin datos).
 
 ## Catálogo por producto
 
-### T1tienda
+### T1 Tienda
 
 | Módulo | Título | Descripción | CTA | Tipo botón |
 |---|---|---|---|---|
@@ -139,7 +139,7 @@ El contenido se genera automáticamente (ej: historial, reportes sin datos).
 | Clientes | Aún no tienes clientes registrados | Importa tu base de clientes o espera a que llegue tu primer pedido. | Importar clientes | Primario |
 | Canales de venta | Aún no tienes canales conectados | Conecta tu tienda con marketplaces y redes sociales para vender en más lugares. | Conectar canal | Primario |
 
-### T1envíos
+### T1 Envíos
 
 | Módulo | Título | Descripción | CTA | Tipo botón |
 |---|---|---|---|---|
@@ -147,22 +147,22 @@ El contenido se genera automáticamente (ej: historial, reportes sin datos).
 | Envíos pendientes | Sin envíos pendientes | Cuando crees un envío, aparecerá aquí hasta que sea recolectado. | Crear envío | Primario |
 | Historial de envíos | Aún no tienes envíos realizados | Cuando completes tu primer envío, podrás ver el historial aquí. | — | — |
 
-### T1pagos
+### T1 Pagos
 
 | Módulo | Título | Descripción | CTA | Tipo botón |
 |---|---|---|---|---|
 | Transacciones | Sin movimientos registrados | Cuando realices o recibas tu primer pago, aparecerá aquí. | Configurar pagos | Secundario |
 | Métodos de pago | Aún no tienes métodos de pago configurados | Agrega los métodos de pago que aceptarás en tu tienda. | Agregar método | Primario |
-| Disputas | Sin disputas activas | Aquí aparecerán las disputas o contracargos que requieran tu atención. | — | — |
+| Reclamaciones | Sin reclamaciones activas | Aquí aparecerán las reclamaciones que requieran tu atención. | — | — |
 
-### T1score
+### T1 Score
 
 | Módulo | Título | Descripción | CTA | Tipo botón |
 |---|---|---|---|---|
 | Score crediticio | Aún no tienes un score disponible | Conecta tu cuenta bancaria o historial de ventas para calcular tu score. | Conectar cuenta | Primario |
 | Historial | Sin historial disponible | Tu historial crediticio aparecerá aquí conforme generes actividad. | — | — |
 
-### T1marketing
+### T1 Marketing
 
 | Módulo | Título | Descripción | CTA | Tipo botón |
 |---|---|---|---|---|

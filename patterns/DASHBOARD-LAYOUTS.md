@@ -284,7 +284,7 @@ Cuando la entidad tiene muchas secciones, usar tabs horizontales debajo del tít
 
 ## 6. Settings — tabs verticales
 
-**Cuándo usar:** Módulos de configuración con múltiples categorías (T1cuenta, configuración de tienda, perfil de usuario).
+**Cuándo usar:** Módulos de configuración con múltiples categorías (T1 Cuenta, configuración de tienda, perfil de usuario).
 
 ### Estructura
 

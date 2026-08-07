@@ -10,11 +10,13 @@ Referencia transversal de terminología usada en el ecosistema T1 y en e-commerc
 
 | Término | Definición |
 |---|---|
-| **T1tienda** | Producto para creación y gestión de tiendas en línea. Permite a los comerciantes configurar su catálogo, personalizar su storefront y gestionar ventas. |
-| **T1envíos** | Producto de gestión logística. Conecta con múltiples paqueterías nacionales e internacionales para cotizar, generar guías y rastrear envíos. |
-| **T1pagos** | Producto de procesamiento de pagos. Integra múltiples métodos de pago (tarjetas, SPEI, OXXO, etc.), facturación y gestión financiera. |
-| **T1score** | Producto de analytics y métricas. Proporciona dashboards con indicadores de rendimiento del negocio en tiempo real. |
-| **T1marketing** | Producto de campañas y canales de venta. Herramientas para gestionar presencia en marketplaces, redes sociales y campañas publicitarias. |
+| **T1 Tienda** | Producto para creación y gestión de tiendas en línea. Permite a los comerciantes configurar su catálogo, personalizar su tienda y gestionar ventas. |
+| **T1 Envíos** | Producto de gestión logística. Conecta con múltiples paqueterías nacionales e internacionales para cotizar, generar guías y rastrear envíos. |
+| **T1 Pagos** | Producto de procesamiento de pagos. Integra múltiples métodos de pago (tarjetas, SPEI, OXXO, etc.), facturación y gestión financiera. |
+| **T1 Score** | Producto de analytics y métricas. Proporciona dashboards con indicadores de rendimiento del negocio en tiempo real. |
+| **T1 Marketing** | Producto de campañas y canales de venta. Herramientas para gestionar presencia en marketplaces, redes sociales y campañas publicitarias. |
+| **T1 POS** | Marca del producto de punto de venta. Se usa en títulos, CTAs de producto, navegación de productos y logotipos. Su categoría descriptiva es "punto de venta". |
+| **T1 Cuenta** | Cuenta única que da acceso a todos los productos del ecosistema con un solo registro. |
 | **NEXUS** | Nombre del sistema de diseño del ecosistema T1. La versión actual es V2.0. Define tokens, componentes, patrones y reglas visuales para todos los productos. |
 | **Ecosistema T1** | El conjunto completo de productos T1 que funcionan de forma integrada. Un comerciante puede usar uno o varios productos según sus necesidades. |
 
@@ -26,8 +28,9 @@ Referencia transversal de terminología usada en el ecosistema T1 y en e-commerc
 
 | Término | Definición | Nota |
 |---|---|---|
-| **Comerciante / Seller** | Usuario principal de la plataforma T1. Persona o empresa que vende productos o servicios en línea. En la plataforma se usa indistintamente "comerciante" y "seller". | También referido como *merchant* en contextos técnicos |
-| **Storefront** | La tienda en línea visible para el comprador final. Incluye catálogo, carrito y checkout. | *EN* — Se usa en inglés en la plataforma |
+| **Negocio** | La entidad a la que se dirige todo el copy de T1. El sistema nombra al **negocio** y a la **tienda**, nunca a la persona. Se escribe en segunda persona: `tu negocio`, `tu tienda`, `tus pedidos`. | Evitar `seller`, `merchant`, `comerciante`, `vendedor` y `usuario` |
+| **Tienda** | Unidad operativa de venta que pertenece a un negocio. Un negocio puede tener más de una tienda. | No confundir con `sucursal` (ubicación física de inventario) |
+| **Perfil de cliente** | La cuenta del comprador final en T1 Tienda: seguimiento de pedidos, métodos de pago, direcciones y datos de facturación. Forma canónica del término. | Evitar `storefront` (anglicismo) |
 | **Listado de productos** | Conjunto completo de productos que un comerciante tiene registrados en la plataforma. Incluye productos, variantes, precios e inventario. | No confundir con "catálogo" |
 | **Catálogo** | Agrupación específica de productos creada por el comerciante para un propósito particular: carruseles, páginas temáticas, colecciones destacadas, etc. Un comerciante puede tener múltiples catálogos a partir de su listado de productos. | |
 | **SKU** | *Stock Keeping Unit.* Código único que identifica una variante específica de producto (ej: "Playera Roja Talla M"). | *EN* — Siempre se usa en inglés |
@@ -39,6 +42,8 @@ Referencia transversal de terminología usada en el ecosistema T1 y en e-commerc
 | **Fulfillment** | Servicio integral 360° que incluye almacenamiento de productos, pick & pack y envío de pedidos. En T1, fulfillment se refiere específicamente a este servicio completo, no solo al proceso de envío. | *EN* — Se usa en inglés en la plataforma |
 | **Canal de venta** | Plataforma donde un comerciante publica y vende sus productos: tienda propia, Amazon, MercadoLibre, Claroshop, TikTok Shop, etc. | *Sales channel* en inglés |
 | **Marketplace** | Plataforma de terceros donde múltiples vendedores ofrecen productos (ej: Amazon, MercadoLibre, Liverpool). T1 permite conectar y sincronizar inventario con estos canales. | *EN* — Se usa en inglés |
+| **Punto de venta** | Categoría descriptiva de T1 POS, análoga a "tienda en línea" frente a T1 Tienda. Se usa en textos explicativos, breadcrumbs y navegación de footer, y cuando el lector aún no sabe qué es T1 POS. | Las dos formas conviven; lo que las separa es el rol, no la preferencia |
+| **Estatus del servicio** | Página pública de disponibilidad de la plataforma. Forma canónica del label. | Evitar `página de estatus`, `estado de la plataforma` |
 
 ### Pagos y finanzas
 
@@ -47,7 +52,8 @@ Referencia transversal de terminología usada en el ecosistema T1 y en e-commerc
 | **TPV** | *Terminal Punto de Venta.* Dispositivo físico o virtual para procesar pagos con tarjeta. En T1, se refiere principalmente al procesamiento virtual. | |
 | **SPEI** | *Sistema de Pagos Electrónicos Interbancarios.* Sistema de transferencias bancarias en tiempo real del Banco de México. Método de pago muy común en MX. | |
 | **CLABE** | *Clave Bancaria Estandarizada.* Número de 18 dígitos que identifica una cuenta bancaria en México. Se usa para transferencias SPEI. | |
-| **Contracargo / Reclamación** | Disputa de un cargo por parte del titular de la tarjeta ante su banco. El comerciante debe demostrar que la transacción fue legítima. En la plataforma se usan ambos términos indistintamente. | *Chargeback* en inglés |
+| **Reclamación** | Solicitud de un tarjetahabiente a su banco para que le devuelvan un cobro. Término único en todas las superficies de T1, porque es el que usa la interfaz de T1 Pagos. El negocio debe demostrar que la transacción fue legítima. | Evitar `contracargo` (salvo en metadata pública), `chargeback`, `disputa`, `CB` |
+| **Devolución** | Entrega física del producto por parte del comprador, con el reembolso correspondiente. **No es lo mismo que una reclamación**: la reclamación es bancaria, la devolución es logística. | *Return* en inglés |
 | **Dispersión** | Proceso de transferir los fondos cobrados a la cuenta bancaria del comerciante, descontando comisiones. | *Payout* en inglés — en MX se usa "dispersión" formalmente |
 | **Pasarela de pago** | Servicio que procesa transacciones con tarjeta entre el comprador, el banco emisor y el banco del comerciante. Ejemplos: Conekta, Stripe, OpenPay. | *Payment gateway* en inglés |
 | **Conciliación** | Proceso de verificar que los montos cobrados, las comisiones y los depósitos al comerciante cuadren correctamente. | *Reconciliation* en inglés |
@@ -145,7 +151,7 @@ Estas son las convenciones usadas en la UI visible para el usuario final:
 
 | Contexto | Convención | Ejemplo |
 |---|---|---|
-| **Nombres de producto** | Siempre con prefijo "T1" + nombre en minúsculas | T1tienda, T1envíos, T1pagos |
+| **Nombres de producto** | Prefijo "T1" + espacio + nombre con inicial mayúscula | T1 Tienda, T1 Envíos, T1 Pagos, T1 Score, T1 POS |
 | **Acciones principales** | Verbo en infinitivo | "Crear envío", "Agregar producto", "Configurar pagos" |
 | **Estados de pedido** | Participio o sustantivo descriptivo | "Pendiente", "En tránsito", "Entregado", "Cancelado" |
 | **Moneda** | Formato MXN con símbolo $ y separador de miles con coma | $1,250.00 MXN |
