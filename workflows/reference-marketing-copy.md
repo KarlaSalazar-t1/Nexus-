@@ -51,6 +51,8 @@ Corte 30 jun 2026. Owners: Alonso Charbel, Felipe Caicedo, José Luis Dorantes.
 - Cualquier cifra fuera de esta tabla → `[PENDIENTE]`. **Nunca se inventa.**
 - Formato: `<1M` coma de millar · `≥1M` abreviatura `M` · porcentajes sin espacio · siempre `+` y redondeo hacia abajo.
 - Coherencia de unidad dentro de una misma tira. Nunca mezclar `+40,000` con `+30M`.
+- Tira de stats: las 3 cifras del mismo tipo **y** del mismo nivel (producto o ecosistema). Si no existen 3 comparables, se usan 1–2 o se quita el bloque.
+- Prohibido rellenar una tira de producto con cifras del ecosistema (`+50,000 negocios`, `+200M transacciones`).
 - Las cifras del hero, del contador y de los mockups son el mismo dato.
 - Toda cifra vive en `constants.ts`, en un solo objeto.
 - Tira de stats: las 3 cifras deben ser del mismo tipo de claim (volumen, o rendimiento, o alcance).
@@ -58,6 +60,8 @@ Corte 30 jun 2026. Owners: Alonso Charbel, Felipe Caicedo, José Luis Dorantes.
 ---
 
 ## Claims
+
+- Mensajes de conversión o aprobación: anclados al dato duro, no al adjetivo. `+18% de conversión`, no `optimizado para conversión`.
 
 > Todo superlativo nuevo necesita dato verificable adjunto, o se elimina.
 
@@ -137,6 +141,12 @@ Etiqueta nueva → se agrega a la tabla canónica de `MARKETING-COPY.md` §5. Si
 **Verbos de T1:** crea · cobra · envía · vende · conecta · gestiona · rastrea · acepta · revisa · consulta · elige · activa · programa · responde · automatiza · resuelve · detecta · bloquea · evalúa · entrega · centraliza · sincroniza · monitorea
 
 **Verbos prohibidos:** potencia · impulsa · revoluciona · transforma · empodera · maximiza · optimiza · desbloquea · escala · digitaliza · disrumpe
+
+**`optimizar` / `optimizado`:** solo si lleva el dato al lado en la misma frase. Sin cifra, se elimina.
+
+**Extranjerismos:** traducir por defecto. `dashboard`→panel · `responsive`→"se ve bien en celular y computadora" (nunca "adaptable") · `checkout`→pasarela de pago/caja · `tracking`→rastreo · `hosting`→alojamiento · `insights`→información/hallazgos. Conservar contextualizados: SEO · SPEI · Fulfillment · PyME.
+
+**Internos, no en copy de cliente:** `seller` · `contracargo` (se dice reclamación).
 
 **Sustantivos del lector:** tu negocio · tu tienda · tus productos · tus pedidos · tus ventas · tus envíos · tus guías · tus cobros · tus clientes · tu catálogo · tus canales · tus reclamaciones
 

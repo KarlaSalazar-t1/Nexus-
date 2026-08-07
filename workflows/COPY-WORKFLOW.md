@@ -129,6 +129,28 @@ Además, reporta aparte:
   - Datos de prueba visibles en producción
 ```
 
+#### Una ruta no es un componente
+
+> **Audita todos los componentes que la ruta renderiza, no solo el principal.**
+
+Una sola ruta se compone de varios componentes. `tienda-con-ia`, por ejemplo, renderiza
+`T1Features` + `TodoIncluidoDark` + `StoreShowcase`. Auditar únicamente el componente que da nombre
+a la página deja fuera copy visible en producción.
+
+Antes de reportar, lista qué componentes monta la ruta y confirma que revisaste todos.
+
+#### Código muerto: se marca, no se audita
+
+Bloques envueltos en `{false && …}` y componentes definidos pero no montados **no se auditan**: no
+son visibles, y corregirlos gasta revisión en texto que nadie lee.
+
+Se reportan **aparte**, en una tabla de limpieza:
+
+  | Archivo:línea | Qué es | Por qué está muerto |
+
+Vale la pena reportarlo porque si alguien lo reactiva, arrastra los errores que nunca se corrigieron.
+Pero es tarea de limpieza de código, no de copy.
+
 Un inventario sin propuestas evita que la conversación se vuelva sobre gustos antes de saber el
 tamaño real del problema.
 

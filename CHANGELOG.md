@@ -71,6 +71,41 @@ capa de contenido: `content/`, `GLOSSARY.md` y `workflows/`. No modifica compone
 
 ---
 
+## [2.3.0] — 2026-08-07
+
+### Regla de extranjerismos, términos internos y refinamiento de copy de marketing
+
+Auditoría de la sublanding `/productos/t1tienda/tienda-con-ia` que destapó cinco huecos en la documentación: no existía una regla de extranjerismos —el sistema conservaba "checkout" y "fulfillment" pero no decía nada de "dashboard", "responsive" o "tracking", que se colaban al copy—, el verbo "optimizar" estaba documentado como excepción discutible en lugar de regla, las tiras de stats no tenían regla para cuando no existen tres cifras comparables, los mensajes de conversión no estaban obligados a anclarse al dato duro, y el flujo de revisión no advertía que una ruta se compone de varios componentes.
+
+Se incorpora además la distinción **interno vs. copy de cliente**: `seller` y `contracargo` son correctos dentro del equipo y no hacia el cliente.
+
+**Owner:** Karla Salazar — Head of UX/UI
+
+**Archivos afectados:**
+- `content/VOICE-TONE.md` — nueva tabla de extranjerismos y bloque de términos internos en §4.5
+- `GLOSSARY.md` — nuevas secciones "Extranjerismos" y "Términos internos" + notas de convención
+- `content/MARKETING-COPY.md` — §2 tiras de stats, §3 mensajes de conversión, §15 `optimizar`
+- `workflows/COPY-WORKFLOW.md` — alcance por ruta y código muerto en Fase 1
+- `workflows/reference-marketing-copy.md` — espejo condensado sincronizado
+
+#### Añadido
+
+- **Regla de extranjerismos** en `VOICE-TONE.md` §4.5, con dos tablas: "Traducir siempre" y "Conservar". El criterio rector es **cuál término entiende más gente**, no cuál es más literal o más técnico. Traducir: `dashboard` → panel · `checkout` → pasarela de pago / caja · `tracking` → rastreo · `hosting` → alojamiento · `insights` → información / hallazgos. Conservar contextualizados en su primera aparición: SEO, SPEI, Fulfillment, PyME. **Regla por defecto:** ante un anglicismo nuevo, traducir, salvo que se agregue explícitamente a la tabla de conservar.
+- **`responsive` no se traduce como "adaptable"**, porque no se entiende. Se dice el beneficio directo: "se ve bien en celular y computadora" o "para celular".
+- **Bloque "Términos internos"** en `VOICE-TONE.md` §4.5 y sección equivalente en `GLOSSARY.md`. `Seller` y `contracargo` son válidos dentro del equipo y no en copy de cliente. Marcado `[PENDIENTE]`: con qué término nombrar a la persona en copy de cliente, si llegara a hacer falta.
+- **Sección "Extranjerismos"** en `GLOSSARY.md`, en formato de referencia rápida, con las definiciones de SEO, SPEI, Fulfillment y PyME.
+- **Regla de alcance por ruta** en `COPY-WORKFLOW.md`, Fase 1: una ruta se compone de varios componentes —`tienda-con-ia` renderiza `T1Features` + `TodoIncluidoDark` + `StoreShowcase`— y se auditan todos, no solo el principal.
+- **Tratamiento de código muerto** en `COPY-WORKFLOW.md`, Fase 1: los bloques `{false && …}` y los componentes no montados se marcan y se reportan aparte como tarea de limpieza, pero no se auditan.
+- **Regla de mensajes de conversión y aprobación** en `MARKETING-COPY.md` §3: cuando el mensaje sea sobre conversión o tasa de aprobación, se ancla al dato duro en lugar del adjetivo. El mensaje se conserva; lo que cambia es que va respaldado por la cifra.
+
+#### Cambiado
+
+- **`optimizar` / `optimizado` pasa de excepción discutible a regla firme** en `MARKETING-COPY.md` §15. Queda en la lista de verbos que T1 no usa, con una única excepción explícita: solo se admite si lleva el dato al lado, en la misma frase. Sin cifra, se elimina.
+- **Tiras de stats: dos condiciones en lugar de una** en `MARKETING-COPY.md` §2. Las tres cifras deben ser del mismo tipo *y* del mismo nivel (producto o ecosistema). Si no existen tres cifras comparables, no se fuerza la tira: se usan 1 o 2, o se quita el bloque. Queda prohibido rellenar con cifras globales del ecosistema en la página de un solo producto.
+- **`Reclamación` en `VOICE-TONE.md` §4.5** precisa su alcance: es el término único en **copy de cliente**; `contracargo` sigue siendo válido internamente.
+
+---
+
 ## [2.2.0] — 2026-05-06
 
 ### Refactor a filosofía catálogo

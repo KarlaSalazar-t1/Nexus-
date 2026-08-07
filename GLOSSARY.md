@@ -4,6 +4,10 @@ Referencia transversal de terminología usada en el ecosistema T1 y en e-commerc
 
 > **Convención:** Cuando un término en inglés se usa tal cual en la plataforma (sin traducir), aparece marcado como *EN*. Cuando existe confusión frecuente entre español e inglés, se incluye la traducción.
 
+> **Extranjerismos:** la regla por defecto es traducir. Solo se conservan los términos de la tabla "Se conservan", y siempre contextualizados en su primera aparición. El criterio es cuál entiende más gente, no cuál es más literal o más técnico. Regla completa en `content/VOICE-TONE.md` §4.5.
+
+> **Interno vs. cliente:** algunos términos son correctos hacia adentro del equipo y no hacia el cliente. Están marcados *(interno)* en su definición.
+
 ---
 
 ## Productos del Ecosistema T1
@@ -124,6 +128,41 @@ Referencia transversal de terminología usada en el ecosistema T1 y en e-commerc
 | **Acento rojo** | Patrón tipográfico donde una o dos palabras clave de un título se colorean en Brand Red para crear jerarquía visual. |
 | **Glass effect** | Efecto visual de transparencia con blur (`bg-white/90 backdrop-blur-md`). Usado en el header fijo de landing pages. |
 | **References** | Versiones condensadas de la documentación del design system, optimizadas para el context window de Claude. Viven en `workflows/references/`. |
+
+---
+
+## Extranjerismos
+
+Referencia rápida. La regla completa y su criterio están en `content/VOICE-TONE.md` §4.5.
+
+### Se traducen
+
+| ❌ Anglicismo | ✅ En T1 |
+|---|---|
+| dashboard | panel |
+| responsive | "se ve bien en celular y computadora" · "para celular" — nunca "adaptable" |
+| checkout | pasarela de pago · caja |
+| tracking | rastreo |
+| hosting | alojamiento |
+| insights | información · hallazgos |
+
+### Se conservan
+
+| Término | Definición |
+|---|---|
+| **SEO** | *EN — Search Engine Optimization.* Prácticas para que una página aparezca mejor posicionada en buscadores. Se conserva porque no tiene equivalente en español de uso común. |
+| **SPEI** | Sistema de Pagos Electrónicos Interbancarios de Banxico. Nombre propio, no se traduce. |
+| **Fulfillment** | *EN.* Servicio 360°: almacenamiento, pick & pack y envío. Ya es término canónico en T1. |
+| **PyME** | Pequeña y mediana empresa. Término estándar en México, más claro que cualquier alternativa. |
+
+Ante un anglicismo que no esté en ninguna de las dos tablas: **traducir**. Si se decide conservarlo, se agrega aquí y en `VOICE-TONE.md` §4.5.
+
+### Términos internos
+
+| Término | Definición |
+|---|---|
+| **Seller** | *EN — (interno).* Comercio que vende a través de T1. Correcto dentro del equipo, **nunca en copy de cliente**: ahí T1 se dirige al negocio y a la tienda, no a la persona. |
+| **Contracargo** | *(interno).* Solicitud de un tarjetahabiente a su banco para que le devuelvan un cobro. En copy de cliente se dice **reclamación**, que es el término que usa la plataforma. Única excepción: metadata pública, donde se admite una vez como término de búsqueda. |
 
 ---
 

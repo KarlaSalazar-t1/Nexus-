@@ -2,7 +2,7 @@
 
 > `UX-WRITING.md` cubre el microcopy de producto: errores, labels, empty states, confirmaciones. Nada de eso existe en una landing. Este documento cubre lo contrario: el copy de conversión — headlines, cifras, claims, testimoniales y jerarquía de CTA.
 
-**Estado:** 🟢 v1.2 — sin decisiones bloqueantes
+**Estado:** 🟢 v1.3 — sin decisiones bloqueantes
 **Última actualización:** Agosto 2026 · **Owner:** Karla Salazar — Head of UX/UI
 
 ---
@@ -134,6 +134,24 @@ una de tiempo con un conteo de funcionalidades — no son comparables y la tira 
 - El descriptor no repite la unidad que ya está en la cifra: `+30M` / `envíos entregados`, no `+30M` / `millones de envíos`.
 - Abreviaturas expandidas: `menos de 1 min`, no `<1 min`.
 
+#### La tira no se rellena
+
+> **Si no existen 3 cifras del mismo tipo y del mismo nivel, no se fuerza la tira.** Se usan 1 o 2,
+> o se quita el bloque.
+
+Dos condiciones, no una:
+
+| Condición | Qué significa |
+|---|---|
+| **Mismo tipo** | Las tres son de volumen, o las tres de rendimiento, o las tres de alcance. No se mezcla volumen con tiempo con inventario de features |
+| **Mismo nivel** | Las tres son del producto, o las tres del ecosistema. No se mezclan |
+
+**Prohibido rellenar con cifras globales del ecosistema** —`+50,000 negocios`, `+200M transacciones`—
+en la página de un solo producto. La cifra del ecosistema en una página de producto no prueba nada
+sobre ese producto: infla el bloque y le resta credibilidad a las cifras que sí son suyas.
+
+Una tira de dos cifras propias es más fuerte que una de tres donde la tercera está de relleno.
+
 ---
 
 ## 3. Claims y lenguaje comparativo
@@ -156,6 +174,21 @@ Y aun con sustento: si tienes la cifra, publica la cifra. `+85% de aprobación` 
 | `con la mejor tasa de aprobación` | `con +85% de aprobación` |
 | `al mejor precio` | `a tarifas negociadas por volumen` |
 | `las mejores tarifas del mercado` | `sin mensualidad ni mínimo de envíos` |
+
+### Mensajes de conversión y aprobación
+
+Cuando el mensaje sea sobre **conversión** o **tasa de aprobación**, va anclado al dato duro, no al
+adjetivo.
+
+| ❌ Adjetivo vago | ✅ Anclado al dato |
+|---|---|
+| `Optimizado para conversión` | `+18% de conversión` |
+| `La mejor tasa de aprobación` | `+85% de aprobación` |
+| `Checkout que convierte más` | `Pasarela con +18% de conversión` |
+
+**El mensaje se conserva; lo que cambia es que va respaldado.** No se trata de dejar de prometer
+conversión: se trata de probarla. Si la cifra no está en la tabla canónica de §2, se marca
+`[PENDIENTE]` y se consulta con los owners antes de publicar.
 
 ### Claims permitidos sin dato
 
@@ -737,8 +770,20 @@ potencia · impulsa · revoluciona · transforma · empodera · maximiza
 optimiza · desbloquea · escala · digitaliza · disrumpe
 ```
 
-`optimizar` es la excepción discutible: aparece en `Pasarela de pagos — Optimizado para mayor
-conversión`. Si se conserva, debe llevar el dato al lado.
+#### `Optimizar` / `optimizado`
+
+**No se usan.** Es la única entrada de la lista con excepción explícita:
+
+> Solo se admite si lleva **el dato al lado**, en la misma frase. Sin cifra, se elimina.
+
+| ❌ | ✅ |
+|---|---|
+| `Optimizado para mayor conversión` | `+18% de conversión` |
+| `Pasarela optimizada` | `Pasarela con +85% de aprobación` |
+| `Optimiza tus envíos` | `Reduce el costo de cada envío` |
+
+El problema es que `optimizado` describe una intención, no un resultado: lo puede escribir cualquier
+competidor sobre cualquier producto. La cifra no.
 
 ### Sustantivos del lector
 

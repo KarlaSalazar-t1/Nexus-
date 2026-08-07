@@ -165,7 +165,7 @@ Estos términos tienen una forma canónica en T1. No usar sinónimos sin justifi
 | Listado de productos | Catálogo | "Catálogo" = agrupación curada para carruseles/páginas |
 | Catálogo | Lista de productos | Solo cuando es una agrupación curada |
 | Fulfillment | Almacenamiento y envío, logística completa | Servicio 360°: storage + pick & pack + envío |
-| Reclamación | Contracargo, chargeback, disputa, CB | Término único en todas las superficies |
+| Reclamación | Contracargo, chargeback, disputa, CB | Término único en copy de cliente. `Contracargo` es de uso interno |
 | Sucursal | Almacén, tienda, punto de venta | A menos que el contexto especifique otro tipo |
 | Pausar | Desactivar temporalmente | Para acciones reversibles |
 | Eliminar | Borrar, remover | Para acciones permanentes e irreversibles |
@@ -178,6 +178,50 @@ Estos términos tienen una forma canónica en T1. No usar sinónimos sin justifi
 > **Cómo se nombra a la persona.** T1 no nombra a la persona. El copy se dirige al **negocio** y a la
 > **tienda**, en segunda persona: `tu negocio`, `tu tienda`, `tus pedidos`. Evitar `seller`,
 > `merchant`, `comerciante`, `vendedor` y `usuario`.
+
+#### Términos internos
+
+Algunos términos son correctos hacia adentro del equipo y no hacia el cliente. La distinción no es de
+formalidad: es de a quién le estamos hablando.
+
+| Término | Interno | Copy de cliente |
+|---|---|---|
+| Seller | ✅ | ❌ Es término interno. T1 se dirige al negocio y a la tienda |
+| Contracargo | ✅ | ❌ Se dice `reclamación`. Única excepción: metadata pública, una vez, como término de búsqueda |
+
+> **[PENDIENTE]** Si en algún caso hay que nombrar a la persona en copy de cliente, falta definir con
+> qué término. `Seller` es interno y `comerciante` está descartado. Owner: Karla Salazar.
+
+### Extranjerismos: traducir vs. conservar
+
+> **Criterio rector:** gana el término que **más gente entienda**, no el más literal ni el más técnico.
+> Ante un anglicismo que no esté en estas tablas, la regla por defecto es **traducir**.
+
+**Traducir siempre**
+
+| ❌ Anglicismo | ✅ En T1 | Nota |
+|---|---|---|
+| dashboard | panel | |
+| responsive | "se ve bien en celular y computadora" · "para celular" | **No usar "adaptable"** — no se entiende. Se dice el beneficio directo, no la propiedad técnica |
+| checkout | pasarela de pago · caja | "Caja" cuando el contexto es punto de venta físico |
+| tracking | rastreo | |
+| hosting | alojamiento | |
+| insights | información · hallazgos | |
+
+**Conservar**
+
+| Término | Por qué se conserva | Cómo se introduce |
+|---|---|---|
+| SEO | No tiene equivalente en español de uso común | Contextualizado la 1ª vez |
+| SPEI | Nombre propio del sistema de Banxico | Contextualizado la 1ª vez |
+| Fulfillment | Ya es término canónico en T1 — ver tabla anterior | Contextualizado la 1ª vez |
+| PyME | Término estándar en México, más claro que cualquier alternativa | Se usa directo |
+
+"Contextualizado la 1ª vez" significa que la primera aparición en una página explica qué es, y las
+siguientes ya lo usan solo: *"Configura el SEO de tu tienda para que aparezca en Google."*
+
+Las dos listas son ampliables. Un anglicismo nuevo se traduce salvo que se agregue explícitamente a
+la tabla de conservar.
 
 ### 4.6 Modo verbal por plataforma
 
