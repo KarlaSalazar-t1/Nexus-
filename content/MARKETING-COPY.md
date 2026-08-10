@@ -2,7 +2,7 @@
 
 > `UX-WRITING.md` cubre el microcopy de producto: errores, labels, empty states, confirmaciones. Nada de eso existe en una landing. Este documento cubre lo contrario: el copy de conversión — headlines, cifras, claims, testimoniales y jerarquía de CTA.
 
-**Estado:** 🟢 v1.3 — sin decisiones bloqueantes
+**Estado:** 🟢 v1.3.1 — sin decisiones bloqueantes
 **Última actualización:** Agosto 2026 · **Owner:** Karla Salazar — Head of UX/UI
 
 ---
@@ -74,7 +74,7 @@ Los H2 en pregunta llevan signos de apertura y cierre y **no** llevan punto adic
 ### Fuente de verdad
 
 **Owners:** Alonso Charbel · Felipe Caicedo · José Luis Dorantes
-**Fecha de corte:** 30 de junio de 2026
+**Fecha de corte:** 30 de junio de 2026 · **Última revisión de cifras:** agosto 2026
 
 Estos son los únicos valores publicables:
 
@@ -85,7 +85,7 @@ Estos son los únicos valores publicables:
 | Envíos | `+30M` | Envíos entregados |
 | Transacciones | `+200M` | Transacciones procesadas, total |
 | Paqueterías | `+10` | Paqueterías integradas |
-| Tasa de aprobación | `+85%` | Aprobación en T1 Pagos |
+| Tasa de aprobación | `+90%` | Aprobación en T1 Pagos |
 
 Cualquier cifra que no esté en esta tabla se marca `[PENDIENTE]` y se consulta con los owners antes
 de publicarse. Las cifras se revisan cada cierre de trimestre.
@@ -166,12 +166,12 @@ pasa por la misma revisión antes de publicarse.
 
 > **Todo superlativo nuevo necesita un dato verificable adjunto, o se elimina.**
 
-Y aun con sustento: si tienes la cifra, publica la cifra. `+85% de aprobación` convence más que
+Y aun con sustento: si tienes la cifra, publica la cifra. `+90% de aprobación` convence más que
 `la mejor tasa de aprobación`, porque el superlativo lo puede escribir cualquiera.
 
 | Superlativo | Alternativa con dato |
 |---|---|
-| `con la mejor tasa de aprobación` | `con +85% de aprobación` |
+| `con la mejor tasa de aprobación` | `con +90% de aprobación` |
 | `al mejor precio` | `a tarifas negociadas por volumen` |
 | `las mejores tarifas del mercado` | `sin mensualidad ni mínimo de envíos` |
 
@@ -183,7 +183,7 @@ adjetivo.
 | ❌ Adjetivo vago | ✅ Anclado al dato |
 |---|---|
 | `Optimizado para conversión` | `+18% de conversión` |
-| `La mejor tasa de aprobación` | `+85% de aprobación` |
+| `La mejor tasa de aprobación` | `+90% de aprobación` |
 | `Checkout que convierte más` | `Pasarela con +18% de conversión` |
 
 **El mensaje se conserva; lo que cambia es que va respaldado.** No se trata de dejar de prometer
@@ -581,7 +581,7 @@ Casi la misma frase, una dentro de la otra. La hija tiene que decir algo que la 
 
 **2. Donde hay dato, el dato gana.**
 
-`Cobra en línea con +85% de aprobación` es más fuerte que `Cobra en línea, fácil y seguro`, porque el
+`Cobra en línea con +90% de aprobación` es más fuerte que `Cobra en línea, fácil y seguro`, porque el
 adjetivo lo puede decir cualquiera y la cifra no. La regla no es "no uses adjetivos": es **si tienes
 el número, úsalo**.
 
@@ -779,7 +779,7 @@ optimiza · desbloquea · escala · digitaliza · disrumpe
 | ❌ | ✅ |
 |---|---|
 | `Optimizado para mayor conversión` | `+18% de conversión` |
-| `Pasarela optimizada` | `Pasarela con +85% de aprobación` |
+| `Pasarela optimizada` | `Pasarela con +90% de aprobación` |
 | `Optimiza tus envíos` | `Reduce el costo de cada envío` |
 
 El problema es que `optimizado` describe una intención, no un resultado: lo puede escribir cualquier

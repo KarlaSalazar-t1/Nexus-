@@ -103,6 +103,7 @@ Se incorpora además la distinción **interno vs. copy de cliente**: `seller` y 
 - **`optimizar` / `optimizado` pasa de excepción discutible a regla firme** en `MARKETING-COPY.md` §15. Queda en la lista de verbos que T1 no usa, con una única excepción explícita: solo se admite si lleva el dato al lado, en la misma frase. Sin cifra, se elimina.
 - **Tiras de stats: dos condiciones en lugar de una** en `MARKETING-COPY.md` §2. Las tres cifras deben ser del mismo tipo *y* del mismo nivel (producto o ecosistema). Si no existen tres cifras comparables, no se fuerza la tira: se usan 1 o 2, o se quita el bloque. Queda prohibido rellenar con cifras globales del ecosistema en la página de un solo producto.
 - **`Reclamación` en `VOICE-TONE.md` §4.5** precisa su alcance: es el término único en **copy de cliente**; `contracargo` sigue siendo válido internamente.
+- **Tasa de aprobación canónica: `+85%` → `+90%`** en `MARKETING-COPY.md` §2 y en el espejo condensado. Actualizado por los owners de producto. Todos los ejemplos que citaban la cifra quedaron alineados.
 
 ---
 

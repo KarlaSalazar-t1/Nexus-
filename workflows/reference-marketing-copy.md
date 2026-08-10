@@ -46,7 +46,7 @@ Corte 30 jun 2026. Owners: Alonso Charbel, Felipe Caicedo, José Luis Dorantes.
 | Envíos | `+30M` | Envíos entregados |
 | Transacciones | `+200M` | Transacciones procesadas |
 | Paqueterías | `+10` | Paqueterías integradas |
-| Tasa de aprobación | `+85%` | Aprobación en T1 Pagos |
+| Tasa de aprobación | `+90%` | Aprobación en T1 Pagos |
 
 - Cualquier cifra fuera de esta tabla → `[PENDIENTE]`. **Nunca se inventa.**
 - Formato: `<1M` coma de millar · `≥1M` abreviatura `M` · porcentajes sin espacio · siempre `+` y redondeo hacia abajo.
@@ -65,7 +65,7 @@ Corte 30 jun 2026. Owners: Alonso Charbel, Felipe Caicedo, José Luis Dorantes.
 
 > Todo superlativo nuevo necesita dato verificable adjunto, o se elimina.
 
-Y aun con sustento: **si tienes la cifra, publica la cifra.** `+85% de aprobación` > `la mejor tasa de aprobación`.
+Y aun con sustento: **si tienes la cifra, publica la cifra.** `+90% de aprobación` > `la mejor tasa de aprobación`.
 
 - **Sin dato:** descriptivos de funcionalidad, relativos a sí mismo (`Sin mensualidad`), ausencia de fricción (`Sin tarjeta de crédito`).
 - **Requieren Legal:** tasas de aprobación, tiempos de entrega garantizados, ahorro porcentual, cobertura total, comparación con competidor nombrado.
