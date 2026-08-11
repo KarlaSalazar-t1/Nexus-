@@ -4,6 +4,47 @@ Todos los cambios relevantes al sistema de diseño se documentan aquí. Formato 
 
 ---
 
+## [2.4.0] — 2026-08-10
+
+### Capa visual y de componentes de landing + documentación de métricas de dashboard
+
+Origen: re-sincronización con el repo `T1landing` tras varios ajustes de la landing y sublandings (nuevo hero, mega-menús, componentes y estilos). **La fuente de verdad de landing es ahora el código del repo — ya no hay Figma.** Se agregan dos documentos de componentes (`LANDING-COMPONENTS.md`, `METRICS.md`), se actualiza `plataform/LANDING.md` al estado real (verificado archivo por archivo sobre las 16 rutas de producto) y se reescribe `patterns/LANDING-SECTIONS.md` con alcance recortado para eliminar duplicación.
+
+**Owner:** Karla Salazar — Head of UX/UI
+
+**Archivos afectados:**
+- `components/LANDING-COMPONENTS.md` — archivo nuevo
+- `components/METRICS.md` — archivo nuevo
+- `plataform/LANDING.md` — §1, §2, §3, §6, §7, §8, §11, §16
+- `patterns/LANDING-SECTIONS.md` — reescrito (alcance recortado a ensamblaje de página)
+
+#### Añadido
+
+- **`components/LANDING-COMPONENTS.md` — catálogo de componentes de landing.** Agrupado por familia estructural (hero, cards, secuencias de cards, paneles de UI simulada, proceso, stats, tabs/segmentadores, navegación, bloques compuestos, media), cada componente mapeado a su archivo real en `src/components/`, con usos sugeridos abiertos, tokens reales y responsive. Incluye sección **Responsive** del sistema, tabla de **Procedencia y validez** (heredado vs nuevo) y tabla **Landing vs Sublanding**. Objetivo: junto con `LANDING.md` y `patterns/LANDING-SECTIONS.md`, permitir generar un landing con estilo T1 desde un solo prompt.
+- **`components/METRICS.md` — paneles de métricas del dashboard.** 12 secciones: grid de paneles (tokens, spans permitidos 3/4/6/12, reglas), panel contenedor, card data (anatomía, variantes, estados, chip de comparativa), gráficas de barras verticales y horizontales, lista de estatus, tabla de cohortes, dona de distribución, estado vacío, tokens de data visualization (bloque `color/dataviz/`), reglas de implementación y discrepancias detectadas.
+- **`plataform/LANDING.md` §2 — breakpoints de landing** (`mobile 360 / tablet 768 / desktop 1280 / wide 1920`) y **regla de espaciado base 4px** (padding/margin/gap en múltiplos de 4).
+
+#### Cambiado
+
+- **`plataform/LANDING.md` §2 — modelo de contenedor.** De un contenedor único `1018px` a **cota externa `1220px` (`--max-w`) + anchos de contenido granulares** (texto 680–760, panel 820–960, angosto 300–320). Se retiran `721` y `850`.
+- **`plataform/LANDING.md` §3 — botón primario a valor real.** Background `#DB3B2B` (Red 500) + hover `#C0332A` (antes documentaba `#E26153`). Nueva tabla de tamaño/radio por contexto: nav `45px/18px`, hero `50px/23px`, CTA final `50px/23px`. `#E26153` (Red 400) queda exclusivo de acentos en headings.
+- **`plataform/LANDING.md` §6 — regla de texto en hero.** El hero **siempre es oscuro** (negro o degradado) → **texto siempre blanco**. Degradado **unificado**: landing y sublanding usan un degradado similar al del hero principal (`linear-gradient(180deg, #0e0d0d→#020101)` + glows radiales rojo/azul). Se retira la regla previa "nunca texto blanco en hero" y la rama de hero claro.
+- **`plataform/LANDING.md` §7 — nav.** `Productos` y `Recursos` como dropdowns + `Precios` + `Enterprise`; se elimina `Clientes`; CTA primario `Comienza gratis`.
+- **`plataform/LANDING.md` §8 — footer.** Pasa a **4 columnas** (Productos / Recursos / Comunidad / T1) + sello **Hecho en México** con "Una empresa 100% mexicana".
+- **`plataform/LANDING.md` §11 — marquee de logos** `30s` → `50s` (token `--animate-marquee`).
+- **`plataform/LANDING.md` §16 — Variante Sublanding reescrita.** Se retira el modelo "hero arranca oscuro + ritmo por bloques oscuro→claro→oscuro" (verificado como falso en el repo). El sublanding real: **hero oscuro dividido** + esqueleto canónico de 12 partes + base de cuerpo clara con cierre oscuro.
+- **`patterns/LANDING-SECTIONS.md` — reescrito con alcance recortado.** Pasa de catálogo de secciones (con anatomía y tokens por sección) a **capa de ensamblaje de página** únicamente: secuencia típica (landing principal + sublanding), ritmo de fondos, estructura base de sección, anti-patrones de layout y checklist QA de composición. Se retira la anatomía/tokens por sección — ahora en `components/LANDING-COMPONENTS.md` — eliminando la duplicación. Se actualiza al estado real del repo: hero oscuro (antes degradado rosa `#FDF0EF→#F2B5AE`), secuencia real de `page.tsx`, esqueleto de sublanding de 12 partes, contenedor `1220`, footer 4 columnas. Se corrigen anti-patrones y checklist stale (Manrope, `#E26153` vs `#DB3B2B`, texto blanco en hero, floating badges, browser mockup obligatorio, pricing simétrica). Metadata: fuente = repo (ya no Figma), Owner = Head of UX/UI.
+
+#### Corregido
+
+- **`plataform/LANDING.md` — label de color.** `#E26153` estaba etiquetado como "Red 600"; es **Red 400** (5 ocurrencias). `foundation/COLORS.md` siempre fue correcto; el código coincide 1:1 con COLORS.md.
+
+#### Eliminado
+
+- **`plataform/LANDING.md` §11 — sección Floating Badges** (verificado: 0 usos en el repo) y sus filas asociadas en las tablas de sombras y glassmorphism, más la fila de eyebrow badge glass. Se documenta que el hero actual usa degradado, no badges flotantes.
+
+---
+
 ## [2.3.0] — 2026-08-07
 
 ### Capa de contenido: copy de marketing, terminología y nomenclatura de producto

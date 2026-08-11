@@ -12,11 +12,11 @@
 |---|---|---|
 | Tipografía headings | Sora Light 300 / Regular 400 | Manrope SemiBold / Bold |
 | Tipografía cuerpo | Inter Regular / Medium | Manrope Regular |
-| Contenedor principal | `1018px` | `1600px` |
+| Contenedor principal | `1220px` | `1600px` |
 | Border radius cards | `24px` | `10px`–`20px` |
 | Border radius botones | `18px` | `8px` |
 | Altura botones | `45px` | variable |
-| Color botón primario | `#E26153` (Red 600) | `#DB3B2B` (Red 500) |
+| Rojo de acento (headings) | `#E26153` (Red 400) | Rojo solo = error/destructivo |
 | Sombra cards | `0 0 25px 2px rgba(0,0,0,0.06)` | `0 0 5px 1px rgba(0,0,0,0.1)` |
 | Fondo header | `rgba(255,255,255,0.9)` + blur (glass) | Blanco sólido |
 | Fondo footer | `#000000` | No aplica |
@@ -25,7 +25,7 @@
 
 ## 1. Tipografía
 
-Landing usa **Sora + Inter**. Manrope está **prohibida** en este contexto.
+Landing usa **Sora + Inter**. Manrope está **prohibida en el chrome del landing** (títulos, cuerpo, CTA, nav, cards de marketing). **Única excepción:** los *paneles de UI simulada* (réplicas de dashboard/app) pueden usar Manrope para imitar el producto real, que sí la usa. Ver `components/LANDING-COMPONENTS.md` §4.
 
 ### Escala completa
 
@@ -41,7 +41,7 @@ Landing usa **Sora + Inter**. Manrope está **prohibida** en este contexto.
 | **Body Light** | Inter | Light 300 | `14px` | `14px` |
 | **Nav / Tabs** | Inter | Medium 500 | `14px` | `14px` |
 | **CTA / Botones** | Inter | SemiBold 600 | `14px` | `14px` |
-| **Links** | Inter | SemiBold 600 | Oxford `#4C4C4C` · Sin underline · Hover: Red 600 | — |
+| **Links** | Inter | SemiBold 600 | Oxford `#4C4C4C` · Sin underline · Hover: Red 400 | — |
 | **Eyebrow** | Inter | SemiBold 600 | `11px` · uppercase · `tracking-[0.15em]` | — |
 | **Micro / Caption** | Inter | Regular 400 | `12px` | `12px` |
 
@@ -83,24 +83,43 @@ Landing usa **Sora + Inter**. Manrope está **prohibida** en este contexto.
 - ❌ Sora Bold / SemiBold en headings
 - ❌ Peso del acento rojo diferente al del título padre
 - ❌ Inter Bold 700 o pesos fuera de 300/400/500/600
-- ❌ Manrope en cualquier elemento de landing
+- ❌ Manrope en el chrome del landing (títulos, cuerpo, CTA, nav, cards) · permitida **solo** dentro de paneles de UI simulada
 - ❌ Underline en links en estado normal
 - ❌ Texto en rojo (`#E26153`) en estados de error — el rojo de acento es exclusivo de landing; en dashboard puede confundirse con error
-- ❌ Texto blanco en el hero — el fondo es claro, usar negro `#000000` tanto en headings como en descripciones
+- ❌ Texto negro en el hero — el hero siempre es oscuro, el texto va **blanco**. Ver §6.
 
 ---
 
 ## 2. Contenedores
 
-| Contenedor | Ancho máximo | Clase Tailwind | Uso |
+El landing usa una **cota externa** + **anchos de contenido granulares** (no un único contenedor).
+
+| Rol | Ancho | Token / clase | Uso |
 |---|---|---|---|
-| Principal | `1018px` | `max-w-[1018px]` | Todas las secciones |
-| Estrecho | `721px` | `max-w-[721px]` | Hero text, CTA final, FAQ |
-| Screenshot | `850px` | `max-w-[850px]` | Browser mockups |
+| Cota externa | `1220px` | `--max-w: 1220px` | Límite máximo de sección |
+| Bloque de texto | `680–760px` | `max-w-[680px]` / `max-w-[760px]` | Headings, párrafos, CTA, FAQ |
+| Panel / mockup | `820–960px` | `max-w-[820px]` … `max-w-[960px]` | Paneles de UI simulada, imágenes |
+| Elemento angosto | `300–320px` | `max-w-[320px]` | Cards individuales, columnas |
 
 Siempre centrados con `mx-auto`.
 
+> Fuente: `globals.css` (`--max-w`) + anchos reales en `src/components`.
 > ❌ **Nunca** usar `max-w-[1600px]` en landing. Ese es el contenedor de dashboard.
+
+### Breakpoints (landing)
+
+| Breakpoint | Valor | Token |
+|---|---|---|
+| mobile | `360px` | `--breakpoint-mobile` |
+| tablet | `768px` | `--breakpoint-tablet` |
+| desktop | `1280px` | `--breakpoint-desktop` |
+| wide | `1920px` | `--breakpoint-wide` |
+
+> Estos breakpoints aplican **solo a landing**. Fuente: `globals.css`.
+
+### Espaciado (base 4px)
+
+Todos los espaciados del landing (padding, margin, gap) van en **múltiplos de 4px**.
 
 ---
 
@@ -108,13 +127,23 @@ Siempre centrados con `mx-auto`.
 
 | Propiedad | Primario | Secundario |
 |---|---|---|
-| Background | `#E26153` | `#FFFFFF` |
+| Background | `#DB3B2B` (Red 500) | `#FFFFFF` |
 | Texto | `#FFFFFF` | `#4C4C4C` (Oxford) |
 | Border | ninguno | `1px solid #D9D9D9` |
-| Border Radius | `18px` | `18px` |
-| Altura | `45px` | `45px` |
 | Fuente | Inter SemiBold 600 | Inter SemiBold 600 |
-| Hover bg | `#DB3B2B` (Red 500) | `#F8F8F8` (Gray 50) |
+| Hover bg | `#C0332A` | `#F8F8F8` (Gray 50) |
+
+> El botón primario del landing usa **Red 500 `#DB3B2B`** (igual que dashboard), no Red 400. `#E26153` (Red 400) es exclusivo de **acentos en headings**, nunca del botón.
+
+### Tamaño y radio por contexto
+
+El radio del botón **crece con su tamaño**:
+
+| Contexto | Altura | Radio |
+|---|---|---|
+| Estándar / nav | `45px` | `18px` |
+| Hero (grande) | `50px` | `23px` |
+| CTA final | `50px` | `23px` (igual que hero) |
 
 **Botón sobre fondo oscuro o degradado:** No usar variant `secondary`. Usar `<a>` inline con borde semitransparente:
 ```html
@@ -143,7 +172,6 @@ Siempre centrados con `mx-auto`.
 |---|---|
 | Card default | `0 0 25px 2px rgba(0,0,0,0.06)` |
 | Card hover | `0 20px 50px rgba(0,0,0,0.08)` |
-| Floating badge | `0 12px 40px rgba(0,0,0,0.1)` |
 | Browser mockup | `0 25px 80px -15px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04)` |
 | Header on scroll | `0 0 25px 2px rgba(0,0,0,0.06)` |
 
@@ -160,55 +188,23 @@ Siempre centrados con `mx-auto`.
 | CTA | `linear-gradient(to bottom-right, #E59086, #F2B5AE)` | CTA cards, banners |
 | Radial decorativo | `radial-gradient(ellipse at top, #E59086, #FFFFFF)` | Fondos decorativos secundarios |
 
-### Texto en el hero (landing principal)
+### Texto en el hero
 
-En el **landing principal** el hero es claro (degradado rosa) y sigue las mismas reglas de color que el resto del landing. No hay variantes especiales por estar en degradado.
+**El hero siempre es oscuro** (negro o degradado oscuro), tanto en el landing principal como en sublandings. Por tanto el **texto es siempre blanco**.
 
-| Elemento | Color | Hex |
-|---|---|---|
-| Heading (H0 / H1) | Negro | `#000000` |
-| Acento en heading | Red 600 | `#E26153` |
-| Subtítulo / descripción | Negro | `#000000` |
-| Eyebrow | Gray 400 | `#A3A3A3` |
+| Elemento | Color |
+|---|---|
+| Heading (H0 / H1) | Blanco `#FFFFFF` |
+| Subtítulo / descripción | Blanco / `text-white` |
+| Acento en heading | Red 400 `#E26153` (solo texto grande) |
 
-> ❌ **Nunca usar texto blanco en el hero claro del landing principal.** El fondo es claro (rosa pastel → blanco) — el contraste sería insuficiente.  
-> ❌ **El acento rojo (`#E26153`) en el título no debe caer sobre la zona más saturada del degradado.** El degradado inicia en `#FDF0EF` (casi blanco) precisamente para garantizar legibilidad del texto negro y del acento rojo en la parte superior, donde está el heading.
+**Fondo de hero (unificado):** negro sólido **o** degradado oscuro. El degradado — **tanto en landing como en sublanding** — debe ser **similar al del hero principal**:
+- Base: `linear-gradient(180deg, #0e0d0d 0%, #020101 100%)`
+- Glows radiales: rojo `rgba(112,10,10,..)` (der/izq) + azul `rgba(3,20,70,..)` (esquinas) + fade inferior a negro.
 
-> ℹ️ **En sublandings el hero arranca oscuro** (texto blanco), no claro. Esa es una variante intencional, no una violación de la regla anterior. Ver §16 — Variante Sublanding.
+> Los sublandings deben **converger a este degradado**. Algunas páginas usan hoy una variante simple `linear-gradient(135deg, #261515 → #1A0A0A → #261515)` — alinearlas al degradado del hero principal.
 
-### Fondos de sección
-
-| Color | Hex | Uso |
-|---|---|---|
-| Blanco | `#FFFFFF` | Mayoría de secciones |
-| Rosa suave | `#FFFAFA` | Alternativo |
-| Degradado rosa | `#E59086 → #FFFFFF` | Hero |
-| Negro | `#000000` | Footer |
-| Gris 900 | `#1F2937` / `#0f1219` | Secciones oscuras |
-
-**Landing principal:** alternar fondos entre secciones para mantener ritmo visual. No repetir el mismo fondo en secciones consecutivas.
-
-**Sublanding:** el cambio de fondo ocurre por **bloques de 2–3 secciones**, no sección a sección, y el hero arranca oscuro. Ver §16 — Variante Sublanding.
-
-### Contenedor con degradado (desktop vs mobile)
-
-```html
-<!-- Desktop: card con rounded -->
-<div class="mx-auto max-w-[1018px] px-6">
-  <div class="overflow-hidden rounded-[24px]"
-       style="background: linear-gradient(to bottom, #FFFAFA, #F2B5AE);">
-    <div class="p-10 tablet:p-16"><!-- contenido --></div>
-  </div>
-</div>
-
-<!-- Mobile: full-width, sin radius -->
-<div class="overflow-hidden rounded-none tablet:mx-auto tablet:max-w-[1018px] tablet:rounded-[24px] tablet:px-6"
-     style="background: linear-gradient(to bottom, #FFFAFA, #F2B5AE);">
-  <div class="px-5 py-10 tablet:p-16"><!-- contenido --></div>
-</div>
-```
-
-> En mobile (`< 768px`): `rounded-none`, full-width, sin márgenes laterales. En desktop: `rounded-[24px]` con padding y contenedor centrado.
+> Si el hero usa video, va con overlay oscuro. **Nunca texto negro en el hero.**
 
 ---
 
@@ -222,15 +218,16 @@ En el **landing principal** el hero es claro (degradado rosa) y sigue las mismas
 | Altura | `70px` |
 | Background | `rgba(255,255,255,0.9)` — **Semitransparente, nunca blanco sólido** |
 | Blur | `backdrop-blur-md` (12px) |
-| Contenedor | `max-w-[1018px]` |
+| Contenedor | `max-w-[1220px]` |
 | Logo | `h-[42px]` |
 | Links nav | Inter Medium 500, 14px, Oxford |
 | "Iniciar sesión" | Inter SemiBold 600, Oxford — `<a>` link, **nunca botón** |
-| "Comenzar" / "Ir a Admin" | Único `<Button>` del header — cambia a **"Ir a Admin"** cuando el usuario está autenticado |
+| "Comienza gratis" | Único `<Button>` primario del header (`bg-[#DB3B2B]`, `rounded-[18px]`, `h-[45px]`) |
+| Dropdowns | **Productos** y **Recursos** (dos menús desplegables) |
 | Shadow on scroll | `shadow-[0px_0px_25px_2px_rgba(0,0,0,0.06)]` |
 
 ```
-[Logo 42px]    [Ecosistema] [¿Qué es T1?] [Contacto] [Iniciar sesión] [Comenzar →]
+[Logo]   Productos ▾   Recursos ▾   Precios   Enterprise        [Iniciar sesión] [Comienza gratis]
 ```
 
 ### Mobile
@@ -242,17 +239,19 @@ En el **landing principal** el hero es claro (degradado rosa) y sigue las mismas
 | Barra visible | Solo logo + icono hamburguesa. Sin CTA en barra. |
 | Logo | `h-[36px]` |
 | Panel desplegado | Full-width, links verticales, Inter Medium 16px |
-| CTA en panel | Botón "Comenzar" full-width al final del menú |
+| CTA en panel | Botón "Comienza gratis" full-width al final del menú |
+| Sub-panes | Productos y Recursos abren su propio pane (▸) |
 
 ```
 Barra: [Logo 36px]                    [☰]
 
 Panel desplegado:
-  [Ecosistema         ]
-  [¿Qué es T1?        ]
-  [Contacto           ]
-  [Iniciar sesión     ]
-  [═══ Comenzar → ═══]
+  [Productos          ▸]   (abre sub-pane)
+  [Recursos           ▸]   (abre sub-pane)
+  [Precios             ]
+  [Enterprise          ]
+  [Iniciar sesión      ]
+  [══ Comienza gratis ══]
 ```
 
 > El botón CTA **no aparece en la barra**. Solo en el panel expandido como elemento full-width.
@@ -266,24 +265,26 @@ Panel desplegado:
 | Propiedad | Valor |
 |---|---|
 | Background | `#000000` |
-| Contenedor | `max-w-[1018px]` |
-| Estructura | Logo + redes sociales · 2 o 3 columnas de links (según el producto) |
-| Títulos columna | Inter SemiBold 11px, uppercase, `tracking-wider`, blanco |
-| Links | Inter Regular 13px, `#9CA3AF` → hover: `white` |
+| Contenedor | `max-w-[1220px]` |
+| Estructura | Logo + descripción + redes + sello **Hecho en México** · **4 columnas** (Productos / Recursos / Comunidad / T1) |
+| Títulos columna | Inter SemiBold `15px`, blanco |
+| Links | Inter Regular `14px`, `white/50` → hover: `white` |
 | Fila inferior | País+idioma · Términos · Privacidad · © Copyright |
 | WhatsApp FAB | `#25D366`, `h-14 w-14`, `fixed bottom-6 right-6 z-50` |
 
-> El número de columnas de links varía por producto. Un producto con más secciones puede necesitar 3 columnas; uno más simple, 2. Definir según el mapa de contenido de cada landing.
+> Columnas fijas (`FOOTER_COLUMNS`): **Productos / Recursos / Comunidad / T1**. Sello **Hecho en México** (`hecho-en-mexico.jpg` 52×52 `rounded-[8px]`) + **"Una empresa 100% mexicana"** bajo las redes.
 
 ```
-[Logo T1]                    | Soluciones        | T1
-Descripción breve            | T1tienda          | ¿Qué es T1?
-[🔗] [🔗] [🔗]              | T1pagos           | Contacto
-                              | T1envíos          | Blog
-                              | T1score           | Soporte
-                              | T1marketing       |
-─────────────────────────────────────────────────────────
+[Logo T1]              | Productos  | Recursos | Comunidad | T1
+Descripción breve      | T1 Tienda  | Aprende  |    ...    | ¿Qué es T1?
+[🔗][🔗][🔗]           | T1 Pagos   | Soporte  |    ...    | Blog
+[Hecho en México]      | T1 Envíos  | Comunidad|           | Contacto
+Una empresa            | T1 Score   | Contacto |           |
+100% mexicana          |            | Estatus  |           |
+──────────────────────────────────────────────────────────
 [🇲🇽 México (Español)]    [Términos | Privacidad]    [© 2026 T1]
+
+(links exactos por columna = data-driven en FOOTER_COLUMNS)
 ```
 
 ### Mobile
@@ -291,11 +292,11 @@ Descripción breve            | T1tienda          | ¿Qué es T1?
 | Propiedad | Valor |
 |---|---|
 | Layout | Stack vertical (1 columna) |
-| Orden | Logo → Descripción → Redes → Soluciones → T1 → Legal |
+| Orden | Logo → Descripción → Redes → sello México → 4 columnas (`grid-cols-2`) → Legal |
 | Links | Inter Regular 14px (mayor tap target) |
 | Padding | `40px 20px` |
 
-> Iconos de redes: contenedor `32×32px`, `rounded-lg`, `bg-white/8`.
+> Iconos de redes: contenedor `30×30px`, `rounded-full`, `bg-white/10` → hover `bg-white/20`.
 
 ---
 
@@ -316,7 +317,7 @@ Cada sección debe incluir al menos un elemento decorativo. Son parte del lengua
 ```html
 <section class="relative overflow-hidden py-24">
   <div class="pointer-events-none absolute -top-24 -right-24 h-[400px] w-[400px] animate-pulse-soft rounded-full bg-[#E59086]/20 blur-[120px]"></div>
-  <div class="relative z-10 mx-auto max-w-[1018px] px-6"><!-- contenido --></div>
+  <div class="relative z-10 mx-auto max-w-[1220px] px-6"><!-- contenido --></div>
 </section>
 ```
 
@@ -344,7 +345,7 @@ Agregar overlay `.bg-noise` al 3%.
 
 | Sección | Elementos |
 |---|---|
-| **Hero** | Patrón de referencia: 2 glow blobs + browser mockup + 2–3 floating badges + eyebrow badge glass. Sustituible por video, ilustración u otro elemento visual según el producto. |
+| **Hero** | **Siempre oscuro** (degradado negro/rojo + glows). Landing principal: degradado + CTAs + (opcional) input IA. Sublanding: dividido, copy blanco + panel de UI simulada (cards blancas). |
 | Beneficios | 1 glow blob lateral + íconos en contenedor de color + hover glow en cards |
 | Plataforma | Dot pattern + browser mockup + glow radial + tabs con shadow |
 | Métricas | Glow blob centrado + hover glow en stat cards |
@@ -438,30 +439,10 @@ Screenshots nunca van planas. Siempre en browser mockup:
 
 Siempre colocar glow radial detrás del browser mockup.
 
-### Floating Badges
-
-Máximo 3 por sección. En mobile ocultar 1–2. Cada badge con animación diferente (`float`, `float-slow`, `float-reverse`).
-
-```html
-<div class="absolute [posición] z-20 animate-float rounded-2xl border border-white/60 bg-white/90 p-3 px-4 shadow-[0_12px_40px_rgba(0,0,0,0.1)] backdrop-blur-xl">
-  <div class="flex items-center gap-3">
-    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-green-100">
-      <CheckIcon class="h-[18px] w-[18px] text-green-500" />
-    </div>
-    <div>
-      <p class="font-sora text-[12px] font-semibold text-gray-900">Pago aprobado</p>
-      <p class="font-inter text-[11px] text-gray-500">$1,250.00 MXN</p>
-    </div>
-  </div>
-</div>
-```
-
 ### Glassmorphism
 
 | Componente | Clases Tailwind |
 |---|---|
-| Badge flotante | `bg-white/90 backdrop-blur-xl border border-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.1)] rounded-2xl` |
-| Eyebrow badge | `bg-white/75 backdrop-blur-lg border border-white/50 rounded-full` |
 | Card glass (dark) | `bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-[24px]` |
 | Header on scroll | `bg-white/90 backdrop-blur-md` |
 
@@ -479,7 +460,7 @@ Siempre dentro de contenedor de color. Nunca sueltos.
 
 | Variante | Fondo | Icono |
 |---|---|---|
-| Rojo | `#FEF4F4` (Red 50) | `#E26153` (Red 600) |
+| Rojo | `#FEF4F4` (Red 50) | `#E26153` (Red 400) |
 | Gris | `#F8F8F8` (Gray 50) | `#4C4C4C` (Oxford) |
 
 > ❌ **Prohibidos:** Azul, Verde, Violeta, Naranja, Turquesa o cualquier otro color fuera de estas dos variantes.
@@ -515,7 +496,7 @@ Para pricing destacada o card activa:
 
 ### Marquee de logos
 
-Logos en `grayscale opacity-40`. Hover: `grayscale-0 opacity-80`. Fades laterales. Duplicar array para loop. Velocidad: `30s` para 6–8 logos.
+Logos en `grayscale opacity-40`. Hover: `grayscale-0 opacity-80`. Fades laterales. Duplicar array para loop. Velocidad: `50s` (token `--animate-marquee`).
 
 ### Phone Mockup
 
@@ -585,7 +566,7 @@ export default function T1NombreSeccion() {
 | 7 | Pasos | Pasos en línea horizontal |
 | 8 | Pricing | Cards de precios o formas de pago |
 | 9 | Ecosistema | Fondo oscuro, cards de otros productos T1 |
-| 10 | FAQ | Accordion, contenedor `721px` |
+| 10 | FAQ | Accordion, contenedor de texto `~680px` |
 | 11 | CTA Final | Card con degradado rosa, 2 botones |
 | 12 | Footer | Fondo negro · Logo + redes + 2 o 3 columnas de links según el producto |
 
@@ -600,7 +581,7 @@ export default function T1NombreSeccion() {
 | Anti-patrón | Alternativa |
 |---|---|
 | Mismo layout repetido en 3+ secciones | Alternar: 2 col → 3 col → bento → dark → carrusel |
-| Hero 50/50 split genérico | Dashboard inmersivo + floating badges + glows |
+| Hero 50/50 split genérico | Video full-bleed (principal) o hero dividido con panel de UI simulada + glows |
 | Accordion FAQ simple | 2 col: preguntas izq + panel respuesta der |
 | Pricing table simétrica | Precio como statement gigante + planes asimétricos |
 | Logo wall estático centrado | Marquee animado con fades laterales |
@@ -634,7 +615,7 @@ export default function T1NombreSeccion() {
 - [ ] Botón secundario: fondo blanco sólido (no transparente)
 
 **Layout**
-- [ ] Contenedor: `max-w-[1018px]` (nunca `1600px`)
+- [ ] Contenedor: cota `1220px` + anchos de contenido (nunca `1600px`)
 - [ ] Layouts visualmente distintos entre secciones consecutivas
 - [ ] Al menos 2 secciones con fondo oscuro
 - [ ] Títulos left-aligned
@@ -667,64 +648,56 @@ export default function T1NombreSeccion() {
 
 ## 16. Variante Sublanding
 
-Las **sublandings** son páginas de producto individuales del ecosistema (T1tienda, T1pagos, T1envíos, T1score, T1marketing). Comparten el 100% del ADN del landing principal — misma tipografía (Sora + Inter), mismo rojo `#E26153`, mismos radios (`24px` card / `18px` botón), mismos blobs decorativos, mismas animaciones. **Solo cambian dos cosas:** el hero arranca oscuro y el ritmo de fondos se agrupa en bloques.
+Las **sublandings** son las páginas de producto individuales (`/productos/…`: t1tienda, t1pagos, t1envíos, t1score, con sus features). Comparten el ADN del landing: **Sora + Inter**, acento **Red 400 `#E26153`** en headings, botón primario **Red 500 `#DB3B2B`**, mismos blobs y animaciones.
 
-> Todo lo no documentado aquí se hereda de las secciones §1–§15. Esta sección solo describe los *deltas*.
+> El detalle de cada componente vive en `components/LANDING-COMPONENTS.md`; aquí se describe solo la **composición**.
 
-### Hero oscuro (prioridad)
+### Hero (oscuro, dividido)
 
-A diferencia del landing principal, el hero de un sublanding **arranca oscuro**. Es la primera decisión de composición y la que marca el tono de toda la página.
+El hero del sublanding es **oscuro y dividido**: fondo negro o **degradado similar al del hero principal** (base `180deg #0e0d0d→#020101` + glows rojo/azul), copy + CTA (texto **blanco**) a la izquierda y panel visual (cards blancas) a la derecha. Variantes:
 
-| Elemento | Valor |
-|---|---|
-| Fondo | Superficie oscura `#0F1419` (token base oscuro del sistema — ver `foundation/THEMES.md`). Equivalentes válidos ya en uso: `#0f1219` (Ecosistema), `bg-gray-900` |
-| Heading (H0 / H1) | Blanco `#FFFFFF` |
-| Acento en heading | Red 600 `#E26153` — **solo en texto grande** (heading), nunca en cuerpo pequeño sobre oscuro |
-| Subtítulo / descripción | `text-gray-400` |
-| Eyebrow | `text-gray-400` uppercase |
-| Decorativos | Glow blobs rojos suaves: `rgba(226,97,83,0.06)` con `blur-[100px]` — los blobs rosas claros se pierden sobre negro |
-| Mesh + noise | Obligatorio sobre el fondo oscuro plano (misma regla que cualquier sección oscura) |
-
-```html
-<section class="relative overflow-hidden bg-[#0F1419] py-24 tablet:py-32">
-  <div class="pointer-events-none absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full bg-[#E26153]/[0.06] blur-[100px] animate-pulse-soft" />
-  <div class="relative z-10 mx-auto max-w-[1018px] px-6">
-    <p class="mb-3 font-inter text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400">Eyebrow</p>
-    <h1 class="font-sora font-light text-white">
-      Texto <span class="text-[#E26153]">acento</span>
-    </h1>
-    <p class="mt-4 font-inter text-gray-400">Subtítulo</p>
-  </div>
-</section>
-```
-
-> ⚠️ Verificar contraste AA del acento `#E26153` sobre `#0F1419` — válido para texto grande (heading), no para cuerpo. Ver `accessibility/A11Y.md`.
-
-### Ritmo por bloques (no alternancia)
-
-El landing principal alterna fondos sección a sección. **En sublandings eso se siente pesado y fragmentado** (claro / oscuro / claro / oscuro). En su lugar, el fondo cambia por **bloques de 2–3 secciones**: varias secciones del mismo fondo seguidas antes de transicionar.
-
-**Regla:** máximo ~3 transiciones de fondo en todo el sublanding. Cada bloque agrupa mínimo 2 secciones del mismo tono (excepción: el hero puede ir solo como apertura del primer bloque oscuro).
-
-**Estructura de bloques recomendada:**
-
-| Bloque | Secciones | Fondo |
+| Variante | Componente (catálogo) | Ejemplo |
 |---|---|---|
-| **A — Apertura oscura** | Hero + (opcional 1 sección de refuerzo) | Oscuro `#0F1419` |
-| **B — Cuerpo claro** | Beneficios + Plataforma + Métricas + Social proof | Claro (`#FFFFFF` / `#FFFAFA`) |
-| **C — Profundidad oscura** | Ecosistema / Casos de uso + (opcional FAQ) | Oscuro `#0f1219` |
-| **D — Cierre oscuro** | CTA Final → Footer | `bg-gray-900` → `#000000` |
+| Dividido con panel | 1.3 | mayoría de features |
+| Campo interactivo (input IA) | 1.4 | `tienda-con-ia` |
+| Cards glass sobre imagen | 1.6 | reclamaciones, reportes |
 
-> El resultado es un ritmo deliberado **oscuro → claro → oscuro**, con peso en cada bloque, en lugar del zigzag del landing principal. Dentro de un bloque claro se mantiene la regla de variedad de *layouts* (§14) aunque el fondo no cambie.
+Texto siempre blanco (regla §6).
+
+### Esqueleto canónico
+
+Orden observado y consistente entre productos (bloques opcionales marcados):
+
+1. **Hero dividido oscuro** (+ CTA)
+2. **Statement / problema** — 3 pain cards *o* fila de mini-stats
+3. **Transición a solución**
+4. **Feature blocks con panel de UI simulada** (2–4, alternados) — núcleo
+5. **"Cómo funciona / en N pasos"** — steps numerados `01–04`, a veces con toggle de tabs
+6. **Grid de features image-led** (3–6 cards)
+7. *(opcional)* Números / count-up
+8. *(opcional)* Pricing table (ej. punto-de-venta)
+9. *(opcional)* App download (QR + badges)
+10. *(opcional)* Ecosistema cross-sell
+11. **FAQ** (accordion)
+12. **CTA final + footer oscuro**
+
+### Fondos (base clara + cierre oscuro)
+
+| | Landing principal | Sublanding |
+|---|---|---|
+| Base | Oscura (hero degradado + secciones oscuras) con respiros claros | Hero **oscuro** + cuerpo claro (blanco / `#FFFAFA`) |
+| Cierre | Oscuro (CTA + footer) | Oscuro (CTA + footer) |
+
+No hay "ritmo por bloques oscuro→claro→oscuro". El sublanding es mayormente claro; las secciones oscuras son puntuales (statement / casos) y el cierre.
 
 ### Qué NO cambia respecto al landing principal
 
 - Tipografía, escala, pesos (§1)
-- Contenedor `1018px` (§2)
-- Botones, cards, sombras, radios (§3–§5)
-- Header glass y footer negro (§7–§8)
+- Contenedor `1220px` + anchos de contenido (§2)
+- Botones (Red 500), cards, sombras, radios (§3–§5)
+- Header (Productos + Recursos) y footer 4 columnas (§7–§8)
 - Blobs, animaciones, estructura de sección (§9–§12)
-- Catálogo de secciones y anti-patrones (`patterns/LANDING-SECTIONS.md`)
+- Catálogo de componentes (`components/LANDING-COMPONENTS.md`) y de secciones (`patterns/LANDING-SECTIONS.md`)
 
 ---
 
