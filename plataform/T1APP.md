@@ -1,6 +1,8 @@
 # T1app — Flujos y pantallas (NEXUS V2.0)
 
-> Documento **único** que concentra todos los flujos y pantallas de la app **móvil nativa** de T1. Se separa **internamente por flujo** (no un archivo por flujo). Los fundamentos de plataforma (tipografía, color, spacing, radios, botones) viven en [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) y se referencian aquí sin duplicar.
+> ⚠️ **Este no es el punto de entrada.** Para diseñar a fidelidad 90-100% sin necesitar el detalle completo, empieza por [`APP.md`](./APP.md) (fundamentos: tipografía, color, spacing, radios, botones) y [`../patterns/APP-FLOWS.md`](../patterns/APP-FLOWS.md) (mapas de flujo y patrones, nivel de implementación). **Este archivo es la referencia profunda**: hallazgos de auditoría, drift de tokens y trazabilidad pantalla-por-pantalla a Figma — útil para investigar un caso puntual, no para arrancar un diseño nuevo.
+
+> Documento **único** que concentra todos los flujos y pantallas de la app **móvil nativa** de T1. Se separa **internamente por flujo** (no un archivo por flujo). Los fundamentos de plataforma (tipografía, color, spacing, radios, botones) viven en [APP.md](./APP.md) y se referencian aquí sin duplicar.
 
 **Última actualización:** Junio 2026 · **Fuente de verdad:** Figma — `T1-App---ESP` (`viFhO18oodfFqrvyDznrA9`) · **Plataforma:** App (Inter) · **Owner:** Karla Salazar — Head of UX/UI
 
@@ -66,7 +68,7 @@ Aplican a todos los flujos salvo que una sección indique lo contrario.
 - **Mockup base:** `360×780`, con **Status Bar de iPhone** (50px) arriba y **Home Indicator** abajo. Contenido entre ambas *safe areas*.
 - **Margen lateral de contenido:** `16px` (ancho útil 328px).
 - **Áreas táctiles:** mínimo 44px. Tarjetas de opción 64px, botones 48px, contenedores de ícono 40px.
-- **Tipografía:** Inter (ver [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) §2).
+- **Tipografía:** Inter (ver [APP.md](./APP.md) §2).
 - **Botón primario:** `#DB3B2B`, alto 48px, radio 16px; *pressed* `#CC0000`; *disabled* fondo `#F3F3F3` / texto `#9CA3AF`.
 - **Teclado:** en captura de texto, contenido y botón se reacomodan sobre el teclado nativo.
 - **Navegación:** avance/retroceso entre pasos como transición horizontal; el back conserva las selecciones.
@@ -234,7 +236,7 @@ Valores nuevos que aparecen en este flujo y conviene consolidar en el sistema de
 ## 1.10 Referencias
 
 - Figma — sección *Login Signup/Onboarding* (`107:22340`): Splash `107:28047` · Welcome `1523:24251` · Onboarding `1523:27148/27314/27369/27413/27468/27628/27570` · Bottom sheet `1523:27750` · Loader `1523:27730`
-- [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) — fundamentos de la plataforma App
+- [APP.md](./APP.md) — fundamentos de la plataforma App
 - Prueba interactiva: `AppT1OnboardingFlow.jsx`
 
 ---
@@ -388,7 +390,7 @@ Botón **"+"** (56px, `bg white`, borde `#F3F3F3`, radio 72, ícono `add-01` 24p
 ## H.6 Referencias
 
 - Figma — sección *Home* (`1532:69077`): Envíos `1990:79652` · Pagos `1532:67566` · Tienda/premium `1532:67782` · Tienda sin premium `1683:52896` · Seller sin tienda `1990:103034` · All services `1532:68546` · Sin onboarding `1683:54299`
-- [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) — fundamentos (Inter, color, spacing, radios)
+- [APP.md](./APP.md) — fundamentos (Inter, color, spacing, radios)
 
 ---
 
@@ -1269,7 +1271,7 @@ Al crear un pedido **sin plan activo** se abre el **paywall de planes reutilizad
 - *Orders* (`290:20528`): Vacío `731:26144` · Con pedidos `731:26521` · Opciones de menú (barra) `795:63501` · Búsqueda `733:29479` · Menú del pedido `733:29874` · **Duplicar** `290:21765` · **Cancelar** `290:21849` · Carga diferida `434:39740`/`434:39767` · Crear sin plan `674:55489` · Prueba gratuita `674:58702`.
 - UI de filtros: `795:67660` · `731:27302` · `733:28160` · `733:28530` · `4183:101130` · `733:28907` · `733:29169`.
 - Reutiliza: paywall §10.3 · barra inferior/FAB §H.3.9–H.3.10 · loaders §L.
-- [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) — fundamentos (Inter, color, spacing, radios).
+- [APP.md](./APP.md) — fundamentos (Inter, color, spacing, radios).
 
 ---
 
@@ -5480,7 +5482,7 @@ Popup blanco **r16**, ancho 296, gap 24. **No** usa el patrón de modal con íco
 > ✅ **Patrón nuevo: "callejón sin salida con rutas de escape".** Cuando la acción elegida no es viable, el popup no solo informa: ofrece **reintentar** (otro CP), **derivar a otra acción** (Cambiar dirección / Devolver al origen) o **abortar**. Este es el patrón a reutilizar en los demás flujos de acción cuando fallen sus precondiciones. Vale la pena elevarlo a componente transversal.
 > 🔴 **Placeholder literal `[#####]` sin resolver** en el copy del mensaje (`614:37907`). Debe ser una variable con el CP real. Está así en **ambos** estados, incluso en 3b donde ya hay CP escrito (55520) — el mensaje debería reflejarlo.
 > 🔴 **Fondo transparente en los botones de escape** (`rgba(244,244,244,0)`, alpha 0). Parece un `#F4F4F4` al que le bajaron la opacidad a 0 en vez de quitar el fill. Limpiar: o es transparente de verdad o es `#F4F4F4`.
-> 🔴 **Inconsistencia de radio** — el input del popup usa **r20** (igual que §CC.14.4) pero los botones internos usan **r8** y el "Cancelar" exterior **r12**. Tres radios de botón en un mismo popup. Revisar contra la escala de radios de `DESIGN-SYSTEM-APP.md`.
+> 🔴 **Inconsistencia de radio** — el input del popup usa **r20** (igual que §CC.14.4) pero los botones internos usan **r8** y el "Cancelar" exterior **r12**. Tres radios de botón en un mismo popup. Revisar contra la escala de radios de `APP.md`.
 > ⚠️ El popup **no tiene estado de error de validación** del CP (CP inválido / inexistente). Falta esa pantalla.
 
 ### CC.15.9 Componentes nuevos (vs. ya documentados)
@@ -6489,7 +6491,7 @@ Los hallazgos se clasifican por **quién puede resolverlos**:
 
 ### CC.23.5 ✅ Reglas de sistema derivadas
 
-Ocho reglas que **resuelven familias completas** de hallazgos y previenen su reaparición. Candidatas a `DESIGN-SYSTEM-APP.md` y `reference-anti-patterns.md`.
+Ocho reglas que **resuelven familias completas** de hallazgos y previenen su reaparición. Candidatas a `APP.md` y `reference-anti-patterns.md`.
 
 | Regla | Enunciado | Resuelve |
 |---|---|---|
@@ -6520,7 +6522,7 @@ Ocho reglas que **resuelven familias completas** de hallazgos y previenen su rea
 
 | Fase | Contenido | Depende de |
 |---|---|---|
-| **1 — Reglas** | Publicar R1–R8 en `DESIGN-SYSTEM-APP.md` y `reference-anti-patterns.md` | — |
+| **1 — Reglas** | Publicar R1–R8 en `APP.md` y `reference-anti-patterns.md` | — |
 | **2 — Auditar en origen** | Componentes compartidos: date picker (T4, T5, T6), dropdowns (T7, F8), card de dirección (T9, T13) | Fase 1 |
 | **3 — Aplicar tokens y copy** | T1–T18, C1–C8 | Fases 1 y 2 |
 | **4 — Higiene** | F1–F8 | — |
@@ -6545,7 +6547,7 @@ Ocho reglas que **resuelven familias completas** de hallazgos y previenen su rea
 ### CC.23.10 Referencias
 
 - Consolida: §CC.14 · §CC.15 · §CC.16 · §CC.17 · §CC.18 · §CC.19 · §CC.20 · §CC.21 · §CC.22.
-- Reglas derivadas propuestas para: `DESIGN-SYSTEM-APP.md` (R1, R3, R6), `reference-anti-patterns.md` (R2, R8). El resto de R1–R8 son reglas de interacción/copy de UI que también quedan en esta guía; las decisiones de producto asociadas a hallazgos anteriores no viven aquí.
+- Reglas derivadas propuestas para: `APP.md` (R1, R3, R6), `reference-anti-patterns.md` (R2, R8). El resto de R1–R8 son reglas de interacción/copy de UI que también quedan en esta guía; las decisiones de producto asociadas a hallazgos anteriores no viven aquí.
 - Sin cambios en el **Índice de flujos** ni en **§CC.11** — pendientes de decisión del owner.
 
 ---

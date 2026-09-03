@@ -1,10 +1,10 @@
-# DESIGN-SYSTEM-APP.md — Contexto de plataforma: App móvil nativa
+# APP.md — Contexto de plataforma: App móvil nativa
 
 > Este archivo documenta los tokens, reglas y componentes exclusivos de la **app móvil nativa** de T1 (iOS/Android).
 > **No aplica** en dashboard/admin ni en landing pages públicas.
-> Para los contextos opuestos, ver [`DASHBOARD.md`](../plataform/DASHBOARD.md) y [`LANDING.md`](../plataform/LANDING.md).
+> Para los contextos opuestos, ver [`DASHBOARD.md`](./DASHBOARD.md) y [`LANDING.md`](./LANDING.md).
 
-> ⚠️ **Nota de origen:** este documento no viene de un archivo de tokens fuente en Figma — se reconstruyó a partir de los patrones observados y auditados en [`T1APP.md`](../plataform/T1APP.md) (flujos y pantallas). Todo lo marcado 🔴 es un valor **en disputa o sin decidir**, citado con su origen en T1APP.md, y debe confirmarse con Figma/Karla Salazar antes de tratarse como canónico. El objetivo de este archivo es dejar de duplicar fundamentos en cada flujo — no cerrar unilateralmente decisiones de producto.
+> ⚠️ **Nota de origen:** este documento no viene de un archivo de tokens fuente en Figma — se reconstruyó a partir de los patrones observados y auditados en [`T1APP.md`](./T1APP.md) (flujos y pantallas). Todo lo marcado 🔴 es un valor **en disputa o sin decidir**, citado con su origen en T1APP.md, y debe confirmarse con Figma/Karla Salazar antes de tratarse como canónico. El objetivo de este archivo es dejar de duplicar fundamentos en cada flujo — no cerrar unilateralmente decisiones de producto.
 
 **Fuente de verdad de contenido:** Figma — `T1-App---ESP` (`viFhO18oodfFqrvyDznrA9`) · **Owner:** Karla Salazar — Head of UX/UI
 
@@ -314,7 +314,9 @@ Consolidado desde T1APP.md §CC.23.5 — resuelven familias completas de hallazg
 
 ## Referencias
 
-- [`T1APP.md`](../plataform/T1APP.md) — flujos y pantallas de la App; fuente de los patrones consolidados aquí
-- [`DASHBOARD.md`](../plataform/DASHBOARD.md) — contexto opuesto: admin/backoffice (Manrope)
-- [`LANDING.md`](../plataform/LANDING.md) — contexto opuesto: landing pages públicas (Sora + Inter)
+- [`T1APP.md`](./T1APP.md) — flujos y pantallas de la App, detalle profundo y trazabilidad a Figma; fuente de los patrones consolidados aquí
+- [`../patterns/APP-FLOWS.md`](../patterns/APP-FLOWS.md) — mapas de flujo y patrones compuestos, nivel de implementación
+- [`../workflows/reference-app.md`](../workflows/reference-app.md) — versión condensada de este archivo + APP-FLOWS.md
+- [`DASHBOARD.md`](./DASHBOARD.md) — contexto opuesto: admin/backoffice (Manrope)
+- [`LANDING.md`](./LANDING.md) — contexto opuesto: landing pages públicas (Sora + Inter)
 - T1APP.md §CC.23 — consolidado de hallazgos y reglas R1–R8 (fuente principal de este documento)
