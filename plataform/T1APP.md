@@ -1,6 +1,6 @@
 # T1app — Flujos y pantallas (NEXUS V2.0)
 
-> Documento **único** que concentra todos los flujos y pantallas de la app **móvil nativa** de T1. Se separa **internamente por flujo** (no un archivo por flujo). Los fundamentos de plataforma (tipografía, color, spacing, radios, botones) viven en [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) y se referencian aquí sin duplicar.
+> Documento **único** que concentra todos los flujos y pantallas de la app **móvil nativa** de T1. Se separa **internamente por flujo** (no un archivo por flujo). Los fundamentos de plataforma (tipografía, color, spacing, radios, botones) viven en [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) y se referencian aquí sin duplicar.
 
 **Última actualización:** Junio 2026 · **Fuente de verdad:** Figma — `T1-App---ESP` (`viFhO18oodfFqrvyDznrA9`) · **Plataforma:** App (Inter) · **Owner:** Karla Salazar — Head of UX/UI
 
@@ -66,7 +66,7 @@ Aplican a todos los flujos salvo que una sección indique lo contrario.
 - **Mockup base:** `360×780`, con **Status Bar de iPhone** (50px) arriba y **Home Indicator** abajo. Contenido entre ambas *safe areas*.
 - **Margen lateral de contenido:** `16px` (ancho útil 328px).
 - **Áreas táctiles:** mínimo 44px. Tarjetas de opción 64px, botones 48px, contenedores de ícono 40px.
-- **Tipografía:** Inter (ver [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) §2).
+- **Tipografía:** Inter (ver [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) §2).
 - **Botón primario:** `#DB3B2B`, alto 48px, radio 16px; *pressed* `#CC0000`; *disabled* fondo `#F3F3F3` / texto `#9CA3AF`.
 - **Teclado:** en captura de texto, contenido y botón se reacomodan sobre el teclado nativo.
 - **Navegación:** avance/retroceso entre pasos como transición horizontal; el back conserva las selecciones.
@@ -234,7 +234,7 @@ Valores nuevos que aparecen en este flujo y conviene consolidar en el sistema de
 ## 1.10 Referencias
 
 - Figma — sección *Login Signup/Onboarding* (`107:22340`): Splash `107:28047` · Welcome `1523:24251` · Onboarding `1523:27148/27314/27369/27413/27468/27628/27570` · Bottom sheet `1523:27750` · Loader `1523:27730`
-- [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) — fundamentos de la plataforma App
+- [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) — fundamentos de la plataforma App
 - Prueba interactiva: `AppT1OnboardingFlow.jsx`
 
 ---
@@ -388,7 +388,7 @@ Botón **"+"** (56px, `bg white`, borde `#F3F3F3`, radio 72, ícono `add-01` 24p
 ## H.6 Referencias
 
 - Figma — sección *Home* (`1532:69077`): Envíos `1990:79652` · Pagos `1532:67566` · Tienda/premium `1532:67782` · Tienda sin premium `1683:52896` · Seller sin tienda `1990:103034` · All services `1532:68546` · Sin onboarding `1683:54299`
-- [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) — fundamentos (Inter, color, spacing, radios)
+- [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) — fundamentos (Inter, color, spacing, radios)
 
 ---
 
@@ -1269,7 +1269,7 @@ Al crear un pedido **sin plan activo** se abre el **paywall de planes reutilizad
 - *Orders* (`290:20528`): Vacío `731:26144` · Con pedidos `731:26521` · Opciones de menú (barra) `795:63501` · Búsqueda `733:29479` · Menú del pedido `733:29874` · **Duplicar** `290:21765` · **Cancelar** `290:21849` · Carga diferida `434:39740`/`434:39767` · Crear sin plan `674:55489` · Prueba gratuita `674:58702`.
 - UI de filtros: `795:67660` · `731:27302` · `733:28160` · `733:28530` · `4183:101130` · `733:28907` · `733:29169`.
 - Reutiliza: paywall §10.3 · barra inferior/FAB §H.3.9–H.3.10 · loaders §L.
-- [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) — fundamentos (Inter, color, spacing, radios).
+- [DESIGN-SYSTEM-APP.md](../patterns/DESIGN-SYSTEM-APP.md) — fundamentos (Inter, color, spacing, radios).
 
 ---
 
