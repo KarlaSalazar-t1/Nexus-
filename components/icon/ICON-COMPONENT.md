@@ -38,7 +38,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 **Íconos del sistema → inline SVG:**
 - Son monocromáticos (stroke `#4C4C4C`, heredan `currentColor`)
 - Necesitan cambiar de color en estados (hover, active, disabled, semántico)
-- 197 íconos (160 del sistema + 37 de menú, medidos en Figma) caben bien en un bundle TypeScript sin impacto significativo en peso
+- 222 íconos (185 del sistema + 37 de menú, generados desde Figma) caben bien en un bundle TypeScript sin impacto significativo en peso
 - Elimina 150+ peticiones HTTP o configuración de sprite
 
 **Logos y banderas → archivos en `/public/`:**
@@ -55,7 +55,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 components/
 └── Icon/
     ├── Icon.tsx              ← Componente principal <Icon />
-    ├── icons.ts              ← Mapa de 153 SVG paths (sistema + menú)
+    ├── icons.ts              ← Mapa de 222 SVG paths (sistema + menú), generado
     └── index.ts              ← Re-export limpio
 
 public/
@@ -75,10 +75,13 @@ public/
 
 ### 3.1 Archivo `icons.ts`
 
-El archivo `icons.ts` contiene el mapa completo de **153 íconos** organizados en dos grupos:
+El archivo `icons.ts` contiene el mapa completo de **222 íconos** organizados en dos grupos:
 
-- **122 íconos del sistema** — extraídos del artboard `Icons` de Figma
-- **31 íconos de menú** — extraídos del artboard `Icon-menu`, accesibles con prefijo `menu/`
+- **185 íconos del sistema** — extraídos del artboard `Icons` de Figma
+- **37 íconos de menú** — extraídos del artboard `Icon-menu`, accesibles con prefijo `menu/`
+
+> **Generado, no escrito a mano.** Lo produce `generar-icons.py` desde Figma; los cambios hechos
+> a mano se pierden en la siguiente pasada. Ver **[HOMOLOGACION.md](./HOMOLOGACION.md) §3c**.
 
 ```ts
 // Estructura de cada entrada
@@ -226,9 +229,10 @@ Solo en el contexto de **landing pages**:
 
 ## 4. Catálogo de íconos disponibles
 
-### Íconos del sistema (160 en Figma · 122 catalogados abajo)
+### Íconos del sistema (185 en `icons.ts` · 122 catalogados abajo)
 
-> El catálogo de esta sección quedó en 122. El frame `Icons` de Figma contiene 160.
+> El catálogo de esta sección quedó en 122. El frame `Icons` de Figma tiene 160 nombres, que al
+> desplegar los *component sets* dan **185 glifos** — los que hoy están en `icons.ts`.
 > Ver **[HOMOLOGACION.md](./HOMOLOGACION.md)** para el inventario completo y el mapeo.
 
 
@@ -255,7 +259,7 @@ Organizados por categoría. Tamaño base: **24×24px**. Stroke: **1.5px**.
 | SYSTEM | `system-` | 9 | `system-laptop`, `system-mobile`, `system-tablet`, `system-pos`, `system-qr`, `system-ai` |
 | MATH & MISC | `math-`, `misc-` | 12 | `math-plus`, `math-minus`, `misc-star`, `misc-bookmark`, `misc-lightbulb`, `misc-cvv` |
 
-### Íconos de menú sidebar (37 en Figma · 31 catalogados abajo)
+### Íconos de menú sidebar (37 en Figma · 37 en `icons.ts` · 31 catalogados abajo)
 
 Prefijo: `menu/`. Uso exclusivo en sidebar de navegación del dashboard.
 

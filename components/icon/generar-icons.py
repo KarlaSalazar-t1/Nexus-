@@ -10,6 +10,7 @@ USO
     python3 generar-icons.py                 # todos
     python3 generar-icons.py --solo math     # solo una categoría
     python3 generar-icons.py --dry-run       # sin escribir, solo informa
+    python3 generar-icons.py --urls urls.json # sin token: mapa {node_id: url} ya resuelto
 
 TOKEN
     Figma → tu avatar → Settings → Security → Personal access tokens →
@@ -25,6 +26,7 @@ Los viewBox se conservan como salen: §3.1 especifica que son los bounding boxes
 reales de cada icono, no el canvas 24×24.
 """
 import json, os, re, sys, time, urllib.request, urllib.error
+import xml.etree.ElementTree as ET
 
 FILE_KEY = "agWwqm17qIvfveD8CQwSRz"
 AQUI     = os.path.dirname(os.path.abspath(__file__))
@@ -78,32 +80,142 @@ def descargar(url):
         return r.read().decode("utf-8")
 
 
-def limpiar(raw):
-    """Quita el envoltorio del artboard y normaliza color y stroke."""
-    inner = re.sub(r"^.*?<svg[^>]*>", "", raw, flags=re.S)
-    inner = re.sub(r"</svg>\s*$", "", inner, flags=re.S).strip()
+def _sin_ns(root):
+    for el in root.iter():
+        el.tag = el.tag.split("}")[-1]
+        for a in list(el.attrib):
+            if "}" in a:
+                el.attrib[a.split("}")[-1]] = el.attrib.pop(a)
 
-    # quedarse solo con el contenido del <g id="icon/...">, si existe
-    m = re.search(r'<g id="(icon[/-][^"]*)">(.*)</g>', inner, flags=re.S)
-    if m:
-        inner = m.group(2)
 
-    # fuera el rect del artboard y los rects de fondo sin id
-    inner = re.sub(r'<rect[^>]*transform="translate\([^)]*\)"[^>]*/>', "", inner)
-    inner = re.sub(r'<rect(?![^>]*\bid=)[^>]*fill="(white|#FFFFFF|#fff)"[^>]*/>',
-                   "", inner, flags=re.I)
-    inner = re.sub(r"^\s*<rect(?![^>]*\bid=)[^>]*/>", "", inner)
+def _es_fondo(el, vb):
+    """Forma sin `id` que no dibuja el icono, sino el lienzo detras.
 
-    # normalizar al canon
-    inner = re.sub(r'(fill|stroke)="#[0-9A-Fa-f]{3,8}"',
-                   lambda x: x.group(1) + '="currentColor"', inner)
-    inner = re.sub(r'stroke-width="[0-9.]+"', 'stroke-width="1.5"', inner)
+    Figma mete dos: el `rect` del artboard y, en los iconos anidados, un `path`
+    con el fondo del frame padre. Ninguno lleva `id` --- Figma nombra las capas
+    reales --- y ambos se salen del viewBox.
+    """
+    if el.get("id") or el.tag not in ("rect", "path"):
+        return False
+    if el.get("transform", "").startswith("translate"):
+        return True
 
-    # limpiar los <g> que quedaron vacíos
-    for _ in range(3):
-        inner = re.sub(r"<g[^>]*>\s*</g>", "", inner)
+    if el.tag == "rect":
+        try:
+            w, h = float(el.get("width", 0)), float(el.get("height", 0))
+        except ValueError:
+            return False
+        return w >= vb[2] - 0.01 and h >= vb[3] - 0.01
 
-    return re.sub(r"\s+", " ", inner).strip()
+    # `path`: si las coordenadas se salen del lienzo, esta dibujando el fondo
+    nums = [float(n) for n in re.findall(r"-?\d+(?:\.\d+)?", el.get("d", ""))]
+    if not nums:
+        return False
+    return min(nums) < -4 or max(nums) > 2 * max(vb[2], vb[3])
+
+
+def _podar(padre, vb):
+    for hijo in list(padre):
+        _podar(hijo, vb)
+        if _es_fondo(hijo, vb):
+            padre.remove(hijo)
+        elif hijo.tag == "g" and len(hijo) == 0 and not (hijo.text or "").strip():
+            padre.remove(hijo)
+
+
+def _desenvolver(padre):
+    """Colapsa los `<g>` que solo agrupan: un hijo unico y ningun atributo
+    salvo `id`. Asi se van `<g id="Icons">` y los grupos intermedios de Figma."""
+    while len(padre) == 1 and padre[0].tag == "g" \
+            and set(padre[0].attrib) <= {"id"} and not (padre[0].text or "").strip():
+        unico = padre[0]
+        padre.remove(unico)
+        for nieto in list(unico):
+            padre.append(nieto)
+    for hijo in padre:
+        _desenvolver(hijo)
+
+
+def _sin_sombras(padre):
+    """Retira los efectos `filter` de Figma.
+
+    Vienen de la instancia colocada en el artboard, no del icono: son sombras
+    con un color fijo fuera del sistema de tokens. El canon (ICONOGRAPHY.md
+    sec.1) define el icono como trazo plano de 1.5px, sin sombra.
+    """
+    for hijo in list(padre):
+        _sin_sombras(hijo)
+        if hijo.tag == "filter":
+            padre.remove(hijo)
+        elif hijo.tag == "defs" and len(hijo) == 0:
+            padre.remove(hijo)
+        elif hijo.get("filter", "").startswith("url(#"):
+            del hijo.attrib["filter"]
+
+
+def _sin_ids_decorativos(cuerpo):
+    """Quita los `id` que nadie referencia.
+
+    Son los nombres de capa de Figma (`Vector`, `Union`, `Path`...). Se repiten
+    entre iconos, y dos elementos con el mismo id en una pagina es HTML invalido.
+    Los que si se referencian --- los de `<defs>` --- se conservan.
+    """
+    usados = set(re.findall(r"url\(#([^)]+)\)", cuerpo))
+    return re.sub(r' id="([^"]+)"',
+                  lambda m: m.group(0) if m.group(1) in usados else "", cuerpo)
+
+
+def _ids_unicos(cuerpo, clave_icono):
+    """Prefija los ids de `<defs>` con la clave del icono.
+
+    Figma exporta cada icono como documento suelto y numera desde cero, asi que
+    doce iconos distintos salen todos con `clip0_0_1`. Al inyectar dos en la
+    misma pagina, el `clip-path` del segundo apunta al recorte del primero y el
+    icono se dibuja mal.
+    """
+    refs = set(re.findall(r"url\(#([^)]+)\)", cuerpo))
+    if not refs:
+        return cuerpo
+    pref = re.sub(r"[^a-z0-9]+", "-", clave_icono.lower()).strip("-") or "icon"
+    for r in sorted(refs, key=len, reverse=True):
+        cuerpo = cuerpo.replace("url(#%s)" % r, "url(#%s-%s)" % (pref, r))
+        cuerpo = cuerpo.replace('id="%s"' % r, 'id="%s-%s"' % (pref, r))
+    return cuerpo
+
+
+def limpiar(raw, clave_icono=""):
+    """Quita el envoltorio del artboard y normaliza color y stroke.
+
+    Se parsea el SVG como XML en lugar de recortarlo con expresiones regulares:
+    el recorte por regex desbalanceaba las etiquetas `<g>` y metia un `</g>`
+    huerfano en cada icono anidado.
+    """
+    try:
+        root = ET.fromstring(raw)
+    except ET.ParseError:
+        return ""
+
+    try:
+        vb = [float(x) for x in (root.get("viewBox") or "0 0 24 24").split()]
+    except ValueError:
+        vb = [0.0, 0.0, 24.0, 24.0]
+
+    _sin_ns(root)
+    _podar(root, vb)
+    _sin_sombras(root)
+    _desenvolver(root)
+
+    for el in root.iter():
+        for a in ("fill", "stroke"):
+            v = el.get(a)
+            if v and (v.startswith("#") or v.lower() in ("black", "#000")):
+                el.set(a, "currentColor")
+        if el.get("stroke-width"):
+            el.set("stroke-width", "1.5")
+
+    cuerpo = "".join(ET.tostring(h, encoding="unicode") for h in root)
+    cuerpo = _ids_unicos(re.sub(r"\s+", " ", cuerpo).strip(), clave_icono)
+    return _sin_ids_decorativos(cuerpo)
 
 
 def clave(nombre):
@@ -149,7 +261,11 @@ def main():
     if "--solo" in sys.argv:
         filtro = sys.argv[sys.argv.index("--solo") + 1]
 
-    tok = token()
+    urls_previas = None
+    if "--urls" in sys.argv:
+        with open(sys.argv[sys.argv.index("--urls") + 1], encoding="utf-8") as f:
+            urls_previas = json.load(f)
+
     filas = leer_nodos(filtro)
     print("iconos a procesar: %d" % len(filas))
     if seco:
@@ -158,11 +274,14 @@ def main():
         print("  ... (--dry-run: no se descarga nada)")
         return
 
+    tok = None if urls_previas else token()
+
     entradas, fallos = {}, []
     for k in range(0, len(filas), LOTE):
         trozo = filas[k:k + LOTE]
         print("lote %d-%d de %d" % (k + 1, k + len(trozo), len(filas)))
-        mapa = urls_svg([i for _, i in trozo], tok)
+        mapa = (urls_previas if urls_previas
+                else urls_svg([i for _, i in trozo], tok))
         for nombre, node_id in trozo:
             url = mapa.get(node_id)
             if not url:
@@ -175,9 +294,10 @@ def main():
                 fallos.append(nombre)
                 continue
             vb = re.search(r'viewBox="([^"]+)"', raw)
-            entradas[clave(nombre)] = {
+            k = clave(nombre)
+            entradas[k] = {
                 "vb": vb.group(1) if vb else "0 0 24 24",
-                "p": limpiar(raw),
+                "p": limpiar(raw, k),
             }
         time.sleep(PAUSA)
 
@@ -198,12 +318,20 @@ def main():
     # avisos de calidad sobre lo generado
     texto = open(SALIDA, encoding="utf-8").read()
     cuerpo_txt = texto[texto.index("export const icons"):]
-    for aviso, patron in (("restos del artboard", r"1646"),
+    for aviso, patron in (("restos del artboard", r'width=\\"1646'),
                           ("colores hardcodeados", r"#[0-9A-Fa-f]{6}"),
-                          ("fondos blancos", r"white")):
+                          ("blancos de knockout", r"white")):
         n = len(re.findall(patron, cuerpo_txt))
         if n:
             print("  aviso: %d %s" % (n, aviso))
+
+    vistos = {}
+    for k, v in entradas.items():
+        for i in re.findall(r'id=\\"([^\\"]+)\\"', v["p"]):
+            vistos.setdefault(i, []).append(k)
+    choques = {i: ks for i, ks in vistos.items() if len(ks) > 1}
+    if choques:
+        print("  aviso: %d ids de <defs> repetidos entre iconos" % len(choques))
 
 
 if __name__ == "__main__":

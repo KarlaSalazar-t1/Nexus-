@@ -31,7 +31,11 @@ llevar el 19 % restante a la que ya usa la mayoría y que el canon documenta.
 | Declarado en `ICON-COMPONENT.md §4` | 122 | 31 |
 | **Diferencia** | **+38** | **+6** |
 
-Los conteos del canon están desactualizados. El total real es **197**, no 153.
+Los conteos del canon están desactualizados. El total real es **197 nombres**, no 153.
+
+Pero **197 no es el número de iconos dibujables**. 25 de esos nombres son *component sets*
+de Figma, y cada uno contiene entre 2 y 8 variantes. Al desplegarlas, el catálogo real es de
+**222 glifos** (185 de sistema + 37 de menú) — que es lo que hoy genera `icons.ts`.
 
 | Estado | Iconos | % |
 |---|---|---|
@@ -171,42 +175,84 @@ así, cualquiera que exporte a mano se lleva el artboard entero dentro del SVG.
 
 ## 3c. Cómo generar el `icons.ts` completo
 
-`components/icon/icons.ts` está generado y validado, hoy con **5 de 197 iconos**. Para completarlo
-no hace falta repetir el trabajo a mano: el script **`generar-icons.py`** lo hace de una pasada.
+`components/icon/icons.ts` está **completo: 222 de 222 glifos**, generado y validado por
+**`generar-icons.py`**.
 
 ### Uso
 
 ```bash
 export FIGMA_TOKEN=figd_xxxxxxxxxxxxxxxx
 cd components/icon
-python3 generar-icons.py                 # los 163 con nodeId conocido
+python3 generar-icons.py                 # los 222
 python3 generar-icons.py --solo math     # solo una categoría
 python3 generar-icons.py --dry-run       # lista sin descargar nada
+python3 generar-icons.py --urls urls.json  # sin token, con las URLs ya resueltas
 ```
 
 **El token** se saca en Figma → avatar → *Settings* → *Security* → *Personal access tokens* →
 *Generate new token*, con permiso de lectura de contenido. Es personal: no se sube al repo.
 
+`--urls` toma un JSON `{node_id: url}` con las descargas ya resueltas y se salta la llamada a la
+API. Sirve cuando no hay token a mano: las URLs pueden venir del MCP de Figma, o ser rutas
+`file://` a SVG ya bajados. Es la vía por la que se generó el `icons.ts` actual.
+
 ### Qué hace
 
 1. Lee `figma-nodes.tsv` — el mapa `nombre en Figma → node_id`, ya inventariado:
-   **126 iconos** del frame `Icons` y **37** de `Icon-menu`.
+   **185 glifos** del frame `Icons` y **37** de `Icon-menu`.
 2. Pide los SVG a la API de Figma en lotes de 40, con pausa entre peticiones.
-3. Limpia cada uno: retira el rect del artboard y los fondos sin `id`.
-4. Normaliza al canon: `currentColor` y `stroke-width` 1.5.
-5. Escribe `icons.ts` en el formato de `ICON-COMPONENT.md §3.1`.
-6. Avisa si algo quedó sucio y lista los iconos que no pudo descargar.
+3. Parsea cada SVG como XML y poda lo que no es el icono: el rect del artboard, el `path` de
+   fondo del frame padre, los grupos vacíos y los `<filter>` de sombra.
+4. Normaliza al canon: `currentColor` (también sobre `black`) y `stroke-width` 1.5.
+5. Prefija los ids de `<defs>` con la clave del icono y borra los `id` decorativos que nadie
+   referencia, para que dos iconos en la misma página no choquen.
+6. Escribe `icons.ts` en el formato de `ICON-COMPONENT.md §3.1`.
+7. Avisa de lo que quedó sucio: restos de artboard, colores fijos, blancos de knockout, ids
+   repetidos, y lista lo que no pudo descargar.
 
 Al escribir la clave elimina el prefijo (`icon/math/at` → `math/at`,
 `icon-info/abacus` → `info/abacus`), con lo que **los 15 renombrados mecánicos de la sección 1
 quedan resueltos automáticamente**. Los 15 de la sección 2 salen con su nombre tal cual, y ahí sí
 hace falta la decisión de diseño.
 
-### Lo que el script no cubre
+### Los 34 que faltaban: resueltos
 
-Los **34 iconos sin nodeId identificable** (160 − 126). Están anidados de forma que el volcado de
-metadatos no los expone como nodo propio; hay que localizarlos a mano en Figma y añadirlos a
-`figma-nodes.tsv`.
+No estaban «perdidos». Eran **variantes dentro de 25 component sets**: en el volcado plano de
+metadatos, una variante no sale con el nombre del icono sino como `Property 1=line`,
+`Property 1=24x24`, `Property 1=t1envios, Property 2=hand`… El nombre real está en el *frame*
+padre, así que al buscar por nombre no aparecían.
+
+Recorriendo el árbol y componiendo `{set}/{variante}` salieron los 66 nodos de esos sets, más 5
+nodos sueltos (`bookmark`, `eclipse`, `pos`, `pos-profile`, `top-badge`). `figma-nodes.tsv` pasó
+de **163 a 222 filas**, y ya no falta ninguna.
+
+**Regla al desplegar un set:** una fila por glifo distinto. Las variantes que solo cambian de
+tamaño (`16x16`/`24x24`, `Sm`/`Md`, `sm`/`md`/`lg`) se colapsan en una sola fila con el nombre
+del set; las que son dibujos distintos (`line`/`fill`, `left`/`right`, `ascending`/`descending`)
+van como `{set}/{variante}`. Los 17 nodos descartados a propósito —duplicados exactos, tamaños
+redundantes, los 4 fotogramas del spinner y los sets con sufijo ` 1`— están al final del `.tsv`,
+comentados y con el motivo.
+
+Estos tres salen del rango `61:39xx`, junto a `icon/t1pagos/user` y `icon/t1pagos/perfiles`, y
+son de dominio POS. **Propuesta:** `icon/t1pagos/pos`, `icon/t1pagos/pos-profile`,
+`icon/t1pagos/top-badge`. El `.tsv` conserva el nombre de Figma hasta que diseño lo confirme.
+
+### Lo que el pipeline destapó al generarlo
+
+Cuatro cosas que no se veían con 5 iconos y sí con 222:
+
+| # | Qué | Alcance | Estado |
+|---|---|---|---|
+| 1 | El recorte por regex desbalanceaba las etiquetas y dejaba un `</g>` huérfano | 3 de los 5 iconos que ya estaban commiteados | **corregido** — `limpiar()` ahora parsea el SVG como XML |
+| 2 | **`clip0_0_1` repetido en 12 iconos.** Figma exporta cada icono como documento suelto y numera desde cero. Con dos en la misma página, el `clip-path` del segundo apunta al recorte del primero | 12 iconos | **corregido** — los ids de `<defs>` se prefijan con la clave del icono |
+| 3 | `action/check` traía una **sombra** (`<filter>`) con un morado fijo fuera de tokens. Viene de la instancia colocada en el artboard, no del icono | 1 icono | **corregido** — se retiran los `filter` |
+| 4 | **7 iconos usan blanco de *knockout*** (`fill="white"` / `stroke="white"`) para calar sobre una forma rellena | `commerce/box/fill`, `file/excel`, `file/pdf`, `info/abacus`, `math/plus/fill`, `nav/menu/waffle/variant2`, `t1envios/flash-on` | **abierto** — ver abajo |
+
+**El blanco de knockout es el único que queda abierto, y necesita decisión de diseño.** Ese blanco
+no es tinta: es «el color del fondo». Mientras esté escrito como `white`, en modo oscuro esos
+siete iconos se calan en blanco sobre fondo oscuro y se ven mal. Las salidas son dos: dibujar el
+calado como hueco real (`fill-rule="evenodd"`, sin blanco) en Figma, o exponer un segundo token
+de superficie en el componente. La primera es la que deja el icono monocromo de verdad.
 
 ---
 
@@ -217,7 +263,13 @@ metadatos no los expone como nodo propio; hay que localizarlos a mano en Figma y
 | 1 | Renombrar los 15 mecánicos | Figma | código y canon |
 | 2 | Decidir categoría de los 15 restantes | equipo de diseño | 1 |
 | 3 | Retirar `icon-action/`, `minus 1`, `plus 1` | Figma | — |
-| 4 | Actualizar los conteos de §4 a 160 + 37 | canon | — |
+| 4 | Actualizar los conteos de §4 a 160 + 37 nombres / **222 glifos** | canon | — |
+| 5 | Resolver el **blanco de knockout** de los 7 iconos | equipo de diseño | modo oscuro |
+| 6 | Arreglar en Figma el `#272532` de fondo y los `stroke-width` 1.2 / 2 | Figma | exportación manual |
+| 7 | Confirmar `icon/t1pagos/{pos, pos-profile, top-badge}` | equipo de diseño | 1 |
+
+> Las acciones 1–3 son de **higiene en Figma**: el pipeline ya normaliza el nombre al generar, así
+> que el código no está bloqueado por ellas. La 5 sí afecta a lo que se ve.
 | 5 | Añadir `t1pagos` y `clipboard` a las categorías de §4 | canon | — |
 | 6 | Resolver si `USER` y `MISC` existen | equipo de diseño | 5 |
 | 7 | Regenerar `icons.ts` con los nombres homologados | código | 1, 2 |
