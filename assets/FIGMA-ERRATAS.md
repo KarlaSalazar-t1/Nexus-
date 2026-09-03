@@ -109,7 +109,7 @@ cargamos · imile · logify · moova · tookan · walmart · grupoAmPm · paquet
 ```
 
 **Sufijos usados en Figma que el canon no define:** `-iso-plataforma`, `-iso-marketplace`.
-Están tan extendidos (18 componentes) que conviene documentarlos en vez de renombrarlos.
+Están tan extendidos (21 componentes) que conviene documentarlos en vez de renombrarlos.
 
 **Caracteres problemáticos:** `j&texpress-iso` y `fb&IG-iso` usan `&`; el `filePath` de la librería
 ya lo transforma en `_` (`fb_IG-iso`), lo que rompe la correspondencia entre nombre y ruta.
@@ -167,7 +167,28 @@ describe el archivo.
 
 ---
 
-## 6. Nombre de la librería
+## 6. La clasificación de tipo no coincide con el arte
+
+`BRAND-ASSETS.md §5` clasifica cada logo en una columna «Notas» — *Isotipo*, *Logo horizontal*,
+*Imagotipo*. Esa clasificación se comprobó abriendo el arte, no solo leyendo nombres.
+
+**Alcance de esta comprobación: 2 de 93 assets.** Los dos revisados están mal clasificados, lo que
+sugiere revisar el resto — pero no es una muestra suficiente para afirmar nada sobre los otros 91.
+
+| Componente | Dice el canon | Muestra el arte |
+|---|---|---|
+| `dhl-iso` | Isotipo | **Logotipo** — las 4 variantes son la palabra «DHL» en tipografía de marca, sin símbolo |
+| `ups-iso` | Isotipo | **Isologo** — escudo con «ups» escrito dentro; texto y símbolo son indivisibles |
+
+Un *isotipo* es el símbolo **sin** texto. Ninguno de los dos lo es. El sufijo `-iso` del nombre
+arrastra el mismo error.
+
+> Comprobar los 91 restantes requiere abrir cada componente. Si el equipo quiere la revisión
+> completa, es un trabajo aparte y conviene planificarlo.
+
+---
+
+## 7. Nombre de la librería
 
 La librería de componentes se llama **`SD T1_1`**. El sufijo `_1` sugiere un duplicado, y el
 nombre no menciona NEXUS. Conviene confirmar que es la librería vigente y, si lo es, renombrarla.
@@ -187,5 +208,6 @@ nombre no menciona NEXUS. Conviene confirmar que es la librería vigente y, si l
 | 7 | Igualar la tabla de tamaños de §1 con las medidas reales | canon **o** Figma |
 | 8 | Documentar `-iso-plataforma` y `-iso-marketplace` en §8 | canon |
 | 9 | Unificar el tamaño de las variantes dentro de cada set | Figma |
+| 10 | Revisar la clasificación isotipo/logotipo/imagotipo de los 91 assets no comprobados | canon |
 
 Las acciones 1–6 no pueden resolverse con un pull request: requieren editar el archivo de diseño.
