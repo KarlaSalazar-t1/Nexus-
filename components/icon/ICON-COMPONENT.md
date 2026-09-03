@@ -3,7 +3,7 @@
 **Repositorio:** `t1-design-system`  
 **Ruta:** `components/ICON-COMPONENT.md`  
 **Audiencia:** Desarrolladores · Claude instances  
-**Relacionado con:** [`assets/ICONOGRAPHY.md`](../assets/ICONOGRAPHY.md) · [`foundation/COLORS.md`](../foundation/COLORS.md) · [`accessibility/A11Y.md`](../accessibility/A11Y.md)
+**Relacionado con:** [`assets/ICONOGRAPHY.md`](../../assets/ICONOGRAPHY.md) · [`foundation/COLORS.md`](../../foundation/COLORS.md) · [`accessibility/A11Y.md`](../../accesibility/A11Y.md)
 
 ---
 
@@ -27,7 +27,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 
 | Tipo | Mecanismo | Componente | Color |
 |------|-----------|------------|-------|
-| Íconos del sistema (~150) | Inline SVG via TypeScript | `<Icon />` | `currentColor` — hereda del texto |
+| Íconos del sistema (122) + menú sidebar (31) | Inline SVG via TypeScript | `<Icon />` | `currentColor` — hereda del texto |
 | Íconos de menú sidebar (31) | Inline SVG via TypeScript | `<Icon name="menu/..." />` | `currentColor` |
 | Logos de terceros (300+) | Archivo `.svg` en `/public/` | `<BrandLogo />` | Colores propios del logo |
 | Banderas ISO (250+) | Archivo `.svg` en `/public/` | `<Flag />` | Colores propios |
@@ -38,7 +38,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 **Íconos del sistema → inline SVG:**
 - Son monocromáticos (stroke `#4C4C4C`, heredan `currentColor`)
 - Necesitan cambiar de color en estados (hover, active, disabled, semántico)
-- ~150 íconos caben bien en un bundle TypeScript sin impacto significativo en peso
+- 153 íconos (122 del sistema + 31 de menú) caben bien en un bundle TypeScript sin impacto significativo en peso
 - Elimina 150+ peticiones HTTP o configuración de sprite
 
 **Logos y banderas → archivos en `/public/`:**
@@ -167,16 +167,16 @@ import { Icon } from '@/components/Icon'
 <Icon name="trash" size={24} />
 
 // Ícono con color via Tailwind (className en el SVG)
-<Icon name="search" size={20} className="text-gray-500" />
+<Icon name="search" size={24} className="text-gray-500" />
 
 // Ícono funcional en botón — el aria-label va en el botón, no en el ícono
 <button aria-label="Eliminar producto">
-  <Icon name="action-trash" size={20} aria-hidden="true" />
+  <Icon name="action-trash" size={24} aria-hidden="true" />
 </button>
 
 // Ícono semántico con color de estado
-<Icon name="status-alert" size={20} className="text-orange-500" />
-<Icon name="status-info"  size={20} className="text-blue-500" />
+<Icon name="status-alert" size={24} className="text-orange-500" />
+<Icon name="status-info"  size={24} className="text-blue-500" />
 
 // Ícono de menú sidebar
 <Icon name="menu/home"         size={24} className="text-gray-500" />
@@ -198,7 +198,7 @@ Los íconos heredan `currentColor` del padre. Para colorear, aplicar `text-{colo
 
 // ✅ Correcto — color heredado del padre
 <span className="text-orange-500">
-  <Icon name="status-alert" size={20} />
+  <Icon name="status-alert" size={16} />
   <span>Advertencia</span>
 </span>
 
@@ -386,9 +386,9 @@ import { BrandLogo } from '@/components/Icon/BrandLogo'
 | `t1pagos-white` | T1 Pagos — blanco, sobre fondo oscuro o rojo |
 | `t1envios-default` | T1 Envíos — color, sobre fondo claro |
 | `t1score-default` | T1 Score — color, sobre fondo claro |
-| `t1marketing-default` | T1 Marketing — color, sobre fondo claro |
+| `t1marketing-default` | T1 Marketing — color, sobre fondo claro · ⚠️ **no encontrado en Figma** (ver [FIGMA-ERRATAS.md](../../assets/FIGMA-ERRATAS.md)) |
 
-> Para el listado completo de logos de terceros disponibles, ver **[ICONOGRAPHY.md — sección 4](../assets/ICONOGRAPHY.md#4-logos-de-terceros-icons-logos)**.
+> Para el listado completo de logos de terceros disponibles, ver **[ICONOGRAPHY.md — sección 4](../../assets/ICONOGRAPHY.md#4-logos-de-terceros-icons-logos)**.
 
 ---
 
@@ -486,6 +486,13 @@ Los íconos de menú cambian de color según el estado del nav item:
 <Icon name="menu/orders" size={24} className="text-gray-300" />
 ```
 
+> **Sobre el naming en Figma.** Conviven varias convenciones según el archivo:
+> la librería `SD T1_1` publica `icon-nav/`, `icon-edit/`, `icon-info/` y `icon-action/`
+> (plano, con guion), mientras el archivo **POS-web** usa `icon/{categoría}/{nombre}`
+> —`icon/finance/collect`, `icon/data/order`, `icon/math/plus`— que es la forma que
+> documenta `ICONOGRAPHY.md §8`. Los nombres de este catálogo siguen la forma corta
+> (`action-trash`), una tercera. Unificarlas es una decisión pendiente del equipo de diseño.
+
 ### Anti-patrones
 
 ❌ Usar íconos de Heroicons, Lucide, Phosphor u otras librerías externas sin aprobación del equipo de diseño.  
@@ -518,7 +525,7 @@ Cuando el ícono es el único elemento comunicativo, el contexto semántico va e
 ```tsx
 // ✅ Ícono funcional — aria-label en el botón
 <button aria-label="Eliminar producto">
-  <Icon name="action-trash" size={20} aria-hidden="true" />
+  <Icon name="action-trash" size={24} aria-hidden="true" />
 </button>
 
 // ✅ Ícono con tooltip — aria-label en el ícono
@@ -531,11 +538,11 @@ El componente `<Icon />` aplica `aria-hidden="true"` automáticamente cuando no 
 
 ```tsx
 // Equivalentes — ambos ocultan el ícono de lectores de pantalla
-<Icon name="arrow-right" size={20} />
-<Icon name="arrow-right" size={20} aria-hidden="true" />
+<Icon name="arrow-right" size={24} />
+<Icon name="arrow-right" size={24} aria-hidden="true" />
 
 // Ícono accesible — solo cuando el ícono comunica información sin texto visible
-<Icon name="status-alert" size={20} aria-label="Advertencia: saldo insuficiente" />
+<Icon name="status-alert" size={24} aria-label="Advertencia: saldo insuficiente" />
 ```
 
 ### Contraste
@@ -570,7 +577,7 @@ El color de un ícono sobre su fondo debe cumplir mínimo **WCAG AA (4.5:1)**. L
 
 ## Referencias cruzadas
 
-- **[assets/ICONOGRAPHY.md](../assets/ICONOGRAPHY.md)** — Catálogo visual completo: qué íconos existen, naming de Figma, logos de terceros, reglas de uso.
-- **[foundation/COLORS.md](../foundation/COLORS.md)** — Tokens de color para estados semánticos de íconos.
-- **[accessibility/A11Y.md](../accessibility/A11Y.md)** — Requisitos completos de contraste, ARIA y touch targets.
-- **[components/ATOMS.md](../components/ATOMS.md)** — Cómo se integran íconos dentro de botones, badges, chips e inputs.
+- **[assets/ICONOGRAPHY.md](../../assets/ICONOGRAPHY.md)** — Catálogo visual completo: qué íconos existen, naming de Figma, logos de terceros, reglas de uso.
+- **[foundation/COLORS.md](../../foundation/COLORS.md)** — Tokens de color para estados semánticos de íconos.
+- **[accessibility/A11Y.md](../../accesibility/A11Y.md)** — Requisitos completos de contraste, ARIA y touch targets.
+- **[components/ATOMS.md](../ATOMS.md)** — Cómo se integran íconos dentro de botones, badges, chips e inputs.
