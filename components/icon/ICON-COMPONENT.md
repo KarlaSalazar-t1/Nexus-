@@ -27,7 +27,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 
 | Tipo | Mecanismo | Componente | Color |
 |------|-----------|------------|-------|
-| Íconos del sistema (122) + menú sidebar (31) | Inline SVG via TypeScript | `<Icon />` | `currentColor` — hereda del texto |
+| Íconos del sistema (160) + menú sidebar (37) | Inline SVG via TypeScript | `<Icon />` | `currentColor` — hereda del texto |
 | Íconos de menú sidebar (31) | Inline SVG via TypeScript | `<Icon name="menu/..." />` | `currentColor` |
 | Logos de terceros (300+) | Archivo `.svg` en `/public/` | `<BrandLogo />` | Colores propios del logo |
 | Banderas ISO (250+) | Archivo `.svg` en `/public/` | `<Flag />` | Colores propios |
@@ -38,7 +38,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 **Íconos del sistema → inline SVG:**
 - Son monocromáticos (stroke `#4C4C4C`, heredan `currentColor`)
 - Necesitan cambiar de color en estados (hover, active, disabled, semántico)
-- 153 íconos (122 del sistema + 31 de menú) caben bien en un bundle TypeScript sin impacto significativo en peso
+- 197 íconos (160 del sistema + 37 de menú, medidos en Figma) caben bien en un bundle TypeScript sin impacto significativo en peso
 - Elimina 150+ peticiones HTTP o configuración de sprite
 
 **Logos y banderas → archivos en `/public/`:**
@@ -226,7 +226,11 @@ Solo en el contexto de **landing pages**:
 
 ## 4. Catálogo de íconos disponibles
 
-### Íconos del sistema (122)
+### Íconos del sistema (160 en Figma · 122 catalogados abajo)
+
+> El catálogo de esta sección quedó en 122. El frame `Icons` de Figma contiene 160.
+> Ver **[HOMOLOGACION.md](./HOMOLOGACION.md)** para el inventario completo y el mapeo.
+
 
 Organizados por categoría. Tamaño base: **24×24px**. Stroke: **1.5px**.
 
@@ -251,7 +255,7 @@ Organizados por categoría. Tamaño base: **24×24px**. Stroke: **1.5px**.
 | SYSTEM | `system-` | 9 | `system-laptop`, `system-mobile`, `system-tablet`, `system-pos`, `system-qr`, `system-ai` |
 | MATH & MISC | `math-`, `misc-` | 12 | `math-plus`, `math-minus`, `misc-star`, `misc-bookmark`, `misc-lightbulb`, `misc-cvv` |
 
-### Íconos de menú sidebar (31)
+### Íconos de menú sidebar (37 en Figma · 31 catalogados abajo)
 
 Prefijo: `menu/`. Uso exclusivo en sidebar de navegación del dashboard.
 
