@@ -4,6 +4,43 @@ Todos los cambios relevantes al sistema de diseño se documentan aquí. Formato 
 
 ---
 
+## [2.5.0] — 2026-09-03
+
+### Familia de archivos de la App móvil nativa (paridad con Dashboard/Landing) + limpieza de T1APP.md
+
+Origen: `plataform/T1APP.md` (documentación de flujos y pantallas de la app móvil, 9001 líneas) se había agregado como un único documento de auditoría screen-por-screen, mezclando decisiones de producto/copy con hallazgos de diseño, y sin la familia de archivos de plataforma (tokens, patrones de implementación, referencia condensada) que sí tienen Dashboard y Landing. "App" tampoco existía en `CLAUDE-CONTROLLER.md` ni en la estructura documentada de `README.md`. Esta versión: (1) limpia T1APP.md de decisiones de producto/negocio/copy y de ruido residual de auditoría (secciones QA redundantes, resúmenes narrativos, higiene de Figma, IDs de Figma excesivos), deduplicando además una sección documentada dos veces; (2) crea la familia de archivos de plataforma para App — `plataform/APP.md` (tokens), `patterns/APP-FLOWS.md` (flujos a nivel de implementación, como `patterns/FLOWS.md`), `workflows/reference-app.md` (versión condensada) —; y (3) da de alta "App" en el entry point (`CLAUDE-CONTROLLER.md`) y en la estructura documentada (`README.md`). `T1APP.md` queda como el archivo de detalle profundo y trazabilidad a Figma, no como punto de entrada.
+
+**Owner:** Karla Salazar — Head of UX/UI
+
+**Archivos afectados:**
+- `plataform/T1APP.md` — limpieza de contenido + reframe de header (9001 → 7502 líneas)
+- `plataform/APP.md` — archivo nuevo (movido y renombrado desde `patterns/DESIGN-SYSTEM-APP.md`)
+- `patterns/APP-FLOWS.md` — archivo nuevo
+- `workflows/reference-app.md` — archivo nuevo
+- `workflows/CLAUDE-CONTROLLER.md` — §2, §10
+- `README.md` — estructura del repo, tabla "¿Qué necesitas?", sección "Tres contextos, un sistema"
+
+#### Añadido
+
+- **`plataform/APP.md` — fundamentos de la plataforma App.** Tipografía (Inter, escala T1/B1/B2/B3), layout mobile-first, botones, radios, sombras, colores semánticos, inputs, cards, chips, modales, y las 8 reglas de sistema R1–R8 consolidadas desde T1APP.md §CC.23. Marca explícitamente con 🔴 los valores todavía en disputa (token de error con 3 hex, verde de éxito con 2 hex, escalas Orange/Purple/Blue invertidas, radios sin escala cerrada) en vez de decidirlos unilateralmente.
+- **`patterns/APP-FLOWS.md` — mapas de flujo de la App, nivel de implementación.** 27 flujos documentados al mismo nivel de abstracción que `patterns/FLOWS.md`: estructura, patrones/componentes y reglas de interacción, sin hallazgos de auditoría ni IDs de Figma inline.
+- **`workflows/reference-app.md` — versión condensada de APP.md + APP-FLOWS.md** para el context window de Claude, siguiendo la estructura de `reference-dashboard.md`.
+- **`workflows/CLAUDE-CONTROLLER.md` — "App" como contexto detectable.** Nueva fila en la tabla de keywords de detección, rama `SI app detectado` en la regla de carga condicional, y fila en el mapa de references.
+- **`README.md` — App en la estructura documentada.** `platforms/APP.md`, `patterns/APP-FLOWS.md` y `workflows/references/app.md` en el árbol del repo; fila "Construir la app móvil" en la tabla "¿Qué necesitas?"; tercera columna en la tabla de contextos (antes solo Landing/Dashboard).
+
+#### Cambiado
+
+- **`plataform/T1APP.md` — limpieza en dos pasadas.** (1) Se removieron decisiones de producto/negocio/naming/taxonomía que estaban mezcladas con hallazgos de diseño (incluida la tabla completa de 13 decisiones D1-D13, ya fuera de esta guía). (2) Se removió ruido residual de auditoría: ~34 secciones "QA — Comparación vs Figma", ~40 bloques "Resumen:" narrativos, notas de higiene de capas Figma, notas de datos dummy, y ~600 IDs de Figma inline (se conservó un ID localizador por sección/componente para no perder trazabilidad). Reducción total: 9001 → 7502 líneas.
+- **`plataform/T1APP.md` — header reframeado.** Ya no se presenta como punto de entrada; dirige explícitamente a `APP.md` + `patterns/APP-FLOWS.md` para diseñar a fidelidad 90-100%, y se declara como referencia profunda de auditoría/trazabilidad.
+
+#### Corregido
+
+- **Enlace roto a `DESIGN-SYSTEM-APP.md`.** T1APP.md referenciaba 9 veces `../patterns/DESIGN-SYSTEM-APP.md`, un archivo que no existía en esa ruta. Se resolvió moviendo y renombrando el archivo a `plataform/APP.md` (junto a `DASHBOARD.md`/`LANDING.md`, la ubicación real de los Nivel 1 de plataforma) y actualizando todas las referencias.
+- **Sección §PE (Canales de venta) duplicada.** El Flujo 18 · Paso 4 estaba documentado dos veces completas en T1APP.md; se conservó la versión más completa y verificada, se eliminó la redundante.
+- **Fila del índice duplicada** para "Agregar producto — Paso 4: Canales de venta" y "Productos · Sub-tab Inventario".
+
+---
+
 ## [2.4.0] — 2026-08-10
 
 ### Capa visual y de componentes de landing + documentación de métricas de dashboard

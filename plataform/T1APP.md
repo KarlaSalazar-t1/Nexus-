@@ -1,6 +1,8 @@
 # T1app — Flujos y pantallas (NEXUS V2.0)
 
-> Documento **único** que concentra todos los flujos y pantallas de la app **móvil nativa** de T1. Se separa **internamente por flujo** (no un archivo por flujo). Los fundamentos de plataforma (tipografía, color, spacing, radios, botones) viven en [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) y se referencian aquí sin duplicar.
+> ⚠️ **Este no es el punto de entrada.** Para diseñar a fidelidad 90-100% sin necesitar el detalle completo, empieza por [`APP.md`](./APP.md) (fundamentos: tipografía, color, spacing, radios, botones) y [`../patterns/APP-FLOWS.md`](../patterns/APP-FLOWS.md) (mapas de flujo y patrones, nivel de implementación). **Este archivo es la referencia profunda**: hallazgos de auditoría, drift de tokens y trazabilidad pantalla-por-pantalla a Figma — útil para investigar un caso puntual, no para arrancar un diseño nuevo.
+
+> Documento **único** que concentra todos los flujos y pantallas de la app **móvil nativa** de T1. Se separa **internamente por flujo** (no un archivo por flujo). Los fundamentos de plataforma (tipografía, color, spacing, radios, botones) viven en [APP.md](./APP.md) y se referencian aquí sin duplicar.
 
 **Última actualización:** Junio 2026 · **Fuente de verdad:** Figma — `T1-App---ESP` (`viFhO18oodfFqrvyDznrA9`) · **Plataforma:** App (Inter) · **Owner:** Karla Salazar — Head of UX/UI
 
@@ -45,8 +47,6 @@
 | 24e | **Recolecciones** (§EN.12) | `483:15741` | ✅ Documentado (listado + vacíos + wizard acordeón 4 secciones + éxito con política de ausencia) |
 | 25 | **Configuración de envíos** (§CE) | `5183:168845` | ✅ Documentado (menú config + Reglas de prioridad: 4 modos, drag-and-drop, modal selección) |
 | 26 | **Control de calidad — Incidencias (base)** (§CC) | `947:60630` | 🟡 En progreso (vacío + listado + estados + KPIs + filtros + detalle; Sobrepesos y flujos de acción pendientes) |
-| — | **Productos · Sub-tab Inventario** (§PH) | `369:29099` | ✅ Documentado (tarjeta de inventario + modificar masivo + no vendible) |
-| 18 | **Agregar producto — Paso 4: Canales de venta** (§PE) | `4181:94782` | ✅ Documentado (acordeón por marketplace + config por canal) |
 | — | **Loaders y Skeletons** (transversal) | `185:18667` | ✅ Documentado |
 | — | **Error de sincronización** (transversal) | `434:40991` | ✅ Documentado |
 | — | **Banners y estados globales** (transversal) | `603:34724` | ✅ Documentado |
@@ -68,7 +68,7 @@ Aplican a todos los flujos salvo que una sección indique lo contrario.
 - **Mockup base:** `360×780`, con **Status Bar de iPhone** (50px) arriba y **Home Indicator** abajo. Contenido entre ambas *safe areas*.
 - **Margen lateral de contenido:** `16px` (ancho útil 328px).
 - **Áreas táctiles:** mínimo 44px. Tarjetas de opción 64px, botones 48px, contenedores de ícono 40px.
-- **Tipografía:** Inter (ver [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) §2).
+- **Tipografía:** Inter (ver [APP.md](./APP.md) §2).
 - **Botón primario:** `#DB3B2B`, alto 48px, radio 16px; *pressed* `#CC0000`; *disabled* fondo `#F3F3F3` / texto `#9CA3AF`.
 - **Teclado:** en captura de texto, contenido y botón se reacomodan sobre el teclado nativo.
 - **Navegación:** avance/retroceso entre pasos como transición horizontal; el back conserva las selecciones.
@@ -118,8 +118,6 @@ Logotipo T1 (98×96) centrado sobre fondo blanco. Sin interacción; transición 
 Pantalla de entrada. Fondo blanco con **degradado rojo al 20%** arriba (`linear-gradient(rgba(219,59,43,0.2) → transparente)`, ~542px). Hexágonos concéntricos redondeados (gris claro) con el **logo T1** y un **círculo** (`Ellipse`, 33px, negro) centrados.
 - **Acciones:** dos botones gris `#F8F8F8` / borde `#F3F3F3` (radio 16, alto ~51px): *Continuar con Google* (logo Google) y *Continuar con correo* (`mail-01`). Texto Inter SemiBold 14px `#010B08`.
 - **Login:** "¿Ya tienes una cuenta? **Inicia sesión**" (Inter 14px; "Inicia sesión" SemiBold).
-
-> Existe además una **variante de marketing** de Welcome (`1523:24251`: "Tu negocio, simplificado" + *Crear cuenta*/*Iniciar sesión* + cards de stats). 🔴 Confirmar si precede a la de autenticación o está deprecada.
 
 ### Cabecera de onboarding (común a los pasos)
 - **Back:** flecha izquierda 24px en `left:16 top:66`.
@@ -231,39 +229,14 @@ Valores nuevos que aparecen en este flujo y conviene consolidar en el sistema de
 
 1. Patrón de **haptics** (selección, error, éxito).
 2. Estados de **error/validación** del input de nombre.
-3. Comportamiento exacto del **regreso desde autenticación web** (sesión, deep link).
-4. Variantes del **bottom sheet** (vacío vs. con descripción) y estado de carga de la IA.
-5. Texto/estados del **Loader** (lista de pasos que muestra).
-6. Consolidar los tokens de §1.7 en el sistema de la App.
-
-## 1.9 QA — Comparación con Figma (notas)
-
-Revisión pantalla por pantalla (Figma vs prueba `AppT1OnboardingFlow.jsx`). Capturas de Figma usadas como referencia: Welcome `1523:24251` · Paso 1 `1523:27227` · Nombre `1523:27413` · Loader `1523:27730`.
-
-**Discrepancias detectadas y corregidas en la prueba:**
-
-| Pantalla | Discrepancia | Corrección |
-|---|---|---|
-| Onboarding (todos los pasos) | Título/subtítulo a la izquierda | Centrados (Figma los centra) |
-| Tarjeta seleccionada | Check de contorno | Círculo rojo **relleno** con palomita blanca |
-| Loader | Copy "Configurando tu cuenta…" | "Recopilando tu información" (bold) |
-| Pantalla final | Pantalla de éxito inventada con **top bar (logo T1 + avatar) que no existe en el flujo** + botón cortado | Cierre **neutral** sin chrome inventado; el flujo redirige al Home real (documentado aparte); botón **full-width** |
-| Welcome | Se había documentado la variante de marketing (`1523:24251`) | Reemplazada por la **Welcome de autenticación real** (`1770:85884`): Google/correo + "Inicia sesión", hexágonos + logo + círculo |
-| Welcome — hero | Anillos redondeados + logo en cuadro | **Hexágonos** concéntricos redondeados + wordmark "T1" |
-
-**Hallazgos de especificación (no solo del demo):**
-- El **título y subtítulo** de cada paso van **centrados** (anotado en §1.3).
-- El **loader** usa "Recopilando tu información".
-- El flujo **no incluye pantalla de éxito**: tras el loader redirige directo a la Pantalla principal.
-
-**Aproximaciones vigentes (no byte-exactas):**
-- **Íconos:** recreados fielmente en SVG inline estilo **Hugeicons** (set de Figma: `store-01`, `shipping-truck-01`, `credit-card-pos`, `marketplace`, `carousel-horizontal`, `user-warning-01`, `ai-magic`). No fue posible bajar el SVG exacto de Figma porque el entorno bloquea `www.figma.com`. Para fidelidad byte-exacta: agregar ese host al *network egress allowlist* y reexportar con `download_assets`.
-- **Logo T1:** wordmark aproximado; pendiente exportar el SVG real (`t1-logotipo`).
+3. Variantes del **bottom sheet** (vacío vs. con descripción) y estado de carga de la IA.
+4. Texto/estados del **Loader** (lista de pasos que muestra).
+5. Consolidar los tokens de §1.7 en el sistema de la App.
 
 ## 1.10 Referencias
 
 - Figma — sección *Login Signup/Onboarding* (`107:22340`): Splash `107:28047` · Welcome `1523:24251` · Onboarding `1523:27148/27314/27369/27413/27468/27628/27570` · Bottom sheet `1523:27750` · Loader `1523:27730`
-- [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) — fundamentos de la plataforma App
+- [APP.md](./APP.md) — fundamentos de la plataforma App
 - Prueba interactiva: `AppT1OnboardingFlow.jsx`
 
 ---
@@ -409,19 +382,15 @@ Botón **"+"** (56px, `bg white`, borde `#F3F3F3`, radio 72, ícono `add-01` 24p
 
 ## H.5 Pendientes (🔴)
 
-1. 🔴 **Inconsistencia de copy en promo:** mismo título "Empieza a vender con **T1tienda**" con botón distinto — *Crear tu tienda* (envíos) vs *Configurar T1envíos* (pagos). Unificar.
-2. Confirmar el set completo de métricas de **Tienda** y **All services** (más allá de las 2 visibles).
-3. Definir la **lógica de selección de variante** (qué producto principal y qué condición disparan cada Home) para implementación.
-4. Confirmar hex de los **badges del FAB** (en captura se ven rojos; en código aparecían en morado `#7C3AED` a escala reducida).
-5. Estados de **carga/vacío** de cada carril (métricas sin datos, sin insights).
-6. 🔴 **Localización mixta ES/EN** en *Seller sin tienda* (Create store, Complete, Add Account, Setup, Activate Payments). Unificar idioma.
-7. 🔴 **Dos verdes** para delta positivo: `#4FC153` (Green/300, envíos/pagos) vs `#51AF70` (Green/400, seller/tienda). Definir el token oficial de "tendencia positiva".
-8. 🔴 Exportar el ícono **`menu/crown`** (badge premium) a `icons.ts`.
+1. Confirmar hex de los **badges del FAB** (en captura se ven rojos; en código aparecían en morado `#7C3AED` a escala reducida).
+2. Estados de **carga/vacío** de cada carril (métricas sin datos, sin insights).
+3. 🔴 **Dos verdes** para delta positivo: `#4FC153` (Green/300, envíos/pagos) vs `#51AF70` (Green/400, seller/tienda). Definir el token oficial de "tendencia positiva".
+4. 🔴 Exportar el ícono **`menu/crown`** (badge premium) a `icons.ts`.
 
 ## H.6 Referencias
 
 - Figma — sección *Home* (`1532:69077`): Envíos `1990:79652` · Pagos `1532:67566` · Tienda/premium `1532:67782` · Tienda sin premium `1683:52896` · Seller sin tienda `1990:103034` · All services `1532:68546` · Sin onboarding `1683:54299`
-- [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) — fundamentos (Inter, color, spacing, radios)
+- [APP.md](./APP.md) — fundamentos (Inter, color, spacing, radios)
 
 ---
 
@@ -469,10 +438,10 @@ Pantalla de entrada. Fondo blanco con **degradado rojo al 30%** arriba (`linear-
 Top: back arrow + "Nova AI". Centro: **spinner** (`loader` 44px) + **status cíclico** (ej. "Costos y precios (MX)…"). Tras el delay redirige a la preview/tienda.
 
 ### Preview "Mi tienda" (`591:26599`, scroll largo `591:26666`)
-Vista **in-app** de la tienda recién generada. Header: back + **"Mi tienda"** (centrado) + botón **"Visit Store"** (ghost, texto rojo). Debajo, **selector de página** "Home Page" (dropdown full-width con chevron). **Hero** (foto del catálogo generado). Sección **"Explora nuestras categorías"** con cards de producto (foto + label, ej. "Jeans") en scroll horizontal. **FAB Nova** (orbe morado flotante). **Mensaje informativo** (azul, ícono info): "Store editing is only available on desktop. To customise your store, log in through the web version." Botón inferior **"Done, Go to home"** (rojo). La versión `591:26666` agrega **paginación 1–5**.
+Vista **in-app** de la tienda recién generada. Header: back + **"Mi tienda"** (centrado) + botón **"Visit Store"** (ghost, texto rojo). Debajo, **selector de página** "Home Page" (dropdown full-width con chevron). **Hero** (foto del catálogo generado). Sección **"Explora nuestras categorías"** con cards de producto (foto + label, ej. "Jeans") en scroll horizontal. **FAB Nova** (orbe morado flotante). **Mensaje informativo** (azul, ícono info): "Store editing is only available on desktop. To customise your store, log in through the web version." Botón inferior **"Done, Go to home"** (rojo). La versión con scroll largo agrega **paginación 1–5**.
 
 ### Storefront web "DenimLux" (`591:26746`) — destino de *Visit Store*
-Vista de la tienda como la ve el comprador. Header: back **"Regresar"** + línea. Topbar: `menu-02` + **"DENIMLUX"** | `search-01` · `user` · `shopping-basket-01`. **Banner de plan** (`591:26821`): "Elige un plan y desbloquea todas las funciones de tu tienda." + botón **"Upgrade Plan"** con ícono **corona** (`menu/crown`). **Hero** (foto). Sección **"Explora nuestras categorías"** con grid de productos. **FAB Nova** + mismo **mensaje informativo** azul.
+Vista de la tienda como la ve el comprador. Header: back **"Regresar"** + línea. Topbar: `menu-02` + **"DENIMLUX"** | `search-01` · `user` · `shopping-basket-01`. **Banner de plan**: "Elige un plan y desbloquea todas las funciones de tu tienda." + botón **"Upgrade Plan"** con ícono **corona** (`menu/crown`). **Hero** (foto). Sección **"Explora nuestras categorías"** con grid de productos. **FAB Nova** + mismo **mensaje informativo** azul.
 
 ### Cierre — Home con tienda creada + **confeti** (`1990:110570`)
 El flujo cierra volviendo al **Home con la tienda ya creada** con una **lluvia de confeti** (`image 333`, overlay 360×360) celebrando la creación. El contenido del Home es la variante *Seller con tienda* (documentada en §H): setup arranca en "Crea tu primer producto" (ya **sin** la tarjeta destacada de crear tienda); métricas Ventas $55K / Pedidos 53 / Ticket $3K / Conversión 45% / Productos 118; promo Premium. Es decir: la pantalla de Home pertenece a la base (§H); lo propio de este flujo es **el confeti de celebración** sobre ella.
@@ -492,10 +461,8 @@ El flujo cierra volviendo al **Home con la tienda ya creada** con una **lluvia d
 ## 3.4 Pendientes (🔴)
 
 1. 🔴 **Token de acento IA (Nova):** definir oficialmente el **morado** (`#6537AE` texto / `#b830ff` glow) en `COLORS.md`/foundation; hoy sólo aparece en este flujo.
-2. 🔴 **Copy mixto ES/EN:** títulos en español ("Explora nuestras categorías") pero el **mensaje informativo** y "Visit Store" / "Done, Go to home" / "Upgrade Plan" en inglés. Unificar idioma.
-3. Definir el **status cíclico** real del loader (mensajes y duración).
-4. Confirmar destino real de **"Visit Store"** (abre web externa) y el handoff.
-5. Estados de error de la generación IA (timeout, prompt inválido; el límite de caracteres ya está diseñado).
+2. Definir la **duración** real del status cíclico del loader.
+3. Estados de error de la generación IA (timeout, prompt inválido; el límite de caracteres ya está diseñado).
 
 ## 3.5 Caso — Crear **otra** tienda (cuando ya existe una)
 
@@ -513,24 +480,9 @@ El selector se abre desde el **chip de tienda** del header del Home (ej. "EC · 
 
 > 🔴 El nodo canónico del selector no está en `615:41280`. Confirmar con Figma: ¿es dropdown anclado o bottom-sheet?, copy del encabezado, orden/estado de las tiendas, y si "Crear tienda" vive aquí o en otro punto.
 
-### Diferencias de copy vs. el flujo base
-
-| Elemento | Flujo base (sin tienda) | Caso "crear otra" (con tienda) |
-|---|---|---|
-| Badge de IA | "Nova **AI**" | "Nova **IA**" |
-| Placeholder del input | "Pídele a Nova que cree **tu** tienda…" | "Pídele a nova que cree **una** tienda…" |
-| Anotaciones (spec del flujo) | Inglés | Español |
-| Setup del Home (cierre) | Imperativo: "Configura tu cuenta", "Crea tu primer producto"… | **Infinitivo**: "Configurar cuenta", "Crear primer producto", "Configurar métodos de pago", "Agregar dirección de origen", "Personalizar diseño de tienda", "Configurar tarifas de envío", "Agregar redes sociales", "Configurar políticas", "Compartir tu tienda" |
-| Métrica | "Productos vendidos" | "Producto vendido" (singular) |
-| Promo Premium | "**Consigue** mejores tarifas… con **T1pagos** (Premium)" | "**Obtén** mejores tarifas… con **T1 Payments** (Premium)" |
-| Nombre de producto | "Classic Denim" | "Denim clásico" |
-
-> La única diferencia **intencional** es el placeholder "**una** tienda" vs "**tu** tienda" (correcto: aquí ya hay una tienda y se crea otra). El resto son **inconsistencias de copy** entre dos instancias del mismo flujo.
-
 ### Pendientes del caso (🔴)
 
-1. 🔴 **Unificar copy** entre ambos flujos: "Nova AI/IA", imperativo vs infinitivo en el setup, "T1pagos" vs "T1 Payments", "Consigue" vs "Obtén", "Productos vendidos" vs "Producto vendido", "Classic Denim" vs "Denim clásico". Definir la forma canónica en `UX-WRITING.md`.
-2. 🔴 **Confirmar el selector de tiendas contra Figma**: el nodo canónico (chip → lista de tiendas + "Crear tienda") no está en esta sección; la documentación actual es una reconstrucción del patrón. Verificar tipo (dropdown vs bottom-sheet), copy y comportamiento.
+1. 🔴 **Confirmar el selector de tiendas contra Figma**: el nodo canónico (chip → lista de tiendas + "Crear tienda") no está en esta sección; la documentación actual es una reconstrucción del patrón. Verificar tipo (dropdown vs bottom-sheet) y comportamiento.
 
 ### Referencias del caso
 
@@ -567,21 +519,21 @@ Modal "Crea tu primer producto"  ──[Crear manualmente]──▶ Formulario "
 - Al agregar, la tarjeta "Crear primer producto" **se anima y pasa al final** de la lista de setup.
 
 ## 4.2 Modal de selección (`153:41333` / `1532:78390`)
-Popup sobre el Home atenuado (`image 337`). Card (328 ancho): ícono `tags` (32px en círculo 64px) + título **"Crea tu primer producto"** + subtítulo "Ya tienes algunos productos, sigue agregando más." + **2 botones** (299×40): **Crear manualmente** y **Crear con IA**.
+Popup sobre el Home atenuado (`image 337`). Card (328 ancho): ícono `tags` (32px en círculo 64px) + título **"Crea tu primer producto"** + subtítulo "Ya tienes algunos productos, sigue agregando más." + **2 botones** (299×40): **Crear manualmente** (rojo, con ícono `+`) y **Crear con IA** (texto oscuro + ícono sparkle, no morado).
 
 ## 4.3 Formulario "Crear producto" (compartido) — `152:40348` (vacío) / `153:40826` (lleno)
 Header: back + "Crear producto" + línea. Campos (input `Inactive/Default Input` 328×55, label arriba `Inter Medium`, placeholder `#9CA3AF`):
 1. **Nombre del producto** — input.
 2. **Descripción del producto** — textarea (112h) + acción **"Mejorar con IA"** (ícono `ai-magic` + texto, acento **morado Nova `#6537AE`**).
-3. **Subir imagen** — dropzone (`upload-square-02` 32px + "Sube aquí las imágenes de tu producto") + hint "Formato: JPG, PNG, WEBP, HEIC y GIF. Tamaño máximo 20 MB".
+3. **Subir imagen** — dropzone (borde sólido, `upload-square-02` 32px en cuadro blanco + "Sube aquí las imágenes de tu producto") + hint "Formato: JPG, PNG, WEBP, HEIC y GIF. Tamaño máximo 20 MB".
 4. **Categoría** — select ("Seleccionar" → "Camisas") + chevron down.
-5. **Variantes del producto** — toggle (`Control` 36×20) + "Activa esta opción si vendes el mismo producto en diferentes tallas, colores, estilos, etc."
+5. **Variantes del producto** — toggle (`Control` 36×20, **por defecto activado/verde**) + "Activa esta opción si vendes el mismo producto en diferentes tallas, colores, estilos, etc."
 6. *(divisor)* **Inventario y precio** — Unidades disponibles (Ej. 10), Precio base ($), Precio de venta ($).
 7. *(divisor)* **Identificadores del producto** — SKU (Ej. POL78912344), Código de barras (EAN, ISBN, UPC, GTIN).
-- Footer: **"Agregar producto"** (primario, deshabilitado hasta requeridos) + **"Cancelar"** (secundario, 328×48). FAB Nova flotante.
+- Footer: **"Agregar producto"** (primario, deshabilitado hasta requeridos) + **"Cancelar"** (secundario, sin borde, 328×48). FAB Nova flotante.
 
 ### 4.3.1 Estado de campo — "Mejorar con IA" (`548:48930`)
-3 estados: **"Mejorar con IA"** (default) → al tocar, **borde animado morado** + campo deshabilitado y texto **"Mejorando con IA"** → al terminar, vuelve a normal y debajo dice **"Descripción mejorada con IA"**.
+3 estados: **"Mejorar con IA"** (default, texto oscuro) → al tocar, **borde animado morado** + campo deshabilitado y texto **"Mejorando con IA"** → al terminar, vuelve a normal y debajo dice **"Descripción mejorada con IA"**.
 
 ### 4.3.2 Estados del campo "Subir imagen" (`548:48980`)
 - **Default** — dropzone.
@@ -591,12 +543,12 @@ Header: back + "Crear producto" + línea. Campos (input `Inactive/Default Input`
 
 ## 4.4 Variante con IA — Cámara vision.ai (`601:26478`)
 La cámara es **full-bleed 393×852** (más ancha que 360). 
-- **Barra superior:** flash (`ion:flash`) + cerrar (`basil:cross-solid` 35) + logo **vision.ai** (114×25) + texto de instrucción.
+- **Barra superior:** flash (`ion:flash`) + cerrar (`basil:cross-solid` 35) + logo **"vision ai"** (114×25, con espacio, texto blanco) + texto de instrucción ("Toma una buena foto para que podamos identificar y crear tu producto.").
 - **Captura (abajo):** botón de captura "Click" (77px) + miniatura de galería (40px).
 - **Estados:** 
   - *Default* (`153:41437`/`153:42707`) — apuntando al producto.
   - *Procesando* — **loader** "Costos y precios (MX…" (`153:42803`) y/o animación **Sparks** con ícono IA (`153:42868`).
-  - *Resultado* (`153:42812`) — 2 botones: **Crear producto** / **Tomar otra foto**.
+  - *Resultado* (`153:42812`) — 2 botones: **Crear producto** (morado, ícono sparkle) / **Tomar otra foto**.
   - *Error* (`153:42944`) — banner `Messages`: imagen borrosa → pedir otra foto.
 - Anotaciones: *"Cuando el usuario selecciona IA, se abre la cámara"* · *"carga un momento para obtener los detalles"* · *"Create Product → procesa con IA y anima con ícono IA"* · *"la IA llena los campos; el usuario revisa"* · *"Por defecto sólo se agrega 1 imagen (la foto tomada); desde aquí puede agregar más"*.
 - El **formulario con IA** (`153:43002`) llega **pre-llenado** y con un banner `Messages` arriba (revisar detalles).
@@ -616,28 +568,7 @@ Vuelve al Home con **confeti** (`image 333`) como única señal de éxito. La ta
 
 ## 4.7 Pendientes (🔴)
 1. 🔴 **Tokens exactos del formulario** (radio/borde/tipografía de inputs, toggle, dropzone) — heredados de los tokens de input de la App; confirmar contra Figma.
-2. 🔴 **Copy mixto ES/EN** en anotaciones y algunos labels (p. ej. "Retake Photo"/"Create Product" vs "Tomar otra foto"/"Crear producto"). Unificar.
-3. Definir reglas de **campos obligatorios** (cuáles habilitan "Agregar producto").
-4. **vision.ai**: confirmar marca/nombre del módulo de IA de imagen y su relación con Nova.
-5. Definir **límites** (máx. imágenes, formatos, 20 MB) y estados de error de la IA (borrosa, sin producto detectado).
-
-## 4.8 QA — demo vs Figma (corregido)
-
-Comparación del demo `AppT1AddProduct.jsx` contra las pantallas reales. Tipo: **(a)** error de implementación · **(c)** no documentado / faltante.
-
-| # | Elemento | Figma | Demo (antes) | Tipo | Estado |
-|---|---|---|---|---|---|
-| 1 | Modal · "Crear manualmente" | botón rojo con ícono **+** | sin ícono | a | ✅ corregido |
-| 2 | Modal · "Crear con IA" | texto **oscuro** + sparkle | texto morado | a | ✅ corregido |
-| 3 | Cámara · logo | **"vision ai"** (espacio, todo blanco) | "vision.ai" con "vision" morado | a | ✅ corregido |
-| 4 | Cámara · copy | "Toma una buena foto para que podamos identificar y crear tu producto." | "Centra el producto…" | a | ✅ corregido |
-| 5 | Post-captura | pantalla con **"✦ Crear producto" (morado)** / "Tomar otra foto" | no existía (iba directo a procesar) | c | ✅ agregada |
-| 6 | Form · dropzone | borde **sólido** + ícono en cuadro blanco | borde **punteado** | a | ✅ corregido |
-| 7 | Form · "Mejorar con IA" | texto **oscuro** en default (morado al activar) | morado siempre | a | ✅ corregido |
-| 8 | Form · "Cancelar" | **sin borde** (texto) | con borde | a | ✅ corregido |
-| 9 | Form · **FAB Nova** | orbe morado flotante | faltaba | c | ✅ agregado |
-| 10 | Cámara · producto | **foto real** (playera Cruz Azul) | placeholder caja "CEMENTO" | — | ⚠️ aprox. (no se pueden bajar assets de Figma) |
-| 11 | Form · toggle Variantes | render por defecto en **verde/on** | gris/off | b | ⚠️ pendiente (depende de estado) |
+2. Definir **estados de error** de la IA (borrosa, sin producto detectado).
 
 ## 4.9 Referencias
 - *Add Product Manually* (`601:26477`): Home `1990:109165` · Modal `153:41333` · Form vacío `152:40348` · Form lleno `153:40826` · Home+confeti `1990:118223` · Estados IA-texto `548:48930` · Estados subida `548:48980`
@@ -734,10 +665,6 @@ Vuelve al Home con **confeti** como única señal de éxito. La tarjeta "Conecta
 
 ## 5.10 Pendientes (🔴)
 1. 🔴 **Logos de marca** (Shein, Walmart, Mercado Libre, etc.): se recrean como tiles; los reales no se pueden descargar de Figma. Confirmar set y uso.
-2. 🔴 **Copy placeholder**: el detalle muestra "Mercado Libre" como nombre junto al logo Shein (texto de relleno) y fechas viejas ("1 de enero de 2022"). Actualizar.
-3. 🔴 **Auth web**: confirmar el handoff real (OAuth) y retorno a la app.
-4. Definir catálogo real de canales por categoría y los "Próximamente".
-5. Estado **ACTIVO/INACTIVO** y reglas de activación/desactivación del canal.
 
 ## 5.11 Referencias
 - *Connect Sales Channels* (`171:16434`) → *Shein Channel* (`597:43220`): Home `1990:105745` · Lista `907:63714` · Detalle `269:20513` · Modal Importante `596:24998` · Auth `597:25076`/`597:25091` · Error `597:42720` · Sincronización `271:21451` · Conectado `271:21881` · Home+confeti `1990:114826`
@@ -795,9 +722,7 @@ Guardar → vuelve al Home de Envíos con **confeti** (única animación de "tar
 
 ## 6.6 Pendientes (🔴)
 1. 🔴 Documentar la **variante Envíos del Home** en §H.
-2. 🔴 Definir **campos obligatorios** (cuáles habilitan "Guardar").
-3. Origen de **Colonia** (¿se autocompleta por CP?) y validaciones (CP, teléfono).
-4. Confirmar el **set de países** (hoy sólo México) y la bandera como asset.
+2. Confirmar el asset de la **bandera de país**.
 
 ## 6.7 Referencias
 - *Add Source Address* (`590:22183`): Home Envíos `1990:121606` · Form vacío `590:22348` · Form lleno `590:22400` · Home+confeti `1990:122492`
@@ -839,8 +764,6 @@ Guardar → vuelve al Home de Tienda con **confeti**. **Confirmado por captura:*
 
 ## 7.5 Pendientes (🔴)
 1. 🔴 **Inconsistencia de comportamiento**: al completar, esta tarjeta de setup **no cambia** (se mantiene) mientras que en dirección/producto/canal desaparece o se marca. Definir el patrón canónico.
-2. Definir el **set de reglas** sugeridas por IA y cómo se editan/añaden (botón "Editar" → ¿web?).
-3. Origen del monto sugerido ($230.00) y su cálculo por industria.
 
 ## 7.6 Referencias
 - *Review Shipping Rates* (`602:31005`): Home `1990:123758` · Tarifas de envío `681:29701` · Home+confeti `1990:124696`
@@ -910,7 +833,6 @@ Al tocar **Activar**, el **botón muestra un spinner** (el modal se mantiene abi
 ## 8.5 Cierre — Home Pagos + confeti (`1990:126964`)
 Cerrar → vuelve al Home de Pagos con **confeti**. **Confirmado por captura:** la tarjeta "Activar T1 pagos" **se mantiene en su lugar** (sigue primera, contador "2 de 5"), igual que el inicio.
 > 🔴 **Discrepancia:** la anotación dice "la tarjeta del paso completado se moverá al final", pero el **mock de cierre no lo refleja** (la tarjeta no se mueve ni cambia de estado). Definir el comportamiento canónico.
-> 🔴 **Copy inconsistente:** el botón de la promo dice **"Configurar T1envíos"** aunque el título es "Empieza a vender con T1tienda". Confirmar.
 
 ## 8.6 Componentes nuevos
 - **Modal de activación** (título + subtítulo + checks + nota informativa + 2 botones).
@@ -920,9 +842,8 @@ Cerrar → vuelve al Home de Pagos con **confeti**. **Confirmado por captura:** 
 
 ## 8.7 Pendientes (🔴)
 1. Variante Pagos del Home: ya en §H.2 (referencia cruzada).
-2. Definir cuáles checks son **obligatorios** para habilitar "Activar" (¿solo T&C?).
-3. Asset de la **ilustración** de éxito (no descargable de Figma).
-4. Flujo posterior de **subir documentación** (KYC) referido en el modal de éxito.
+2. Asset de la **ilustración** de éxito (no descargable de Figma).
+3. Flujo posterior de **subir documentación** (KYC) referido en el modal de éxito.
 
 ## 8.8 Referencias
 - *Activate T1 Payments* (`602:31723`): Home Pagos `1990:126121` · Modal activar `794:73222` · Modal éxito `794:73264` · Home+confeti `1990:126964`
@@ -987,8 +908,8 @@ Guardar → vuelve al Home de Tienda con **confeti**. La tarjeta **"Añade el no
 ## 9.6 Pendientes (🔴)
 1. 🔴 Peso canónico del **título de pantalla** (500 vs 600 — inconsistente entre flujos).
 2. 🔴 Anomalía **Manrope** en el contador (unificar a Inter).
-3. Reglas del **límite de 40** (¿se bloquea el tecleo o solo se marca error?) y validación de nombre vacío para habilitar "Guardar".
-4. Origen de las **sugerencias de IA** y cuántas se muestran.
+3. Reglas del **límite de 40** (¿se bloquea el tecleo o solo se marca error?).
+4. Cuántas **sugerencias de IA** se muestran en el carril de chips.
 5. Unificar el **componente input + sugerencias IA** con Onboarding Paso 3 y Flujo 3.
 
 ## 9.7 Referencias
@@ -1063,8 +984,6 @@ Guardar → dominio conectado → Home + **confeti**; la tarjeta **"Conectar tu 
 1. 🔴 Confirmar visualmente el **rol del botón extra** en la card sin plan (¿"Conectar dominio" / "Adquirir plan"?) y sus tokens.
 2. ✅ **Paywall validado** contra Figma (Manrope, badges verdes, chips de créditos IA, "Mejorar plan" por plan, colores `#101928`/`#485162`, **modal flotante** sin CTA de footer fijo).
 3. 🔴 El paywall es un **componente en Manrope** (probable reúso de Dashboard) — confirmar y, si aplica, documentarlo en el design system compartido en vez de solo en App.
-4. Definir la **detección de plan** (cómo sabe la app si hay suscripción) y el retorno tras adquirir plan.
-5. Validación del **campo de dominio** (formato, disponibilidad, verificación DNS).
 
 ## 10.7 Referencias
 - *Use Custom domain* (`601:27991`): Home `1990:130215` · Dominio con plan `682:30122`/`682:30298` · Dominio sin plan `682:30380`/`683:30894` · Paywall `683:30674` · Home+confeti `1990:131180`
@@ -1105,8 +1024,8 @@ Header back + **"Conectar redes sociales"**. Contenido (ancho 328):
 
 ## 11.3 Burbuja de WhatsApp = feature de pago (paywall reutilizado)
 La **burbuja de WhatsApp** solo está disponible con plan. Sin plan → al intentar activarla se abre el **paywall de planes** (el mismo componente del Flujo 10, §10.3). Dos variantes de header:
-- **Sin plan** (`674:60887`): "Accede a todas las funciones seleccionando un plan".
-- **Prueba gratis terminada** (`674:60606`): **"¡Tu prueba gratuita de la tienda en línea ha terminado! Conserva tu tienda suscribiéndote a un plan"**.
+- **Sin plan:** "Accede a todas las funciones seleccionando un plan".
+- **Prueba gratis terminada:** **"¡Tu prueba gratuita de la tienda en línea ha terminado! Conserva tu tienda suscribiéndote a un plan"**.
 > 🔴 **Nueva variante de header del paywall** ("prueba gratis terminada") — agregarla al componente de planes documentado en §10.3.
 
 ## 11.4 Cierre — Home + confeti (`1990:133050`)
@@ -1120,8 +1039,7 @@ Guardar → **animación de éxito** → Home con **confeti**; la tarjeta **"Con
 ## 11.6 Pendientes (🔴)
 1. 🔴 **Íconos de marca** (TikTok, Instagram, Facebook, X, YouTube, Pinterest, Threads, WhatsApp) — no descargables de Figma; en el demo se recrean de forma simplificada. Exportar los oficiales a `icons.ts`.
 2. 🔴 Agregar la **variante de header "prueba gratis terminada"** al paywall (§10.3).
-3. Validación de los campos (¿usuario vs URL completa? formato por red).
-4. Comportamiento exacto de la **burbuja de WhatsApp** en la tienda (posición, copy).
+3. Comportamiento exacto de la **burbuja de WhatsApp** en la tienda (posición).
 
 ## 11.7 Referencias
 - *Connect Social media* (`601:28233`): Home `1990:132125` · Vacío `158:44757` · Lleno `158:45202` · Home+confeti `1990:133050` · SIN PLAN `674:60220` + paywall `674:60887` · PRUEBA GRATIS `674:60554` + paywall `674:60606`
@@ -1215,10 +1133,8 @@ Guardar → Home con **confeti**; la tarjeta **"Configurar políticas" desaparec
 ## 12.9 Pendientes (🔴)
 1. 🔴 Consolidar las **anomalías Manrope** dentro del App (¿componentes compartidos con Dashboard o inconsistencias a corregir?).
 2. 🔴 Estados completos del **chip de política** (¿existe "Activada"/"Desactivar" tras activar?).
-3. Contenido real de los **radios de "Costo de envío de devolución"** (aparecen como placeholder "Categoría 1 › Subcat").
-4. Fuente de las **imágenes de catálogo** (placeholder) — recreadas en el demo.
-5. Textos exactos de los **botones de los modales** (Aviso de IA / sólo escritorio).
-6. Íconos `ai-magic`, `google-doc`, `loader`, `arrow-right-01-sharp` — exportar a `icons.ts`.
+3. Fuente de las **imágenes de catálogo** (placeholder) — recreadas en el demo.
+4. Íconos `ai-magic`, `google-doc`, `loader`, `arrow-right-01-sharp` — exportar a `icons.ts`.
 
 ## 12.10 Referencias
 - *Configure Store Policies* (`601:30287`): Home `1990:135879` · Políticas `689:31269` · Reglas de devolución `683:51727` · Aviso IA `689:31218` · Loading `689:30993` · Generadas `689:31628` · Sólo escritorio `700:35123` · Home+confeti `1990:137803`
@@ -1302,8 +1218,6 @@ Flujo (según notas de dev en Figma):
 3. Botón **"Mostrar resultados"** → se muestran los resultados según los filtros.
 4. Al aplicar filtros, el **chip de filtro** muestra el **nombre de la categoría + número** de filtros aplicados en ella.
 
-> 🔴 **Localización:** varias notas y posiblemente el CTA están en **inglés** en Figma (*"User taps on Show result button…"*, *"We'll show the results based on the filters"*). Confirmar copy final en español ("Mostrar resultados").
-
 Pantallas del grupo: `795:67660` · `731:27302` · `733:28160` · `733:28530` · `4183:101130` · `733:28907` · `733:29169` (incluye listas largas 360×1165 con filtros aplicados).
 
 ## 13.8 Menú del pedido — acciones (Duplicar / Cancelar)
@@ -1346,42 +1260,18 @@ Al crear un pedido **sin plan activo** se abre el **paywall de planes reutilizad
 
 1. 🔴 **Jerarquía de cabecera de tarjeta** inconsistente (nombre 16 / #id 12 vs #id 19 / nombre 15). Definir canónica.
 2. 🔴 **Estado del pedido sin color semántico:** el chip de estado es **gris `#F8F8F8`** para todos ("En camino", …). Confirmar si los estados (En camino, Entregado, Cancelado, etc.) deben tener color o se mantienen neutrales.
-3. 🔴 **Localización:** notas dev y posible CTA de filtros en **inglés** → español ("Mostrar resultados").
-4. ✅ ~~Label del botón del estado vacío y label primario del modal Cancelar~~ → **"Crear pedido"** / **"Sí, cancelar"** (resueltos contra Figma).
-5. ✅ ~~Tamaño px del título "Mis pedidos"~~ → **`T2 S` (SemiBold 20)** (resuelto).
-6. 🔴 **Sin color destructivo propio:** "Sí, cancelar" (destructivo) usa el **mismo rojo `#DB3B2B`** que "Sí, duplicar" y que el primario. Definir variante *danger*. *(Ver también §D.9·1.)*
-7. **Variante enmascarada (locked)** (`733:31596`): el nombre del cliente se sustituye por el **# de pedido** bajo *gating* de plan. Confirmar qué campos se ocultan y bajo qué condición (plan gratis vs prueba terminada).
-8. Alcance/estado del tab **"Sucursales"** y de la pestaña **"Carrito abandonado"**.
-9. Íconos a `icons.ts`: `search-01`, `filter-horizontal`, `more-vertical`, `more-horizontal`, `cash-01`, `store-03`, `calendar-03`, `copy-01`, `cancel-circle`, `amazon-iso`, `x`.
-
-## 13.12 QA — Comparación vs Figma
-
-Verificación 1:1 de lo documentado contra la sección `290:20528`:
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Tarjeta de pedido — tokens | Inter M16/R12/M14/R12, borde `#F3F3F3`, radio 12, `gap 16` | §13.3 | ✅ Fiel |
-| Chip de estado | bg `#F8F8F8`, radio 6, Inter M12 `#4C4C4C`, "En camino" | §13.3 | ✅ Fiel |
-| Chip de canal | bg `#F8F8F8`, "Amazon" `#000` + logo 12 | §13.3 | ✅ Fiel |
-| Pie "N envíos" | Inter M12 `#1F2937` | §13.3 | ✅ Fiel |
-| Tabs | activo SemiBold 14 + subrayado `1.5px #DB3B2B`; inactivo M14 `#4C4C4C` | §13.2 | ✅ Fiel |
-| Modal confirmación | radio 16, ícono 64/`#F8F8F8`, título SemiBold 20, cuerpo R14, botones "Cerrar" + rojo | §13.8 | ✅ Fiel |
-| "Sí, duplicar" (primario) | bg `#DB3B2B`, SemiBold 14 blanco | §13.8 | ✅ Fiel |
-| Empty state | ilustración 220 + copy + botón 162×40 | §13.4 | ⚠️ Label del botón no resuelto en metadata |
-| Estado del pedido (color) | chip neutral gris para todos | §13.11·2 | ⚠️ Sin color semántico — confirmar intención |
-| Jerarquía nombre/#id | dos disposiciones distintas | §13.11·1 | ⚠️ Inconsistencia en Figma |
-| Copy de filtros | notas/CTA en inglés | §13.11·3 | ⚠️ Localización pendiente |
-| Título "Mis pedidos" (px) | alto 26 (≈22) | §13.2 | ⚠️ px exacto por confirmar |
-| Paywall (planes) | mismo componente §10.3 | §13.9 | ✅ Referenciado (no duplicado) |
-
-**Resumen:** estructura, tokens y copy de la lista, tarjeta, tabs y modales **coinciden con Figma**. Las 6 discrepancias son **⚠️ inconsistencias/pendientes del propio diseño** (no errores de documentación): color de estado, jerarquía de cabecera, labels no resueltos, localización y px del título.
+3. ✅ ~~Label del botón del estado vacío y label primario del modal Cancelar~~ → **"Crear pedido"** / **"Sí, cancelar"** (resueltos contra Figma).
+4. ✅ ~~Tamaño px del título "Mis pedidos"~~ → **`T2 S` (SemiBold 20)** (resuelto).
+5. 🔴 **Sin color destructivo propio:** "Sí, cancelar" (destructivo) usa el **mismo rojo `#DB3B2B`** que "Sí, duplicar" y que el primario. Definir variante *danger*. *(Ver también §D.9·1.)*
+6. **Variante enmascarada (locked)** (`733:31596`): el nombre del cliente se sustituye por el **# de pedido** bajo *gating* de plan. Confirmar qué campos se ocultan.
+7. Íconos a `icons.ts`: `search-01`, `filter-horizontal`, `more-vertical`, `more-horizontal`, `cash-01`, `store-03`, `calendar-03`, `copy-01`, `cancel-circle`, `amazon-iso`, `x`.
 
 ## 13.13 Referencias
 
 - *Orders* (`290:20528`): Vacío `731:26144` · Con pedidos `731:26521` · Opciones de menú (barra) `795:63501` · Búsqueda `733:29479` · Menú del pedido `733:29874` · **Duplicar** `290:21765` · **Cancelar** `290:21849` · Carga diferida `434:39740`/`434:39767` · Crear sin plan `674:55489` · Prueba gratuita `674:58702`.
 - UI de filtros: `795:67660` · `731:27302` · `733:28160` · `733:28530` · `4183:101130` · `733:28907` · `733:29169`.
 - Reutiliza: paywall §10.3 · barra inferior/FAB §H.3.9–H.3.10 · loaders §L.
-- [DESIGN-SYSTEM-APP.md](./DESIGN-SYSTEM-APP.md) — fundamentos (Inter, color, spacing, radios).
+- [APP.md](./APP.md) — fundamentos (Inter, color, spacing, radios).
 
 ---
 
@@ -1487,7 +1377,7 @@ Estructura genérica **ícono en círculo de color + título + descripción + ac
 | **Disputas pendientes** | Info | "Tienes disputas sin resolver que esperan una respuesta. Revísalas y actúa antes de que venza el plazo." |
 | **Transacción de alto valor** | Info | "Se detectó una transacción por encima de tu límite configurado. Revísala para verificar su exactitud o evaluar el riesgo." |
 
-> 🔴 Confirmar el **color de ícono por tipo** (rojo/naranja/azul) y el **mapeo canónico** caso de uso → severidad.
+> 🔴 Confirmar el **color de ícono por tipo** (rojo/naranja/azul).
 
 ## B.2 Paywall "suscripción terminada" + plan Enterprise (`668:30874`)
 Reutiliza el **paywall de planes** (§10.3) con:
@@ -1497,11 +1387,9 @@ Reutiliza el **paywall de planes** (§10.3) con:
 
 ## B.3 Pantalla "Sin conexión" (`603:36118`)
 Estado global: ilustración *No connection-bro* + **"¡Sin conexión a internet!"** + cuerpo + acción (reintentar).
-> 🔴 **Localización:** el título está en español pero el cuerpo en **inglés** ("You're not connected to the internet. Please check your Wi-Fi or mobile data connection and try again.") — corregir a español.
 
 ## B.4 Pantalla "Mantenimiento" (`603:36185`)
 Estado global: ilustración *Phone maintenance-pana* + **"We're currently undergoing maintenance"** + "Our team is performing some routine updates to keep things running smoothly. We'll be back online shortly — thanks for your patience."
-> 🔴 **Localización:** **todo en inglés** — traducir a español (el App es es-MX).
 
 ## B.5 Componentes / patrones
 - **Banner/alerta** (3 tipos por severidad) — componente nuevo.
@@ -1509,12 +1397,11 @@ Estado global: ilustración *Phone maintenance-pana* + **"We're currently underg
 - **Estado global full-screen** (ilustración + título + descripción + acción) — mismo molde que *Sync Error* (§S.3) y éxito de activación; refuerza el **componente de estado** parametrizable.
 
 ## B.6 Pendientes (🔴)
-1. 🔴 Color de ícono por severidad + mapeo caso→tipo.
-2. 🔴 **Localización** de "Sin conexión" (cuerpo EN) y "Mantenimiento" (todo EN) → español.
-3. 🔴 Sumar **Enterprise** + header "prueba terminada" al paywall (§10.3).
-4. Comportamiento del **chevron** del banner (navega al detalle) y del **carrusel** (auto-rotación / prioridad por severidad).
-5. Ilustraciones (*No connection-bro*, *Phone maintenance-pana*) — placeholders en el demo.
-6. Íconos `passport-expired`, `alarm-clock`, `transaction`, `building`, `trending-up`, `zap` → `icons.ts`.
+1. 🔴 Color de ícono por severidad.
+2. 🔴 Sumar **Enterprise** + header "prueba terminada" al paywall (§10.3).
+3. Comportamiento del **chevron** del banner (navega al detalle) y del **carrusel** (auto-rotación / prioridad por severidad).
+4. Ilustraciones (*No connection-bro*, *Phone maintenance-pana*) — placeholders en el demo.
+5. Íconos `passport-expired`, `alarm-clock`, `transaction`, `building`, `trending-up`, `zap` → `icons.ts`.
 
 ## B.7 Referencias
 - *Banner Use Cases* (`603:34724`): Banners Home `1990:141592` · Suscripción terminada `668:30874` / Select plan `668:31867` · Sin conexión `603:36118` · Mantenimiento `603:36185`
@@ -1567,7 +1454,7 @@ Estado global: ilustración *Phone maintenance-pana* + **"We're currently underg
 1. 🔴 Confirmar si el chat es **Manrope intencional** (componente compartido) o debe migrar a Inter (App = Inter-only).
 2. Avatar real de Nova (`image 218`).
 3. Estado **"Nova está escribiendo"** (typing) — no visto en Figma, confirmar si existe.
-4. Comportamiento del **mic** al escribir (se oculta) y del envío de voz (¿transcribe? ¿queda como audio?).
+4. Comportamiento del **mic** al escribir (se oculta).
 5. Íconos `mic-02`, `material-symbols:send-outline`, `iconoir:play-solid`, `icon/action/close` → `icons.ts`.
 
 ## N.7 Referencias
@@ -1613,7 +1500,6 @@ Variante **reducida** de la tarjeta del listado (§13.3): **`bg #F8F8F8`** (gris
 Ancho completo, **h32**, radio 8, texto **Inter SemiBold 12** `#DB3B2B` **subrayado**, centrado.
 
 > 🔴 **Relleno fantasma:** `bg rgba(244,244,244,0)` — un color con **alfa 0** en vez de "sin relleno". Limpiar.
-> ⚠️ El conteo ("25 más") está hardcodeado; definir si es dinámico y qué pasa al agotar resultados.
 
 ### N.9 Las 3 pantallas (prompts y respuestas)
 
@@ -1625,10 +1511,7 @@ Ancho completo, **h32**, radio 8, texto **Inter SemiBold 12** `#DB3B2B` **subray
 
 Las tres usan el mismo link CTA: **"Ir a la página de pedidos"**.
 
-> 🔴 **El chip dice "Pago pendiente"**. El **canónico es "Pendiente de pago"** (chip del detalle, `I171:16847`, y del listado §13/§D.3). Además, el **banner amarillo del propio detalle** dice *"**Pago pendiente** por SPEI…"* (`I4098:50600;98:16220`) — así que la redacción invertida ya vive en **dos** lugares. Unificar a "Pendiente de pago".
 > ⚠️ **Pantalla 1 — incoherencia de datos:** el usuario pide *pedidos de Amazon*, pero las tarjetas **no muestran el canal** (la fila "Pedido vía" está oculta). El resultado no evidencia por qué esos pedidos responden al filtro.
-> ⚠️ **Pantalla 3 — incoherencia de datos:** Nova dice **"52 pedidos cancelados"** pero muestra **2 tarjetas** y ofrece **"Mostrar 25 más"** (2 + 25 = 27 ≠ 52).
-> ⚠️ Las dos tarjetas de cada pantalla son **idénticas** (mismo nombre, mismo `#394030`) — datos de ejemplo sin variar.
 
 ## N.10 🔴 Divergencias con el chat de Nova base (§N.1)
 
@@ -1655,31 +1538,13 @@ Misma pantalla, dos secciones de Figma que **no coinciden**:
 
 ## N.12 Pendientes (🔴)
 1. 🔴 **Corregir el Nova base (`43:2009`), no esta sección:** su título debe pasar a **`T3 S`** y su link CTA a **`#DB3B2B`** — §N.10.
-2. 🔴 **Nombre del estado:** "Pago pendiente" (chip de Nova + banner SPEI del detalle) vs el canónico **"Pendiente de pago"** (§13, §D.3).
-3. 🔴 **Pesos de la tarjeta** distintos a los del listado (`B1 S`/`B3 S` vs `B1 M`/`B3 R`) y **fondo gris sin borde**.
-4. 🔴 **Alto fijo de 126px:** con nombre de dos líneas el padding inferior colapsa a 1px.
-5. 🔴 **Relleno `rgba(244,244,244,0)`** (alfa 0) en el botón "Mostrar 25 más".
-6. ⚠️ **Los datos no sostienen la respuesta:** "52 cancelados" con 2 tarjetas + "Mostrar 25 más"; y el filtro de Amazon no muestra el canal.
-7. ⚠️ **El kebab de la tarjeta en el chat no tiene menú** (mismo hueco que §D y §CA).
-8. **Sin estados** de carga ("Nova está escribiendo"), de **sin resultados**, ni de error de la consulta.
-9. **Sin definir** qué pasa al tocar una tarjeta (¿abre el detalle §D? ¿cierra el chat?).
-
-## N.13 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Panel | blanco, h728, radio-top 12, scrim `rgba(0,0,0,.7)` | §N.10 | ✅ Fiel |
-| Header | "Preguntarle a Nova", **`T3 S`** + close 24 | §N.10 | ✅ Fiel *(difiere de §N.1)* |
-| Burbuja de usuario | `#F8F8F8`, radio 37, Manrope Medium 14/18, derecha | §N.1 | ✅ Fiel |
-| Burbuja de Nova | avatar 28 + `#F8F8F8` radio 19 + link **rojo** subrayado | §N.10 | ✅ Fiel *(difiere de §N.1)* |
-| Tarjeta compacta | `#F8F8F8`, radio 12, h126, `B1 S` + `B3 S`, filas ocultas | §N.8.2 | ✅ Fiel |
-| Chip | "Pago pendiente" / "Cancelado" (neutro gris) | §N.9 | ⚠️ Nombre inconsistente |
-| Botón "Mostrar 25 más" | h32, radio 8, Inter SemiBold 12 `#DB3B2B` subrayado | §N.8.3 | ✅ Fiel *(relleno alfa 0)* |
-| Barra de input | campo pill radio 61 + mic 32 + enviar 50 `#DB3B2B` | §N.1 | ✅ Fiel |
-| Coherencia de datos | 52 cancelados vs 2 tarjetas + "25 más" | §N.12·6 | ⚠️ Error en Figma |
-| Estados carga/vacío/error | **no existen** | §N.12·8 | 🔴 Faltantes |
-
-**Resumen:** las 3 pantallas y sus componentes **coinciden con Figma**. El aporte real de esta sección es el **patrón de respuesta enriquecida** (Nova devuelve tarjetas accionables, no sólo texto). Las discrepancias son: **divergencias con la sección base de Nova** (título y color del link), la **tarjeta de pedido con otra jerarquía tipográfica y fondo**, y **datos de ejemplo que se contradicen**.
+2. 🔴 **Pesos de la tarjeta** distintos a los del listado (`B1 S`/`B3 S` vs `B1 M`/`B3 R`) y **fondo gris sin borde**.
+3. 🔴 **Alto fijo de 126px:** con nombre de dos líneas el padding inferior colapsa a 1px.
+4. 🔴 **Relleno `rgba(244,244,244,0)`** (alfa 0) en el botón "Mostrar 25 más".
+5. ⚠️ **El filtro de Amazon no muestra el canal** en las tarjetas (la fila "Pedido vía" está oculta), lo que no evidencia por qué esos pedidos responden al filtro.
+6. ⚠️ **El kebab de la tarjeta en el chat no tiene menú** (mismo hueco que §D y §CA).
+7. **Sin estados** de carga ("Nova está escribiendo"), de **sin resultados**, ni de error de la consulta.
+8. **Sin definir** qué pasa al tocar una tarjeta (¿abre el detalle §D? ¿cierra el chat?).
 
 ## N.14 Referencias — Integración con Pedidos
 - *Nova Integration (Orders)* (`435:41638`) — 3 pantallas: Amazon `435:41824` · María `435:41958` · Cancelados `435:42092`.
@@ -1703,8 +1568,8 @@ Nova es un **bottom sheet modal** (bg blanco, esquinas superiores r12, 728h) sob
 | 3 | **Producto más vendido** (`435:44613`) | "Aquí están tus productos más vendidos esta semana: …" | **Ir a productos** | lista de ranking (Smart Thermo Pro 52 · Air Purifier Mini 34 · Eco Water Bottle 28) |
 | 4 | **¿Qué producto se vendió más hoy?** (`434:36333`) | "Aquí están tus productos más vendidos hoy: …" | **Ver todos los productos** | ranking del día |
 | 5 | **Ver productos con poco inventario** (`434:36744`) | "Aquí está la lista de productos con poco inventario:" | **Ir a inventario** | tarjeta de producto |
-| 6 | **Crear producto con foto** (`434:37326`) | "Sure, Let's create a product with photo." 🔴 (en inglés) | — | [nota diseñador] *"Redirigir al usuario al flujo de agregar producto con IA"* (§PG) |
-| 7 | **Conectar canal de Amazon** (`434:37794`) | "Sure, Let's connect your Amazon channel" 🔴 (en inglés) | — | [nota diseñador] *"Redirigir a agregar canal"* |
+| 6 | **Crear producto con foto** (`434:37326`) | "Sure, Let's create a product with photo." | — | [nota diseñador] *"Redirigir al usuario al flujo de agregar producto con IA"* (§PG) |
+| 7 | **Conectar canal de Amazon** (`434:37794`) | "Sure, Let's connect your Amazon channel" | — | [nota diseñador] *"Redirigir a agregar canal"* |
 
 > Las pantallas 4–8 muestran la **conversación acumulada** (todos los turnos anteriores + el nuevo), no pantallas aisladas — es el historial creciendo. Los prompts se ofrecen como **chips sugeridos** (pill `#FFF0EF` rosa claro, `Manrope Medium 14`, alineados a la derecha como burbuja de usuario).
 
@@ -1715,7 +1580,6 @@ Card `#F8F8F8` r12 (132h): **nombre** ("Javari Mena", `Inter SemiBold 16`) + **f
 **Una tarjeta por producto** (no una combinada). Card `#F8F8F8` r12 (123h): **thumbnail** (40px, borde `#F3F3F3` r8) + **nombre** (2 líneas, `Inter SemiBold 14`, ellipsis) + divisor + **"Inventario total:"** + **cifra** (`Inter SemiBold 14`). En el ejemplo, dos tarjetas con **12** y **28** respectivamente. Cierra con CTA **"Mostrar 25 más"** (link rojo subrayado).
 
 > 🔴 **Corrección:** son tarjetas **separadas** por producto (cada una con su inventario), no una tarjeta con "12/28".
-> 🔴 **Paginación con dos textos:** "Ver 15 más" (pedidos §N.15.3) vs **"Mostrar 25 más"** (inventario). Unificar el verbo ("Ver"/"Mostrar") y confirmar los conteos.
 
 ### N.15.5 CTA de acción (redirección)
 Las capacidades 6 y 7 no muestran datos: Nova **confirma y redirige** a un flujo existente de la App:
@@ -1725,32 +1589,15 @@ Las capacidades 6 y 7 no muestran datos: Nova **confirma y redirige** a un flujo
 > ✅ **Nova como orquestador:** no solo responde consultas, también **lanza flujos** de la App (crear producto, conectar canal). Es el hilo que conecta Nova con Productos, Inventario, Pedidos y Canales.
 
 ### N.15.6 Hallazgos (🔴)
-1. 🔴 **Respuestas de acción en INGLÉS:** "Sure, Let's create a product with photo" / "Sure, Let's connect your Amazon channel" — en una app es-MX. Traducir (§N.15.2).
-2. 🔴 **Chip de pedido "Pago pendiente"** usa gris `#E7E7E7`/`#6B7280` (no el chip de estado de Pedidos §D.3) — confirmar consistencia con el sistema de chips de estado de pedido.
-3. 🔴 **Manrope** en burbujas y chips sugeridos (`#FFF0EF`) — misma anomalía del chat de Nova (§N.5). El chat es un componente Manrope.
-4. 🔴 **"esta semana" (cap. 3) vs "hoy" (cap. 4)** — dos rangos temporales para el mismo tipo de consulta; confirmar cómo Nova interpreta el periodo.
-4b. 🔴 **Paginación inconsistente:** "Ver 15 más" (pedidos) vs "Mostrar 25 más" (inventario) — unificar verbo y confirmar conteos (§N.15.3/§N.15.4).
-5. ⚠️ **Prompts sugeridos**: confirmar si son chips fijos de onboarding o sugerencias dinámicas.
+1. 🔴 **Chip de pedido "Pago pendiente"** usa gris `#E7E7E7`/`#6B7280` (no el chip de estado de Pedidos §D.3) — confirmar consistencia con el sistema de chips de estado de pedido.
+2. 🔴 **Manrope** en burbujas y chips sugeridos (`#FFF0EF`) — misma anomalía del chat de Nova (§N.5). El chat es un componente Manrope.
+3. ⚠️ **Prompts sugeridos**: confirmar si son chips fijos de onboarding o sugerencias dinámicas.
 
 ### N.15.7 Componentes nuevos (vs §N.4/§N.11)
 - **Chip de prompt sugerido** (pill `#FFF0EF` rosa claro) — N.15.2.
 - **Tarjeta de pedido en chat** (compacta, con "Ver N más") — N.15.3.
 - **Tarjeta de producto en chat** (con inventario) — N.15.4.
 - **CTA de redirección a flujo** (crear producto / conectar canal) — N.15.5.
-
-### N.15.8 QA — Comparación vs Figma
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Shell (sheet + atenuado 70%) | `433:35019` | §N.15.1 | ✅ Fiel |
-| Pedidos pendientes | 3 tarjetas + "Ver 15 más" | §N.15.2 | ✅ Fiel |
-| Poco inventario | 2 tarjetas (thumb+nombre+inv) + "Mostrar 25 más" | §N.15.4 | ✅ Fiel (corregido) |
-| Más vendidos (semana/hoy) | ranking texto | §N.15.2 | 🔴 semana vs hoy |
-| Crear producto con foto | "Sure, Let's create…" | §N.15.2 | 🔴 En inglés |
-| Conectar Amazon | "Sure, Let's connect…" | §N.15.2 | 🔴 En inglés |
-| Tarjeta de pedido | Javari Mena + chip + 3 envíos | §N.15.3 | ✅ Fiel |
-| Chip prompt sugerido | pill `#FFF0EF` | §N.15.2 | ✅ Fiel |
-
-**Resumen:** la integración de Nova con Productos convierte el chat en un **panel de consulta y acción** sobre el catálogo/inventario/pedidos: pregunta por pedidos pendientes (con tarjetas + "Ver 15 más"), productos con poco inventario, y más vendidos (por semana/hoy), con un **CTA que salta al flujo correspondiente**. Además Nova **dispara acciones** — crear producto con foto (→ §PG) y conectar canal (→ canales) — actuando como **orquestador** de la App. Reutiliza el shell del chat (§N.1) y su tipografía **Manrope**. Hallazgos: dos respuestas de acción **en inglés**, el chip de pedido con paleta propia, y la ambigüedad "esta semana" vs "hoy".
 
 ### N.15.9 Referencias — Integración con Productos
 - *Nova Integration (Products)* (`433:25412`) — 8 pantallas Nova AI: `433:35019` · `435:41158` · `435:44613` · `434:35933` · `434:36333` · `434:36744` · `434:37326` · `434:37794`.
@@ -1778,7 +1625,7 @@ Los banners se muestran como **skeleton** (bloques vacíos 328×109/93) + dots. 
 
 ## AS.3 Error
 Bloque **centrado**: `information-circle` (24) + **"No pudimos cargar tus alertas"** (Inter Regular 14 `#4C4C4C`) + botón **"Reintentar"** (bordeado `#F3F3F3`, radio 8, h32, ícono `refresh` 12 + Inter Medium 12 **texto rojo `#DB3B2B`**).
-> 🔴 **Nota dev:** si **falla 3 veces** → mostrar **"Try again later"** y **ocultar el bloque**. (Confirmar copy en español, ej. "Intenta más tarde" — está en inglés en la nota.)
+> **Nota dev:** si **falla 3 veces** → mostrar un mensaje de reintento y **ocultar el bloque**.
 
 ## AS.4 Sin conexión (offline)
 Bloque **centrado**: `cellular-network-offline` (24) + **"Sin conexión - Las alertas se actualizarán cuando te reconectes"** + botón **"Reintentar"**. Es un estado **cross-section**; además:
@@ -1796,10 +1643,9 @@ El **bloque NO aparece** — **no** se muestra un mensaje tipo "no tienes alerta
 - **Regla de espacio recuperado**: cuando la sección está vacía, se **oculta** (no empty-state con copy).
 
 ## AS.7 Pendientes (🔴)
-1. 🔴 Copy en **español** del fallback "Try again later" (tras 3 intentos).
-2. 🔴 Estilo/color del link **"Actualizar ahora"** y de **"Información de tu última conexión"**.
-3. Confirmar si estos estados (error/offline/loading/empty) aplican también a **Métricas** y **Nova Insights** o solo a Alertas.
-4. Íconos `information-circle`, `cellular-network-offline`, `package-process-01`, `money-receive-01`, `calendar-03` → `icons.ts`.
+1. 🔴 Estilo/color del link **"Actualizar ahora"** y de **"Información de tu última conexión"**.
+2. Confirmar si estos estados (error/offline/loading/empty) aplican también a **Métricas** y **Nova Insights** o solo a Alertas.
+3. Íconos `information-circle`, `cellular-network-offline`, `package-process-01`, `money-receive-01`, `calendar-03` → `icons.ts`.
 
 ## AS.8 Referencias
 - *Alert Section States* (`1399:69897`): Con alertas `1991:160450` · Cargando `1991:157713` · Error `1991:158618` · Offline `1991:161433` · Vacío `1991:159517`
@@ -1825,7 +1671,6 @@ Al completar el checklist:
 - **Celebración efímera (3 s):** modal **"¡Listo! Tu negocio está configurado"** + **`checkmark-badge-02`** (150px, verde) + **confeti** + botón **"Empezar a vender"** (bordeado `#F3F3F3`, radio 12, con flecha `arrow-right-02-round`).
 - Luego **el bloque desaparece** y **ya no vuelve a aparecer**.
 - **Tokens:** título Inter **SemiBold 18** negro centrado (tracking −0.36); cuerpo Inter Regular 14 `#4C4C4C`; modal blanco **radio 24** (328×418) sobre fondo atenuado (`rgba(0,0,0,.4)`).
-- 🔴 **Localización:** el cuerpo está en **inglés** — *"You've completed your account setup. You can know start selling…"* — traducir a español (y corregir el typo **"know" → "now"**).
 - **Nota dev:** *"Block disappears · First time completing: Ephemeral celebration (3 seconds) · Message 'All set! Your business is configured' · Then block doesn't appear anymore"*.
 
 ## CL.5 Estado de error (Error) — `1991:164410`
@@ -1835,7 +1680,6 @@ Bloque **centrado**: `information-circle` (24) + **"No pudimos cargar tu progres
 ## CL.6 Estado sin conexión (Offline) — `1991:176072` / `1991:176921`
 - Muestra el **último estado conocido (caché)** + **badge "Offline"** (chip junto al título).
 - Al **intentar completar un paso** → mensaje **"You need connection to save your progress"**.
-- 🔴 **Localización:** ese mensaje está en **inglés** → "Necesitas conexión para guardar tu progreso".
 - **Nota dev:** *"Show last known state (from cache) · Badge: 'Offline' · When trying to complete step: Message 'You need connection to save your progress'"*.
 
 ## CL.7 Componentes / patrones
@@ -1846,10 +1690,9 @@ Bloque **centrado**: `information-circle` (24) + **"No pudimos cargar tu progres
 - **Regla de espacio recuperado** (vacío y completado ocultan el bloque).
 
 ## CL.8 Pendientes (🔴)
-1. 🔴 **Localización:** cuerpo del éxito (inglés + typo "know"→"now") y mensaje offline (inglés) → español.
-2. Duración/animación exacta de la **celebración efímera** (3 s) y su transición al ocultar el bloque.
-3. Íconos `checkmark-badge-02`, `information-circle`, `cellular-network-offline`, `arrow-right-02-round` → `icons.ts`.
-4. Confirmar si "completado" y "vacío" comparten la misma regla de ocultar/recuperar espacio.
+1. Duración/animación exacta de la **celebración efímera** (3 s) y su transición al ocultar el bloque.
+2. Íconos `checkmark-badge-02`, `information-circle`, `cellular-network-offline`, `arrow-right-02-round` → `icons.ts`.
+3. Confirmar si "completado" y "vacío" comparten la misma regla de ocultar/recuperar espacio.
 
 ## CL.9 Referencias
 - *Setup Checklist States* (`1336:103820`): Carga `1991:162385` · Vacío `1991:163234` · Completado `1366:49767`/`1366:49779` · Error `1991:164410` · Sin conexión `1991:176072`/`1991:176921`
@@ -1867,8 +1710,6 @@ Header **"Métricas / Hoy"** + carril de 6 tarjetas pobladas (§H.4) con sus del
 - **Nota de frescura:** **"Datos de hace 2 horas. Cargar ahora"** (Inter Medium 12 `#4C4C4C`, centrado; *"Cargar ahora"* = refrescar).
 - **Botón secundario full-width:** **"Ver reporte detallado →"** (§H.3.5).
 - **Nota dev (@devs):** *"Show cached data if available with badge 'Data from X ago'"* — hoy se resuelve como nota de texto, no como chip.
-
-> 🔴 **Inconsistencia de copy de frescura:** aquí **"Datos de hace 2 horas. Cargar ahora"**; en offline (§M.5 / §AS.4) **"Última actualización: hace 2 horas. Actualizar ahora"**. Unificar.
 
 ## M.2 Cargando (skeleton) — `1991:167471`
 Header y botón inferior en skeleton. Cada una de las 6 tarjetas muestra placeholders en **Greys/900 `#F8F8F8`**: barra de label (15px, radio 3), placeholder de valor (71×32, radio 8) y placeholder de ícono (26×26, radio 6). Ver §L.
@@ -1896,15 +1737,14 @@ Estado **cross-section** (mismo evento que §AS.4 y §CL.6), a **pantalla comple
 - **Tarjeta de métrica** (§H.3.5) + **reglas de datos** (§H.4) — sin cambios.
 - **Skeleton de tarjeta de métrica** (label + valor + ícono) — variante de §L.
 - **Bloque de estado** reutilizado (ícono + texto `#4C4C4C` + botón "Reintentar"/"Reconectar" con texto rojo) — mismo molde que §AS.6 / §CL.7.
-- **Nota de frescura** (dato + link de refresco) — con copy divergente entre caché y offline (ver M.1).
+- **Nota de frescura** (dato + link de refresco).
 - **Empty-state de onboarding** (ilustración + título + subtítulo + CTA) — **no** recupera espacio (a diferencia de §AS.5 / §CL.3).
 
 ## M.7 Pendientes (🔴)
-1. 🔴 **Copy de frescura inconsistente:** "Datos de hace 2 horas. Cargar ahora" (caché) vs "Última actualización: hace 2 horas. Actualizar ahora" (offline). Unificar en `UX-WRITING.md`.
-2. 🔴 **Badge "Data from X ago":** la nota dev pide un **badge**; hoy es nota de texto. Definir si se estandariza a chip.
-3. 🔴 **Verde de delta positivo:** dentro de *Envíos* conviven **dos verdes** — `#4FC153` (Incidencias) y `#16A34A` (Saldo) — que se suman al `#51AF70` de otras variantes. **Amplía §H.5·7:** el token de "tendencia positiva" tiene **3 hex** en uso.
-4. Confirmar que el **empty-state con CTA** (no ocultar) es intencional y no colisiona con la regla de espacio recuperado de §AS.5 / §CL.3.
-5. Íconos a `icons.ts`: `analytics-01`, `information-circle`, `cellular-network-offline`, `refresh`, `arrow-right-02-round`, `shipping-loading`, `truck-delivery`, `package-delivered`, `alert-02`, `container-truck-01`, `dollar-circle`, `auto-conversations`.
+1. 🔴 **Badge "Data from X ago":** la nota dev pide un **badge**; hoy es nota de texto. Definir si se estandariza a chip.
+2. 🔴 **Verde de delta positivo:** dentro de *Envíos* conviven **dos verdes** — `#4FC153` (Incidencias) y `#16A34A` (Saldo) — que se suman al `#51AF70` de otras variantes. **Amplía §H.5·7:** el token de "tendencia positiva" tiene **3 hex** en uso.
+3. Confirmar que el **empty-state con CTA** (no ocultar) es intencional y no colisiona con la regla de espacio recuperado de §AS.5 / §CL.3.
+4. Íconos a `icons.ts`: `analytics-01`, `information-circle`, `cellular-network-offline`, `refresh`, `arrow-right-02-round`, `shipping-loading`, `truck-delivery`, `package-delivered`, `alert-02`, `container-truck-01`, `dollar-circle`, `auto-conversations`.
 
 ## M.8 Referencias
 - *Metrics Block States* (`1366:50557`): Carga `1991:167471` · Vacío `1991:168503` · Error `1991:169631` · Cache Data `1991:170465` · Sin conexión `1991:177349`.
@@ -1974,7 +1814,7 @@ Scroll vertical único. **La estructura no cambia entre estados; cambian el chip
 ### D.2.3 Fila de producto — `171:16862`
 Miniatura **44×44** (radio 12) + columna (w186, `gap 8`) + precio a la derecha (w57).
 - **Nombre** `B2 M` (Inter Medium 14, `#000`, tracking −0.28).
-- **Cantidad** "1unidad" `B3 M` `#4C4C4C`. 🔴 *falta el espacio: "1 unidad".*
+- **Cantidad** "1unidad" `B3 M` `#4C4C4C`.
 - **Chip de variante** (opcional): `bg rgba(33,128,255,0.1)` (Overlay/Blue), texto **`#2180FF`** (Complementary/Blue), `B3 M`, radio 6 — ej. "Rosa / Niño".
 - **SKU** `B3 M` `#4C4C4C`.
 - **Precio** `B2 S` (Inter SemiBold 14) `#000`, derecha.
@@ -2000,10 +1840,10 @@ Filas separadas por divisor hairline `#F3F3F3`.
 |---|---|---|---|---|
 | Pendiente de pago | `171:16835` | "Pendiente de pago" | neutral | **Marcar como pagado** |
 | Por preparar | `171:17009` | "Por preparar" | neutral | **Preparar envío** |
-| Por enviar | `171:17194` | "Por enviar" | neutral | **Generar guía** ⚠️ *("Genaerar guía" en Figma)* |
+| Por enviar | `171:17194` | "Por enviar" | neutral | **Generar guía** |
 | En camino | `171:17392` | "En camino" | neutral | — *(sin CTA)* |
 | En camino (b) | `895:69184` | "En camino" | neutral | **Marcar como entregado** |
-| Por recolectar | `312:11520` | "Por recolectar" | neutral | **Imprimir guía de envío** ⚠️ *("Imprimir gua…" en Figma)* |
+| Por recolectar | `312:11520` | "Por recolectar" | neutral | **Imprimir guía de envío** |
 | Entregado | `292:36338` | "Entregado" | **verde** | — |
 | Completado | `292:36610` | "Completado" | **verde** | — |
 | Parcialmente preparado | `4166:113772` | "Parcialmente preparado" | punteado | 2 CTAs (una por grupo) |
@@ -2020,7 +1860,7 @@ Filas separadas por divisor hairline `#F3F3F3`.
 ## D.4 Bloques
 
 ### D.4.1 PRODUCTOS → bloque de envío (SH01)
-En "Pendiente de pago" y "Por preparar" el título es **PRODUCTOS**. En cuanto el pedido se prepara, el bloque pasa a titularse **`#3146535 - SH01`** (`4177:23650`) y su meta cambia a *"Preparado el 29 de oct | Sucursal…"*. Cada envío es un bloque; **las devoluciones usan el prefijo `RE01`** (`293:44056`).
+En "Pendiente de pago" y "Por preparar" el título es **PRODUCTOS**. En cuanto el pedido se prepara, el bloque pasa a titularse **`#3146535 - SH01`** y su meta cambia a *"Preparado el 29 de oct | Sucursal…"*. Cada envío es un bloque; **las devoluciones usan el prefijo `RE01`**.
 
 **Multi-sucursal** (`4166:113119`): el pedido se parte en **dos bloques PRODUCTOS**, uno por sucursal (Polanco / Centro).
 
@@ -2051,20 +1891,6 @@ Aparece en variantes recientes (cancelado, editar contacto). Filas label `B2 R` 
 
 > 🔴 **Valores fuera de token** en los inputs de Etiquetas/Historial: borde `0.916px`, tipografía `13.43px`, radio `20`. Parece un componente **escalado** (≈0.916×). Corregir a tokens.
 
-### D.4.8 🔴 Etiqueta de impuesto — **cinco redacciones distintas**
-
-La misma fila del RESUMEN DE COBRO aparece con **5 labels diferentes** según la pantalla:
-
-| Label en Figma | Dónde | Nodo(s) |
-|---|---|---|
-| **"Impuestos (IVA)"** ✅ *(correcto)* | Pendiente de pago | `4098:50605` |
-| **"Impuestos (VA)"** 🔴 typo | Por enviar · multi-sucursal · editar contacto | `4098:50978` |
-| **"IVA (20.00%)"** 🔴 *IVA en México = 16%* | Cancelado · Devuelto · Reembolsado · Parcialmente reembolsado · editar dirección | `4177:27629` · `4177:27854` · `4177:28249` · `4177:28583` · `4177:29307` · `293:44232` · `4179:80500` |
-| **"IVA"** | Cancelar artículo | `343:15768` |
-| **"VAT"** 🔴 *inglés en interfaz es-MX* | Devolver productos | `896:73453` · `896:73554` |
-
-**Acción:** definir el label canónico (p. ej. **"IVA (16%)"**) y aplicarlo en **las 22 instancias** (12 en el detalle + 6 en Crear pedido §CP.6·2 + 4 en Carrito abandonado §CA.4.3).
-
 ## D.5 CTA principal (botón grande)
 `bg #DB3B2B`, **h48**, **radio 16**, `px32 py12`, label **`B1 M`** (Inter **Medium 16**, blanco, tracking −0.32), ancho completo. Vive **dentro del bloque** (RESUMEN DE COBRO o el grupo de productos), **no** en una barra fija inferior.
 
@@ -2086,8 +1912,6 @@ La misma fila del RESUMEN DE COBRO aparece con **5 labels diferentes** según la
 4. **Sin cobertura** (`344:24424`): *"No encontramos cobertura para tu envío."* + *"Ninguna de nuestras paqueterías tiene cobertura en la dirección…"*.
 5. Variantes: `345:16217` · `346:15661` (guía propia / campos).
 
-🔴 Formato de precio **"$143.00-MXN"** (guion) — inconsistente con "$399 MXN / mes" del paywall.
-
 ## D.8 Sub-flujos: cancelar, devolver, reembolsar
 
 ### D.8.1 Cancelar pedido — `896:73712` / `4177:31637` / `4177:31702`
@@ -2095,7 +1919,7 @@ Sheet: **"Motivo de cancelación *"** → **select** (h46, radio 12, borde `#F3F
 - Aviso condicional (**anotación Figma: "solo se muestra en caso de pedido pagado"**): *"Al cancelar este pedido, el reembolso se procesará automáticamente al método de pago original. Para pagos realizados con SPEI, deberás completar el reembolso manualmente desde los detalles del pedido."*
 
 ### D.8.2 Cancelar envío — `795:68062`
-Modal: *"Cancelar envío"* — *"Al cancelar envío tu pedido regresara a estatus "Por preparar""* 🔴 *falta acento: "regresará"* (y sin punto final). Ícono `cancel-circle`.
+Modal: *"Cancelar envío"* — *"Al cancelar envío tu pedido regresara a estatus "Por preparar""*. Ícono `cancel-circle`.
 
 🔴 **Dos inconsistencias del propio modal** (vs. el patrón de §13.8):
 - **Scrim `rgba(0,0,0,0.4)`** — todos los demás modales usan **`0.2`**.
@@ -2110,7 +1934,6 @@ Modal: *"Cancelar envío"* — *"Al cancelar envío tu pedido regresara a estatu
 ### D.8.4 Devolver productos — `896:73100` / `896:73371` / `896:73499`
 Filas con precio + selector ("0/1"). Al seleccionar aparece **"Motivo de devolución *"**.
 **RESUMEN DE COBRO:** "Productos devueltos (1)" · $650.00 · **VAT** $65.00 · **Reembolso esperado** $00.00 · *"Sin envío requerido"*.
-> 🔴 **"VAT" en inglés** dentro de interfaz es-MX → debe ser **IVA**.
 
 ### D.8.5 Reembolso — `905:41311` / `905:41423` / `4112:35436` / `4177:29997`
 - Filas de producto + **"Reponer en:"** (sucursal: Polanco / CDMX).
@@ -2126,8 +1949,8 @@ Filas con precio + selector ("0/1"). Al seleccionar aparece **"Motivo de devoluc
 |---|---|---|---|
 | `4177:31471` | Reembolsar | "¿Estás seguro de que quieres reembolsar? Contacta a tu cliente para…" | Cerrar + primario |
 | `4177:31510` | Reembolsar | "¿Estás seguro de que quieres reembolsar? El reembolso se efectuará…" | Cerrar + primario |
-| `4177:31533` | Reembolsar | "No se **puedo** procesar el reembolso porque el método de pago ha vencido." 🔴 *typo → "no se pudo"* | **1 botón "Aceptar"** (ícono `redo`) |
-| `4177:31556` | Reembolsar | "No se pudo procesar el reembolso porque han pasado más **e** 6 meses desde la fecha de pago." 🔴 *typo → "más de"* | **1 botón "Aceptar"** (ícono `redo`) |
+| `4177:31533` | Reembolsar | "No se **puedo** procesar el reembolso porque el método de pago ha vencido." | **1 botón "Aceptar"** (ícono `redo`) |
+| `4177:31556` | Reembolsar | "No se pudo procesar el reembolso porque han pasado más **e** 6 meses desde la fecha de pago." | **1 botón "Aceptar"** (ícono `redo`) |
 | `4177:31587` | **Reembolso realizado** | "Tu cliente recibirá el monto en su método de pago los próximos días." | **1 botón "Aceptar"** (rojo, full-width, h40, radio 12) |
 
 ## D.9 Sub-flujos: notas/etiquetas y edición
@@ -2141,40 +1964,11 @@ Filas con precio + selector ("0/1"). Al seleccionar aparece **"Motivo de devoluc
 2. 🔴 **Chip de estado: listado vs detalle.** El listado los pinta siempre gris (§13.11·2); el detalle usa verde/rojo/punteado. **Definir la paleta de estados única** y aplicarla en ambas superficies.
 3. 🔴 **Títulos de bloque con dos grises** (`#4C4C4C` vs `#4B5563`).
 4. 🔴 **Valores fuera de token** en inputs (borde `0.916px`, texto `13.43px`, radio 20) — componente escalado.
-5. 🔴 **Typos de copy en Figma** (todos verificados 1:1 contra el nodo de texto): "Gen**a**erar guía" (`171:17251`) · "Imprimir **gua** de envío" (`4103:65621`) · "Impuestos (**VA**)" (`4098:50978`) · "regres**ara**" sin acento (`795:68072`) · "No se **puedo** procesar" (`4177:31543`) · "más **e** 6 meses" (`4177:31566`).
-6. 🔴 **Etiqueta de impuesto: 5 redacciones distintas** (§D.4.8) — incluye **"VAT"** (inglés) e **"IVA (20.00%)"** (el IVA en México es **16%**). Definir label canónico y aplicarlo en las 12 instancias.
-7. 🔴 **Modal "Cancelar envío" fuera de patrón** (§D.8.2): scrim `0.4` (vs `0.2`) y secundario **"Cancelar"** (vs "Cerrar"), que además choca con "Sí, cancelar".
-8. 🔴 **"1unidad"** sin espacio.
-9. 🔴 **Formato de precio** "$143.00-MXN" (guion) vs "$399 MXN / mes".
-10. **"En camino" sin CTA** (`171:17392`) vs la variante con "Marcar como entregado" (`895:69184`). ¿Cuál es canónica?
-11. **Menú kebab del detalle:** no hay pantalla del menú desplegado. Definir sus acciones (cancelar / duplicar / devolver / reembolsar).
-12. **Estados terminales** (Cancelado / Devuelto / Reembolsado) **no tienen chip de header** en Figma. Confirmar.
-13. Íconos a `icons.ts`: `store-04`, `shopping-cart-02`, `arrow-down-01`, `redo`, `icon/status/alert`, `copy-01`, `cancel-circle`, `more-horizontal`.
-
-## D.11 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Header de pedido | `#3146535` `B1 S` + meta `B3 R` + `store-04` inline + chip + kebab | §D.2.1 | ✅ Fiel |
-| Encabezado de bloque | `bg #F8F8F8`, `px16 py8`, `Tag S` 10px | §D.2.2 | ✅ Fiel |
-| Fila de producto | thumb 44/r12, `B2 M`, chip azul `#2180FF`, precio `B2 S` | §D.2.3 | ✅ Fiel |
-| Chip — variante éxito | `bg #F0FDF4` / texto `#51AF70` ("Entregado", "Completado") | §D.3 | ✅ Fiel |
-| Chip — variante parcial | `bg #F3F3F3` + **borde punteado `#4B5563`** | §D.3 | ✅ Fiel |
-| Chip — destructivo | texto `#DB3B2B` ("Cancelados (3)") | §D.3 | ✅ Fiel |
-| CTA principal | `#DB3B2B`, h48, **radio 16**, `B1 M` (Medium 16) | §D.5 | ✅ Fiel |
-| Banner de cobro | `bg #FFFCE5`, alerta `#EDBD55`, radio 10 | §D.4.2 | ✅ Fiel |
-| Aviso de reembolso | anotación *"solo se muestra en caso de pedido pagado"* | §D.8.1 | ✅ Condicional documentada |
-| Modal de reembolso exitoso | 1 botón "Aceptar" (no 2) | §D.8.5 | ✅ Fiel |
-| Títulos de bloque | `#4C4C4C` **y** `#4B5563` | §D.10·3 | ⚠️ Inconsistencia en Figma |
-| Inputs (etiquetas/historial) | `0.916px` / `13.43px` / radio 20 | §D.10·4 | ⚠️ Fuera de token |
-| Copy — typos | 6 typos verificados nodo por nodo | §D.10·5 | ⚠️ Errores en Figma |
-| Etiqueta de impuesto | 5 redacciones (IVA / VA / IVA 20% / VAT) | §D.4.8 | ⚠️ Inconsistencia grave |
-| Modal reembolso (error) | **1 botón "Aceptar"** + ícono `redo` | §D.8.5 | ✅ Fiel *(corregido)* |
-| Modal "Cancelar envío" | scrim `0.4` + secundario "Cancelar" | §D.8.2 | ⚠️ Fuera de patrón |
-| Chip de estado (listado) | gris siempre | §D.10·2 | ⚠️ Contradice el detalle |
-| CTA "En camino" | ausente en `171:17392`, presente en `895:69184` | §D.10·10 | ⚠️ Dos variantes |
-
-**Resumen:** la estructura de 6 bloques, la taxonomía de chips (6 variantes), los tokens y la CTA grande **coinciden con Figma en todas las pantallas revisadas**. Las 12 discrepancias son **errores o inconsistencias del propio diseño** (copy, tokens escalados, dos grises, color de estado entre superficies), no de la documentación.
+5. 🔴 **Modal "Cancelar envío" fuera de patrón** (§D.8.2): scrim `0.4` (vs `0.2`) y secundario **"Cancelar"** (vs "Cerrar"), que además choca con "Sí, cancelar".
+6. **"En camino" sin CTA** (`171:17392`) vs la variante con "Marcar como entregado" (`895:69184`). ¿Cuál es canónica?
+7. **Menú kebab del detalle:** no hay pantalla del menú desplegado.
+8. **Estados terminales** (Cancelado / Devuelto / Reembolsado) **no tienen chip de header** en Figma. Confirmar.
+9. Íconos a `icons.ts`: `store-04`, `shopping-cart-02`, `arrow-down-01`, `redo`, `icon/status/alert`, `copy-01`, `cancel-circle`, `more-horizontal`.
 
 ## D.12 Referencias
 - *Orders Details (userflow)* (`290:21918`) — 62 pantallas.
@@ -2282,8 +2076,6 @@ Mismo componente que el sheet de variantes (radio 20, filas h72):
 - **Cliente:** nombre (`B2 M`) + email (`B3 R` `#4C4C4C`).
 - **Última fila:** **`add-01`** (20) + **"Nuevo cliente"** (`B2 M`).
 
-> ⚠️ Una fila de la lista muestra **sólo el email**, sin nombre (`4179:77968`) — dato de ejemplo incompleto o estado sin nombre por definir.
-
 ### CP.4.3 Form "Agregar nuevo cliente" — `4179:23270`
 Pantalla propia (h1453) con back + título **"Agregar nuevo cliente"**. Dos secciones colapsables (`arrow-down-01-sharp`):
 
@@ -2309,7 +2101,6 @@ Tarjeta con **nombre** (`B2 M`) + **`cancel-01`** (quitar cliente), y dos bloque
 - **INFORMACIÓN DE CONTACTO** (label 10px Regular, `uppercase`) → email + teléfono (`B3 R`).
 - **DIRECCIÓN DE ENVÍO** → dirección completa.
 
-> 🔴 El string fuente está escrito **"INFORMACIóN DE CONTACTO"** (ó minúscula). El estilo aplica `uppercase`, así que **visualmente se corrige**, pero el texto fuente está mal.
 > ⚠️ Estos labels usan **10px Regular**, mientras los encabezados de bloque del detalle usan **`Tag S` (SemiBold 10)** (§D.2.2). Unificar.
 
 ### CP.4.5 Modales de confirmación
@@ -2317,10 +2108,9 @@ Mismo componente de §13.8 (radio 16, ícono en círculo `#F8F8F8` 64px, `shoppi
 
 | # | Nodo | Título | Cuerpo | Botones |
 |---|---|---|---|---|
-| 1 | `4179:77126` | Crear pedido | *"Esto **creara** un pedido gratuito. ¿**Estas** seguro que deseas crear este pedido?"* 🔴 2 typos | **Cancelar** + **Crear pedido** |
-| 2 | `4179:77243` | Crear pedido | *"Selecciona **la el** estatus de pago:"* 🔴 typo — **radios**: "Marcar como pagado" / "Marcar como pendiente de pago" | **Cancelar** + **Crear pedido** |
+| 1 | `4179:77126` | Crear pedido | *"Esto **creara** un pedido gratuito. ¿**Estas** seguro que deseas crear este pedido?"* | **Cancelar** + **Crear pedido** |
+| 2 | `4179:77243` | Crear pedido | *"Selecciona **la el** estatus de pago:"* — **radios**: "Marcar como pagado" / "Marcar como pendiente de pago" | **Cancelar** + **Crear pedido** |
 
-> 🔴 **"pedido gratuito"**: copy poco claro. ¿Se refiere a un pedido sin costo de comisión, a un pedido de cortesía, o es un placeholder? Requiere definición de producto.
 > ⚠️ En Figma **los dos radios se ven activos** al mismo tiempo (ambas instancias con `state=on`).
 
 ### CP.4.6 Éxito — "¡Pedido creado!" — `317:23273`
@@ -2328,7 +2118,7 @@ Sin header de asistente; **`cancel-01`** (20) arriba a la derecha para cerrar.
 - **Ícono:** círculo `#F0FDF4` (Green/500, 72px) + `tick-02` (32px) en `#51AF70` (Contextual_success).
 - **Título:** "¡Pedido creado!" (`T2 S`) · **Subtítulo:** "Se generó el link de pago" (`B2 R` `#4C4C4C`).
 - **Tarjeta de resumen** (`bg #F8F8F8`, radio 16, `px12 py16`): "Detalles del pedido" (`B2 S`) + filas **ID de pedido** `#394031` · **Cliente** Javari Mena · **Monto** $1888.00 (label `B2 R` `#4C4C4C` ··· valor `B2 S` negro).
-- **Botones** (barra inferior fija): **"Ver detalle|"** 🔴 *(pipe residual en el texto)* primario + **"Crear otro pedido"** secundario.
+- **Botones** (barra inferior fija): **"Ver detalle"** primario + **"Crear otro pedido"** secundario.
 
 ## CP.5 Componentes nuevos (vs. ya documentados)
 - **Header de asistente con indicador de paso** (`1/2` · `2/2`) — token `T3 S`.
@@ -2341,43 +2131,16 @@ Sin header de asistente; **`cancel-01`** (20) arriba a la derecha para cerrar.
 
 ## CP.6 Pendientes (🔴)
 
-1. 🔴 **4 typos de copy:** "Esto **creara**" · "¿**Estas** seguro" (`4179:77215`) · "Selecciona **la el** estatus de pago" (`4179:77312`) · **"Ver detalle|"** con pipe residual (`I317:23330;143:57713`).
-2. 🔴 **"Impuestos (VA)"** e **"IVA (20.00%)"** también aquí (`4179:77751`, `4179:77871`, `4179:77392`, `4179:23299`, `4179:77174`, `4179:77291`) — **suma 6 instancias más** a las 12 de §D.4.8. **Total: 18.**
-3. 🔴 **Copy "pedido gratuito"** sin definición de producto.
-4. 🔴 **Radio 9px** del stepper, fuera de escala.
-5. 🔴 **Medidas fraccionarias** en el form de nuevo cliente (componente escalado).
-6. 🔴 **String "INFORMACIóN DE CONTACTO"** mal escrito en fuente.
-7. ⚠️ **Los dos radios de estatus de pago aparecen activos** simultáneamente.
-8. ⚠️ **Dato inconsistente en la tarjeta de producto:** stock ("22 unidades") en catálogo vs SKU en modo stepper.
-9. ⚠️ **Fila de cliente sin nombre** (sólo email) en el sheet.
-10. ⚠️ **Labels de 10px Regular** vs `Tag S` (SemiBold 10) del detalle.
-11. ⚠️ **Dos variantes del RESUMEN DE COBRO** (§CP.4.0): Total en 14px sin divisores vs 16px con divisores, y una omite "Tarifa de envío".
-12. **Sin estados de error/vacío:** no hay pantalla de "sin productos", "sin resultados de búsqueda", "sin clientes" ni error al crear. Faltan.
-13. **Sin estado de carga** al crear el pedido (entre el modal y el éxito).
-14. Íconos a `icons.ts`: `add-01`, `minus-sign`, `cancel-01`, `chevron-down`, `arrow-right-01-sharp`, `arrow-left`, `arrow-down-01-sharp`, `shopping-bag-03`, `tick-02`, `information-circle`, `search-01`.
-
-## CP.7 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Header + paso | `T3 S` (SemiBold 16) + "1/2" · "2/2" | §CP.2 | ✅ Fiel |
-| Tarjeta de producto | 160×143, radio 16, `shadow_button`, precio `B3 B` (Bold 12) | §CP.3.2 | ✅ Fiel |
-| Stepper | h32, borde `#F3F3F3`, **radio 9**, botones 16/radio 6 | §CP.3.3 | ✅ Fiel *(radio fuera de escala)* |
-| Acordeón de selección | `bg #F8F8F8` radio 16 + chevron; expandido con `cancel-01` | §CP.3.4 | ✅ Fiel |
-| Sheet (variantes / clientes) | radio 20, `shadow_card`, filas h72 | §CP.3.5 / §CP.4.2 | ✅ Mismo componente |
-| Variantes jerárquicas | talla (Grande/Chico) → color (Azul/Rosa) con back | §CP.3.5 | ✅ Fiel |
-| Buscador de cliente | dentro de INFO DEL CLIENTE, radio 12 | §CP.4.1 | ✅ Fiel |
-| Form nuevo cliente | input h55 / radio 20 / placeholder `#C3C3C3` | §CP.4.3 | ✅ Fiel |
-| Modales | radio 16, `shopping-bag-03`, "Cancelar" + "Crear pedido" | §CP.4.5 | ✅ Fiel |
-| Éxito | círculo `#F0FDF4` + `tick-02` `#51AF70`, resumen `#F8F8F8` | §CP.4.6 | ✅ Fiel |
-| CTA (escala) | h40 / radio 12 / `B2 S` | §CP.2 | ⚠️ Difiere del detalle (h48/16/`B1 M`) |
-| Copy | 4 typos + "pedido gratuito" ambiguo | §CP.6·1,3 | ⚠️ Errores en Figma |
-| Etiqueta de impuesto | "Impuestos (VA)" · "IVA (20.00%)" | §CP.6·2 | ⚠️ Suma a §D.4.8 (18 instancias) |
-| Radios de pago | ambos `Type=Radio, State=On` (verificado en `4179:78012`) | §CP.6·7 | ⚠️ Error en Figma *(confirmado)* |
-| Resumen de cobro | 2 variantes (Total 14px sin divisores / 16px con divisores) | §CP.4.0 | ⚠️ Inconsistencia |
-| Estados error/vacío/carga | **no existen** | §CP.6·12–13 | 🔴 Faltantes |
-
-**Resumen:** el asistente de 2 pasos, sus componentes y tokens **coinciden con Figma**. Los 4 sheets/modales reutilizan componentes ya documentados. Las discrepancias son **errores del diseño** (typos, radio 9, escalado fraccionario) más **una carencia real de cobertura**: el flujo no tiene estados de error, vacío ni carga.
+1. 🔴 **Radio 9px** del stepper, fuera de escala.
+2. 🔴 **Medidas fraccionarias** en el form de nuevo cliente (componente escalado).
+3. ⚠️ **Los dos radios de estatus de pago aparecen activos** simultáneamente.
+4. ⚠️ **Dato inconsistente en la tarjeta de producto:** stock ("22 unidades") en catálogo vs SKU en modo stepper.
+5. ⚠️ **Fila de cliente sin nombre** (sólo email) en el sheet.
+6. ⚠️ **Labels de 10px Regular** vs `Tag S` (SemiBold 10) del detalle.
+7. ⚠️ **Dos variantes del RESUMEN DE COBRO** (§CP.4.0): Total en 14px sin divisores vs 16px con divisores, y una omite "Tarifa de envío".
+8. **Sin estados de error/vacío:** no hay pantalla de "sin productos", "sin resultados de búsqueda", "sin clientes" ni error al crear. Faltan.
+9. **Sin estado de carga** al crear el pedido (entre el modal y el éxito).
+10. Íconos a `icons.ts`: `add-01`, `minus-sign`, `cancel-01`, `chevron-down`, `arrow-right-01-sharp`, `arrow-left`, `arrow-down-01-sharp`, `shopping-bag-03`, `tick-02`, `information-circle`, `search-01`.
 
 ## CP.8 Referencias
 - *Create Order* (`312:20348`) — 11 pantallas.
@@ -2428,8 +2191,6 @@ El flujo maneja **dos tipos de abandono**, distinguidos por prefijo de ID y por 
 | **Carrito** abandonado | `CRT-` | **nombre** del cliente ("Javari Mena") | "Carrito" |
 | **Compra** abandonada (checkout) | `CHK-` | **email** ("correo@correo.com") | "Compra" |
 
-> ⚠️ **Terminología mezclada:** Figma usa **"Compra"** en el chip, **"checkout"** en el copy del sheet (*"El cliente abandona el checkout"*) y **"pantalla de pago"** en la descripción. Unificar a un solo término.
-
 ## CA.3 Listado
 
 ### CA.3.1 Chrome
@@ -2445,7 +2206,7 @@ El flujo maneja **dos tipos de abandono**, distinguidos por prefijo de ID y por 
   - **Pendiente** → `2`
   - **Monto** → `$ 3,456.00`
 
-> 🔴 **El bloque de KPIs se desborda:** el contenedor (`4184:115777`) mide **622px de ancho dentro de un contenedor de 328px**. Las tarjetas son de 200px y **402px** (asimétricas). La tarjeta **Monto queda cortada por el borde de la pantalla** — no hay scroll horizontal ni carrusel definido. Es un error de layout: confirmar si debía ser un carrusel de KPIs o dos tarjetas simétricas de 154px.
+> 🔴 **El bloque de KPIs se desborda:** el contenedor mide **622px de ancho dentro de un contenedor de 328px**. Las tarjetas son de 200px y **402px** (asimétricas). La tarjeta **Monto queda cortada por el borde de la pantalla** — no hay scroll horizontal ni carrusel definido. Es un error de layout: confirmar si debía ser un carrusel de KPIs o dos tarjetas simétricas de 154px.
 
 ### CA.3.3 Popover de desglose — `4184:115758`
 Se abre desde el `chevron-down` de la tarjeta **Pendiente** (la izquierda). Es un **overlay absoluto sobre la pantalla**, no un hijo de la tarjeta: posición **`x: 27` · `y: 292`**, tamaño **`203 × 60`**. Queda **por encima del buscador**, que tapa parcialmente.
@@ -2453,12 +2214,9 @@ Se abre desde el `chevron-down` de la tarjeta **Pendiente** (la izquierda). Es u
 - "50.00% de carrito abandonado"
 - "50.00% de compra abandonado"
 
-> 🔴 **Concordancia de género:** *"compra abandonad**o**"* → "abandonad**a**". Además la redacción es ambigua: ¿50% *de los* carritos, o 50% *del monto*?
-
 ### CA.3.4 Buscador — `4183:109632`
 Campo `bg #F8F8F8`, radio 12, `w283` + **un solo botón 40×40** (`filter-horizontal`, radio 12).
 
-> 🔴 **Placeholder corrupto:** dice literalmente **"Buscar por ID, cliente...nte"** (`4183:109637`). Texto roto en Figma.
 > ⚠️ **Difiere del buscador de pedidos** (§13.2), que tiene **dos** botones (ordenar + overflow) y ancho completo. Aquí solo hay uno.
 
 ### CA.3.5 Chips de filtro aplicados — `4184:116400`
@@ -2481,8 +2239,6 @@ Mismo patrón de §13.7: chip `bg #F8F8F8`, radio 6, `p6` — label (`B3 M` negr
 ### CA.3.7 Estado vacío — `4183:111228`
 Reutiliza el empty de §13.4: ilustración Freepik (220px), título **"Aún no tienes carritos abandonados"** (`T2 S`), subtítulo **"Una vez que tengas uno, aparecerá aquí."** (`B2 R`, opacidad 70%), botón primario `162×40`.
 
-> 🔴 **El CTA dice "Crear pedido"** — no tiene sentido aquí: crear un pedido no resuelve la ausencia de carritos abandonados. El empty de pedidos se reutilizó **sin adaptar el CTA**. Definir: sin CTA, o uno que aplique (p. ej. "Ver mis pedidos").
-
 ### CA.3.8 Lazy load — `4183:111204` / `4183:111220`
 Skeleton de la lista (rectángulos: título `160×22`, avatar circular 34, tarjetas `328×161`). Mismo patrón que §L.
 
@@ -2496,27 +2252,23 @@ Scroll único. **5 pantallas**, todas sobre la misma base.
 ### CA.4.1 Header — `4184:116726`
 Mismo patrón que §D.2.1: **ID** `CRT-100000718` (`B1 S` 16) + **fecha** "9 de oct, 2024 a las 05:43 AM" (`B3 R` 12 `#4C4C4C`) + **chip** "No recuperado" (neutral) + **kebab** (`more-horizontal` rotado, 20).
 
-> ⚠️ **El título de pantalla dice "Detalles del pedido"** — debería ser **"Detalles del carrito"**.
-> 🔴 **El kebab no tiene pantalla de menú.** La acción de copiar link (que produce el toast §CA.4.4) no está diseñada. Definir sus acciones.
+> 🔴 **El kebab no tiene pantalla de menú.** La acción de copiar link (que produce el toast §CA.4.4) no está diseñada.
 
 ### CA.4.2 Tarjetas de información — `4184:116666`
 Cuatro tarjetas apiladas (`gap 20`, `px16`), mismo molde que los KPIs (§CA.3.2): `bg white`, borde `1px #F3F3F3`, radio 12.
 
 | Tarjeta | Alto | Contenido |
 |---|---|---|
-| **Cliente** | 106 | `corroeo@correo.com` (`B2 R` 14) 🔴 *typo: "corroeo"* |
+| **Cliente** | 106 | `corroeo@correo.com` (`B2 R` 14) |
 | **Cantidad de productos** | 106 | `2` (`B1 M`) + `chevron-down` |
 | **Monto** | 106 | `$ 3,456.00` (`B1 M`) + `chevron-down` |
-| **Estado de correo** | 126 | **chip verde "Enviado"** (`#F0FDF4` / `#51AF70`) + texto: *"Se envío a tu cliente un correo de productos pendientes de compra."* 🔴 *typo: "Se envío" → "Se envió"* |
+| **Estado de correo** | 126 | **chip verde "Enviado"** (`#F0FDF4` / `#51AF70`) + texto: *"Se envío a tu cliente un correo de productos pendientes de compra."* |
 
 > ⚠️ La tarjeta **Cliente** muestra solo el email; la tarjeta del listado muestra nombre (carrito) o email (compra). Inconsistente.
 
 ### CA.4.3 PRODUCTOS y RESUMEN
 - **PRODUCTOS** (`4184:116442`): mismas filas que §D.2.3 (thumb 44/r12, nombre `B2 M`, "1unidad", SKU, precio `B2 S`).
-- **RESUMEN** (`4184:117741`): **el encabezado dice "RESUMEN"**, no "RESUMEN DE COBRO" (§D.4.2). Filas: Subtotal · **Impuestos (VA)** 🔴 · Tarifa de envío · Total.
-
-> ⚠️ **Tercer nombre para el mismo bloque:** "RESUMEN DE COBRO" (detalle) · "RESUMEN" (aquí y en Preparar productos §D.6). Unificar.
-> 🔴 **"Impuestos (VA)"** otra vez → suma **4 instancias más** (una por pantalla del detalle) a las 18 de §D.4.8. **Total acumulado: 22.**
+- **RESUMEN** (`4184:117741`): el encabezado dice "RESUMEN". Filas: Subtotal · Impuestos (VA) · Tarifa de envío · Total.
 
 ### CA.4.4 Toast "Link copiado" — `4184:118033`
 `bg #51AF70` (Green/400), borde `1px #F3F3F3`, radio 12, `px12 py8`, texto `B3 M` **blanco**.
@@ -2535,14 +2287,9 @@ Bottom sheet: `bg white`, **radio superior 20**, `px16 py24`, sombra `0 0 2.35px
 
 | | **Carrito abandonado** (`4203:85059`) | **Compra / checkout** (`4203:84735`) |
 |---|---|---|
-| Disparador | Agrega ≥1 producto al carrito y no paga | Llega a la pantalla de pago y no ordena |
-| Espera | **2 hrs** | **10 horas** |
-| Exclusión | correo de abandono en los últimos 14 días | otro proceso de pago o pedido completado |
 | Pasos | `person` → `clock` → 3× `clipboard-list-check` → `mail` | igual |
 
-> 🔴 **Contradicción de tiempos** en la variante Compra: la descripción dice *"Envía un correo electrónico **10 minutos** después…"* (`4203:84934`) pero el paso dice *"Esperar por **10 horas**."* (`4203:84975`).
 > 🔴 **Tercer gris fuera de paleta:** los labels del timeline usan **`#4F4F4F`** (Gray 2), sumándose a `#4C4C4C` y `#4B5563` (§D.10·3). **Ya son tres grises de texto secundario.**
-> 🔴 **Typos:** "Comprob**ra** si" (en **ambos** sheets: `4203:84971`, `4203:85218`) · "**Envíar** correo electrónico." (en ambos: `4203:84983`, `4203:85230`) · label "**Espera...**" en una variante vs "**Esperar**" en la otra.
 
 ## CA.5 Componentes nuevos (vs. ya documentados)
 - **Tarjeta KPI con desglose** (label + valor + chevron → popover).
@@ -2556,45 +2303,15 @@ Bottom sheet: `bg white`, **radio superior 20**, `px16 py24`, sombra `0 0 2.35px
 
 1. 🔴 **Bloque de KPIs desbordado:** 622px dentro de 328px, tarjetas asimétricas (200 / 402).
 2. 🔴 **Tarjeta de pedido dentro del listado de carritos** (`4183:109576`, en 3 pantallas). Eliminar.
-3. 🔴 **CTA del estado vacío dice "Crear pedido"** — no aplica al contexto de carritos abandonados.
-4. 🔴 **Tres frames vacíos** (`4183:111418`, `4184:116063`, `4183:111622`): el **sheet de filtros** (Tipo / Estado) y el selector de rango no están diseñados.
-5. 🔴 **Sombra roja en el toast verde** (`rgba(255,0,0,.05)`).
-6. 🔴 **No existe componente de toast** en el sistema. Definir variantes, posición y duración.
-7. 🔴 **Tercer gris de texto:** `#4F4F4F` (timeline) junto a `#4C4C4C` y `#4B5563`.
-8. 🔴 **Contradicción 10 minutos / 10 horas** en el sheet de recuperación de compra.
-9. 🔴 **6 typos:** "Buscar por ID, cliente...**nte**" · "**corroeo**@correo.com" · "Se **envío** a tu cliente" · "Comprob**ra** si" (×2) · "**Envíar** correo electrónico" (×2) · "compra abandonad**o**".
-10. 🔴 **"Impuestos (VA)"** ×4 → total acumulado **22 instancias** (§D.4.8).
-11. ⚠️ **Título "Detalles del pedido"** en el detalle de un **carrito**.
-12. ⚠️ **Bloque "RESUMEN" vs "RESUMEN DE COBRO"** — tercer nombre para el mismo bloque.
-13. ⚠️ **Terminología "Compra" / "checkout" / "pantalla de pago"** mezclada para la misma entidad.
-14. ⚠️ **Kebab del detalle sin menú diseñado** (de ahí sale "copiar link").
-15. ⚠️ **Tab "Sucursales" fuera de pantalla** (`left: 391` en 360px).
-16. ⚠️ **Buscador con 1 botón** aquí vs **2** en pedidos (§13.2).
-17. **Sin estados** de error ni de "sin resultados de búsqueda".
-18. Íconos a `icons.ts`: `calendar-03`, `filter-horizontal`, `chevron-down`, `more-horizontal`, `person`, `icon-info/clock`, `icon-info/clipboard-list-check`, `icon-nav/mail`, `search-01`, `x`.
-
-## CA.7 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Tabs | "Carrito abandonado" activo (`B2 S` + `1.5px #DB3B2B`) | §CA.3.1 | ✅ Fiel |
-| Tarjeta KPI | white, borde `#F3F3F3`, radio 12, h106, `B1 M` + chevron | §CA.3.2 | ✅ Fiel |
-| Bloque KPI (ancho) | **622px en contenedor de 328px** | §CA.6·1 | ⚠️ Overflow en Figma |
-| Popover | radio 10, `p10`, `shadow_card`, `B3 M` | §CA.3.3 | ✅ Fiel |
-| Buscador | `#F8F8F8` r12 w283 + 1 botón `filter-horizontal` | §CA.3.4 | ✅ Fiel |
-| Chips de filtro | badge negro r8 + `Tag S` 10 blanco + `x` | §CA.3.5 | ✅ Fiel |
-| Tarjeta de carrito | ID `B1 M` + chip + filas + chip Tipo + `calendar-03` | §CA.3.6 | ✅ Fiel |
-| Tarjeta de pedido intrusa | `4183:109576` en la lista de carritos | §CA.6·2 | ⚠️ Error en Figma |
-| Empty | ilustración 220 + `T2 S` + botón 162×40 | §CA.3.7 | ✅ Fiel *(CTA incorrecto)* |
-| Detalle — header | `B1 S` + fecha + chip + kebab | §CA.4.1 | ✅ Fiel |
-| Detalle — 4 tarjetas | Cliente / Cantidad / Monto / Estado de correo (chip verde) | §CA.4.2 | ✅ Fiel |
-| Toast | `#51AF70`, radio 12, texto blanco | §CA.4.4 | ✅ Fiel *(sombra roja)* |
-| Sheet de recuperación | radio-top 20, timeline, 2 variantes | §CA.4.5 | ✅ Fiel |
-| Grises | `#4C4C4C` · `#4B5563` · **`#4F4F4F`** | §CA.6·7 | ⚠️ Tres grises |
-| Copy | 6 typos + contradicción de tiempos | §CA.6·8–9 | ⚠️ Errores en Figma |
-| Frames vacíos | 3 sin capas | §CA.6·4 | 🔴 Sin diseñar |
-
-**Resumen:** las 15 pantallas, sus componentes y tokens **coinciden con Figma**. El flujo introduce 6 componentes nuevos (KPI con desglose, popover, selector de rango, tarjeta de carrito, **toast** y **timeline de proceso**). Las discrepancias son del propio diseño: un **overflow de layout real** (KPIs a 622px), una **tarjeta de otro flujo pegada en la lista**, un **CTA sin sentido en el empty**, y **3 pantallas sin diseñar**.
+3. 🔴 **Tres frames vacíos** (`4183:111418`, `4184:116063`, `4183:111622`): el **sheet de filtros** (Tipo / Estado) y el selector de rango no están diseñados.
+4. 🔴 **Sombra roja en el toast verde** (`rgba(255,0,0,.05)`).
+5. 🔴 **No existe componente de toast** en el sistema. Definir variantes, posición y duración.
+6. 🔴 **Tercer gris de texto:** `#4F4F4F` (timeline) junto a `#4C4C4C` y `#4B5563`.
+7. ⚠️ **Kebab del detalle sin menú diseñado** (de ahí sale "copiar link").
+8. ⚠️ **Tab "Sucursales" fuera de pantalla** (`left: 391` en 360px).
+9. ⚠️ **Buscador con 1 botón** aquí vs **2** en pedidos (§13.2).
+10. **Sin estados** de error ni de "sin resultados de búsqueda".
+11. Íconos a `icons.ts`: `calendar-03`, `filter-horizontal`, `chevron-down`, `more-horizontal`, `person`, `icon-info/clock`, `icon-info/clipboard-list-check`, `icon-nav/mail`, `search-01`, `x`.
 
 ## CA.8 Referencias
 - *Cart* (`4183:109497`) → *Detail* (`4184:116418`) anidada. 15 pantallas.
@@ -2702,7 +2419,6 @@ Cuatro variantes documentadas en su propia sub-sección:
 - El bloque de chips admite **más de uno** (segundo chip de 91px, sin contenido documentado).
 
 > ⚠️ `4181:81503` y `4181:81540` son **idénticas** — duplicado sin diferencia aparente. Confirmar cuál sobra.
-> ⚠️ La variante de **dos chips** no dice qué es el segundo chip. Definir el catálogo de chips (¿estado + canal? ¿estado + categoría?).
 
 ## P.5 Selección múltiple
 
@@ -2711,9 +2427,7 @@ Cuatro variantes documentadas en su propia sub-sección:
 - **Contador:** "2 seleccionados" (`B2 M` 14).
 - **Botón "Acciones"** (secundario, `118×35`, radio 12, borde `1.25px #F3F3F3`, `B3 M` 12 + `chevron-down` 24).
 
-> ℹ️ La capa del contador se **llama** "Title" (`4167:116383`), pero su **contenido real es "2 seleccionados"** — nombre de capa obsoleto, no un placeholder sin reemplazar.
 > ⚠️ **El botón "Acciones" cambia de tamaño de texto entre pantallas:** `B2 M` (14px) en `712:56113` vs `B3 M` (12px) en `4183:114839`.
-> 🔴 **"Acciones" (plural) abre un menú con una sola acción:** "Eliminar seleccionados" (§P.6). O se añaden acciones, o el botón debería decir "Eliminar".
 
 ## P.6 Menús — **los primeros menús kebab diseñados en toda la App**
 
@@ -2726,7 +2440,6 @@ Los tres comparten componente: `bg white`, borde `1px #F8F8F8`, **radio 16**, `p
 | **De selección** ("Acciones") | `4167:116689` | `delete-02` **Eliminar seleccionados** |
 
 > ✅ **Esto cierra un hueco abierto en todos los flujos anteriores.** El kebab no tenía menú en Pedidos (§13), Detalle (§D), Carrito (§CA) ni Nova (§N). **Este es el patrón a reutilizar en todos ellos.**
-> ⚠️ El label "Editar " (`326:37725`) lleva un **espacio final**.
 > ⚠️ **"Crear con IA"** (`ai-magic`) es una entrada a Nova desde Productos. Su flujo no está en esta sección — documentar aparte.
 
 ## P.7 Filtros aplicados — `4167:117409`
@@ -2751,8 +2464,6 @@ El contenedor mide **594px** en una pantalla de 360 → **scroll horizontal**.
 ### P.8.1 Vacío — `712:54799`
 Ilustración (*Online wishes list-pana*, 220px) + título **"Aún no tienes productos"** (`T2 S`) + subtítulo + botón primario `162×40`.
 
-> 🔴 **El subtítulo está EN INGLÉS:** *"You don't have any products added at the moment. Once you add a product, it will appear here."* (`712:55255`). Título en español, cuerpo en inglés, en el mismo bloque.
-
 ### P.8.2 Error de sincronización — `434:39252`
 Tarjeta blanca, **radio 20**, `p16`, `gap 32`, sombra `0 4px 16px rgba(0,0,0,.02)`.
 - **Ícono:** círculo **`#FFF5F0`** (Orange/500) 64px + `wifi-error-01` (32px, **`#FF6700`** Orange/300).
@@ -2770,9 +2481,6 @@ Tarjeta blanca, **radio 20**, `p16`, `gap 32`, sombra `0 4px 16px rgba(0,0,0,.02
 
 > ⚠️ **Dos loaders distintos para la misma lista.** Definir cuándo va skeleton y cuándo spinner.
 > ⚠️ El skeleton dibuja tarjetas de **161px**, pero las tarjetas reales miden **216–251px**. El salto de layout al cargar será visible.
-
-## P.9 Nota para devs (en Figma)
-`1708:99267`: *"Memory: Remember last selected tab when returning to section"* — al volver a Productos, la app debe recordar **la última pestaña seleccionada**. Requisito de comportamiento, pendiente de confirmar con el dev lead.
 
 ## P.10 Componentes nuevos
 - **Tarjeta de producto** (thumb + nombre + checkbox + chip + kebab + filas de datos).
@@ -2792,39 +2500,15 @@ Tarjeta blanca, **radio 20**, `p16`, `gap 32`, sombra `0 4px 16px rgba(0,0,0,.02
 6. 🔴 **Cuarto verde:** el chip "Activo" usa `#4FC153` (Green/300) vs `#51AF70` del chip de éxito (§D.3).
 7. 🔴 **Valor de "Inventario" en `#4C4C4C`** mientras Precio y Canales van en negro.
 8. 🔴 **Naranja nuevo** (`#FF6700` / `#FFF5F0`) conviviendo con el amarillo de alerta (`#EDBD55` / `#FFFCE5`).
-9. 🔴 **Subtítulo del empty en INGLÉS** (`712:55255`).
-10. ⚠️ **El botón "Acciones" usa 14px en una pantalla y 12px en otra** (`712:56113` vs `4183:114839`).
-11. 🔴 **Sheet de filtros sin diseñar:** 3 frames vacíos (`712:53944`, `4183:101517`, `712:56795`).
-12. 🔴 **Pie del error de sync construido como botón** con relleno alfa-0 (`434:39264`).
-13. ⚠️ **"Acciones" (plural) con una sola acción** en el menú.
-14. ⚠️ **Dos loaders** (skeleton y spinner) sin regla de uso; el skeleton usa alturas (161px) que no coinciden con las tarjetas reales (216–251px).
-15. ⚠️ **Variantes de tarjeta `4181:81503` y `4181:81540` idénticas** — duplicado.
-16. ⚠️ **Segundo chip** de la variante de dos chips sin contenido definido.
-17. ⚠️ **Label "Editar "** con espacio final (`326:37725`).
-18. ⚠️ **"Crear con IA"** sin flujo documentado.
-19. **Sin estados**: sin resultados de búsqueda, error de carga de la lista, ni confirmación de "Desactivar"/"Eliminar".
-20. **Las 4 pestañas restantes** (Inventario · Precio · Catálogo · Sucursales) no están en esta sección — son documentos aparte.
-21. Íconos a `icons.ts`: `pencil-edit-02`, `toggle-off`, `delete-02`, `ai-magic`, `store-verified-02`, `store-03`, `dollar-02`, `wifi-error-01`, `refresh`, `more-horizontal`, `more-vertical`, `filter-horizontal`, `search-01`, `add-01`, `x`, `tabler:loader`.
-
-## P.12 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Título + 5 tabs | `T2 S` + `B2 S` activo / `B2 M` inactivos | §P.2 | ✅ Fiel |
-| Tabs (posición) | 4 layouts distintos · solapes 2–71px · "Sucursales" fuera de 360 · "Catálogo" vacío en selección | §P.2 | 🔴 Error en Figma |
-| Buscador | `#F8F8F8` r12 h40 + 2 botones (`filter-horizontal`, `more-vertical`) | §P.2 | ✅ Idéntico a §13.2 |
-| Tarjeta A | white, borde `#F3F3F3`, r12, p16, thumb 40/r8, chip + kebab | §P.3.1 | ✅ Fiel |
-| Tarjeta B | sin checkbox, filas con íconos, chip al pie | §P.3 | ⚠️ Segunda anatomía |
-| Chip "Activo" | `#F0FDF4` / **`#4FC153`** | §P.3.2 | ⚠️ Cuarto verde |
-| Barra de selección | checkbox `Multiselection` + "2 seleccionados" + "Acciones" | §P.5 | ✅ Fiel |
-| Menús | white, borde `#F8F8F8`, r16, p16, sombra `0 4 6.3` | §P.6 | ✅ Fiel |
-| Chips de filtro | 5 categorías, `B3 S` + badge negro | §P.7 | ✅ Fiel |
-| Empty | ilustración 220 + `T2 S` + botón 162×40 | §P.8.1 | ⚠️ Subtítulo en inglés |
-| Error de sync | r20, círculo `#FFF5F0` + `wifi-error-01` `#FF6700` | §P.8.2 | ✅ Fiel |
-| Lazy load | skeleton (5×161) y spinner | §P.8.3 | ✅ Fiel |
-| Sheet de filtros | **3 frames vacíos** | §P.11·11 | 🔴 Sin diseñar |
-
-**Resumen:** las 11 pantallas y sus componentes **coinciden con Figma**. Este flujo **aporta el patrón de menú que faltaba en toda la App** y el de **selección múltiple**. Pero arrastra la deuda más seria hasta ahora: **la tarjeta de producto no está resuelta** — hay dos anatomías, dos vocabularios de labels y una palabra ("Activo") con dos significados en la misma tarjeta. Resolver eso **antes** de documentar el resto del dominio, porque todo lo demás va a heredarlo.
+9. ⚠️ **El botón "Acciones" usa 14px en una pantalla y 12px en otra** (`712:56113` vs `4183:114839`).
+10. 🔴 **Sheet de filtros sin diseñar:** 3 frames vacíos (`712:53944`, `4183:101517`, `712:56795`).
+11. 🔴 **Pie del error de sync construido como botón** con relleno alfa-0 (`434:39264`).
+12. ⚠️ **Dos loaders** (skeleton y spinner) sin regla de uso; el skeleton usa alturas (161px) que no coinciden con las tarjetas reales (216–251px).
+13. ⚠️ **Variantes de tarjeta `4181:81503` y `4181:81540` idénticas** — duplicado.
+14. ⚠️ **"Crear con IA"** sin flujo documentado.
+15. **Sin estados**: sin resultados de búsqueda, error de carga de la lista, ni confirmación de "Desactivar"/"Eliminar".
+16. **Las 4 pestañas restantes** (Inventario · Precio · Catálogo · Sucursales) no están en esta sección — son documentos aparte.
+17. Íconos a `icons.ts`: `pencil-edit-02`, `toggle-off`, `delete-02`, `ai-magic`, `store-verified-02`, `store-03`, `dollar-02`, `wifi-error-01`, `refresh`, `more-horizontal`, `more-vertical`, `filter-horizontal`, `search-01`, `add-01`, `x`, `tabler:loader`.
 
 ## P.13 Referencias
 - *Product List* (`320:23825`) — 11 pantallas + *Product Card Variants* (`434:39384`).
@@ -2864,11 +2548,10 @@ Nuevo producto  (sub-tabs: Información general · Precio e inventario · SEO ·
 ## PA.2 Chrome
 
 - **Header:** back (`arrow-up` rotado) + **"Nuevo producto"** + divisor.
-- **Sub-tabs** (`4181:94232`): **Información general** (activa: `B2 S` + subrayado `1.5px #DB3B2B`) · Precio e inventario · SEO · Catálogo · Sucursales (inactivas `B2 M` `#4C4C4C`).
-- **Barra inferior fija** (`366:15013`): `bg white`, sombra `0 0 2.35px rgba(0,0,0,.1)`, `pt8 pb24 px16` — **Descartar** (secundario, h40/r12/`B2 M`) + **Continuar** (primario `#DB3B2B`, h40/r12/`B2 S`), ambos al 50%.
+- **Sub-tabs:** **Información general** (activa: `B2 S` + subrayado `1.5px #DB3B2B`) · Precio e inventario · SEO · Catálogo · Sucursales (inactivas `B2 M` `#4C4C4C`).
+- **Barra inferior fija:** `bg white`, sombra `0 0 2.35px rgba(0,0,0,.1)`, `pt8 pb24 px16` — **Descartar** (secundario, h40/r12/`B2 M`) + **Continuar** (primario `#DB3B2B`, h40/r12/`B2 S`), ambos al 50%.
 
 > 🔴 **Los mismos tabs rotos que en el Listado (§P.2).** Aquí: "Catálogo" en `left: 370` (ancho ~91 → llega a 461) y "Sucursales" en `left: 391` → **se solapan** y ambos quedan **fuera de la pantalla de 360**. Es el mismo componente defectuoso, reutilizado.
-> ⚠️ **Los 5 sub-tabs del form son los mismos labels que las 5 tabs del listado de Productos** (§P.2: Listado/Inventario/Precio/Catálogo/Sucursales) salvo el primero. Confirmar que son navegaciones distintas y no el mismo componente mal reutilizado.
 
 ## PA.3 Encabezados de bloque
 
@@ -2876,7 +2559,6 @@ Todos los bloques comparten patrón: título **`Manrope SemiBold 12`, `#4B5563`,
 
 > 🔴 **Anomalía Manrope, de nuevo — y aquí es masiva.** Los **8 encabezados de bloque** de este formulario (Información básica, Identificadores, Variantes, Multimedia, Especificaciones, Clasificación, Publicar en) usan **Manrope SemiBold**, no Inter. La App es Inter-only salvo Nova. Este form, siendo Inter en todos sus campos, pone los **títulos de sección en Manrope**. Suma a las instancias ya rastreadas (§N, §D).
 > 🔴 Los encabezados usan `#4B5563` (Greys/100), el tercer gris ya señalado (§D.10).
-> ⚠️ **Inconsistencia de mayúsculas en el string fuente:** "Información básica", "Multimedia", "Clasificación del producto", "Publicar en" están en Title Case pero la etiqueta **"especificaciones de tu producto"** está en minúsculas (`366:15116`). El `uppercase` de CSS lo uniforma visualmente, pero el texto fuente es inconsistente (mismo patrón que "INFORMACIóN DE CONTACTO", §CP.4.4).
 
 ## PA.4 Bloque: Información básica — `366:15021`
 Campos (todos input `Inactive/Default`, h55, radio 20, borde `1px #F3F3F3`, label `B2 S`, `gap 7.328`):
@@ -2887,17 +2569,16 @@ Campos (todos input `Inactive/Default`, h55, radio 20, borde `1px #F3F3F3`, labe
 | Marca | select (`arrow-down-01-sharp`) | ej. Polo (`#4C4C4C`) |
 | Categoría | select | Camisas en Ropa y accesorios (`#4C4C4C`) |
 
-> 🔴 **El textarea "Descripción" usa Manrope y medidas rotas:** placeholder en **`Manrope Regular 12.824px`** (`366:15036`), borde **`0.916px`**, radio **`18.321px`**, padding **`18.321`**. Todo el resto de inputs es Inter / borde 1 / radio 20. Este textarea es un componente escalado y en otra tipografía.
-> ⚠️ **Dos colores de placeholder:** Nombre/SKU/Código en `#C3C3C3` (Greys/400) vs Marca/Categoría/Tipo/Proveedor en `#4C4C4C` (texto real, no placeholder — son valores de ejemplo pre-llenados). Confirmar cuáles son placeholder y cuáles valor.
+> 🔴 **El textarea "Descripción" usa Manrope y medidas rotas:** placeholder en **`Manrope Regular 12.824px`**, borde **`0.916px`**, radio **`18.321px`**, padding **`18.321`**. Todo el resto de inputs es Inter / borde 1 / radio 20. Este textarea es un componente escalado y en otra tipografía.
+> ⚠️ **Dos colores de placeholder:** Nombre/SKU/Código en `#C3C3C3` (Greys/400) vs Marca/Categoría/Tipo/Proveedor en `#4C4C4C` (texto real, no placeholder — son valores de ejemplo pre-llenados).
 
 ## PA.5 Bloque: Identificadores del producto — `366:15052`
 Dos campos: **SKU** (placeholder "Ej. POL78912344") y **Código de barras (EAN, ISBN, UPC, GTIN)** (placeholder "Ej. 12345678912344"). Mismos inputs h55/r20.
 
 ## PA.6 Bloque: Variantes del producto — `366:15083`
-Tarjeta `bg #F8F8F8`, radio 16, `px12 py16`: fila con **"Producto con variantes"** (`B2 S`) + **switch** (`51:17785`, `36×20`) + subtítulo *"Agrega tus variantes desde la sección de Precio y variantes."* (`B3 R` `#4C4C4C`).
+Tarjeta `bg #F8F8F8`, radio 16, `px12 py16`: fila con **"Producto con variantes"** (`B2 S`) + **switch** (`36×20`) + subtítulo *"Agrega tus variantes desde la sección de Precio y variantes."* (`B3 R` `#4C4C4C`).
 
 > **En el paso 1 el switch está OFF** (producto sin variantes). Al activarlo se entra al flujo del paso 1-con-variantes (documentar aparte).
-> ⚠️ El subtítulo remite a **"Precio y variantes"** pero el sub-tab se llama **"Precio e inventario"**. Nombre inconsistente de la sección destino.
 
 ## PA.7 Bloque: Multimedia — `366:15313`
 - Subtítulo *"Sube fotos o videos de tu producto."* (`B2 R` `#4C4C4C`).
@@ -2915,8 +2596,7 @@ Tarjeta `bg #F8F8F8`, radio 16, `px12 py16`: fila con **"Producto con variantes"
 - **"Agregar más especificaciones"** (`B1 S` 16).
 - **Chip punteado "Agregar especificación +"** (borde dashed `#4C4C4C`) + **catálogo de especificaciones disponibles** como chips grises (`bg #F8F8F8`, `#1F2937`): Grupo de edad · Actividad · Color · Instrucciones de cuidado · Tipo de cierre · Material del calzado · Tipo de altura del tacón · Estampado · Características del calzado · Ajuste del calzado · Talla de calzado · Género objetivo · Estilo de puntera.
 
-> 🔴 **Datos de ejemplo repetidos:** las filas Color y Tono muestran **dos chips "Amarillo" idénticos** cada una (`907:27849`/`907:27856`). Y el botón dice "Seleccionar **color**" incluso en la fila **Tono** (`4181:94248`) — label sin parametrizar.
-> ⚠️ **El label de sección "especificaciones de tu producto"** (aquí) vs **"Agrega las especificaciones de tu producto"** (en las variantes colapsadas `364:13857`) vs **"Agregar más especificaciones"** (subtítulo interno). Tres redacciones.
+> 🔴 El botón dice "Seleccionar **color**" incluso en la fila **Tono** — label sin parametrizar.
 
 ### PA.8.1 Estados progresivos del bloque (sección "Specification" `907:34708`)
 
@@ -2930,7 +2610,7 @@ La sección **"Specification"** documenta el bloque de especificaciones en **est
 | Con valores | `907:33606` | specs como **select + chips** (ver §PA.8.2) |
 | Dropdown de valores | `907:33606` | menú desplegado con opción **"+ Añadir {valor}"** (§PA.8.3) |
 
-> 🔴 **El encabezado del bloque cambia de gris entre secciones:** en el form principal (§PA.3) es **`#4B5563`** (Greys/100); aquí en "Specification" (`907:33741`) el mismo encabezado es **`#9CA3AF`** (Greys/300). Dos grises para el mismo encabezado según la pantalla. Además el texto cambia: "especificaciones de tu producto" (form) vs **"Agrega las especificaciones de tu producto"** (aquí).
+> 🔴 **El encabezado del bloque cambia de gris entre secciones:** en el form principal (§PA.3) es **`#4B5563`** (Greys/100); aquí en "Specification" el mismo encabezado es **`#9CA3AF`** (Greys/300). Dos grises para el mismo encabezado según la pantalla.
 
 ### PA.8.2 🔴 Especificación agregada — dos anatomías distintas
 
@@ -2945,10 +2625,8 @@ La sección **"Specification"** documenta el bloque de especificaciones en **est
 
 Son **dos componentes de "fila de especificación" que no coinciden**. Definir uno canónico.
 
-> 🔴 **Dato de ejemplo copiado (forma B):** las specs **Marca** (`907:33745`) y **Manga** (`907:33753`) tienen **idéntico** placeholder "Ej. Polo" e **idéntico** chip de valor "Polo". El nombre de la spec cambia pero el contenido está clonado.
-
 ### PA.8.3 Dropdown de valores — crear nuevo — `907:33900`
-Al abrir el select de valores de una spec, aparece un **menú desplegable** (`280×135`) con las opciones existentes (ej. "Amarillo") y, al final, una acción **"+ Añadir {texto buscado}"** (`4183:100175`, `B2 S` negro) para **crear un valor nuevo** con el término tecleado.
+Al abrir el select de valores de una spec, aparece un **menú desplegable** (`280×135`) con las opciones existentes (ej. "Amarillo") y, al final, una acción **"+ Añadir {texto buscado}"** (`B2 S` negro) para **crear un valor nuevo** con el término tecleado.
 
 > ✅ Patrón útil (crear-al-vuelo desde el buscador). Documentar como componente reutilizable de select con creación.
 
@@ -2967,8 +2645,6 @@ Hay **dos** bottom sheets, no uno. Ambos: scrim `rgba(0,0,0,0.2)`, panel blanco 
 
 ## PA.9 Bloque: Clasificación del producto — `366:15145`
 Campos: **Tipo de producto** (ej. Polo) · **Proveedor** (ej. Polo) · **Etiquetas** (select "Seleccionar" + chips *Camisas · Unisex · Polo*) · **Catálogo** (select + chips *Descuento · Camisas*).
-
-> ⚠️ Las **etiquetas** aquí (`Camisas`, `Unisex`, `Polo`) coinciden con las que aparecen en el listado — verificar si es el mismo set o ejemplos sueltos.
 
 ## PA.10 Bloque: Publicar en — `366:15207`
 Checklist de **7 canales** con checkbox `Control` (radio 4, `On`=`#DB3B2B`):
@@ -2992,7 +2668,7 @@ Pantalla de ayuda (se abre desde el badge de Multimedia). Lista de recomendacion
 
 ## PA.12 Componentes nuevos
 - **Input de formulario largo** (`Inactive/Default`, h55, radio 20) — select, textarea y texto.
-- **Switch** (`51:17785`, 36×20) — primer switch documentado en la App.
+- **Switch** (36×20) — primer switch documentado en la App.
 - **Uploader multimedia** (grid, portada, drag, borrar, celda +).
 - **Selector de especificaciones** (chips catálogo + chip punteado "agregar").
 - **Checklist de canales** con logos de marketplace.
@@ -3009,40 +2685,14 @@ Pantalla de ayuda (se abre desde el badge de Multimedia). Lista de recomendacion
 6. 🔴 **Dos azules de acento:** `#005EDC` (Blue/200) vs `#2180FF` (Blue/300) (§PA.7).
 7. 🔴 **Quinto gris de texto:** `#6B7280` en el contador de caracteres (§PA.8.1).
 8. 🔴 **`#4B5563` (tercer gris) en los 8 encabezados** (§PA.3).
-9. 🔴 **Datos de ejemplo repetidos:** dos chips "Amarillo" en Color y en Tono; botón "Seleccionar color" en la fila Tono (§PA.8).
+9. 🔴 **Label sin parametrizar:** botón "Seleccionar color" reutilizado en la fila Tono (§PA.8).
 9b. 🔴 **Dos anatomías de "fila de especificación"** (Color/Tono con botón vs Marca/Manga con select+chip) — §PA.8.2.
 9c. 🔴 **Dos sheets de especificación** ("Añadir opción" h467 con Color/Valor base vs "Agregar especificaciones" h248 solo Nombre) — §PA.8.4.
 9d. 🔴 **Encabezado del bloque en dos grises** según la pantalla: `#4B5563` (form) vs `#9CA3AF` ("Specification") — §PA.8.1.
 10. 🔴 **`B1 B` (Inter Bold)** en el título del sheet — segundo Bold de la App (§PA.8.1).
-11. ⚠️ **Nombre de sección destino inconsistente:** "Precio y variantes" (subtítulo del switch) vs "Precio e inventario" (sub-tab) (§PA.6).
-12. ⚠️ **Mayúsculas inconsistentes** en los strings de encabezado (§PA.3).
-13. ⚠️ **Tres redacciones** del label de especificaciones (§PA.8).
 14. ⚠️ **Dos colores de placeholder** (`#C3C3C3` vs `#4C4C4C`) sin criterio claro (§PA.4).
 15. **Sin estados:** sin validación de campos, sin error de carga de imagen, sin confirmación al descartar (los campos requeridos no están marcados).
 16. Íconos a `icons.ts`: `arrow-down-01-sharp`, `delete-02`, `qlementine-icons:drag`, `plus`, `bulb`, `x`, switch.
-
-## PA.14 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Header + sub-tabs | "Nuevo producto" + 5 tabs (Info general activa) | §PA.2 | ✅ Fiel |
-| Sub-tabs (posición) | Catálogo `370` / Sucursales `391` — solapados | §PA.2 | 🔴 Error en Figma |
-| Encabezados de bloque | **Manrope SemiBold 12** `#4B5563` uppercase | §PA.3 | ⚠️ Manrope en App |
-| Información básica | 4 campos, input h55/r20, textarea h196 | §PA.4 | ✅ Fiel *(textarea escalado)* |
-| Identificadores | SKU + Código de barras | §PA.5 | ✅ Fiel |
-| Variantes | tarjeta `#F8F8F8` r16 + switch OFF | §PA.6 | ✅ Fiel |
-| Multimedia | grid 2-col, portada, drag, +, badge | §PA.7 | ✅ Fiel *(fraccionario)* |
-| Especificaciones | Color/Tono + chips + catálogo | §PA.8 | ✅ Fiel *(datos repetidos)* |
-| Estados del bloque | vacío → 1 spec → 2 specs → con valores → dropdown | §PA.8.1 | ✅ Fiel |
-| Fila de especificación | 2 anatomías (botón vs select+chip) | §PA.8.2 | 🔴 Inconsistente |
-| Dropdown "+ Añadir {valor}" | crear valor nuevo desde el buscador | §PA.8.3 | ✅ Fiel |
-| Sheets de especificación | 2 distintos (h467 "Añadir opción" / h248 "Agregar especificaciones") | §PA.8.4 | 🔴 Duplicado |
-| Clasificación | Tipo · Proveedor · Etiquetas · Catálogo | §PA.9 | ✅ Fiel |
-| Publicar en | 7 canales, 3 On, divisor antes de Sears | §PA.10 | ✅ Fiel |
-| Recommendations | 6 recomendaciones de imagen | §PA.11 | ✅ Fiel |
-| Footer | Descartar + Continuar (h40/r12) | §PA.2 | ✅ Fiel |
-
-**Resumen:** el formulario y sus 8 bloques **coinciden con Figma**. Aporta varios componentes nuevos (switch, uploader, checklist de canales, sheet de opción). Pero es el flujo con **más deuda de tokens de toda la App hasta ahora**: **Manrope en 8 encabezados + 1 textarea**, dos bloques enteros en **medidas fraccionarias**, un **quinto gris** de texto, un **segundo azul** de acento y un **segundo Bold**. Antes de documentar el paso 2 (con variantes), conviene decidir si el form se rehace sobre tokens o se documenta la deuda tal cual.
 
 ## PA.15 Referencias
 - *Step 1: If product don't have variants* (`366:16829`).
@@ -3079,15 +2729,15 @@ Nuevo producto  (sub-tabs: Información general · Precio e inventario ← activ
 └── [Descartar]  [Continuar]
 ```
 
-> **Los 3 bloques se muestran colapsados por defecto** (`hidden=true` en Figma para el contenido). La pantalla `366:16396` (1629px) es el estado **todo expandido**.
+> **Los 3 bloques se muestran colapsados por defecto** (`hidden=true` en Figma para el contenido). La pantalla expandida (1629px) es el estado **todo expandido**.
 
 ## PB.2 Chrome
 Idéntico al paso 1: header "Nuevo producto" + back, sub-tabs (ahora **"Precio e inventario"** activo), footer Descartar + Continuar.
 
-> 🔴 **Sub-tabs aún más rotos que en el paso 1.** El contenedor de tabs mide **620px** (vs 360 de pantalla) y aparece **"SEO" DUPLICADO**: dos frames consecutivos con el mismo texto "SEO" (`4181:94427` en `x:305` y `4181:94429` en `x:365`). Además Catálogo (`x:425`) y Sucursales (`x:516`) quedan muy fuera de pantalla. Es el mismo componente de tabs defectuoso (§P.2/§PA.2) **y encima con un tab repetido**.
+> 🔴 **Sub-tabs aún más rotos que en el paso 1.** El contenedor de tabs mide **620px** (vs 360 de pantalla) y aparece **"SEO" DUPLICADO**: dos frames consecutivos con el mismo texto "SEO" (`x:305` y `x:365`). Además Catálogo (`x:425`) y Sucursales (`x:516`) quedan muy fuera de pantalla. Es el mismo componente de tabs defectuoso (§P.2/§PA.2) **y encima con un tab repetido**.
 
 ## PB.3 Encabezados de bloque
-Mismo patrón del paso 1 pero con una diferencia: aquí los títulos (Precio, Inventario, Envíos) son **`text 16 / #000` (no Manrope, no uppercase)** — `366:16412` etc. usan un estilo distinto al `Manrope SemiBold #4B5563 uppercase` del paso 1.
+Mismo patrón del paso 1 pero con una diferencia: aquí los títulos (Precio, Inventario, Envíos) son **`text 16 / #000` (no Manrope, no uppercase)** — usan un estilo distinto al `Manrope SemiBold #4B5563 uppercase` del paso 1.
 
 > 🔴 **Inconsistencia entre pasos:** los encabezados de bloque del paso 1 son Manrope uppercase gris; los del paso 2 son texto normal 16px negro. Mismo asistente, dos estilos de encabezado de bloque.
 
@@ -3102,32 +2752,25 @@ Grid flexible (`gap 16/8`) de campos, todos input h55/r20:
 | **Margen** | 160 | **botón calculado** | **90%** |
 
 - **Ganancia y Margen** son **valores calculados**, no inputs: botón `bg #F0FDF4` (Green/500), texto **`#4FC153`** (Green/300), `B2 S`.
-- **Checkbox "Mi producto cobra IVA."** (`366:16565`, marcado ON) + **ⓘ** → tooltip: *"Al activarlo, se agregará el 16% al precio configurado en T1 para el cliente final."*
+- **Checkbox "Mi producto cobra IVA."** (marcado ON) + **ⓘ** → tooltip: *"Al activarlo, se agregará el 16% al precio configurado en T1 para el cliente final."*
 
 > 🔴 **El cuarto verde otra vez, y ahora como fondo de campo:** Ganancia/Margen usan `#4FC153`/`#F0FDF4` — el mismo par del chip "Activo" de la tarjeta de producto (§P.3.2). Aquí significa "valor calculado positivo", allá "estado activo". Mismo verde, dos semánticas.
-> ✅ **El tooltip de IVA confirma la tasa correcta (16%)** — contrasta con el "IVA (20.00%)" del resumen de cobro (§CP.4.4) y el "Impuestos (VA)" de otros lugares. Este es el dato correcto para México.
 
 ## PB.5 Bloque: Inventario — `366:16584`
-- **Botón "Editar sucursales"** (`366:16633`, secundario h32/r8, `pencil-edit-02` + `B3 M`) → abre el sheet (§PB.7).
+- **Botón "Editar sucursales"** (secundario h32/r8, `pencil-edit-02` + `B3 M`) → abre el sheet (§PB.7).
 - **Sucursal 1/2/3 (Unidades disponibles)** — 3 inputs h55, placeholder "ej. 30".
 - **Stock de seguridad** + **ⓘ** — input, placeholder "ej. 25".
-- **Checkbox "Continuar vendiendo en línea cuando no haya stock."** (`366:16613`, **OFF**).
-
-> 🔴 **Tres sucursales hardcodeadas.** Los campos "Sucursal 1/2/3" están fijos en el diseño. Conecta con el **"1/3" de la tarjeta de producto** (§P.3) y con el sheet "Editar sucursales" que solo lista 2 sucursales (§PB.7) — hay incongruencia en cuántas sucursales existen (2 en el sheet, 3 en los campos).
+- **Checkbox "Continuar vendiendo en línea cuando no haya stock."** (**OFF**).
 
 ## PB.6 Bloque: Envíos — `366:16472`
 - Texto intro: *"Ingresa la información de tu producto empaquetado para el envío."*
 - Grid 2col: **Largo (cm)** "Ej. 10" · **Ancho (cm)** "ej. 15" · **Alto (cm)** "ej. 25" · **Peso (kg)** "ej. 1".
 - **Días de envío** + **ⓘ** — input, placeholder "ej. 2".
 
-> ⚠️ **Inconsistencia de mayúsculas en placeholders:** "Ej. 10" / "Ej. 25" (Largo, Alto) vs "ej. 15" / "ej. 1" / "ej. 2" (Ancho, Peso, Días). Mismo tipo de campo, mayúscula distinta.
-
 ## PB.7 Sheet: Editar sucursales — `907:62849`
 Bottom sheet (h248, radio-top 16): **título "Editar sucursales"** (`B1 B` Inter Bold 16), **checklist**:
 - ☑ Sucursal 1 (ON) · ☑ Sucursal 2 (ON) — checkbox `Control` + `B2 M` `#4C4C4C`.
 - Botones **Cerrar** (secundario 160) + **Guardar** (primario 160).
-
-> 🔴 **El sheet solo lista 2 sucursales**, pero el bloque Inventario (§PB.5) tiene campos para **3**. Definir la fuente de verdad del número de sucursales.
 
 ## PB.8 Tooltips (ⓘ) — `907:63360`
 Los `information-circle` abren tooltips (caja + cola/polígono). Textos verificados:
@@ -3141,7 +2784,7 @@ Los `information-circle` abren tooltips (caja + cola/polígono). Textos verifica
 | Stock de seguridad | "Cantidad mínima de producto para evitar quedarte sin inventario por imprevistos o picos de demanda." |
 | Días de envío | *(no capturado en el frame de tooltips; confirmar)* |
 
-> ✅ **Primer sistema de tooltips documentado de la App.** Componente verificado (`907:63360`): caja blanca, borde `1px #F3F3F3`, **radio 12**, sombra `0 4px 5.3px rgba(0,0,0,.1)`, texto `B3 R #4C4C4C` **ancho 220**, **cola superior centrada** (polígono `10×9`). El "242" es el frame contenedor, no la caja.
+> ✅ **Primer sistema de tooltips documentado de la App.** Componente verificado: caja blanca, borde `1px #F3F3F3`, **radio 12**, sombra `0 4px 5.3px rgba(0,0,0,.1)`, texto `B3 R #4C4C4C` **ancho 220**, **cola superior centrada** (polígono `10×9`). El "242" es el frame contenedor, no la caja.
 
 ## PB.9 Componentes nuevos
 - **Campo calculado** (botón verde no editable: Ganancia, Margen).
@@ -3152,33 +2795,13 @@ Los `information-circle` abren tooltips (caja + cola/polígono). Textos verifica
 
 ## PB.10 Pendientes (🔴)
 
-1. 🔴 **"SEO" DUPLICADO** en los sub-tabs — **confirmado como texto real** (`4181:94397` + `4181:94399`, ambos `B2 M`), no nombre de capa (§PB.2).
+1. 🔴 **"SEO" DUPLICADO** en los sub-tabs — **confirmado como texto real** (ambos `B2 M`), no nombre de capa (§PB.2).
 2. 🔴 **Sub-tabs en contenedor de 620px**, muy fuera de la pantalla de 360 (§PB.2).
 3. 🔴 **Encabezados de bloque en estilo distinto al paso 1** (texto 16 negro vs Manrope uppercase gris) (§PB.3).
 4. 🔴 **Cuarto verde `#4FC153`** como fondo de Ganancia/Margen, misma pareja que el chip "Activo" (§PB.4).
-5. 🔴 **Número de sucursales incongruente:** 3 campos en Inventario vs 2 en el sheet "Editar sucursales" (§PB.5/§PB.7).
-6. ⚠️ **Mayúsculas inconsistentes en placeholders** de Envíos ("Ej." vs "ej.") (§PB.6).
 7. 🔴 **Medidas fraccionarias** heredadas en todos los inputs (`gap 7.328`, `y 24.328`, campos `514.313`, etc.).
-8. ✅ **La tasa de IVA aquí es 16%** (correcta para MX) — usar como referencia contra "IVA (20.00%)" (§CP.4.4).
 9. **Sin estados:** sin validación (precio de oferta > base, margen negativo), sin error, campos requeridos sin marcar.
 10. Íconos a `icons.ts`: `information-circle`, `pencil-edit-02`.
-
-## PB.11 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Chrome (header + sub-tabs + footer) | "Precio e inventario" activo | §PB.2 | ✅ Fiel |
-| Sub-tabs | contenedor 620, **"SEO" ×2** | §PB.2 | 🔴 Error en Figma |
-| Encabezados de bloque | texto 16 negro (≠ paso 1) | §PB.3 | 🔴 Inconsistente |
-| Precio | grid: base/oferta/costo + Ganancia/Margen calculados | §PB.4 | ✅ Fiel |
-| Ganancia/Margen | botón `#F0FDF4`/`#4FC153`, valores $122,345 / 90% | §PB.4 | ⚠️ Cuarto verde |
-| Checkbox IVA | ON + tooltip 16% | §PB.4 | ✅ Fiel |
-| Inventario | Editar sucursales + Sucursal 1/2/3 + Stock seg. + checkbox | §PB.5 | ✅ Fiel |
-| Envíos | Largo/Ancho/Alto/Peso + Días de envío | §PB.6 | ✅ Fiel |
-| Sheet Editar sucursales | h248, 2 checkboxes, Cerrar/Guardar | §PB.7 | ✅ Fiel *(solo 2 sucursales)* |
-| Tooltips | 6 textos verificados | §PB.8 | ✅ Fiel |
-
-**Resumen:** el paso 2 es más corto y **más limpio en tokens** que el paso 1 (no arrastra la anomalía Manrope en los campos), pero suma **defectos propios**: el tab **"SEO" duplicado**, los **encabezados de bloque en un estilo distinto al paso 1** (rompe consistencia del propio asistente), el **cuarto verde** como fondo de campo calculado, y una **incongruencia de sucursales** (3 campos vs 2 en el sheet). Aporta dos patrones nuevos valiosos: **campo calculado** y **tooltips** (los primeros de la App). La tasa de **IVA 16%** aquí es la correcta y sirve de referencia contra los otros valores de impuesto de la App.
 
 ## PB.12 Referencias
 - *Step 2: If product don't have variants* (`366:16828`).
@@ -3235,21 +2858,19 @@ Tab "Precio y variante"  (366:17296 colapsado inicial · 403:22672 con datos)
 
 Núcleo del paso. Tres zonas apiladas (`gap 32`):
 
-**a) Tarjeta de producto** (`403:22674`, `bg #F8F8F8` r16, h84): thumbnail 64 (r**14.537** 🔴 fraccionario) + **"Polo de mujer"** (`B1 S`) + subtítulo **"Sin variantes"** (`B2 R #4C4C4C`).
+**a) Tarjeta de producto** (`bg #F8F8F8` r16, h84): thumbnail 64 (r**14.537** 🔴 fraccionario) + **"Polo de mujer"** (`B1 S`) + subtítulo **"Sin variantes"** (`B2 R #4C4C4C`).
 
-> 🔴 **Bug de copy:** el subtítulo dice **"Sin variantes"** aunque es la pantalla **con** variantes. Se repite en todos los estados del tab (`403:22678`, `401:32757`, `401:32876`…). Copy correcto probable: número de variantes o "Con variantes".
-
-**b) Sección VARIANTES** (`403:22679`): encabezado **"VARIANTES"** (Manrope SemiBold `#4B5563` uppercase 🔴 *Manrope fuera de Nova*) + card blanca r12 con filas divididas:
+**b) Sección VARIANTES**: encabezado **"VARIANTES"** (Manrope SemiBold `#4B5563` uppercase 🔴 *Manrope fuera de Nova*) + card blanca r12 con filas divididas:
 | Tipo | Valores (ejemplo) | Control |
 |---|---|---|
 | Color | Azul, Rojo, Verde | chevron (rotado -90°) |
 | Estampado | Floral, Animal print, Puntos | chevron |
 | Talla | S, M, L | chevron |
-- Cada fila: label `B2 S` + valores `B3 R #4C4C4C` + `arrow-down-01-sharp` rotado. Debajo, botón **"Agregar variante"** (`4181:94594`).
+- Cada fila: label `B2 S` + valores `B3 R #4C4C4C` + `arrow-down-01-sharp` rotado. Debajo, botón **"Agregar variante"**.
 
-**c) Sección "Inventario y precio"** (`403:22697`): encabezado Manrope + card con combinaciones. Cada fila: combinación `B2 S` (ej. "Azul / Floral / S") + detalle `B3 R` "23 unidades | $3,456.99".
+**c) Sección "Inventario y precio"**: encabezado Manrope + card con combinaciones. Cada fila: combinación `B2 S` (ej. "Azul / Floral / S") + detalle `B3 R` "23 unidades | $3,456.99".
 
-> 🔴 **Las 3 combinaciones son idénticas:** "Azul / Floral / S · 23 unidades | $3,456.99" repetida literal 3 veces (`403:22704`/`22708`/`22712`). En el estado vacío (`401:32739`) sí varían (Azul/Floral/S, Azul/Animal print/S, Azul/Puntos/S) con detalle **"-- --"**. Datos de ejemplo sin variar en el estado "con datos".
+> 🔴 **Las 3 combinaciones son idénticas:** "Azul / Floral / S · 23 unidades | $3,456.99" repetida literal 3 veces. En el estado vacío sí varían (Azul/Floral/S, Azul/Animal print/S, Azul/Puntos/S) con detalle **"-- --"**. Datos de ejemplo sin variar en el estado "con datos".
 
 **Estados del tab:**
 | Estado | Nodo | Diferencia |
@@ -3260,9 +2881,9 @@ Núcleo del paso. Tres zonas apiladas (`gap 32`):
 | Con datos | `403:22672` | combinaciones "23 unidades \| $3,456.99" |
 
 ## PC.3 Sub-flujo "Variantes" (lista de tipos)
-Pantalla **"Variantes"** (`401:36393` / `401:36539` / `403:21847`): lista los tipos de variante creados (Color, Talla, Estampado) como filas colapsables (label + valores) + botón **"Agregar variante"** (`4181:94578`). Es la versión de página completa de la sección VARIANTES del tab.
+Pantalla **"Variantes"** (`401:36393` / `401:36539` / `403:21847`): lista los tipos de variante creados (Color, Talla, Estampado) como filas colapsables (label + valores) + botón **"Agregar variante"**. Es la versión de página completa de la sección VARIANTES del tab.
 
-- **"Agregar variante"** (`401:32965`): 6 filas de categoría **"Categoria 1 > Subcat"** (`Frame 2147224742`) con chevron — plantillas/placeholder de categorías. 🔴 Nombres de placeholder sin resolver ("Categoria 1 > Subcat" ×6).
+- **"Agregar variante"**: 6 filas de categoría **"Categoria 1 > Subcat"** (`Frame 2147224742`) con chevron — plantillas/placeholder de categorías.
 
 ## PC.4 Selector "Valores de color" — `401:34042`
 Lista scrolleable de **15 colores**, cada fila: **checkbox** `Check` (ON = `#DB3B2B` r4) + **swatch** de color (r4, 15px) + nombre (`B2 M`). Primera fila fija: **"Agregar color personalizado"** con `plus-sign-square`.
@@ -3278,7 +2899,7 @@ Lista scrolleable de **15 colores**, cada fila: **checkbox** `Check` (ON = `#DB3
 | Negro | `#333` | Verde | `#51AF70` |
 | Magenta | `#CD2BEE` | Lavanda | `#D1E5FF` |
 
-- **Estados:** base (`401:33453`), con sheet abierto (`401:34043`), con chips de selección arriba (`401:34217` — chips de colores elegidos).
+- **Estados:** base, con sheet abierto, con chips de selección arriba (chips de colores elegidos).
 
 > 🔴 **Rojo del swatch = `#DB3B2B`** (marca) y **Verde = `#51AF70`** (Green/400): confirman los valores ya rastreados. El swatch reутiliza el token de marca como "color de producto", no como acento de UI.
 
@@ -3290,31 +2911,29 @@ Lista **agrupada** por encabezado de sección:
 - **Adultos:** XXXS, XXS, XS, S, M, L, XL, XXL.
 - **Niños:** 0 a 3 meses, 3 a 6 meses, 6 a 9 meses…
 - Cada talla: checkbox `Check` + nombre. Primera fila: **"Agregar talla personalizada"** (`plus-sign-square`).
-- Estados: base (`401:35473`), con input "Agregar valor personalizado" + `delete-02` (`401:35669`), con chips de selección (`401:35799`).
-
-> ⚠️ **Inconsistencia de nomenclatura de grupo:** "Adultos"/"Niños" aquí; en Productos/otros lugares la edad aparece distinta. Unificar taxonomía de tallas.
+- Estados: base, con input "Agregar valor personalizado" + `delete-02`, con chips de selección.
 
 ### PC.5.1 "Editar talla" + menú kebab — `403:21229` / `403:21942`
-La pantalla "Editar talla" agrega un **`more-vertical`** (`403:21392`) en el header → abre menú **"Eliminar variante"** (`403:21942`, `delete-02` + label, 161×48). El menú tiene 6 filas "Opción" ocultas (plantilla de menú reutilizable).
+La pantalla "Editar talla" agrega un **`more-vertical`** en el header → abre menú **"Eliminar variante"** (`delete-02` + label, 161×48). El menú tiene 6 filas "Opción" ocultas (plantilla de menú reutilizable).
 
 ## PC.6 "Variante personalizada" — `401:36320`
 Para crear un tipo de variante nuevo (no Color/Talla/Estampado):
 - **Nombre de variante** — input, placeholder **"Ej. Camisa"**.
 - Divisor.
 - **"Crear valores para tu variante"** — **chips** de valores ya creados (Floral, Animal print, Puntos; `bg #F8F8F8` r6, texto negro `B3 S`, x de borrar) + campo **"Agregar valor personalizado"** con acción **"Añadir"** a la derecha.
-- Estados: vacía sin chips (`401:36117`) y con chips (`401:36305`).
+- Estados: vacía sin chips y con chips.
 
 > Nota: el chip aquí es **gris `#F8F8F8` con texto negro** — distinto del chip azul `#F0F8FF`/`#2180FF` de las especificaciones (§PA.8). Dos estilos de chip en el mismo asistente de alta.
 
 ## PC.7 Edición inventario/precio por combinación — `403:23303`
-Al tocar una combinación se abre una pantalla **"Precio e inventario"** (título propio, `403:23308`) con:
-- **Chips de filtro** arriba (`403:23316`): Color / Estampado / Talla o valores concretos (Azul, Puntos, L) con `cancel-01` para quitar.
-- **Lista larga por combinación** (`403:23329`, h832): cada combinación es un bloque con label (Manrope `#4B5563`, ej. "Azul / Floral / Niña") + **Unidades disponibles** + **Precio base** + **Precio oferta**.
-- Botón único **"Guardar"** full-width (`403:23406`).
+Al tocar una combinación se abre una pantalla **"Precio e inventario"** (título propio) con:
+- **Chips de filtro** arriba: Color / Estampado / Talla o valores concretos (Azul, Puntos, L) con `cancel-01` para quitar.
+- **Lista larga por combinación** (h832): cada combinación es un bloque con label (Manrope `#4B5563`, ej. "Azul / Floral / Niña") + **Unidades disponibles** + **Precio base** + **Precio oferta**.
+- Botón único **"Guardar"** full-width.
 
 ### PC.7.1 🔴 Primer estado de validación/error de la App — `403:23330`
 En la combinación "Azul / Floral / Niña" con datos (Unidades "23", Precio base "$98.99", Precio oferta "$99.99"):
-- El input **Precio oferta** tiene **borde rojo `#DB362B`** y debajo el mensaje **"Precio oferta debe ser menor al precio base"** (`4181:94732`, `B3 R` rojo).
+- El input **Precio oferta** tiene **borde rojo `#DB362B`** y debajo el mensaje **"Precio oferta debe ser menor al precio base"** (`B3 R` rojo).
 
 > 🔴 **Primer patrón de validación de campo documentado en toda la App.** Definir el componente de input en estado error (borde + mensaje) como átomo reutilizable.
 > 🔴 **SEXTO ROJO — `#DB362B`** (token `background/state-indicators/error`), **distinto** del `#DB3B2B` de marca por un dígito. Confirmar si es intencional (rojo de error vs rojo de marca) o si es una desviación. Se suma a la lista de rojos ya rastreada.
@@ -3339,37 +2958,13 @@ En la combinación "Azul / Floral / Niña" con datos (Unidades "23", Precio base
 
 ## PC.10 Pendientes (🔴)
 
-1. 🔴 **"Sin variantes" como subtítulo** en la pantalla CON variantes (bug de copy, en todos los estados del tab) (§PC.2).
 2. 🔴 **3 combinaciones idénticas** "Azul / Floral / S · 23 unidades | $3,456.99" en el estado con datos (§PC.2).
 3. 🔴 **Sexto rojo `#DB362B`** (error) distinto del `#DB3B2B` de marca (§PC.7.1). Confirmar intención.
 4. 🔴 **Primer estado de validación** sin documentar como átomo (input error + mensaje) (§PC.7.1).
-5. 🔴 **"Categoria 1 > Subcat" ×6** como placeholder sin resolver en "Agregar variante" (§PC.3).
 6. 🔴 **Manrope** en los encabezados VARIANTES / Inventario y precio / labels de combinación (§PC.2, §PC.7) — suma a la anomalía Manrope.
 7. 🔴 **Medidas fraccionarias** omnipresentes (`14.537`, `7.328`, `24.328`, `79.328`, `832.298`).
 8. ⚠️ **Dos estilos de chip** en el mismo asistente: azul (especificaciones §PA.8) vs gris (variante personalizada §PC.6).
-9. ⚠️ **Taxonomía de tallas** Adultos/Niños a unificar con el resto del sistema (§PC.5).
-10. **Sub-tab se llama "Precio y variante"** (singular) — otro nombre de sección inconsistente vs "Precio e inventario" (§PB) e "Información general".
 11. Íconos a `icons.ts`: `plus-sign-square`, `cancel-01`, `delete-02`, `more-vertical`, `checkmark-square-02`.
-
-## PC.11 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Tab Precio y variante | tarjeta + VARIANTES + Inventario y precio | §PC.2 | ✅ Fiel |
-| Subtítulo tarjeta | "Sin variantes" en pantalla CON variantes | §PC.2 | 🔴 Bug copy |
-| Combinaciones (con datos) | "Azul / Floral / S" ×3 idénticas | §PC.2 | 🔴 Datos repetidos |
-| Combinaciones (vacías) | 3 distintas, detalle "-- --" | §PC.2 | ✅ Fiel |
-| Sub-flujo Variantes | lista tipos + Agregar variante | §PC.3 | ✅ Fiel |
-| Valores de color | 15 colores + hex + swatch + check | §PC.4 | ✅ Fiel |
-| Sheet color personalizado | Nombre/Color/Valor base | §PC.4.1 | ✅ Fiel |
-| Valores de talla | agrupada Adultos/Niños | §PC.5 | ✅ Fiel |
-| Editar talla + kebab | more-vertical → Eliminar variante | §PC.5.1 | ✅ Fiel |
-| Variante personalizada | Nombre + chips + Añadir | §PC.6 | ✅ Fiel |
-| Edición por combinación | chips filtro + Unidades/Precio base/oferta | §PC.7 | ✅ Fiel |
-| Validación precio oferta | borde `#DB362B` + mensaje | §PC.7.1 | 🔴 Sexto rojo |
-| Modal Eliminar variante | delete-02 + T2 + Cancelar/Eliminar | §PC.8 | ✅ Fiel |
-
-**Resumen:** el paso 2 con variantes es el **flujo más grande del alta** (~19 pantallas) y el que aporta **más componentes nuevos de la App**: el **primer estado de validación de campo** (input error + mensaje), el **primer modal de confirmación destructiva**, y los selectores de valores (lista larga con swatch / agrupada). También concentra **cuatro defectos de contenido**: el bug de copy "Sin variantes", las 3 combinaciones idénticas, el placeholder "Categoria 1 > Subcat" sin resolver, y el **sexto rojo** `#DB362B` para error. Confirma la **anomalía Manrope** en encabezados y labels, y suma una **segunda familia de chip** (gris) al asistente.
 
 ## PC.12 Referencias
 - *Step 2: If product have variants* (`366:17295`).
@@ -3408,18 +3003,18 @@ Nuevo producto  (sub-tabs)
 └── [Descartar] [Continuar]
 ```
 
-> Dos layouts de estado del bloque SEO: **expandido inline** (`367:19406`, sin encabezado colapsable, form directo) y **colapsable** (`367:19527`, encabezado "SEO" con chevron, contenido `hidden`). Igual patrón mixto que en los pasos anteriores.
+> Dos layouts de estado del bloque SEO: **expandido inline** (sin encabezado colapsable, form directo) y **colapsable** (encabezado "SEO" con chevron, contenido `hidden`). Igual patrón mixto que en los pasos anteriores.
 
 ## PD.2 Chrome
 Header "Nuevo producto" + back, footer Descartar + Continuar.
 
-> 🔴 **Los sub-tabs CAMBIARON respecto a los pasos 1-2.** Aquí el contenedor de tabs (`4181:94751`) mide **344px** (más cercano a 360) y lista: Información general · **Precio y variante** · **SEO** (un solo tab, **ya no duplicado**) · **Canales de venta**. Comparar con los pasos 1-2 donde había "SEO" ×2 + "Catálogo" + "Sucursales". **Dos juegos de sub-tabs distintos conviven en el mismo asistente:**
+> 🔴 **Los sub-tabs CAMBIARON respecto a los pasos 1-2.** Aquí el contenedor de tabs mide **344px** (más cercano a 360) y lista: Información general · **Precio y variante** · **SEO** (un solo tab, **ya no duplicado**) · **Canales de venta**. Comparar con los pasos 1-2 donde había "SEO" ×2 + "Catálogo" + "Sucursales". **Dos juegos de sub-tabs distintos conviven en el mismo asistente:**
 > | | Pasos 1-2 | Paso 3 (SEO) |
 > |---|---|---|
 > | Tabs | Info · Precio · **SEO · SEO** · Catálogo · Sucursales | Info · Precio · **SEO** · **Canales de venta** |
 > | Ancho contenedor | 611-620px | 344px |
 > Definir el juego de tabs canónico. El 4º tab "Canales de venta" sugiere que "Catálogo/Sucursales" de los pasos 1-2 eran placeholders.
-> **Confirmado (`4181:94751`):** no es solo cuestión de ancho — es **otro componente de tabs**. El del paso 3 usa **auto-layout** (`justify-end`, 4 tabs limpios: Información general · Precio y variante · **SEO** activo `border-b #DB3B2B` · Canales de venta); el de los pasos 1-2 usa **posiciones absolutas** solapadas con el tab repetido. Dos implementaciones distintas del mismo control.
+> **Confirmado:** no es solo cuestión de ancho — es **otro componente de tabs**. El del paso 3 usa **auto-layout** (`justify-end`, 4 tabs limpios: Información general · Precio y variante · **SEO** activo `border-b #DB3B2B` · Canales de venta); el de los pasos 1-2 usa **posiciones absolutas** solapadas con el tab repetido. Dos implementaciones distintas del mismo control.
 
 ## PD.3 Escenario CON tienda — Formulario SEO — `367:19460`
 - Texto de ayuda: *"Ayuda a lograr un mejor posicionamiento en los resultados de búsqueda"* (`B2 R #4C4C4C`).
@@ -3428,7 +3023,7 @@ Header "Nuevo producto" + back, footer Descartar + Continuar.
 - **URL** — input h55, valor "https://domain/store/" (`#4C4C4C`, no placeholder gris).
 
 > 🔴 **El textarea "Descripción" repite la deuda del paso 1:** está en **Manrope** (`font-['Manrope:Regular']`) con medidas fraccionarias — borde `0.916px`, texto `12.824px`, radio `18.321`, padding `18.321`. Es el **mismo componente escalado** que el textarea de §PA.4. La App es Inter-only salvo Nova.
-> ⚠️ **URL con valor precargado, no placeholder:** "https://domain/store/" va en `#4C4C4C` (texto real), mientras Meta título va en `#C3C3C3` (placeholder). Confirmar si la URL es editable o un prefijo fijo.
+> ⚠️ **URL con valor precargado, no placeholder:** "https://domain/store/" va en `#4C4C4C` (texto real), mientras Meta título va en `#C3C3C3` (placeholder).
 
 ## PD.4 Vista previa en el buscador — `367:19513`
 Simula un **resultado de motor de búsqueda** (estilo Google). Card `bg #F8F8F8` r12, p16/13:
@@ -3440,17 +3035,16 @@ Simula un **resultado de motor de búsqueda** (estilo Google). Card `bg #F8F8F8`
 
 ## PD.5 Escenario SIN PLAN — Tarjeta de upsell — `674:60174`
 Cuando el comercio **no tiene plan/tienda**, el paso 3 no muestra el form SEO. En su lugar:
-- **Barra de progreso** (`674:60115`): **"PASO 3/3"** (`B3`) + **"SEO"** (título 19) + barra `270×3` (progreso ~parcial).
+- **Barra de progreso**: **"PASO 3/3"** (`B3`) + **"SEO"** (título 19) + barra `270×3` (progreso ~parcial).
 
 > 🔴 **Indicador de paso "PASO 3/3" solo aparece en el escenario SIN PLAN.** En los pasos 1-2 y en el SEO con tienda no hay barra "PASO n/3". Inconsistencia: o el asistente es de 3 pasos con indicador siempre, o no. Definir.
 
-- **Tarjeta de upsell** (`674:60174`, `bg #FFF0EF` Primary/100, r16, h446): imagen de fondo + **glass card** (`backdrop-blur 15.6px`, `bg rgba(0,0,0,.2)`, r20) con:
+- **Tarjeta de upsell** (`bg #FFF0EF` Primary/100, r16, h446): imagen de fondo + **glass card** (`backdrop-blur 15.6px`, `bg rgba(0,0,0,.2)`, r20) con:
   - Título **"Crea tu tienda en línea en segundos con IA"** (`T2 S` 20, blanco).
   - Cuerpo *"Obtén tu tienda y empieza a vender en línea de forma fácil, rápida y sin intermediarios."* (`B2 R` blanco).
-  - **CTA "Crear tienda"** (`674:60183`, botón primario `#DB3B2B`, h48 r16, ícono `add-01`/IA + `B1 M` 16).
+  - **CTA "Crear tienda"** (botón primario `#DB3B2B`, h48 r16, ícono `add-01`/IA + `B1 M` 16).
 
 > ✅ **Segundo uso del patrón "glass card sobre imagen" con IA** (relacionado con "Crear con IA" del menú de Productos §P.6). Vincular como sistema de upsell/IA.
-> 🔴 **El nombre de capa `674:60182` decía "Canales de venta"** pero el texto real es el cuerpo del upsell. Layer name obsoleto — documentado el texto real.
 
 ## PD.6 Componentes nuevos
 - **Vista previa de resultado de búsqueda (SERP)** — §PD.4.
@@ -3462,132 +3056,14 @@ Cuando el comercio **no tiene plan/tienda**, el paso 3 no muestra el form SEO. E
 1. 🔴 **Dos juegos de sub-tabs distintos** en el mismo asistente: pasos 1-2 (SEO×2 + Catálogo + Sucursales, 611px) vs paso 3 (SEO + Canales de venta, 344px) (§PD.2). Definir el canónico.
 2. 🔴 **Textarea "Descripción" en Manrope** + medidas fraccionarias — misma deuda del paso 1 (§PD.3).
 3. 🔴 **Indicador "PASO 3/3" solo en el escenario SIN PLAN**, ausente en el resto del asistente (§PD.5).
-4. ⚠️ **URL con valor precargado** ("https://domain/store/") vs placeholder gris del resto — confirmar si es prefijo fijo o editable (§PD.3).
-5. ⚠️ **Layer name obsoleto** `674:60182` ("Canales de venta" → texto real de upsell) (§PD.5).
+4. ⚠️ **URL con valor precargado** ("https://domain/store/") vs placeholder gris del resto (§PD.3).
 6. ✅ **La vista previa SERP y la tarjeta de upsell IA** son patrones reutilizables — registrarlos como componentes.
-
-## PD.8 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Chrome + sub-tabs | Info · Precio · SEO · Canales de venta (344px) | §PD.2 | 🔴 Tabs distintos a pasos 1-2 |
-| Form SEO | Meta título · Descripción · URL | §PD.3 | ✅ Fiel |
-| Textarea Descripción | Manrope + fraccionario | §PD.3 | 🔴 Deuda Manrope |
-| URL | valor "https://domain/store/" (no placeholder) | §PD.3 | ⚠️ Precargado |
-| Vista previa buscador | favicon + tienda + URL + título + desc | §PD.4 | ✅ Fiel |
-| Escenario SIN PLAN | barra "PASO 3/3" + tarjeta upsell IA | §PD.5 | ✅ Fiel |
-| CTA "Crear tienda" | primario `#DB3B2B` h48 + add-01 | §PD.5 | ✅ Fiel |
-
-**Resumen:** SEO es el sub-tab **más simple** del alta, pero destapa una inconsistencia estructural relevante: **los sub-tabs del paso 3 no coinciden con los de los pasos 1-2** (aquí "SEO" no está duplicado y aparece "Canales de venta"; el contenedor mide 344 en vez de 611-620). Sugiere que "Catálogo/Sucursales" de los pasos anteriores eran placeholders y que el 4º tab real es **"Canales de venta"** — lo cual conecta con el siguiente paso a documentar. Aporta dos patrones nuevos (**vista previa SERP** y **tarjeta de upsell IA con glass card**), y repite la **deuda Manrope** en el textarea. El escenario **SIN PLAN** introduce un indicador "PASO 3/3" que no existe en el resto del asistente.
 
 ## PD.9 Referencias
 - *Step 3: SEO* (`367:18786`).
 - **CON tienda:** form expandido `367:19406` (`367:19460`) · colapsable `367:19527` · vista previa `367:19513`.
 - **SIN PLAN:** `674:60106` · barra progreso `674:60115` · tarjeta upsell `674:60174` · CTA `674:60183`.
 - Reutiliza: input/textarea §PA.4 · footer §PA.2.
-
----
-
-# Flujo 18 — Agregar producto · Paso 4: Canales de venta (§PE)
-
-> **Sección "Step 4: Sales Channels"** (`4181:94782`). Cuarto y último sub-tab del alta. Permite **configurar los detalles del producto específicos de cada marketplace** (Sears, Sanborns, Shein…) en el que se va a publicar.
-> **Owner:** Karla Salazar — Head of UX/UI. **Figma:** `4181:94782`.
-
-## PE.1 Mapa del paso
-
-```
-Nuevo producto  (sub-tabs: Información general · Precio y variante · SEO · Canales de venta ← activo)
-│
-└── Lista de canales (acordeón por marketplace)
-    ├── ▸ Sears      · logo + "Detalles no agregados / agregados" + chevron
-    ├── ▸ Sanborns   · (colapsado)
-    ├── ▸ Shein      · (colapsado)
-    │
-    └── ▾ [canal expandido]  → sub-acordeón de secciones del producto POR CANAL:
-          Información básica · Descripción · Marca · Categoría · Multimedia ·
-          Precio · Inventario · Envíos · Atributos · Garantía ·
-          Inventario y reglas de precio
-          (cada sección se despliega con sus campos)
-```
-
-## PE.2 Chrome
-Header "Nuevo producto" + back, footer Descartar + Continuar, sub-tabs con **"Canales de venta"** activo (mismo componente de 4 tabs con auto-layout confirmado en §PD.2 — **no** el de los pasos 1-2).
-
-## PE.3 Fila de canal (colapsada) — `4181:94798`
-Cada marketplace es una **fila de acordeón** (h84, borde inferior `#F8F8F8`):
-- **Logo** del canal (40×40, r7, con máscara): Sears, Sanborns, Shein (logos reales embebidos).
-- **Nombre** del canal (`B1 S` 16 negro).
-- **Estado** (`B2 R #4C4C4C`): **"Detalles no agregados"** o **"Detalles agregados"**.
-- **Chevron** `arrow-right-01-sharp` rotado 90° (indica expandible).
-
-> 🔴 **El "estado" del canal es texto plano, no un chip.** "Detalles no agregados" / "Detalles agregados" van en `#4C4C4C` regular (`4181:94803`/`4181:96742`), sin fondo ni color semántico. Contrasta con el chip "Activo/Inactivo" de la tarjeta de producto (§P.3.2) que sí es chip de color. Definir si el estado del canal debe ser un chip (verde=agregados / gris=no agregados) para consistencia visual.
-> ⚠️ **Solo 3 canales hardcodeados** (Sears, Sanborns, Shein). En "Publicar en" del paso 1 (§PA) había **7** (+ TikTok, Amazon, Tienda en línea, Punto de venta). Alinear la lista de canales entre pasos.
-
-## PE.4 Canal expandido — sub-acordeón de secciones — `4181:96736`
-Al expandir un canal, aparece un **segundo nivel de acordeón** con las secciones del producto **específicas de ese marketplace**:
-
-| Sección | Origen | Nota |
-|---|---|---|
-| Información básica | alta base (§PA.3) | Nombre, Descripción, Marca, Categoría |
-| Descripción | alta base | |
-| Marca | alta base | |
-| Categoría | alta base | |
-| Multimedia | alta base (§PA.7) | |
-| Precio | paso 2 (§PB.4) | |
-| Inventario | paso 2 (§PB.5) | |
-| Envíos | paso 2 (§PB.6) | |
-| **Atributos** | 🆕 **específico de marketplace** | no existe en el alta base |
-| **Garantía** | 🆕 **específico de marketplace** | no existe en el alta base |
-| **Inventario y reglas de precio** | 🆕 **específico de marketplace** | variante de Inventario/Precio |
-
-- Cada sección es un frame colapsable (h20 colapsada → h326-501 desplegada) con los **mismos campos** del alta base (Nombre del producto, Descripción, Marca "Ej. Polo", Categoría "Camisas en Ropa y accesorios"…).
-
-> 🔴 **El paso 4 REPLICA el formulario de alta completo, por cada canal.** Un producto publicado en 3 marketplaces implica **3 copias** del form (Información básica, Multimedia, Precio, Inventario, Envíos…) más las secciones extra (Atributos, Garantía). Es la sección más pesada del alta (la pantalla con todo desplegado mide **5258px**). Confirmar con el equipo si de verdad se re-captura todo por canal o si hereda del alta base y solo se sobreescriben diferencias.
-> 🆕 **Tres secciones nuevas específicas de marketplace:** **Atributos**, **Garantía** e **Inventario y reglas de precio** — no aparecen en los pasos 1-3. Documentar sus campos cuando se definan (hoy salen como títulos de sección).
-
-## PE.5 Estados del paso
-| Estado | Nodo | Diferencia |
-|---|---|---|
-| Todos colapsados · sin detalles | `4181:94796` | 3 canales "Detalles no agregados" |
-| Detalles agregados | `4181:95443` | canal con "Detalles agregados" |
-| Variante | `4181:96089` | (tercer estado corto) |
-| Canal expandido (secciones colapsadas) | `4181:96735` | sub-acordeón visible, h1024 |
-| Canal expandido (con campos) | `4181:97460` | secciones desplegadas, h1024 |
-| Todo desplegado | `4181:98185` | h4921 — form completo por canal |
-
-## PE.6 Componentes nuevos
-- **Fila de canal / acordeón de marketplace** (logo + nombre + estado + chevron) — §PE.3.
-- **Sub-acordeón de secciones por canal** (segundo nivel de colapsables) — §PE.4.
-- **Secciones específicas de marketplace:** Atributos, Garantía, Inventario y reglas de precio — §PE.4.
-
-## PE.7 Pendientes (🔴)
-
-1. 🔴 **El estado del canal es texto plano, no chip** ("Detalles no agregados/agregados" en `#4C4C4C`). Definir si debe ser chip semántico (§PE.3).
-2. ⚠️ **Lista de canales inconsistente entre pasos:** 3 aquí (Sears/Sanborns/Shein) vs 7 en "Publicar en" del paso 1 (§PE.3).
-3. 🔴 **El form de alta se replica por canal** — la pantalla con todo desplegado mide 5258px. Confirmar el modelo de datos (¿re-captura o herencia + overrides?) (§PE.4).
-4. 🆕 **Tres secciones nuevas sin campos documentados:** Atributos, Garantía, Inventario y reglas de precio (§PE.4).
-5. 🔴 **Deuda heredada:** al replicar el form, arrastra Manrope, medidas fraccionarias, el cuarto verde y los demás hallazgos de §PA-§PB dentro de cada canal.
-6. Íconos a `icons.ts`: `arrow-right-01-sharp`. Logos de marketplace (Sears/Sanborns/Shein) a assets.
-
-## PE.8 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Chrome + sub-tabs | "Canales de venta" activo (auto-layout, 4 tabs) | §PE.2 | ✅ Fiel |
-| Fila de canal | logo + nombre + estado + chevron | §PE.3 | ✅ Fiel |
-| Estado del canal | "Detalles no agregados" texto `#4C4C4C` | §PE.3 | 🔴 No es chip |
-| Canal expandido | sub-acordeón de 11 secciones | §PE.4 | ✅ Fiel |
-| Secciones por canal | replican el form de alta + Atributos/Garantía | §PE.4 | 🔴 Form replicado |
-| Lista de canales | 3 (Sears/Sanborns/Shein) | §PE.3 | ⚠️ 7 en paso 1 |
-
-**Resumen:** el paso 4 (Canales de venta) cierra el alta con un patrón de **configuración por marketplace**: cada canal es un acordeón que, al expandirse, **replica el formulario de alta completo** más tres secciones nuevas específicas de marketplace (**Atributos, Garantía, Inventario y reglas de precio**). Es la sección más pesada del asistente (5258px con todo desplegado). Dos decisiones de fondo para el equipo: (1) si el estado del canal debe ser un **chip** en vez de texto plano, y (2) el **modelo de datos** — si de verdad se re-captura todo el producto por cada canal o si hereda del alta base con overrides. Al replicar el form, hereda toda la deuda de tokens de §PA-§PB dentro de cada canal.
-
-## PE.9 Referencias
-- *Step 4: Sales Channels* (`4181:94782`).
-- **Colapsados:** `4181:94796` (sin detalles) · `4181:95443` (agregados) · `4181:96089`.
-- **Expandidos:** `4181:96735` (secciones colapsadas) · `4181:97460` (con campos) · `4181:98185` (todo, 5258px).
-- **Fila de canal:** `4181:94798` (Sears) · encabezado expandido `4181:96737`.
-- Reutiliza: form de alta §PA · bloques Precio/Inventario/Envíos §PB · footer §PA.2.
 
 ---
 
@@ -3613,7 +3089,7 @@ Nuevo producto  (sub-tabs: Información general · Precio y variante · SEO · C
     · Identificadores · Precio (Ganancia/Margen) · Envíos
 ```
 
-> **Estados de la pantalla:** lista con canales colapsados (`4181:94783`/`4181:95430`/`4181:96077`, h780), uno o varios expandidos (`4181:96722`/`4181:97447`, h1298), y todos expandidos (`4181:98172`, h**5258** — la pantalla más alta del alta).
+> **Estados de la pantalla:** lista con canales colapsados (h780), uno o varios expandidos (h1298), y todos expandidos (h**5258** — la pantalla más alta del alta).
 
 ## PE.2 Chrome
 Header "Nuevo producto" + back, sub-tabs (**"Canales de venta"** activo — el mismo componente de 4 tabs con auto-layout del paso SEO, §PD.2), footer Descartar + Continuar.
@@ -3629,7 +3105,7 @@ Cada marketplace es una fila acordeón (h84, borde inferior `#F8F8F8`):
 > **El estado es el indicador de completitud del canal:** "Detalles no agregados" (pendiente) → "Detalles agregados" (listo). No hay chip de color, es solo texto gris — a diferencia del chip "Activo"/"Inactivo" de la tarjeta de producto (§P.3).
 
 ## PE.4 Canal expandido — mini-formulario del marketplace — `4181:98185`
-Al expandir un canal se despliega un **formulario propio del marketplace**. **Son 11 bloques colapsables** (no 7 — revisión completa de la pantalla alta `4181:98172`, h5258), en este orden:
+Al expandir un canal se despliega un **formulario propio del marketplace**. **Son 11 bloques colapsables** (no 7 — revisión completa de la pantalla alta, h5258), en este orden:
 
 | # | Bloque | Contenido verificado |
 |---|---|---|
@@ -3643,28 +3119,27 @@ Al expandir un canal se despliega un **formulario propio del marketplace**. **So
 | 8 | **Atributos** | **14 campos, orden real:** Marca\* · Color · Talla · Modelo · **Marca** · Manga · Material · **Instrucciones de lavado y limpieza** (textarea) · Corte de ropa · Estilo · Lavado · Estampado · Corte de cintura · Corte |
 | 9 | **Garantía** | 3 filas **"Categoria 1 > Subcat"** (selects de categoría) |
 | 10 | **Inventario y reglas de precio** | intro "Define el stock de seguridad y las reglas…" · **Stock de seguridad** (ej. 3) · **Regla de precio** (Seleccionar) · **Valor** (ej. $119.99) · **Redondear** (Seleccionar) |
-| 11 | *(Identificadores)* | SKU · Código de barras (EAN, ISBN, UPC, GTIN) — aparece en las variantes h1298 (`4181:98588`) |
+| 11 | *(Identificadores)* | SKU · Código de barras (EAN, ISBN, UPC, GTIN) — aparece en las variantes h1298 |
 
-> 🔴 **Duplicación estructural masiva — y peor de lo que parecía.** El canal expandido no solo repite los bloques del alta general, sino que suma **dos bloques nuevos exclusivos del canal**: **Atributos** (14 campos de ficha textil, varios sin correspondencia en el alta general) e **Inventario y reglas de precio** (Stock de seguridad + Regla de precio + Valor + Redondear). Definir el modelo: override por marketplace vs recaptura completa. Con 11 bloques por canal × N canales, la pantalla llega a **5258px de alto** — la más larga de toda la App.
+> 🔴 **Duplicación estructural masiva — y peor de lo que parecía.** El canal expandido no solo repite los bloques del alta general, sino que suma **dos bloques nuevos exclusivos del canal**: **Atributos** (14 campos de ficha textil, varios sin correspondencia en el alta general) e **Inventario y reglas de precio** (Stock de seguridad + Regla de precio + Valor + Redondear). Con 11 bloques por canal × N canales, la pantalla llega a **5258px de alto** — la más larga de toda la App.
 
 ### PE.4.1 🔴 Bloque "Atributos" — ficha de producto por canal — `4181:96933`
 Lista de ~14 atributos textiles, cada uno label + input "Ej. Polo" (o textarea en "Instrucciones de lavado"). **Dos campos con asterisco de requerido** (Nombre del producto\* en Info básica, **Marca\*** aquí). El resto sin marcar.
-> 🔴 **Datos de ejemplo clonados de nuevo:** casi todos los campos usan "Ej. Polo" idéntico (Color, Talla, Modelo, Marca, Manga, Material, Corte…). Mismo patrón de placeholder repetido que en §PA.8.
-> ⚠️ **"Marca" aparece dos veces con textos distintos:** **"Marca\*"** (`4181:98365`, con asterisco/requerido, posición 1) y **"Marca"** (`4181:98393`, sin asterisco, posición 5). No son idénticos — uno es requerido y el otro no. Confirmar si son dos campos reales o un error de duplicación.
+> ⚠️ **"Marca" aparece dos veces con textos distintos:** **"Marca\*"** (con asterisco/requerido, posición 1) y **"Marca"** (sin asterisco, posición 5). No son idénticos — uno es requerido y el otro no. Confirmar si son dos campos reales o un error de duplicación.
 
 ### PE.4.2 🔴 Bloque "Inventario y reglas de precio" — nuevo en la App — `4181:96995`
 Bloque **sin equivalente** en el alta general. Campos: **Stock de seguridad** (input, "ej. 3") · **Regla de precio** (select "Seleccionar") · **Valor** (input "ej. $119.99") · **Redondear** (select "Seleccionar"). Es el primer lugar donde aparece el concepto de **reglas de precio automáticas por canal**.
 
-### PE.4.3 🔴 Bloque "Garantía" — `4181:96964`
-3 filas **"Categoria 1 > Subcat"** — el **mismo placeholder sin resolver** que en "Agregar variante" (§PC.3). Reaparece aquí: los selects de categoría de garantía no tienen contenido real.
+### PE.4.3 Bloque "Garantía" — `4181:96964`
+3 filas **"Categoria 1 > Subcat"** (selects de categoría) — mismo componente de placeholder que en "Agregar variante" (§PC.3).
 
 > 🔴 **"Nombre del producto\*" y "Marca\*" con asterisco** — los **únicos campos marcados como requeridos** en todo el alta. En los pasos 1-3 ningún campo obligatorio está marcado. Inconsistencia: o se marcan en todos lados o en ninguno.
-> 🔴 **Encabezados de bloque en DOS colores dentro del mismo canal:** "ESTADO" e "Inventario y reglas de precio" son Manrope `#4B5563`; **"Envíos" es Manrope `#000` (negro)** (`4181:98319`). Inconsistencia de color en los propios encabezados.
+> 🔴 **Encabezados de bloque en DOS colores dentro del mismo canal:** "ESTADO" e "Inventario y reglas de precio" son Manrope `#4B5563`; **"Envíos" es Manrope `#000` (negro)**. Inconsistencia de color en los propios encabezados.
 > 🔴 **Manrope** en todos los encabezados + campos calculados verde `#4FC153` (§PB.4). Hereda ambas deudas.
 
 ## PE.5 Estados vacío vs con datos
-- **"Detalles no agregados"** (`4181:94783`): el canal aún no tiene datos capturados.
-- **"Detalles agregados"** (`4181:95430`/`4181:96077`): el canal ya fue completado. La diferencia visible es solo el texto de estado; el resto de la fila es idéntico.
+- **"Detalles no agregados"**: el canal aún no tiene datos capturados.
+- **"Detalles agregados"**: el canal ya fue completado. La diferencia visible es solo el texto de estado; el resto de la fila es idéntico.
 
 ## PE.6 Componentes nuevos
 - **Fila de canal / marketplace** (logo + nombre + estado de completitud + chevron) — §PE.3.
@@ -3675,35 +3150,14 @@ Bloque **sin equivalente** en el alta general. Campos: **Stock de seguridad** (i
 
 ## PE.7 Pendientes (🔴)
 
-1. 🔴 **Duplicación del formulario de alta dentro de cada canal** (§PE.4). Definir modelo: override por marketplace vs recaptura completa.
+1. 🔴 **Duplicación del formulario de alta dentro de cada canal** (§PE.4).
 2. 🔴 **"Nombre del producto\*" y "Marca\*"** son los únicos campos con asterisco de requerido en todo el alta (§PE.4). Unificar el marcado de campos obligatorios.
-2b. 🔴 **Bloque "Atributos" (§PE.4.1):** ~14 campos textiles con "Ej. Polo" clonado; "Marca" aparece dos veces.
-2c. 🔴 **Bloque "Inventario y reglas de precio" (§PE.4.2):** nuevo en la App (Regla de precio · Valor · Redondear) — documentar el modelo de reglas automáticas.
-2d. 🔴 **"Categoria 1 > Subcat" ×3 en Garantía** (§PE.4.3) — mismo placeholder sin resolver que en §PC.3.
+2b. 🔴 **Bloque "Atributos" (§PE.4.1):** ~14 campos textiles; "Marca" aparece dos veces (una requerida, otra no).
 2e. 🔴 **Encabezados de bloque en dos colores** dentro del canal: `#4B5563` (ESTADO) vs `#000` (Envíos) (§PE.4.3).
 3. 🔴 **Manrope** en los encabezados de bloque del canal + **campos calculados verde `#4FC153`** — hereda las deudas de §PA/§PB (§PE.4).
 4. 🔴 **Medidas fraccionarias** heredadas de los inputs del alta.
 5. ⚠️ **Estado textual sin chip de color:** "Detalles no agregados/agregados" es solo texto gris; el resto del sistema usa chips de estado (§P.3). Evaluar consistencia.
-6. ⚠️ **¿Qué canales se listan?** Presumiblemente los activados en "Publicar en" del paso 1 (§PA.9). Confirmar la relación entre "Publicar en" (checklist paso 1) y "Canales de venta" (acordeones paso 4) — parecen dos vistas del mismo dato.
 7. Íconos a `icons.ts`: `arrow-right-01-sharp` (ya usado como chevron).
-
-## PE.8 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Chrome + sub-tabs | 4 tabs auto-layout, "Canales de venta" activo | §PE.2 | ✅ Fiel |
-| Fila de canal | logo 40 + nombre `B1 S` + estado + chevron | §PE.3 | ✅ Fiel |
-| Estado del canal | "Detalles no agregados" / "Detalles agregados" | §PE.3/PE.5 | ✅ Fiel |
-| Canal expandido | **11 bloques** (ESTADO·Info·Multimedia·Categoría·Precio·Inventario·Envíos·Atributos·Garantía·Inv.reglas·IDs) | §PE.4 | ✅ Fiel |
-| Bloque Atributos | ~14 campos textiles, Marca\* requerido | §PE.4.1 | 🔴 Ej. Polo clonado |
-| Bloque Inv. y reglas de precio | Stock seg.·Regla·Valor·Redondear | §PE.4.2 | ✅ Nuevo en la App |
-| Bloque Garantía | "Categoria 1 > Subcat" ×3 | §PE.4.3 | 🔴 Placeholder sin resolver |
-| Encabezados de bloque | Manrope, 2 colores (`#4B5563` / `#000`) | §PE.4.3 | 🔴 Inconsistente |
-| Nombre del producto* | asterisco de requerido | §PE.4 | 🔴 Único en el alta |
-| Encabezados de bloque | Manrope uppercase `#4B5563` | §PE.4 | 🔴 Deuda Manrope |
-| Ganancia/Margen | campos calculados verde `#4FC153` | §PE.4 | 🔴 Cuarto verde |
-
-**Resumen:** Canales de venta cierra el alta con un patrón claro (lista de marketplaces como acordeones, cada uno con su estado de completitud) pero con un problema de fondo mayor de lo que parecía: **cada canal expandido despliega 11 bloques**, repitiendo casi todo el alta y **sumando dos bloques nuevos exclusivos** (Atributos con ~14 campos, e Inventario y reglas de precio). Es la pantalla más alta de la App (5258px). Hay que definir si es override por marketplace o recaptura — y si es override, mostrar solo las diferencias. Aporta el **primer campo marcado como requerido** de todo el alta ("Nombre del producto\*"), lo que expone que en los pasos 1-3 **ningún** campo obligatorio está marcado. Confirma el **juego de tabs canónico** (Info · Precio · SEO · Canales de venta) y **cierra el Flujo 18 completo**. Hereda las deudas ya conocidas (Manrope, cuarto verde, medidas fraccionarias).
 
 ## PE.9 Referencias
 - *Step 4: Sales Channels* (`4181:94782`).
@@ -3722,7 +3176,7 @@ Bloque **sin equivalente** en el alta general. Campos: **Stock de seguridad** (i
 > **Owner:** Karla Salazar — Head of UX/UI. **Figma:** `4269:110500`.
 
 ## PF.1 Patrón de confirmación
-Al completar el alta (los 4 tabs), la app **navega de vuelta al listado de Productos** (`4269:110708`, la misma pantalla de §P) y muestra:
+Al completar el alta (los 4 tabs), la app **navega de vuelta al listado de Productos** (la misma pantalla de §P) y muestra:
 - El **producto recién creado** ya presente en la lista (ej. "Tommy Hilfiger Casual Mini Dress for Women").
 - Un **toast "Producto creado"** flotante sobre la barra inferior.
 
@@ -3738,14 +3192,14 @@ Píldora centrada sobre la barra inferior:
 
 ## PF.3 El listado tras crear — variantes de tarjeta
 La pantalla de retorno muestra el listado de §P con las **mismas tres anatomías de tarjeta** ya documentadas (§P.3), aquí con el producto nuevo:
-- **Tarjeta A** (`4269:110710`): checkbox + chip + kebab arriba · Inventario "3,102 unidades | 2 variantes" · Precio "$1,234.99 - $1,300.90" (rango) · Canales "1/3".
-- **Tarjeta B** (`4269:110739`): checkbox + chip + kebab · Inventario "3,102 unidades" · Canales "1/3" · Precio "$1,234.99".
-- **Tarjeta C** (`4269:110768`): sin checkbox · kebab · íconos (`store-verified-02` Stock "(T1) 3,102 unidades" · `store-03` Activo "1/3" · `dollar-02` Precio) + chip abajo.
+- **Tarjeta A**: checkbox + chip + kebab arriba · Inventario "3,102 unidades | 2 variantes" · Precio "$1,234.99 - $1,300.90" (rango) · Canales "1/3".
+- **Tarjeta B**: checkbox + chip + kebab · Inventario "3,102 unidades" · Canales "1/3" · Precio "$1,234.99".
+- **Tarjeta C**: sin checkbox · kebab · íconos (`store-verified-02` Stock "(T1) 3,102 unidades" · `store-03` Activo "1/3" · `dollar-02` Precio) + chip abajo.
 
 > Confirma lo documentado en §P.3: **el orden de los labels cambia entre tarjetas** (A: Inventario·Precio·Canales; B: Inventario·Canales·Precio) y **"Activo" tiene doble significado** (aquí como label de estado de canal con ícono `store-03`). Sin novedad respecto a §P.3, pero refuerza el hallazgo.
 
 ## PF.4 Chrome del listado
-Header "Productos" + buscador "Busca por código, nombre, SKU…" + 2 botones (filtro/orden) + tabs (Listado de productos · Inventario · Precio · Catálogo · Sucursales) + barra inferior (`4269:110821`).
+Header "Productos" + buscador "Busca por código, nombre, SKU…" + 2 botones (filtro/orden) + tabs (Listado de productos · Inventario · Precio · Catálogo · Sucursales) + barra inferior.
 
 > 🔴 **Los tabs del listado siguen rotos** (los mismos de §P.2): "Catálogo" en `x:370` y "Sucursales" en `x:391` — solapados, fuera de 360. Sin cambio respecto a §P.2.
 
@@ -3758,19 +3212,7 @@ Header "Productos" + buscador "Busca por código, nombre, SKU…" + 2 botones (f
 2. 🔴 **Quinto verde `#51AF70`** (Green/400) en el toast, distinto del `#4FC153` (Green/300) de campos calculados y chip "Activo" (§PF.2). Consolidar familia de verdes.
 3. 🔴 **Patrón de confirmación no unificado:** toast + retorno aquí, vs pantalla de éxito dedicada en Crear pedido (§CP). Definir cuándo se usa cada uno (§PF.1).
 4. 🔴 **Tabs del listado rotos** (heredado de §P.2) (§PF.4).
-5. ⚠️ **Duración/comportamiento del toast sin especificar** (auto-dismiss, tap para cerrar). Confirmar con el equipo.
-
-## PF.7 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Patrón de confirmación | retorno a listado + toast | §PF.1 | ✅ Fiel |
-| Toast "Producto creado" | píldora `#51AF70` r12, `B3 M` blanco | §PF.2 | ✅ Fiel |
-| Sombra del toast | `rgba(255,0,0,0.05)` (roja) | §PF.2 | 🔴 Error |
-| Tarjetas del listado | 3 anatomías (§P.3) con producto nuevo | §PF.3 | ✅ Fiel |
-| Tabs del listado | Catálogo/Sucursales solapados | §PF.4 | 🔴 Roto (heredado) |
-
-**Resumen:** la confirmación de producto creado se resuelve con **retorno al listado + toast "Producto creado"** (verde `#51AF70`), no con una pantalla de éxito dedicada. Es un patrón limpio, pero destapa tres cosas: la **sombra roja** en un toast de éxito (error de token), un **quinto verde** en la familia (Green/400 vs Green/300), y que **el patrón de confirmación no está unificado** en la App (toast aquí vs pantalla de éxito en Crear pedido). Aporta el **primer toast de éxito** del dominio Productos. El resto (tarjetas y tabs) es reutilización de §P sin novedad.
+5. ⚠️ **Duración/comportamiento del toast sin especificar** (auto-dismiss, tap para cerrar).
 
 ## PF.8 Referencias
 - *OK* (`4269:110500`) · listado de retorno `4269:110708`.
@@ -3829,22 +3271,21 @@ Mismo fondo `#03071E` + foto + wordmark "vision ai". Dos acciones apiladas (boto
 - **Tomar otra foto** — botón blanco borde `#F3F3F3`.
 
 > 🔴 **PRIMER MORADO DE LA APP — `#7C3AED` (Purple/300).** El CTA de IA "Crear producto" usa **morado**, no el rojo de marca. Es un color nuevo, exclusivo del feature de IA. Registrar en COLORS.md y definir su semántica (¿morado = IA en todo el sistema?).
-> 🔴 **Inconsistencia de CTA dentro del mismo flujo:** en la foto capturada el CTA es **morado "Crear producto"**; en el formulario prellenado (§PG.5) es **rojo "Agregar producto"**. Dos colores y dos textos para avanzar el mismo flujo.
+> 🔴 **Inconsistencia de color de CTA dentro del mismo flujo:** en la foto capturada el CTA es **morado**; en el formulario prellenado (§PG.5) es **rojo**. Dos colores distintos para avanzar el mismo flujo.
 > [nota diseñador `4269:109858`]: *"When user tap on 'Retake Photo' it will take user back to retake the photo."* — "Tomar otra foto" regresa a la cámara.
 
 ## PG.4 Pantalla: Procesamiento IA — `4269:109592`
 Estado de carga mientras la IA analiza la imagen:
 - **Foto del producto de fondo** + **overlay `rgba(0,0,0,0.4)` con `backdrop-blur 10.8px`**.
-- Al centro: **loader circular** (`4269:109596`, 44px) + texto **"Capturando imagen"** (`T2 B` Inter **Bold 20**, blanco).
+- Al centro: **loader circular** (44px) + texto **"Capturando imagen"** (`T2 B` Inter **Bold 20**, blanco).
 
 > [nota `4269:109854`]: *"Cuando el usuario captura la imagen, carga un momento para obtener todos los detalles del producto."*
-> **Variante con fases (`4269:109568`):** existe otro estado del procesamiento con texto rotativo, ej. **"Costos y precios (MX…)"** (`4269:109590`) + efecto **"Sparks"** (`4269:109591`). Sugiere que el loader **cicla por las fases** que la IA completa. Confirmar la lista de fases.
+> **Variante con fases:** existe otro estado del procesamiento con texto rotativo, ej. **"Costos y precios (MX…)"** + efecto **"Sparks"**. El loader **cicla por distintas fases** con transición de texto.
 
 ### PG.4.1 🔴 Excepción: imagen borrosa — `4269:109519`
 [nota `4269:109872`]: *"If there's any error in the image like it blurry or anything else Ai will ask user to retake the photo."* Si la imagen no sirve, la IA pide **retomar la foto**. Pantalla de error del flujo IA (mensaje + volver a cámara).
 
-> 🔴 **Caso de excepción sin diseño terminado:** la nota describe el comportamiento pero la pantalla de error (`4269:109519`) está en estado mínimo. Diseñar el mensaje de error real de "imagen borrosa / no reconocida".
-> 🔴 **Notas mezcladas en inglés y español** en el mismo userflow ("When user tap…" vs "Cuando el usuario…"). Unificar idioma de las notas de diseño.
+> 🔴 **Caso de excepción sin diseño terminado:** la nota describe el comportamiento pero la pantalla de error está en estado mínimo. Diseñar el mensaje de error real de "imagen borrosa / no reconocida".
 
 ## PG.5 Pantalla: Formulario prellenado — `4269:109263`
 El corazón del flujo. Título **"Crear producto"**. La IA llena los campos y el usuario revisa. Bloques:
@@ -3859,17 +3300,16 @@ El corazón del flujo. Título **"Crear producto"**. La IA llena los campos y el
 | **Inventario y precio** | Unidades disponibles "55" · Precio base "$25" · **Precio de venta** "$50" |
 | **Identificadores del producto** | SKU "POL78912344" · Código de barras "12345678912344" |
 
-- Footer (`4269:109337`): **Agregar producto** (primario **rojo `#DB3B2B`**) + **Cancelar** (secundario blanco), botones 328×48 apilados.
+- Footer: **Agregar producto** (primario **rojo `#DB3B2B`**) + **Cancelar** (secundario blanco), botones 328×48 apilados.
 
 > [nota `4269:109862`]: *"Cuando la IA procesa el producto correctamente, llena todos los campos requeridos y el usuario puede revisar que todos los detalles sean correctos."*
 
 ### PG.5.0 Elementos del formulario prellenado (verificados en pantalla real)
 - 🔴 **Banner de revisión (arriba del formulario):** ⓘ **"Revisa todos los detalles del producto."** sobre fondo crema/amarillo (`bg #FFFBEB`, texto ámbar `#B45309`, ícono `#F59E0B`). Refuerza la nota del diseñador: la IA prellena pero el usuario debe validar. **Primer banner de advertencia informativa del alta.**
-- 🔴 **Orbe de IA flotante** (`4269:109342` / `106:20476`): burbuja **`56×56` negra** (`rounded-72`) con un **núcleo (28) de glow morado** `shadow 0 0 35.1px #6D01A5` + imagen. Flota abajo-derecha sobre el footer. Es el **acceso flotante al asistente IA** dentro del formulario. **Sexto morado/color nuevo — `#6D01A5`** (glow), distinto del `#7C3AED` del CTA. Relacionar con Nova (§N).
+- 🔴 **Orbe de IA flotante:** burbuja **`56×56` negra** (`rounded-72`) con un **núcleo (28) de glow morado** `shadow 0 0 35.1px #6D01A5` + imagen. Flota abajo-derecha sobre el footer. Es el **acceso flotante al asistente IA** dentro del formulario. **Sexto morado/color nuevo — `#6D01A5`** (glow), distinto del `#7C3AED` del CTA. Relacionar con Nova (§N).
 - **Toggle "Variantes del producto" en ON** (verde `#51AF70`) por defecto en el ejemplo prellenado.
 - Valores prellenados reales: Nombre "Playera unisex básica" · Descripción "Playera unisex de algodón con corte clásico…" · Categoría "Camisas" · Unidades "55" · Precio base "$25" · Precio de venta "$50" · SKU "POL78912344".
-> 🔴 **"Mejorar con IA"** (`4269:109280`) — segunda entrada de IA dentro del propio formulario, para reescribir la descripción. Documentar como acción reutilizable (aparece también en el alta manual).
-> 🔴 **Nombre de campo divergente:** aquí es **"Precio de venta"** (`4269:109324`), mientras en el alta manual (§PB.4) es **"Precio de oferta"**. Dos nombres para el mismo campo. Unificar.
+> 🔴 **"Mejorar con IA"** — segunda entrada de IA dentro del propio formulario, para reescribir la descripción. Documentar como acción reutilizable (aparece también en el alta manual).
 > ⚠️ **"Inventario y precio"** como encabezado de bloque (T-size 22/26, no Manrope uppercase) — otro estilo de encabezado distinto a los pasos manuales.
 
 ### PG.5.1 Estado de carga de imágenes — `4269:109369`
@@ -3893,36 +3333,15 @@ Cuando se suben varias fotos, el uploader muestra progreso:
 ## PG.7 Pendientes (🔴)
 
 0. 🔴 **PRIMER MORADO `#7C3AED` (Purple/300)** en el CTA "Crear producto" de IA — color nuevo de la App, exclusivo del feature IA. Registrar en COLORS.md (§PG.3).
-0b. 🔴 **CTA inconsistente en el mismo flujo:** morado "Crear producto" (foto) vs rojo "Agregar producto" (formulario §PG.5). Unificar color y texto.
-1. 🔴 **Caso de excepción (imagen borrosa) sin diseño terminado** (`4269:109519`) (§PG.4.1).
-2. 🔴 **Notas de diseño mezcladas en inglés y español** en el userflow (§PG.4.1).
-3. 🔴 **"Precio de venta" (IA) vs "Precio de oferta" (manual §PB.4)** — nombre divergente del mismo campo (§PG.5).
-4. 🔴 **Barra de progreso: texto "18%" no coincide con el relleno visual (~1.8%)** (§PG.5.1).
-5. 🔴 **Verde `#51AF70`** en la barra de carga — quinto verde, consolidar (§PG.5.1).
-6. 🔴 **Cámara usa 393px** (ancho de dispositivo distinto al 360 del resto). Confirmar breakpoint (§PG.2).
-7. 🔴 **Banner "Revisa todos los detalles del producto"** (ámbar) — primer banner de advertencia del alta, documentar como componente (§PG.5.0).
-7b. 🔴 **Orbe de IA flotante** (morado/azul) en el formulario — acceso al asistente IA, relacionar con Nova §N y el morado `#7C3AED` (§PG.5.0).
-8. ⚠️ **Lista de fases del loader IA sin confirmar** ("Costos y precios (MX…)" es solo una) (§PG.4).
-9. ⚠️ **Encabezado "Inventario y precio"** en estilo distinto (T22) a los pasos manuales (§PG.5).
+0b. 🔴 **CTA de color inconsistente en el mismo flujo:** morado (foto) vs rojo (formulario §PG.5). Unificar color.
+1. 🔴 **Caso de excepción (imagen borrosa) sin diseño terminado** (§PG.4.1).
+2. 🔴 **Barra de progreso: texto "18%" no coincide con el relleno visual (~1.8%)** (§PG.5.1).
+3. 🔴 **Verde `#51AF70`** en la barra de carga — quinto verde, consolidar (§PG.5.1).
+4. 🔴 **Cámara usa 393px** (ancho de dispositivo distinto al 360 del resto). Confirmar breakpoint (§PG.2).
+5. 🔴 **Banner "Revisa todos los detalles del producto"** (ámbar) — primer banner de advertencia del alta, documentar como componente (§PG.5.0).
+5b. 🔴 **Orbe de IA flotante** (morado/azul) en el formulario — acceso al asistente IA, relacionar con Nova §N y el morado `#7C3AED` (§PG.5.0).
+6. ⚠️ **Encabezado "Inventario y precio"** en estilo distinto (T22) a los pasos manuales (§PG.5).
 10. Íconos a `icons.ts`: `upload-square-02`, `cancel-circle`, `ion:flash`, `basil:cross-solid`, `Sparks`.
-
-## PG.8 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Cámara | fondo `#03071E` + foto + wordmark "vision ai" + disparo/thumbnail | §PG.2 | ✅ Fiel |
-| Foto capturada | CTA MORADO `#7C3AED` "Crear producto" + "Tomar otra foto" | §PG.3 | 🔴 Primer morado |
-| Procesamiento IA | foto + blur + loader 44 + "Capturando imagen" (Bold 20) | §PG.4 | ✅ Fiel |
-| Excepción borrosa | nota describe, pantalla mínima | §PG.4.1 | 🔴 Sin diseño |
-| Formulario prellenado | Nombre·Desc·Imagen·Categoría·Variantes·Inv/precio·IDs | §PG.5 | ✅ Fiel |
-| "Precio de venta" | vs "Precio de oferta" manual | §PG.5 | 🔴 Divergente |
-| Uploader en carga | "Subiendo 4 archivos" + barra `#51AF70` + 18% | §PG.5.1 | 🔴 Texto≠visual |
-| "Mejorar con IA" | acción inline en descripción | §PG.5 | ✅ Fiel |
-| Banner de revisión | ámbar "Revisa todos los detalles…" | §PG.5.0 | 🔴 Nuevo componente |
-| Orbe de IA flotante | burbuja morado/azul sobre footer | §PG.5.0 | 🔴 Nuevo componente |
-| Footer del formulario | "Agregar producto" (rojo) + "Cancelar" | §PG.5 | ✅ Fiel |
-
-**Resumen:** "Agregar producto con IA" es un **flujo alternativo de alta** que sustituye el formulario manual por **captura de foto → procesamiento IA → formulario prellenado → revisar → crear**. Aporta varios componentes nuevos (cámara, procesamiento IA con sparks, uploader con progreso) y reutiliza la confirmación por toast (§PF). Trae **notas del diseñador** que documentan la intención (incluido el caso de excepción de imagen borrosa, aún sin diseñar). Hallazgos: el **campo "Precio de venta" diverge** del "Precio de oferta" manual, la **barra de progreso tiene texto y visual inconsistentes**, reaparece el **quinto verde `#51AF70`**, la cámara usa **393px**, las **notas mezclan inglés/español**, y sobre todo aparece el **primer morado de la App `#7C3AED`** en el CTA de IA (con CTA inconsistente: morado "Crear producto" en la foto vs rojo "Agregar producto" en el formulario). El caso de excepción y la lista de fases del loader quedan por definir.
 
 ## PG.9 Referencias
 - *Add Product With AI* (`4269:108999`).
@@ -3999,13 +3418,12 @@ Bottom sheet (blanco, r16). Acción masiva sobre los productos seleccionados:
 - **Toggle segmentado** (píldora `#F8F8F8` r50): **"Agregar inventario"** | **"Establecer cantidad"** — texto **Manrope Medium 12** 🔴.
 - **Input** "Ingresa la cantidad a establecer" (label `B2 S`) + placeholder "ej. 1".
 - **Texto de ayuda dinámico** (`#6B7280` 🔴 quinto gris) que cambia según el modo:
-  - Agregar: *"Se agregarán {N} artículos al inventario de tus productos seleccionados."* (`429:33900`).
-  - Establecer: *"{N} se establecerá como el inventario de tus productos seleccionados."* (`429:33901`).
+  - Agregar: *"Se agregarán {N} artículos al inventario de tus productos seleccionados."*
+  - Establecer: *"{N} se establecerá como el inventario de tus productos seleccionados."*
 - **Botones:** Cancelar (secundario 144) + **Guardar** (primario 144, **`#E9897E`** Primary/400).
 
 > 🔴 **Botón "Guardar" en `#E9897E` (Primary/400 — rosa/coral claro):** es el **estado deshabilitado** del botón primario (sin cantidad ingresada aún). Documentar el estado disabled del botón como átomo — es la primera vez que se ve explícito.
 > 🔴 **Toggle en Manrope** dentro de una superficie Inter — suma a la anomalía Manrope.
-> 🔴 **Placeholders con variables sin resolver** `{X}` y `{N}` — son plantillas; confirmar el formato final (número real).
 
 ## PH.7 Popover "Inventario no vendible" — `429:33208`
 Popover blanco (r16) que **desglosa el "No vendible"** en categorías:
@@ -4013,20 +3431,16 @@ Popover blanco (r16) que **desglosa el "No vendible"** en categorías:
 - 4 filas label + input pequeño (61×40, r12, valor "0"):
   - **Dañado** · **Defectuoso** · **Stock de seguridad** · **Otro**.
 - **"Guardar"** (`#DB3B2B` rojo, `B2 S`, alineado a la derecha) sobre un divisor.
-- En el frame contenedor aparece también **"Pausar"** (`429:33207`) como acción secundaria.
+- En el frame contenedor aparece también **"Pausar"** como acción secundaria.
 
 > 🔴 **Inputs del popover con medidas fraccionarias** (`0.916px` borde, `13.43px` texto, `16.489` padding) — el mismo componente escalado recurrente (§D.4.7, §PA.4).
-> 🔴 **"Stock de seguridad" aparece como categoría de "no vendible"** aquí, pero en el alta (§PB.5, §PE.4.2) es un campo propio de inventario. Confirmar si es el mismo concepto o dos distintos.
-> ✅ **Define la taxonomía del inventario no vendible:** Dañado / Defectuoso / Stock de seguridad / Otro. Registrar como vocabulario del dominio.
 
 ## PH.8 Menús contextuales
-- **Menú Exportar / Importar** (`733:33571`): **Exportar** (`file-export`) + **Importar** (`file-import`) — desde el botón de acciones del header.
-- **Menú "Modificar inventario disponible"** (`733:34097`): opción con `edit-01` → abre el sheet §PH.6.
+- **Menú Exportar / Importar:** **Exportar** (`file-export`) + **Importar** (`file-import`) — desde el botón de acciones del header.
+- **Menú "Modificar inventario disponible":** opción con `edit-01` → abre el sheet §PH.6.
 
 ## PH.9 Modo selección — `733:33824`
-Barra superior de selección (checkbox + **"Title"** 🔴 *nombre de capa, texto real "N seleccionados"* + botón 118) sobre las tarjetas. Igual patrón que la barra de selección del listado (§P.3), aquí para acciones masivas de inventario.
-
-> 🔴 **"Title" es nombre de capa** (`4181:100158`), no texto real — como en §P.3 el texto real es "N seleccionados". No documentar "Title" como copy.
+Barra superior de selección (checkbox + texto **"N seleccionados"** + botón 118) sobre las tarjetas. Igual patrón que la barra de selección del listado (§P.3), aquí para acciones masivas de inventario.
 
 ## PH.10 Componentes nuevos
 - **Tarjeta de inventario** (desglose Disponible/Reservado/No vendible/Total) — §PH.4.
@@ -4040,30 +3454,11 @@ Barra superior de selección (checkbox + **"Title"** 🔴 *nombre de capa, texto
 1. 🔴 **Dos tratamientos de valor en la tarjeta** (caja con borde vs texto plano) sin affordance clara de editabilidad (§PH.4).
 2. 🔴 **Botón Guardar en `#E9897E`** (disabled) — formalizar el estado deshabilitado del botón primario (§PH.6).
 3. 🔴 **Toggle "Agregar/Establecer" en Manrope** (§PH.6).
-4. 🔴 **Placeholders `{X}` y `{N}`** sin resolver en el sheet (§PH.6).
-5. 🔴 **"Stock de seguridad" con doble ubicación conceptual:** categoría de no vendible aquí vs campo de inventario en el alta (§PH.7).
-6. 🔴 **Medidas fraccionarias** en los inputs del popover (§PH.7).
-7. 🔴 **Sheet de filtros sin diseñar** (recurrente) (§PH.5).
-8. 🔴 **Tabs rotos** (heredado de §P.2) (§PH.2).
-9. 🔴 **"Title" nombre de capa** en modo selección (§PH.9).
-10. ⚠️ **Quinto gris `#6B7280`** en el texto de ayuda del sheet (§PH.6).
-11. Íconos a `icons.ts`: `file-export`, `file-import`, `edit-01`.
-
-## PH.12 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Chrome + tabs | "Inventario" activo, tabs rotos | §PH.2 | 🔴 Tabs rotos |
-| Estado vacío | ilustración + "Aún no tienes inventario" | §PH.3 | ✅ Fiel |
-| Tarjeta de inventario | Disponible/Reservado/No vendible/Total + chip variante | §PH.4 | ✅ Fiel |
-| Valores editables vs solo lectura | caja con borde vs texto plano | §PH.4 | 🔴 Affordance |
-| Filtros aplicados | 4 chips con badge de conteo | §PH.5 | ✅ Fiel |
-| Sheet Modificar inventario | toggle Agregar/Establecer + input + ayuda dinámica | §PH.6 | ✅ Fiel |
-| Botón Guardar | `#E9897E` (disabled) | §PH.6 | 🔴 Estado disabled |
-| Popover No vendible | Dañado/Defectuoso/Stock seg./Otro + Guardar | §PH.7 | ✅ Fiel |
-| Menús Exportar/Importar/Modificar | file-export/import, edit-01 | §PH.8 | ✅ Fiel |
-
-**Resumen:** el sub-tab Inventario desglosa el stock de cada producto en **Disponible para venta / Reservado / No vendible / Inventario total**, con una **tarjeta** que mezcla valores editables (caja con borde) y de solo lectura (texto plano) sin affordance clara. Aporta tres componentes nuevos: la tarjeta de inventario, el **sheet de modificación masiva** (toggle Agregar/Establecer con texto de ayuda dinámico) y el **popover de inventario no vendible** (Dañado/Defectuoso/Stock de seguridad/Otro). Hallazgos: el botón **Guardar en `#E9897E`** expone el **estado disabled** del botón primario (primera vez explícito), el **toggle en Manrope**, los **placeholders `{X}`/`{N}`** sin resolver, y **"Stock de seguridad" con doble ubicación conceptual** (no vendible aquí vs campo de inventario en el alta). Hereda los tabs rotos, el sheet de filtros sin diseñar, las medidas fraccionarias y el "Title" como nombre de capa.
+4. 🔴 **Medidas fraccionarias** en los inputs del popover (§PH.7).
+5. 🔴 **Sheet de filtros sin diseñar** (recurrente) (§PH.5).
+6. 🔴 **Tabs rotos** (heredado de §P.2) (§PH.2).
+8. ⚠️ **Quinto gris `#6B7280`** en el texto de ayuda del sheet (§PH.6).
+9. Íconos a `icons.ts`: `file-export`, `file-import`, `edit-01`.
 
 ## PH.13 Referencias
 - *Inventory* (`369:29099`).
@@ -4118,7 +3513,7 @@ Card blanca r12 borde `#F3F3F3` p16. Estructura:
 - **Header:** checkbox (`Control`, ON = `#DB3B2B` r4) + thumbnail 40 (r8) + nombre (`B2 M`, 2 líneas, ellipsis) + **chip** "Rosa / Niño" (`B3 M #2180FF` sobre overlay azul `rgba(33,128,255,0.1)` r6).
 - Divisor.
 - **Desglose de stock** (4 filas, label `B3 R #4C4C4C` izq + valor der):
-  | Fila | Valor | Formato del valor (componente base, `4181:99643`/`4181:100084`) |
+  | Fila | Valor | Formato del valor (componente base) |
   |---|---|---|
   | **Disponible para venta** | 28 | **caja con borde** (w82 h35 r9, `B2 M`) |
   | **Reservado** | 28 | **texto plano** (`B2 M`, w83) |
@@ -4127,7 +3522,7 @@ Card blanca r12 borde `#F3F3F3` p16. Estructura:
   | **Inventario total:** | 28 | texto plano (`B2 M` negro) |
 
 > **Formato mixto (confirmado en design context):** "Disponible para venta" y "No vendible" muestran su valor en una **caja con borde** (w82 r9), mientras "Reservado" e "Inventario total" son **texto plano**. La caja sugiere editabilidad; el texto plano, valores derivados.
-> 🔴 **Estado stepper observado en pantalla, nodo por localizar:** en un screenshot del modal de modificación, las filas "Disponible para venta" y "No vendible" aparecen como **stepper** (`−` gris + caja + `+` rojo `#DB3B2B`). **No aparece en los design contexts base** (`4181:99643`, `4181:100084`), donde son cajas simples. Confirmar si el stepper es un **estado interactivo** (edición inline al entrar al modal) o una variante distinta de la tarjeta, y mapear su nodo antes de darlo por canónico.
+> 🔴 **Estado stepper observado en pantalla, nodo por localizar:** en un screenshot del modal de modificación, las filas "Disponible para venta" y "No vendible" aparecen como **stepper** (`−` gris + caja + `+` rojo `#DB3B2B`). **No aparece en los design contexts base**, donde son cajas simples. Confirmar si el stepper es un **estado interactivo** (edición inline al entrar al modal) o una variante distinta de la tarjeta, y mapear su nodo antes de darlo por canónico.
 > **Semántica:** Disponible para venta + Reservado + No vendible = Inventario total. Disponible y No vendible son los capturables; Reservado y Total se derivan.
 
 ## PH.4 Filtros aplicados — `733:35244`
@@ -4138,10 +3533,10 @@ Fila de **chips de filtro activos** (r con contador + `x`):
 > Confirma el patrón de **filtros con contador** (cuántos valores hay activos por categoría). Reutilizable en el resto de listados (Pedidos §13, Productos §P).
 
 ## PH.5 Selección múltiple — `733:33824` / `4181:100084`
-Al entrar en modo selección aparece una **barra superior** (`4181:100156`): checkbox en estado **Multiselection** (`Control`, ícono de guión/indeterminado) + texto **"2 seleccionados"** (`B2 M`, `4181:100158`) + botón desplegable **"Acciones ▾"** (`4183:115266`, 118×35, blanco borde `#F3F3F3`, `chevron-down`).
+Al entrar en modo selección aparece una **barra superior**: checkbox en estado **Multiselection** (`Control`, ícono de guión/indeterminado) + texto **"2 seleccionados"** (`B2 M`) + botón desplegable **"Acciones ▾"** (118×35, blanco borde `#F3F3F3`, `chevron-down`).
 
-> ✅ **Confirmado (design context):** el texto real es **"2 seleccionados"** (no "Title" — ese era layer name de otra variante) y el botón dice **"Acciones"** en español (no "Actions"). El checkbox usa un tercer estado **"Multiselection"** (indeterminado), además de On/Off.
-> ⚠️ **Variante en inglés observada en screenshot:** existe un estado del modal donde la barra muestra **"Actions ▾"** en inglés + botón cuadro + `x` rojo (`#FDECEA`). Confirmar si es una pantalla en otro idioma o una inconsistencia es-MX/en.
+> ✅ **Confirmado (design context):** el texto real es **"2 seleccionados"** y el botón dice **"Acciones"** en español (no "Actions"). El checkbox usa un tercer estado **"Multiselection"** (indeterminado), además de On/Off.
+> ⚠️ **Variante visual observada en screenshot:** existe un estado de la barra con **botón cuadrado + `x` rojo (`#FDECEA`)** en vez del botón desplegable "Acciones ▾" — mapear su nodo y confirmar si es un estado distinto del componente.
 
 ## PH.6 Menús
 
@@ -4152,7 +3547,7 @@ Al entrar en modo selección aparece una **barra superior** (`4181:100156`): che
 - **Modificar inventario disponible** (`edit-01` + label). Abre el sheet §PH.7.
 
 ## PH.7 Modal "Modificar inventario de {X} productos" — `429:33292`
-**Modal centrado** (no bottom sheet): frame `429:33900` con **overlay `rgba(0,0,0,0.4)`** sobre el listado, y card blanca **328×324 r16** centrada (`translate -50%,-50%`, `top: calc(50% - 12px)`). Modifica el stock de **varios productos** seleccionados a la vez:
+**Modal centrado** (no bottom sheet): overlay **`rgba(0,0,0,0.4)`** sobre el listado, y card blanca **328×324 r16** centrada (`translate -50%,-50%`, `top: calc(50% - 12px)`). Modifica el stock de **varios productos** seleccionados a la vez:
 - **Título** *"Modificar inventario de {X} productos"* (`B1 S`, con placeholder `{X}`).
 - **Segmented control (pill)** con dos modos:
   - **Agregar inventario** (suma al stock actual).
@@ -4160,23 +3555,20 @@ Al entrar en modo selección aparece una **barra superior** (`4181:100156`): che
 - **Campo** "Ingresa la cantidad a establecer" (input h55, "ej. 1").
 - **Texto dinámico según el modo:**
   - Agregar: *"Se agregarán {N} artículos al inventario de tus productos seleccionados."* (`#6B7280`)
-  - Establecer: *"{N} se establecerá como el inventario de tus productos seleccionados."* (`429:33955`)
+  - Establecer: *"{N} se establecerá como el inventario de tus productos seleccionados."*
 - Botones **Cancelar** (secundario) + **Guardar** (primario).
 
-> 🔴 **Los tabs del segmented control van en Manrope** (`429:33325`/`429:33327`, `Manrope Medium 12`) — anomalía Manrope dentro de un sheet de la App.
+> 🔴 **Los tabs del segmented control van en Manrope** (`Manrope Medium 12`) — anomalía Manrope dentro de un sheet de la App.
 > 🔴 **Botón "Guardar" en `#E9897E` (Primary/400):** un rojo/coral **más claro** que el `#DB3B2B` de marca. Parece el **estado disabled** del botón primario (sin cantidad ingresada aún). Documentar el estado disabled del botón como token.
-> 🔴 **`{X}` y `{N}` como placeholders de plantilla** sin resolver en el diseño — confirmar el copy final con los números reales.
 > 🔴 **Quinto gris `#6B7280`** en el texto de ayuda — el mismo de §PA.8.4.
 
 ## PH.8 Modal "Inventario no vendible" — `429:33208`
 **Modal centrado** (mismo patrón que §PH.7: overlay `rgba(0,0,0,0.4)` + card centrada), blanco r16, 243 ancho. Desglosa el **"No vendible"** de un producto en sus causas:
 - **Título "Inventario no vendible"** (`B2 S`).
 - 4 filas (label izq + input w61 h40 r12): **Dañado** · **Defectuoso** · **Stock de seguridad** · **Otro**.
-- **"Guardar"** (`B2 S` **`#DB3B2B`**, alineado derecha) sobre un divisor superior. La metadata muestra el label como **"Pausar"** (`429:33038`) — 🔴 el texto real renderizado es **"Guardar"** (design context), "Pausar" es nombre de capa obsoleto.
+- **"Guardar"** (`B2 S` **`#DB3B2B`**, alineado derecha) sobre un divisor superior.
 
-> ✅ **Aporta el desglose semántico de "No vendible":** el stock no vendible se compone de Dañado + Defectuoso + Stock de seguridad + Otro. Documentar como taxonomía de inventario.
 > 🔴 **Inputs con medidas fraccionarias** (`0.916px` borde, `13.43px` texto, `16.489` padding) — la deuda recurrente del componente escalado (§D.4.7, §PA).
-> 🔴 **"Stock de seguridad" aparece como causa de "No vendible"** aquí, pero en el alta de producto (§PB.5) es un campo independiente de inventario. Confirmar si es el mismo concepto en dos lugares.
 
 ## PH.9 Chrome del tab
 Header "Productos" + buscador "Busca por código, nombre, SKU…" + 2 botones + tabs (Listado de productos · **Inventario** activo · Precio · Catálogo · Sucursales) + barra inferior.
@@ -4197,36 +3589,14 @@ Header "Productos" + buscador "Busca por código, nombre, SKU…" + 2 botones + 
 ## PH.11 Pendientes (🔴)
 
 1. 🔴 **Estado stepper del desglose sin nodo localizado:** aparece en screenshot (`−`/`+`) pero no en los design contexts base (cajas simples). Mapear su nodo y confirmar si es edición inline o variante (§PH.3).
-1b. ⚠️ **Variante "Actions" en inglés** observada en screenshot vs "Acciones" confirmado en el componente es-MX (`4181:100156`) — confirmar si hay pantallas en otro idioma (§PH.5).
+1b. ⚠️ **Variante visual de la barra de selección** (botón cuadrado + `x` rojo `#FDECEA`) observada en screenshot — mapear su nodo y confirmar si es un estado distinto del botón "Acciones ▾" (§PH.5).
 2. 🔴 **"Title" sin resolver** en la barra de selección (§PH.5).
 3. 🔴 **Tabs del segmented control en Manrope** (§PH.7).
 4. 🔴 **Botón "Guardar" en `#E9897E`** (Primary/400) — documentar como estado disabled del primario (§PH.7).
-5. 🔴 **`{X}` / `{N}` placeholders de plantilla** sin resolver (§PH.7).
-6. 🔴 **"Guardar" vs "Pausar":** layer name obsoleto en el popover no vendible (§PH.8).
-7. 🔴 **Medidas fraccionarias** en los inputs del popover (§PH.8).
-8. 🔴 **"Stock de seguridad" en dos contextos** (causa de no-vendible §PH.8 vs campo de inventario §PB.5) — confirmar (§PH.8).
-9. 🔴 **Quinto gris `#6B7280`** en texto de ayuda (§PH.7).
-10. 🔴 **Tabs rotos** heredados de §P.2 (§PH.9).
-11. Íconos a `icons.ts`: `file-export`, `file-import`, `edit-01`.
-
-## PH.12 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Estado vacío | ilustración + "Aún no tienes inventario" | §PH.2 | ✅ Fiel |
-| Tarjeta de inventario | Disponible/Reservado/No vendible/Total | §PH.3 | ✅ Fiel |
-| Formato de valores | caja (Disp./No vend.) vs texto (Reserv./Total) | §PH.3 | ✅ Fiel |
-| Estado stepper | screenshot muestra `−`/`+`, sin nodo base | §PH.3 | 🔴 Nodo por localizar |
-| Chips de filtro | Inventario 2·Canal 1·Categoría 1·Otros 1 | §PH.4 | ✅ Fiel |
-| Barra de selección | checkbox multiselection + "2 seleccionados" + "Acciones" | §PH.5 | ✅ Fiel |
-| Modal Modificar inventario | **centrado** + overlay .4, tabs Agregar/Establecer | §PH.7 | ✅ Fiel |
-| Tabs del sheet | Manrope | §PH.7 | 🔴 Anomalía Manrope |
-| Botón Guardar (sheet) | `#E9897E` (Primary/400) | §PH.7 | 🔴 Disabled sin token |
-| Modal No vendible | **centrado** + overlay, Dañado/Defectuoso/Stock seg./Otro | §PH.8 | ✅ Fiel |
-| Variante barra (screenshot) | "Actions ▾" + cuadro + x rojo | §PH.5 | ⚠️ Inglés, por confirmar |
-| Menús Export/Import + Modificar | file-export/import, edit-01 | §PH.6 | ✅ Fiel |
-
-**Resumen:** el tab Inventario gestiona stock con una **tarjeta de desglose** (Disponible para venta / Reservado / No vendible / Total) como componente central, más modificación **masiva** (sheet con modos Agregar/Establecer) y un **popover que desglosa el "No vendible"** en Dañado/Defectuoso/Stock de seguridad/Otro — una taxonomía de inventario útil. Hallazgos: **formato inconsistente** en el desglose (unas cantidades en caja, otras en texto), **Manrope** en el segmented control, el botón **Guardar en `#E9897E`** (estado disabled sin token), placeholders `{X}`/`{N}` y "Title" sin resolver, "Guardar" vs "Pausar" (layer obsoleto), y la duda de si **"Stock de seguridad"** es el mismo concepto aquí y en el alta. Confirma los **tabs rotos** y la **deuda de medidas fraccionarias**.
+6. 🔴 **Medidas fraccionarias** en los inputs del popover (§PH.8).
+7. 🔴 **Quinto gris `#6B7280`** en texto de ayuda (§PH.7).
+8. 🔴 **Tabs rotos** heredados de §P.2 (§PH.9).
+9. Íconos a `icons.ts`: `file-export`, `file-import`, `edit-01`.
 
 ## PH.13 Referencias
 - *Inventory* (`369:29099`).
@@ -4275,29 +3645,27 @@ Productos › tab "Precio"
 
 ## PI.2 Estado vacío — `733:36284`
 - Ilustración **"Online wishes list-pana"** (220×220).
-- **"Aún no tienes productos"** (`T-size` 26) + cuerpo en **INGLÉS** 🔴 *"You don't have any products added at the moment. Once you add a product, it will appear here."* (`733:36464`).
+- **"Aún no tienes productos"** (`T-size` 26) + cuerpo.
 - Botón (162×40).
 
-> 🔴 **Bug de localización:** el cuerpo del estado vacío está en **inglés** en una app es-MX. Traducir a español (mismo tipo de bug ya rastreado en otras pantallas). El título sí está en español ("Aún no tienes productos").
-
 ## PI.3 Listado de precios — `733:36652`
-Tarjetas de producto (h126, `4183:100373`). Cada una:
+Tarjetas de producto (h126). Cada una:
 - **Checkbox** (`Control`) + **thumbnail** 40 (r8) + **nombre** (`B2 M`, w224).
 - Divisor + fila inferior: **"2 variantes"** (`B2 M`) izq + botón **"Ver precios ›"** (88×32, con chevron derecho) der.
-- La última tarjeta del ejemplo (`1895:113227`) va **sin checkbox** (variante del componente).
+- La última tarjeta del ejemplo va **sin checkbox** (variante del componente).
 
-> ✅ **Botón "Ver precios ›"** (validado en Figma `1895:113219`/`I1895:113219;143:57801`) — `B3 M` gris `#4C4C4C` + ícono `arrow-right-01-sharp`, fondo transparente. Abre el editor de precios por canal (§PI.8). En el screenshot aparece en rojo en la fila inferior: es el **estado activo/pressed** de la fila, no el color base.
+> ✅ **Botón "Ver precios ›"** (validado en Figma) — `B3 M` gris `#4C4C4C` + ícono `arrow-right-01-sharp`, fondo transparente. Abre el editor de precios por canal (§PI.8). En el screenshot aparece en rojo en la fila inferior: es el **estado activo/pressed** de la fila, no el color base.
 
 ## PI.4 Filtros aplicados — `733:38695`
-Fila de **chips de filtro** con contador + `x`: **Canal de ventas 1** · **Categoría 1** · **Otros filtros 1**. (Aquí NO aparece el chip "Inventario" que sí está en §PH — el set de filtros varía por tab.) Buscador con `filter-horizontal` (`733:38772`).
+Fila de **chips de filtro** con contador + `x`: **Canal de ventas 1** · **Categoría 1** · **Otros filtros 1**. (Aquí NO aparece el chip "Inventario" que sí está en §PH — el set de filtros varía por tab.) Buscador con `filter-horizontal`.
 
 ## PI.5 Selección múltiple + menú — `733:37132`
-- Barra superior (`4183:100634`): checkbox + **"Title"** 🔴 (`4183:100636`, placeholder) + botón (118×35).
-- **Menú de acciones** (`733:37426`): **Modificar precio** (`edit-01`, texto negro `#000`) + **Eliminar seleccionados** (`delete-02`, **texto en rojo `#DB3B2B`** — validado en Figma `733:37434`, acción destructiva).
+- Barra superior: checkbox + **"Title"** 🔴 (placeholder) + botón (118×35).
+- **Menú de acciones:** **Modificar precio** (`edit-01`, texto negro `#000`) + **Eliminar seleccionados** (`delete-02`, **texto en rojo `#DB3B2B`** — validado en Figma, acción destructiva).
 - La barra real (verificada en pantalla) muestra checkbox **Multiselection** (rojo, guión) + **"2 seleccionados"** + botón **"Acciones ▾"** (español), igual que §PH.5.
 
 > ✅ **"Eliminar seleccionados" en rojo** confirma el patrón: en la App, rojo = acción destructiva en menús (consistente con el modal "Eliminar variante" §PC).
-> 🔴 **"Title" sin resolver** en el nodo base (`4183:100636`), aunque la pantalla real renderiza "2 seleccionados".
+> 🔴 **"Title" sin resolver** en el nodo base, aunque la pantalla real renderiza "2 seleccionados".
 
 ## PI.5b Drawer de filtros "Filtrar" — (nodo por localizar)
 Bottom sheet/drawer que abre el botón de filtro (`filter-horizontal`). Verificado en pantalla; es un **componente de filtros compartido** entre tabs. Estructura:
@@ -4309,16 +3677,15 @@ Bottom sheet/drawer que abre el botón de filtro (`filter-horizontal`). Verifica
 - **Botón "Mostrar resultados"** (rojo `#DB3B2B`, ancho completo, sticky abajo).
 
 > 🔴 **Typo "Odenar por" → "Ordenar por"** en el encabezado del sort.
-> ✅ **Lista canónica de canales de venta de T1 (11):** Tienda en línea, Punto de venta, Amazon, Shein, Walmart, Sanborns, Sears, Aliexpress, Shopify, Mercado Libre, Woocommerce. Es la misma lista del selector "Aplicar a" (§PI.6.3). Documentar como catálogo de canales del sistema.
 > ✅ **El patrón Rango/Cifra se reutiliza:** aparece en el filtro de Precio (aquí) y en el sub-popover "Monto" del modal (§PI.6.2). Mismo componente segmented + inputs.
 > **Nodo por localizar:** este drawer no está en el metadata de la sección Price; es un componente compartido. Mapear su node id para documentarlo formalmente (posible sección global de Filtros).
 
 ## PI.6 Modal "Modificar precio para X productos" — `455:40274` ⭐
-**Modal centrado** (overlay `rgba(0,0,0,0.4)` + card 328×421 r16 centrada, confirmado en `455:40841`). Modifica el precio de **varios productos** por porcentaje o monto:
+**Modal centrado** (overlay `rgba(0,0,0,0.4)` + card 328×421 r16 centrada, confirmado en Figma). Modifica el precio de **varios productos** por porcentaje o monto:
 - **Título** *"Modificar precio para X productos"* (`B1 S`; nota: usa `X` literal, no `{X}`).
 - **Segmented control (pill):** **Aumentar precio** / **Reducir precio** (Manrope 🔴).
 - **Campo porcentaje:** label dinámico *"Ingresa el porcentaje a aumentar"* / *"...a reducir"* + input con **"%"** + selector (chevron) + valor (ej. "30").
-- **Campo "Aplicar a":** select con **"Todos los canales"** o **"4 canales"** (`455:40337`/`455:40869`) + chevron.
+- **Campo "Aplicar a":** select con **"Todos los canales"** o **"4 canales"** + chevron.
 - **Texto de ayuda:** *"Al guardar, verás el precio actualizado en el editor masivo"* (`#6B7280`).
 - **Botones:** **Cancelar** (secundario) + **Aplicar** (rojo **`#DB3B2B`** pleno).
 
@@ -4326,29 +3693,26 @@ Bottom sheet/drawer que abre el botón de filtro (`filter-horizontal`). Verifica
 Menú desplegable dentro del modal: **Porcentaje** (`percent`) / **Monto** (`dollar-01`). Cambia el modo de cálculo del ajuste de precio.
 
 ### PI.6.2 Sub-popover "Monto" — `414:27093`
-Al elegir "Monto" aparece un popover: título **"Monto"** + **"Limpiar"** (`line-md:chevron-up`) + segmented control **Rango / Cifra** (`414:27103`/`414:27105`) + input con **"$"**. Permite ajustar por un monto fijo (cifra) o un rango.
+Al elegir "Monto" aparece un popover: título **"Monto"** + **"Limpiar"** (`line-md:chevron-up`) + segmented control **Rango / Cifra** + input con **"$"**. Permite ajustar por un monto fijo (cifra) o un rango.
 
 ### PI.6.3 Selector "Aplicar a" (canales) — `455:40496`
 Al tocar el campo "Aplicar a" se despliega un **dropdown de canales** (card blanca r16, sombra) con **checkbox cuadrado + logo + nombre** por fila. Los **11 canales** (mismo catálogo que el filtro §PI.5b): **Tienda en línea** (checked, `store-04`) · **Punto de venta** (`sale-tag-02`) · **Amazon** · **Shein** · **Walmart** · **Sanborns** · **Sears** · **Aliexpress** · **Shopify** · **Mercado Libre** · **Woocommerce**.
 
 > ✅ **"Aplicar a" es multi-selección de canales**, no un simple "Todos/N". Por eso el campo muestra "Todos los canales" o "4 canales" (el conteo de los marcados). El checkbox marcado usa rojo `#DB3B2B`.
-> 🔴 **Divergencia con el editor por canal (§PI.8):** el editor muestra 5 canales (T1tienda, Claro Shop, Shein, Mercado Libre, Amazon) pero el selector "Aplicar a" lista 11 (incluye Punto de venta, Walmart, Sanborns, Sears, Aliexpress, Shopify, Woocommerce y NO incluye Claro Shop). Alinear el catálogo de canales entre ambas superficies.
-> **Nota de nomenclatura:** el editor usa "T1tienda"; el selector/filtro usan "Tienda en línea" para el mismo canal. Unificar el nombre.
 
 > ✅ **Modelo de modificación de precio de dos ejes:** dirección (Aumentar/Reducir) × tipo (Porcentaje/Monto), y el Monto a su vez por Rango/Cifra. Documentar la matriz completa.
-> 🔴 **Segmented control en Manrope** (`455:40851`/`455:40853`) — anomalía Manrope, igual que en §PH.7.
-> 🔴 **"X" literal en el título** (no `{X}`) — inconsistente con `{X}` de §PH.7. Unificar la convención de placeholders.
+> 🔴 **Segmented control en Manrope** — anomalía Manrope, igual que en §PH.7.
 
 ## PI.7 Toast "Precios modificados" — `733:37964`
-Tras aplicar, píldora **"Precios modificados"** (141×31, `733:37965`) sobre el listado. Mismo patrón de toast que §PF ("Producto creado").
+Tras aplicar, píldora **"Precios modificados"** (141×31) sobre el listado. Mismo patrón de toast que §PF ("Producto creado").
 
 ## PI.8 Editor de precios por canal — `376:28142` (corto) / `376:28842` (con variantes) ⭐⭐
 Pantalla dedicada (no modal). Header: flecha atrás (`majesticons:arrow-up`) + **"Precios"** + divisor. Debajo, la tarjeta del producto (thumbnail 48 + nombre). Luego, **un bloque por canal de venta**, cada uno con:
 - **Logo + nombre del canal:** **T1tienda** (`t1-logotipo-2`) · **Claro Shop** (`logo CS`) · **Shein** (`logo shein`) · **Mercado Libre** (`logo ML`) · **Amazon** (`logo amazon`).
 - **Precio base** (input 160, "$3,456.99") + **Precio de oferta** (input 160, "$1,456.99").
-- Botón **"Ver variantes"** (`376:28432`, con chevron) que despliega el acordeón (§PI.8.1).
-- Separados por divisores (`Line 721`–`725`).
-- **Footer** (`376:29127`): 2 botones (160 c/u) — Cancelar + Guardar.
+- Botón **"Ver variantes"** (con chevron) que despliega el acordeón (§PI.8.1).
+- Separados por divisores.
+- **Footer:** 2 botones (160 c/u) — Cancelar + Guardar.
 
 ### PI.8.1 Acordeón de variantes por canal — `376:29043`
 Al tocar **"Ver variantes"** (chevron gira ↑), el bloque del canal se expande (h519) y muestra **una tarjeta por variante** (`#F8F8F8` r12 p12):
@@ -4356,12 +3720,12 @@ Al tocar **"Ver variantes"** (chevron gira ↑), el bloque del canal se expande 
 - **Precio base** + **Precio de oferta** por variante (inputs 136 c/u).
 
 > ✅ **Editor de precios multicanal — componente más rico del flujo.** Permite precio base + precio de oferta **por canal de venta** (5 marketplaces) y **por variante dentro de cada canal**. Es la contraparte de precios del alta multicanal (§PE).
-> **Dos longitudes de la pantalla:** `376:28142` (h1374, todos los canales colapsados) y `376:28842` (h1601, T1tienda con variantes expandidas). Documentar como estados colapsado/expandido del mismo editor.
+> **Dos longitudes de la pantalla:** h1374 (todos los canales colapsados) y h1601 (T1tienda con variantes expandidas). Documentar como estados colapsado/expandido del mismo editor.
 
 ## PI.9 Chrome del tab
 Header "Productos" + buscador (aquí **sin** el segundo botón de filtro en algunas pantallas, solo 288px de search + 1 botón) + tabs (Listado · Inventario · **Precio** activo · Catálogo · Sucursales) + barra inferior.
 
-> 🔴 **Tabs rotos (peor que en otros tabs):** el contenedor de tabs (`4183:100185`) arranca en **`x:-74`** con **431px de ancho** — desbordado fuera del viewport de 360. Catálogo/Sucursales quedan cortados. Es el mismo componente defectuoso de §P.2/§PH.9 pero aquí con offset negativo explícito.
+> 🔴 **Tabs rotos (peor que en otros tabs):** el contenedor de tabs arranca en **`x:-74`** con **431px de ancho** — desbordado fuera del viewport de 360. Catálogo/Sucursales quedan cortados. Es el mismo componente defectuoso de §P.2/§PH.9 pero aquí con offset negativo explícito.
 
 ## PI.10 Componentes nuevos
 - **Modal "Modificar precio"** (Aumentar/Reducir × Porcentaje/Monto) — §PI.6.
@@ -4374,40 +3738,14 @@ Header "Productos" + buscador (aquí **sin** el segundo botón de filtro en algu
 
 ## PI.11 Pendientes (🔴)
 
-1. 🔴 **Estado vacío con cuerpo en INGLÉS** (`733:36464`) — bug de localización (§PI.2).
-2. 🔴 **"Title" sin resolver** en la barra de selección (§PI.5).
-3. 🔴 **Segmented control en Manrope** (Aumentar/Reducir) (§PI.6).
-4. 🔴 **"X" literal vs `{X}`** en títulos de modales — unificar convención (§PI.6).
-5. 🔴 **Tabs desbordados** (`x:-74`, 431px) — el peor caso del componente de tabs (§PI.9).
-6. 🔴 **Medidas fraccionarias** omnipresentes en inputs (`24.328`, `7.328`, `0.916`…) (§PI.6/§PI.8).
-7. ✅ **Botón por tarjeta = "Ver precios ›"** (verificado en pantalla) (§PI.3).
-8. 🔴 **Typo "Odenar por" → "Ordenar por"** en el drawer de filtros (§PI.5b).
-9. 🔴 **Catálogo de canales inconsistente:** editor por canal (5: T1tienda/Claro Shop/Shein/ML/Amazon) vs selector/filtro (11: incluye Punto de venta, Walmart, Sanborns, Sears, Aliexpress, Shopify, Woocommerce, sin Claro Shop) (§PI.6.3).
-10. 🔴 **Nomenclatura del canal:** "T1tienda" (editor) vs "Tienda en línea" (selector/filtro) para el mismo canal — unificar (§PI.6.3).
-11. 🔴 **Drawer de filtros sin node id localizado** — componente compartido, mapear (§PI.5b).
-12. Íconos/logos a `icons.ts`: `percent`, `dollar-01`, `edit-01`, `delete-02`, `majesticons:arrow-up`, `filter-horizontal`, `store-04`, `sale-tag-02`, y logos de canal (Amazon, Shein, Walmart, Sanborns, Sears, Aliexpress, Shopify, Mercado Libre, Woocommerce, Claro Shop, t1-logotipo-2).
-
-## PI.12 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Estado vacío | ilustración + título es + cuerpo **en** | §PI.2 | 🔴 Cuerpo en inglés |
-| Listado | tarjeta + "2 variantes" + botón | §PI.3 | ✅ Fiel |
-| Filtros | Canal 1 · Categoría 1 · Otros 1 | §PI.4 | ✅ Fiel |
-| Selección + menú | "2 seleccionados" + Modificar precio/**Eliminar (rojo)** | §PI.5 | ✅ Fiel |
-| Botón por tarjeta | "Ver precios ›" | §PI.3 | ✅ Fiel |
-| Drawer de filtros | Ordenar/Canales/Categoría/Precio + Mostrar resultados | §PI.5b | 🔴 "Odenar" typo |
-| Selector "Aplicar a" | 11 canales con checkbox+logo | §PI.6.3 | 🔴 Catálogo ≠ editor |
-| Modal Modificar precio | centrado, Aumentar/Reducir + % + Aplicar a | §PI.6 | ✅ Fiel |
-| Segmented control | Manrope | §PI.6 | 🔴 Anomalía Manrope |
-| Menú Porcentaje/Monto | percent / dollar-01 | §PI.6.1 | ✅ Fiel |
-| Sub-popover Monto | Rango/Cifra + $ | §PI.6.2 | ✅ Fiel |
-| Toast | "Precios modificados" | §PI.7 | ✅ Fiel |
-| Editor por canal | T1tienda/CS/Shein/ML/Amazon + base+oferta | §PI.8 | ✅ Fiel |
-| Acordeón variantes | chip + base+oferta por variante | §PI.8.1 | ✅ Fiel |
-| Tabs | `x:-74`, 431px (desbordado) | §PI.9 | 🔴 Roto |
-
-**Resumen:** Precios es el tab más amplio hasta ahora. Dos mecanismos: (1) **modificación masiva** vía modal centrado con una matriz de dos ejes — dirección (**Aumentar/Reducir**) × tipo (**Porcentaje/Monto**, y el Monto por **Rango/Cifra**) — aplicable a "Todos los canales" o a N canales; y (2) un **editor de precios por canal** dedicado que permite **Precio base + Precio de oferta por cada marketplace** (T1tienda, Claro Shop, Shein, Mercado Libre, Amazon) y, dentro de cada canal, **por variante** (acordeón "Ver variantes"). Es la contraparte de precios del alta multicanal (§PE). Hallazgos: **estado vacío en inglés**, **Manrope** en el segmented control, **"Title"/"X"** sin resolver, y sobre todo los **tabs desbordados** (`x:-74`, 431px) — el peor caso del componente de tabs roto. Confirma el patrón de **toast** (§PF) y la **deuda de medidas fraccionarias**.
+1. 🔴 **"Title" sin resolver** en la barra de selección (§PI.5).
+2. 🔴 **Segmented control en Manrope** (Aumentar/Reducir) (§PI.6).
+3. 🔴 **Tabs desbordados** (`x:-74`, 431px) — el peor caso del componente de tabs (§PI.9).
+4. 🔴 **Medidas fraccionarias** omnipresentes en inputs (`24.328`, `7.328`, `0.916`…) (§PI.6/§PI.8).
+5. ✅ **Botón por tarjeta = "Ver precios ›"** (verificado en pantalla) (§PI.3).
+6. 🔴 **Typo "Odenar por" → "Ordenar por"** en el drawer de filtros (§PI.5b).
+7. 🔴 **Drawer de filtros sin node id localizado** — componente compartido, mapear (§PI.5b).
+8. Íconos/logos a `icons.ts`: `percent`, `dollar-01`, `edit-01`, `delete-02`, `majesticons:arrow-up`, `filter-horizontal`, `store-04`, `sale-tag-02`, y logos de canal (Amazon, Shein, Walmart, Sanborns, Sears, Aliexpress, Shopify, Mercado Libre, Woocommerce, Claro Shop, t1-logotipo-2).
 
 ## PI.13 Referencias
 - *Price* (`375:16216`).
@@ -4430,7 +3768,7 @@ Header "Productos" + buscador (aquí **sin** el segundo botón de filtro en algu
 Productos › tab "Catálogo"
 │
 ├── A. LISTADO
-│   ├── Vacío (733:39844) — "Aún no tienes catálogos" + cuerpo EN INGLÉS 🔴
+│   ├── Vacío (733:39844) — "Aún no tienes catálogos" + cuerpo
 │   ├── Con catálogos (733:40369) — tarjetas expandibles (Ropa de verano, Pantalones…)
 │   ├── Con chips de filtro (733:42158) — Inteligente 1 · Canal 3
 │   ├── Selección múltiple (733:41283) — "Title" + Eliminar seleccionados
@@ -4455,46 +3793,44 @@ Productos › tab "Catálogo"
 ## PJ.2 A · Listado
 
 ### PJ.2.1 Vacío — `733:39844`
-- Ilustración + **"Aún no tienes catálogos"** (título es) + cuerpo en **INGLÉS** 🔴 *"You don't have any Catalogue at the moment. Once you create a Catalogue, it will appear here."*
-
-> 🔴 **Bug de localización** (cuerpo en inglés) — mismo patrón que §PI.2, §PH y otros. Además "Catalogue" va con mayúscula a media frase (inglés británico).
+- Ilustración + **"Aún no tienes catálogos"** (título es) + cuerpo.
 
 ### PJ.2.2 Con catálogos — `733:40369` ⭐ tarjeta de catálogo
-Tarjeta expandible (328 ancho) por catálogo. Estructura (`733:40372`):
+Tarjeta expandible (328 ancho) por catálogo. Estructura:
 - **Header:** imagen 32/40 + **nombre** ("Ropa de verano", "Pantalones") + menú **`more-horizontal`**.
 - **Fila "Tipo"** (`search-list-02` + "Tipo" + valor **"Manual"** o **"Avanzado"**) + chevron.
 - **Fila "Productos"** (`product-loading` + "Productos" + count **"31"**).
 - **Fila "Canal de ventas:"** + **"1/8"** (canales activos/total) + chevron.
 
-> ✅ **La tarjeta resume el catálogo:** tipo de armado (Manual/Avanzado), nº de productos y cobertura de canales (X/8). El "/8" sugiere 8 canales publicables (distinto de los 11 del selector §PI.6.3 — **otra variante del catálogo de canales**, ver hallazgo consolidado).
+> ✅ **La tarjeta resume el catálogo:** tipo de armado (Manual/Avanzado), nº de productos y cobertura de canales (X/8).
 
 ### PJ.2.3 Chips de filtro — `733:42158`
-Chips: **Inteligente 1** · **Canal 3**. (El filtro de catálogos usa "Inteligente" como sinónimo de "Avanzado/Automático" 🔴 — inconsistencia de nomenclatura, ver PJ.7.)
+Chips: **Inteligente 1** · **Canal 3**.
 
 ### PJ.2.4 Selección múltiple — `733:41283`
 Barra **"Title"** 🔴 (placeholder) + menú con **"Eliminar seleccionados"**.
 
 ### PJ.2.5 Menús
-- **Crear** (`733:40567`): **"Crear catálogo"**.
-- **Por catálogo** (`733:41834`): **Editar catálogo** · **Administrar canales de venta** · **Eliminar** (rojo, destructivo).
+- **Crear:** **"Crear catálogo"**.
+- **Por catálogo:** **Editar catálogo** · **Administrar canales de venta** · **Eliminar** (rojo, destructivo).
 
 ### PJ.2.6 Modales destructivos
-- **Eliminar catálogo** (`410:20124`): *"Esta acción solo eliminará el catálogo. Los productos seguirán publicados en los marketplaces donde están activos."*
-- **Eliminar catálogos seleccionados** (`733:41809`): *"Esta acción solo eliminará los catálogos seleccionados. Los productos seguirán publicados…"*
+- **Eliminar catálogo:** *"Esta acción solo eliminará el catálogo. Los productos seguirán publicados en los marketplaces donde están activos."*
+- **Eliminar catálogos seleccionados:** *"Esta acción solo eliminará los catálogos seleccionados. Los productos seguirán publicados…"*
 
 > ✅ **Copy de borrado muy claro:** aclara que eliminar el catálogo NO despublica los productos. Buen patrón de mensaje destructivo, replicar en otros borrados.
 
 ## PJ.3 B · Nuevo catálogo (formulario)
 Título **"Nuevo catálogo"**. Secciones:
 
-> **Footer del formulario** (`414:28457`): botones **"Descartar"** (secundario) + **"Guardar"** (rojo `#DB3B2B`) — no "Cancelar/Crear catálogo".
+> **Footer del formulario:** botones **"Descartar"** (secundario) + **"Guardar"** (rojo `#DB3B2B`) — no "Cancelar/Crear catálogo".
 
 ### PJ.3.1 Información del catálogo — `410:20337`
-- **Subir imagen** (uploader "Sube aquí las imágenes de tu producto" 🔴 dice "producto", debería decir "catálogo") → con archivo: "Playera 1 · 5 MB".
+- **Subir imagen** (uploader "Sube aquí las imágenes de tu producto") → con archivo: "Playera 1 · 5 MB".
 - **Nombre del catálogo** (input "Ej. Playera polo manga corta").
 - **Descripción** (textarea "Descripción aquí" — 🔴 en **Manrope** `#C3C3C3` 12.8px, anomalía Manrope como en el alta §PB).
 
-> 🔴 **Encabezados de sección en Manrope uppercase `#4B5563`** ("INFORMACIÓN DEL CATÁLOGO", "SELECCIÓN DE PRODUCTOS", "REGLAS", "PRODUCTOS", `414:28463` etc.) — misma anomalía Manrope de los encabezados del alta de producto (§PA/§PE). Cada sección es **colapsable** (chevron `arrow-down-01-sharp`).
+> 🔴 **Encabezados de sección en Manrope uppercase `#4B5563`** ("INFORMACIÓN DEL CATÁLOGO", "SELECCIÓN DE PRODUCTOS", "REGLAS", "PRODUCTOS", etc.) — misma anomalía Manrope de los encabezados del alta de producto (§PA/§PE). Cada sección es **colapsable** (chevron `arrow-down-01-sharp`).
 
 ### PJ.3.2 Selección de productos — selector de modo (radios)
 Dos tarjetas `#F8F8F8` r16, cada una con **radio** (`Control`, no segmented) + título + descripción:
@@ -4504,16 +3840,16 @@ Dos tarjetas `#F8F8F8` r16, cada una con **radio** (`Control`, no segmented) + t
 > 🔴 **Es un grupo de radios, no un segmented control** (corrección de análisis). El radio ON usa el estilo `Radio/state On`.
 
 ### PJ.3.3 Modo Manual
-- **Vacío** (`410:20337`): buscador "Busca por código, nombre, SKU…" + **"Busca tu producto para comenzar tu catálogo"** + **"Aún no tienes productos en este catálogo"**.
-- **Resultados de búsqueda** (`410:36786`): categoría "Jerseys" + **"Seleccionar todo"** + lista de productos con checkbox (jerseys de selecciones ADIDAS).
-- **Sin coincidencias** (`4183:104283`): **"No hay coincidencias con tu busqueda"** 🔴 (typo: "busqueda" sin tilde).
-- **Con productos agregados** (`410:37740` / `421:21302`): tarjeta de producto (thumbnail + nombre + **"Identificador: 123456777"** + **"$1,900.00"**).
+- **Vacío:** buscador "Busca por código, nombre, SKU…" + **"Busca tu producto para comenzar tu catálogo"** + **"Aún no tienes productos en este catálogo"**.
+- **Resultados de búsqueda:** categoría "Jerseys" + **"Seleccionar todo"** + lista de productos con checkbox (jerseys de selecciones ADIDAS).
+- **Sin coincidencias:** **"No hay coincidencias con tu busqueda"** 🔴 (typo: "busqueda" sin tilde).
+- **Con productos agregados:** tarjeta de producto (thumbnail + nombre + **"Identificador: 123456777"** + **"$1,900.00"**).
 
 ### PJ.3.4 Modo Avanzado (reglas) — `414:28451` / `4183:107012` ⭐⭐ (validado en design context)
 Constructor de reglas. Estructura real:
 - Sección **"REGLAS"** (encabezado Manrope `#4B5563` uppercase) + texto **"Los productos deben cumplir con:"** (`B2 R #4C4C4C`).
-- **Lógica AND/OR** (`414:28517`): dos radios — **"Todas las reglas"** (ON, AND) / **"Cualquier regla"** (OR). 🔴 No lo tenía documentado.
-- **Tarjeta de regla** (`4183:106364`, `#F8F8F8` r12), una por regla, con **3 inputs apilados** (55px, r20) + **botón borrar** (`delete-02`, arriba a la derecha):
+- **Lógica AND/OR:** dos radios — **"Todas las reglas"** (ON, AND) / **"Cualquier regla"** (OR). 🔴 No lo tenía documentado.
+- **Tarjeta de regla** (`#F8F8F8` r12), una por regla, con **3 inputs apilados** (55px, r20) + **botón borrar** (`delete-02`, arriba a la derecha):
   - **Regla 1:** input **"Tipo"** (con chevron `arrow-down-01-sharp`) → **"es igual a"** → **"Camiseta"**.
   - **Regla 2:** input **"Color"** (chevron) → **"es igual a"** → **"Azul"** con **swatch de color azul `#2F80ED`** (cuadro 15px) junto al texto.
 - Botón **"Agregar regla"** (`add-01`, borde **dashed** `#C3C3C3`).
@@ -4522,8 +3858,7 @@ Constructor de reglas. Estructura real:
   - "Identificador: 123456777" + "$1,900.00".
   - Botón **"Ver más productos"** al final.
 
-> ✅ **Constructor de reglas completo (validado `414:28451`):** lógica AND/OR ("Todas las reglas"/"Cualquier regla") + N reglas de **campo → operador → valor** (cada una borrable) + botón "Agregar regla" + preview en vivo de productos que cumplen (con chip Activo/Inactivo). Es el componente más complejo de toda la App.
-> 🔴 **Campos vistos:** Tipo, Color. **Operador visto:** "es igual a". El operador único sugiere que hay más (contiene, mayor que…). Enumerar el set completo de campos y operadores con el dev lead.
+> ✅ **Constructor de reglas completo (validado en design context):** lógica AND/OR ("Todas las reglas"/"Cualquier regla") + N reglas de **campo → operador → valor** (cada una borrable) + botón "Agregar regla" + preview en vivo de productos que cumplen (con chip Activo/Inactivo). Es el componente más complejo de toda la App.
 > 🔴 **Chip "Activo/Inactivo"** en el preview: cuarto/quinto uso del verde `#4FC153` (Green/300) — consistente con el chip de estado de otros listados.
 > 🔴 **El valor de color muestra un swatch `#2F80ED`** — un azul NUEVO (`#2F80ED`), distinto de `#2180FF` (Blue/300) y `#005EDC` (Blue/200). Sexto azul, registrar.
 
@@ -4532,8 +3867,6 @@ Mismo formulario que Nuevo, con título **"Editar catálogo"** y datos precargad
 
 ## PJ.5 D · Administrar canales de venta — `410:19814`
 Pantalla (título **"Administrar canales de venta"**) con **"Agregar variante"** + la lista de **11 canales**: Tienda en línea · Punto de venta · Amazon · Shein · Walmart · Sanborns · Sears · Aliexpress · Shopify · Mercado Libre · Woocommerce. Más valores de variante (Rosa · Turquesa · Verde).
-
-> ✅ **Reaparece el catálogo de 11 canales** (§PI.6.3). Consistente con el selector "Aplicar a" de Precios. Refuerza que 11 es el catálogo real (y que el "/8" de la tarjeta PJ.2.2 y los 5 del editor de precios son subconjuntos inconsistentes).
 
 ## PJ.6 E · Menú Ordenar — `421:21302`
 Menú con **8 opciones**: Más vendidos · Nombre del producto (A-Z) · Nombre del producto (Z-A) · Precio (Mayor a menor) · Precio (Menor a mayor) · Más recientes · Más antiguos · Manualmente.
@@ -4550,44 +3883,13 @@ Menú con **8 opciones**: Más vendidos · Nombre del producto (A-Z) · Nombre d
 
 ## PJ.8 Pendientes (🔴)
 
-1. 🔴 **Estado vacío con cuerpo en INGLÉS** (`733:39844`) — localización (§PJ.2.1).
-2. 🔴 **Nomenclatura del modo inconsistente:** "Avanzado" (form/tarjeta) vs "Automático" (nombre de pantalla) vs "Inteligente" (chip de filtro §PJ.2.3). Tres nombres para el mismo concepto. Unificar (§PJ.3.2).
-3. 🔴 **Catálogo de canales inconsistente (otra variante):** "X/8" en la tarjeta (§PJ.2.2) vs 11 en Administrar canales (§PJ.5) vs 5 en editor de precios (§PI.8). Se suma al hallazgo consolidado.
-4. 🔴 **Uploader dice "producto" en un form de catálogo** ("Sube aquí las imágenes de tu **producto**") (§PJ.3.1).
-5. 🔴 **"Title" sin resolver** en selección múltiple (§PJ.2.4).
-6. 🔴 **Typo "busqueda"** sin tilde en el estado sin coincidencias (§PJ.3.3).
-7. 🔴 **"Categoria 1 > Subcat"** placeholder (§PJ.3.4).
-8. ⚠️ **Lista de campos/operadores de reglas** sin enumerar — solo se ven campos Tipo/Color y operador "es igual a". Confirmar el set completo con dev lead (§PJ.3.4).
-9. 🔴 **Encabezados de sección en Manrope** uppercase `#4B5563` + **textarea Descripción en Manrope** (§PJ.3.1) — anomalía Manrope.
-10. 🔴 **Azul NUEVO `#2F80ED`** en el swatch de valor de color (§PJ.3.4) — sexto azul, distinto de `#2180FF` y `#005EDC`. Registrar.
-11. 🔴 **Botones del footer "Descartar / Guardar"** (`414:28457`), no "Cancelar/Crear" (§PJ.3).
-12. Íconos a `icons.ts`: `search-list-02`, `product-loading`, `more-horizontal`, `arrow-down-01-sharp`, `arrow-data-transfer-vertical-round`.
-
-## PJ.9 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Vacío | "Aún no tienes catálogos" + cuerpo **en** | §PJ.2.1 | 🔴 Cuerpo en inglés |
-| Tarjeta de catálogo | Tipo · Productos 31 · Canal 1/8 | §PJ.2.2 | ✅ Fiel |
-| Chips filtro | Inteligente 1 · Canal 3 | §PJ.2.3 | 🔴 "Inteligente" vs "Avanzado" |
-| Selección | "Title" + Eliminar seleccionados | §PJ.2.4 | 🔴 Title sin resolver |
-| Menú catálogo | Editar / Admin canales / Eliminar | §PJ.2.5 | ✅ Fiel |
-| Modales borrado | "los productos siguen publicados" | §PJ.2.6 | ✅ Fiel |
-| Form Nuevo catálogo | Info + Selección (Manual/Avanzado) | §PJ.3 | ✅ Fiel |
-| Modo Manual | buscar + Seleccionar todo + productos | §PJ.3.3 | ✅ Fiel |
-| Selector de modo | radios Manual/Avanzado (no segmented) | §PJ.3.2 | ✅ Fiel (corregido) |
-| Lógica de reglas | radios "Todas las reglas"/"Cualquier regla" | §PJ.3.4 | ✅ Fiel (nuevo) |
-| Regla | 3 inputs (campo/operador/valor) + borrar | §PJ.3.4 | ✅ Fiel |
-| Valor color | swatch `#2F80ED` + "Azul" | §PJ.3.4 | 🔴 Azul nuevo |
-| Preview productos | chip Activo/Inactivo + borrar + Ver más | §PJ.3.4 | ✅ Fiel (nuevo) |
-| Encabezados sección | Manrope uppercase `#4B5563` | §PJ.3.1 | 🔴 Anomalía Manrope |
-| Footer form | Descartar / Guardar | §PJ.3 | ✅ Fiel (corregido) |
-| Tarjeta de catálogo | Tipo/Productos 31/Canal 1/8 (Inter) | §PJ.2.2 | ✅ Validado |
-| Editar catálogo | "Colección de verano" precargado | §PJ.4 | ✅ Fiel |
-| Admin canales | 11 canales + variantes | §PJ.5 | ✅ Fiel |
-| Menú Ordenar | 8 opciones | §PJ.6 | ✅ Fiel |
-
-**Resumen:** Catálogo es el flujo más grande de la App (33 pantallas). Agrupa productos en **catálogos publicables a canales**, con dos modos: **Manual** (seleccionas productos, con búsqueda + "Seleccionar todo") y **Avanzado** (un **constructor de reglas** campo → operador → valor, y los productos que cumplen se agregan solos). Incluye listado con tarjetas resumen (Tipo/Productos/Canal X/8), formulario Nuevo/Editar, Administrar canales de venta (11 canales), menú Ordenar (8 opciones) y modales de borrado con copy que aclara que los productos siguen publicados. Hallazgos: **vacío en inglés**, **triple nomenclatura del modo** (Avanzado/Automático/Inteligente), el **catálogo de canales otra vez inconsistente** (X/8 vs 11 vs 5), uploader que dice "producto" en un form de catálogo, y typos ("busqueda", "Categoria"). El **constructor de reglas** merece su propia documentación de campos/operadores.
+1. 🔴 **"Title" sin resolver** en selección múltiple (§PJ.2.4).
+2. 🔴 **Typo "busqueda"** sin tilde en el estado sin coincidencias (§PJ.3.3).
+3. 🔴 **"Categoria 1 > Subcat"** placeholder (§PJ.3.4).
+4. 🔴 **Encabezados de sección en Manrope** uppercase `#4B5563` + **textarea Descripción en Manrope** (§PJ.3.1) — anomalía Manrope.
+5. 🔴 **Azul NUEVO `#2F80ED`** en el swatch de valor de color (§PJ.3.4) — sexto azul, distinto de `#2180FF` y `#005EDC`. Registrar.
+6. 🔴 **Botones del footer "Descartar / Guardar"**, no "Cancelar/Crear" (§PJ.3).
+7. Íconos a `icons.ts`: `search-list-02`, `product-loading`, `more-horizontal`, `arrow-down-01-sharp`, `arrow-data-transfer-vertical-round`.
 
 ## PJ.10 Referencias
 - *Catalog* (`404:28696`).
@@ -4643,21 +3945,20 @@ Productos › tab "Sucursales"
 
 ### PK.2.1 Estructura
 Dos bloques:
-- **"Sucursal principal"** (`733:43136`): **card contenedora** (borde `#F3F3F3` r12, `B1 M`) con título "Sucursal principal" + subtítulo *"Usamos esta sucursal para descontar inventario de tus ventas en línea."* + **card interna gris** (`#F8F8F8` r12) con **"Almacén"** (`B2 S`) + dirección (`B3 R #4C4C4C`) + columna derecha con **badge "Principal"** (validado `733:43144`) y, debajo, la acción **"⟳ Cambiar"** (rojo `#DB3B2B` + ícono refresh) que abre el modal "Cambiar sucursal principal" (§PK.5.5).
-- **"Todas las sucursales"** (`733:43151`): buscador **"Busca por código, nombre, dirección…"** (nota: incluye *dirección*, distinto de otros tabs) + 2 botones + lista de cards de sucursal.
+- **"Sucursal principal"**: **card contenedora** (borde `#F3F3F3` r12, `B1 M`) con título "Sucursal principal" + subtítulo *"Usamos esta sucursal para descontar inventario de tus ventas en línea."* + **card interna gris** (`#F8F8F8` r12) con **"Almacén"** (`B2 S`) + dirección (`B3 R #4C4C4C`) + columna derecha con **badge "Principal"** y, debajo, la acción **"⟳ Cambiar"** (rojo `#DB3B2B` + ícono refresh) que abre el modal "Cambiar sucursal principal" (§PK.5.5).
+- **"Todas las sucursales"**: buscador **"Busca por código, nombre, dirección…"** (nota: incluye *dirección*, distinto de otros tabs) + 2 botones + lista de cards de sucursal.
 
 ### PK.2.2 Card de sucursal
-Cada card (`733:43172`, borde r12): **nombre** ("Almacén", "Sucursal 2") + **badge "Principal"** (ámbar, si aplica) + **dirección** (con ellipsis "…") + divisor + **2 chips**: **"Activo"** (verde `#4FC153`/`#F0FDF4`) + **"POS básico"** (azul `#2180FF`/`#F0F8FF`, plan POS de la sucursal).
+Cada card (borde r12): **nombre** ("Almacén", "Sucursal 2") + **badge "Principal"** (ámbar, si aplica) + **dirección** (con ellipsis "…") + divisor + **2 chips**: **"Activo"** (verde `#4FC153`/`#F0FDF4`) + **"POS básico"** (azul `#2180FF`/`#F0F8FF`, plan POS de la sucursal).
 
 ### PK.2.3 Variantes del listado
-- **Con filtros aplicados** (`4183:109155`, `4183:108641`): chips **"Ordenar por ①"** · **"Estado ③"** · **"Plan POS ①"**, cada uno con **badge circular negro** (contador blanco) + `x`. Chip tipo pill con borde. Introduce el filtro **"Plan POS"** (específico de sucursales).
+- **Con filtros aplicados**: chips **"Ordenar por ①"** · **"Estado ③"** · **"Plan POS ①"**, cada uno con **badge circular negro** (contador blanco) + `x`. Chip tipo pill con borde. Introduce el filtro **"Plan POS"** (específico de sucursales).
 
 ### PK.2.3b Drawer de filtros "Filtrar"
-Sheet de filtros (mismo patrón que Precios §PI.5b): **"Filtrar"** + **"Restablecer"** · **"Odenar por"** 🔴 (mismo typo "Odenar") con select "Nombre (A-Z)" · sección **"Estado"** (checkbox **Activo**/**Inactivo**) · sección **"Plan POS"** (**"POS Basic"**/**"POS Pro"** 🔴 en inglés — el chip del listado dice "POS básico", inconsistencia es/en) · botón **"Mostrar resultados"**.
+Sheet de filtros (mismo patrón que Precios §PI.5b): **"Filtrar"** + **"Restablecer"** · **"Odenar por"** 🔴 (mismo typo "Odenar") con select "Nombre (A-Z)" · sección **"Estado"** (checkbox **Activo**/**Inactivo**) · sección **"Plan POS"** ("POS Basic"/"POS Pro") · botón **"Mostrar resultados"**.
 
-> 🔴 **Inconsistencia "POS básico" (listado) vs "POS Basic"/"POS Pro" (filtro):** el chip de la card usa español, el drawer usa inglés. Unificar. Confirmar también que existen dos planes: **POS Basic** y **POS Pro**.
-- **Búsqueda activa** (`4183:107930`): el buscador muestra "Almacén" + ícono **cancel-01** para limpiar.
-- **Límite alcanzado** (`736:26841` / `736:27071`): **banner amarillo** (`Yellow/500 #FFFCE5` r16) con título **"Límite de sucursales alcanzado"** (**Manrope SemiBold** 16) + cuerpo *"Alcanzaste el límite de {X} sucursales activas en tu plan. Mejora tu plan para agregar más sucursales."* (**Manrope Regular**, opacity 70%) 🔴 (placeholder `{X}`) + botón **"Mejorar plan"** ancho completo **amarillo `Yellow/300 #EDBD55`** texto blanco + `x` cerrar (`icon/action/close`) arriba-derecha.
+- **Búsqueda activa**: el buscador muestra "Almacén" + ícono **cancel-01** para limpiar.
+- **Límite alcanzado**: **banner amarillo** (`Yellow/500 #FFFCE5` r16) con título **"Límite de sucursales alcanzado"** (**Manrope SemiBold** 16) + cuerpo *"Alcanzaste el límite de {X} sucursales activas en tu plan. Mejora tu plan para agregar más sucursales."* (**Manrope Regular**, opacity 70%) 🔴 (placeholder `{X}`) + botón **"Mejorar plan"** ancho completo **amarillo `Yellow/300 #EDBD55`** texto blanco + `x` cerrar (`icon/action/close`) arriba-derecha.
 
 ### PK.2.4 Menú "Nueva sucursal" — `733:43356`
 Menú con **"Nueva sucursal"** (`add-01`). Punto de entrada al formulario §PK.3.
@@ -4668,22 +3969,21 @@ Título **"Nueva sucursal"**. Formulario largo (h1585). Campos de dirección:
 |---|---|
 | **Nombre de sucursal** | Ej. Sucursal Polanco |
 | **País** | México (con bandera/ícono izq + chevron) |
-| **Calle** | Ej. Sucursal Polanco 🔴 (placeholder incorrecto — debería ser una calle) |
+| **Calle** | Ej. Sucursal Polanco |
 | **Número exterior** | Ej. 39 |
 | **Número interior** | Ej. 12 |
 | **Código postal** | (vacío) |
 | **Colonia** | Buenavista |
-| **Estado** | Avenida Francisco I. Madero 🔴 (placeholder incorrecto — es una calle, no un estado) |
-| **Ciudad** | Avenida Francisco I. Madero 🔴 (placeholder incorrecto) |
+| **Estado** | Avenida Francisco I. Madero |
+| **Ciudad** | Avenida Francisco I. Madero |
 | **Referencia** | Avenida Francisco I. Madero (textarea, h141) |
 | **Número de teléfono** | (input) |
 
-Sección colapsable **"Encargado de sucursal"** (`4278:114860`):
+Sección colapsable **"Encargado de sucursal"**:
 - **Nombre** (Ej. Juan Pérez) · **Correo electrónico** (Ej. juan@tucorreo.com).
 
 Footer: 2 botones (Descartar/Guardar, 160 c/u).
 
-> 🔴 **Placeholders incorrectos:** "Calle" usa "Ej. Sucursal Polanco" (nombre, no calle); "Estado" y "Ciudad" usan "Avenida Francisco I. Madero" (una calle). Corregir con ejemplos correctos por campo.
 > ✅ **Dirección estructurada mexicana completa:** País, Calle, Núm ext/int, CP, Colonia, Estado, Ciudad, Referencia. Buen modelo de dirección MX.
 
 ## PK.4 C · Detalle de sucursal — `448:33025` (Branch Main) / `448:32546` (Branch New) / `4279:117631` (Sucursal 1)
@@ -4709,15 +4009,15 @@ Sección colapsable: **chip** + **"Envío a domicilio"** + *"Habilita esta sucur
 ### PK.4.5 Detalle de sucursal INACTIVA — `4279:118691`
 Cuando la sucursal está desactivada, el detalle añade:
 - **Banner azul** (`#F0F8FF`/`#2180FF`, ícono info): **"Sucursal inactiva"** + *"Desactivaste esta sucursal el {fecha}."* (ej. "el 2 de abril de 2020").
-- **Botón "Activar"** ancho completo **rojo `#DB3B2B`**, `B2 S` blanco (`4279:119185`), reactiva la sucursal.
+- **Botón "Activar"** ancho completo **rojo `#DB3B2B`**, `B2 S` blanco, reactiva la sucursal.
   > 🔴 **Discrepancia token vs render:** el design context reporta `rounded-[12px]`, pero en pantalla el botón se ve como **pill** (bordes tipo cápsula, radio ~100px). Igual el botón "Ver inventario". Confirmar si el radio real de estos botones es pill o si es un desajuste de token. El demo replica el render (pill).
 - El resto igual (periodo, métricas, datos, preparación).
 
 > ✅ **El detalle combina métricas de negocio + datos + preparación de pedidos** en secciones colapsables, con un **selector de periodo** para las métricas y un **botón de inventario**. Estado activo/inactivo cambia el header (banner azul + botón Activar).
-> Variantes: **Branch New** (recién creada, sin badge Principal), **Branch Main** (con badge Principal), **Sucursal 1** (`4279:117631`, con acciones), **inactiva** (`4279:118691`, banner + Activar).
+> Variantes: **Branch New** (recién creada, sin badge Principal), **Branch Main** (con badge Principal), **Sucursal 1** (con acciones), **inactiva** (banner + Activar).
 
 ## PK.5 D · Modales de estado (reglas de negocio)
-El flujo tiene **notas del diseñador embebidas** que documentan las reglas. **Patrón de modal (validado `4279:117762`):** card centrada 328 r16 + overlay `rgba(0,0,0,0.4)` + **ícono en círculo `#F8F8F8` r61 (64px)** + título **`T2 S` (20)** + cuerpo `B2 R #4C4C4C` + **botones h40**: en modales de confirmación van **lado a lado** (Cancelar blanco + primario rojo, ej. "Sí, desactivar"/"Sí, cambiar"); cuando hay contenido extra (selector) o el CTA es largo van **apilados** (primario arriba). 🔴 **Los botones se renderizan como PILL** (radio cápsula) aunque el token diga `r12` — desajuste transversal a revisar. Cinco modales:
+El flujo tiene **notas del diseñador embebidas** que documentan las reglas. **Patrón de modal:** card centrada 328 r16 + overlay `rgba(0,0,0,0.4)` + **ícono en círculo `#F8F8F8` r61 (64px)** + título **`T2 S` (20)** + cuerpo `B2 R #4C4C4C` + **botones h40**: en modales de confirmación van **lado a lado** (Cancelar blanco + primario rojo, ej. "Sí, desactivar"/"Sí, cambiar"); cuando hay contenido extra (selector) o el CTA es largo van **apilados** (primario arriba). 🔴 **Los botones se renderizan como PILL** (radio cápsula) aunque el token diga `r12` — desajuste transversal a revisar. Cinco modales:
 
 ### PK.5.1 Eliminar sucursal — `4279:117687`
 Ícono `delete-02` + **"Eliminar sucursal"** + *"Esta acción no se puede deshacer. ¿Estás seguro de que quieres eliminar esta sucursal?"* + Cancelar/Eliminar.
@@ -4732,7 +4032,7 @@ El flujo tiene **notas del diseñador embebidas** que documentan las reglas. **P
 > [nota]: *"BOTÓN 'DESACTIVAR': Deshabilitado hasta que se seleccione una sucursal."*
 
 ### PK.5.4 Cambiar sucursal y desactivar — `4279:117762`
-`toggle-off` (círculo gris `#F8F8F8`) + **"Cambiar sucursal y desactivar"** (`T2 S` 20) + *"Usaremos esta sucursal para descontar inventario de tus ventas en línea. ¿Estás seguro de que quieres usar esta sucursal?"* + **botones apilados full** (validado `4279:117762`): **"Sí, cambiar y desactivar"** (rojo **arriba**) + **Cancelar** (blanco abajo), h40 gap 5. Los botones se renderizan como **pill** (radio tipo cápsula, igual que "Activar" §PK.4.5). 🔴 Nota: hay screenshots con el orden invertido (Cancelar arriba); confirmar el orden canónico.
+`toggle-off` (círculo gris `#F8F8F8`) + **"Cambiar sucursal y desactivar"** (`T2 S` 20) + *"Usaremos esta sucursal para descontar inventario de tus ventas en línea. ¿Estás seguro de que quieres usar esta sucursal?"* + **botones apilados full**: **"Sí, cambiar y desactivar"** (rojo **arriba**) + **Cancelar** (blanco abajo), h40 gap 5. Los botones se renderizan como **pill** (radio tipo cápsula, igual que "Activar" §PK.4.5). 🔴 Nota: hay screenshots con el orden invertido (Cancelar arriba); confirmar el orden canónico.
 
 ### PK.5.5 Cambiar sucursal principal — `736:27325`
 `toggle-off` + **"Cambiar sucursal principal"** (`T2 S` 20) + *"Usaremos esta sucursal para descontar inventario de tus ventas en línea. ¿Estás seguro de que quieres establecerla como tu sucursal principal?"* + botones **lado a lado**: **Cancelar** (blanco) + **"Sí, cambiar"** (rojo). (Nota: existe también una variante con botones apilados "Confirmar/Cancelar" — confirmar cuál es la canónica.)
@@ -4761,47 +4061,17 @@ Título **"Envíos a domicilio"**. Lista de sucursales, cada una con: **nombre**
 
 ## PK.8 Pendientes (🔴)
 
-1. 🔴 **Placeholders incorrectos en el form:** "Calle" = "Ej. Sucursal Polanco"; "Estado"/"Ciudad" = "Avenida Francisco I. Madero" (§PK.3).
 2. 🔴 **Typo "envíar"** → "enviar" en Preparación de pedidos (§PK.4.3).
 3. 🔴 **Placeholder `{X}`** en el banner de límite de sucursales (§PK.2.3).
 3b. 🔴 **Banner de límite en Manrope** (título SemiBold + cuerpo Regular) — anomalía Manrope (§PK.2.3).
-4. 🔴 **"Title" sin resolver** en el botón de una variante de detalle (`4279:119187`) (§PK.4).
+4. 🔴 **"Title" sin resolver** en el botón de una variante de detalle (§PK.4).
 5. 🔴 **Tabs desbordados** (`x:-20`/`x:-109`, 360→desborde) — mismo componente roto de los otros tabs (§PK.2).
 6. ✅ **Badge "Principal" identificado:** ámbar `#EDBD55`/`#FFFCE5` (`Yellow/300`/`Yellow/500`) con ícono estrella. Registrar `Yellow/300`+`Yellow/500` en COLORS.md (§PK.4.2).
 7. 🔴 **Medidas fraccionarias** omnipresentes (`24.328`, `79.328`, `1.7763e-15`…) (§PK.3).
-8. ⚠️ **Reglas de negocio de activación** (límite por plan, transferencia de inventario) — documentar formalmente con dev/producto (§PK.5).
-8b. 🔴 **"POS básico" (chip listado) vs "POS Basic"/"POS Pro" (drawer)** — inconsistencia es/en, unificar (§PK.2.3b).
 8c. 🔴 **Chips de filtro con badge negro** (no rojo) — actualizado (§PK.2.3).
 8d. 🔴 **Botones se renderizan como PILL** (modales + "Activar" + "Ver inventario") pese al `rounded-[12px]` del token — desajuste transversal, revisar el radio real del componente Button (§PK.4.5/§PK.5).
 8f. 🔴 **Orden de botones apilados inconsistente** en screenshots del modal "Cambiar y desactivar" (primario arriba vs Cancelar arriba) — confirmar canónico (§PK.5.4).
-8e. 🔴 **Fecha placeholder en banner inactivo** ("2 de abril de 2020") — confirmar formato dinámico (§PK.4.5).
 9. Íconos a `icons.ts`: `toggle-off`, `cancel-01`, `more-horizontal`, `add-01`, `icon/action/close`, `status`.
-
-## PK.9 QA — Comparación vs Figma
-
-| Elemento | Figma (fuente) | Doc | Estado |
-|---|---|---|---|
-| Sucursal principal | card contenedora + card interna gris + badge | §PK.2.1 | ✅ Fiel (corregido) |
-| Card de sucursal | nombre + badge + Activo/POS básico | §PK.2.2 | ✅ Fiel (corregido) |
-| Filtros (chips) | badge **negro** ①③① + `x` | §PK.2.3 | ✅ Fiel (corregido) |
-| Búsqueda activa | "Almacén" + cancel-01 | §PK.2.3 | ✅ Fiel |
-| Límite alcanzado | banner **amarillo** + botón **ámbar** "Mejorar plan" | §PK.2.3 | ✅ Fiel (corregido) |
-| Menú Nueva sucursal | add-01 | §PK.2.4 | ✅ Fiel |
-| Form Nueva sucursal | 11 campos dirección + encargado | §PK.3 | 🔴 Placeholders malos |
-| Detalle: métricas | Ventas/SKU's/Valor + periodo "30 días" | §PK.4.1 | ✅ Fiel (corregido) |
-| Detalle inactivo | banner azul + "Activar" | §PK.4.5 | ✅ Fiel |
-| Detalle: chips | POS básico + Activo + Principal | §PK.4.2 | ✅ Fiel (corregido) |
-| Ver inventario | botón arriba | §PK.4.4 | ✅ Fiel |
-| Detalle: datos | chips + dirección + tel + encargado | §PK.4.2 | ✅ Fiel |
-| Detalle: preparación | "Envío a domicilio" | §PK.4.3 | 🔴 Typo "envíar" |
-| Modal eliminar | "no se puede deshacer" | §PK.5.1 | ✅ Fiel |
-| Modal desactivar (paso 1) | confirmación "Sí, desactivar" | §PK.5.2 | ✅ Fiel |
-| Modal desactivar (paso 2) | transferir a otra sucursal | §PK.5.3 | ✅ Fiel (flujo 2 pasos) |
-| Drawer de filtros | Estado + Plan POS + Mostrar resultados | §PK.2.3b | 🔴 "POS Basic" en inglés |
-| Modal cambiar principal | "sucursal principal" | §PK.5.5 | ✅ Fiel |
-| Envíos a domicilio | lista + Estado + chip | §PK.6 | ✅ Fiel |
-
-**Resumen:** Sucursales gestiona los almacenes/tiendas físicas. El **listado** separa la **sucursal principal** (la que descuenta inventario de ventas en línea) del resto, con filtros (Ordenar/Estado/**Plan POS**), búsqueda por dirección y un banner de **límite por plan**. El **alta** es un formulario de dirección MX completo (11 campos + encargado). El **detalle** es una ficha con **métricas** (Ventas/SKU's/Valor de inventario), datos de la tienda y preparación de pedidos. Lo más rico son los **modales de estado**: eliminar, desactivar (con lógica distinta según haya o no inventario — si lo hay, obliga a transferirlo a otra sucursal), cambiar principal. Hay **reglas de negocio** embebidas en notas del diseñador (límite por plan, botón deshabilitado hasta elegir destino). Hallazgos: **placeholders incorrectos** en el form, typo "envíar", `{X}` sin resolver, y los tabs desbordados de siempre. El **badge "Principal"** usa un amarillo nuevo (`Yellow/300 #EDBD55`/`Yellow/500 #FFFCE5`) con estrella, y las sucursales muestran su plan con un chip **"POS básico"** azul.
 
 ## PK.10 Referencias
 - *Branches* (`421:21749`).
@@ -4815,7 +4085,7 @@ Título **"Envíos a domicilio"**. Lista de sucursales, cada una con: **nombre**
 
 # Canales de venta (Sales Channels, §CV)
 
-> **Sección "Section 5"** (`4292:28699`). Flujo de **Canales de venta** de la App: conectar la tienda a marketplaces (Mercado Libre, Shein, Amazon…), tiendas en línea (Shopify, WooCommerce) y ver los "próximamente". Se accede desde **Más › OTROS › Canales de venta** (`1961:76003`).
+> **Sección "Section 5"** (`4292:28699`). Flujo de **Canales de venta** de la App: conectar la tienda a marketplaces (Mercado Libre, Shein, Amazon…), tiendas en línea (Shopify, WooCommerce) y ver los "próximamente". Se accede desde **Más › OTROS › Canales de venta**.
 > **El flujo se repite por canal** — solo cambia el logo, el nombre y el contenido. Se documentan las **pantallas plantilla**, no cada canal.
 > **Owner:** Karla Salazar — Head of UX/UI. **Figma:** `4292:28699`.
 
@@ -4861,17 +4131,14 @@ Más › Canales de venta
   - **Marketplace:** Mercado Libre · Shein · Sanborns · Sears · Walmart · AliExpress · Amazon.
   - **Tiendas en línea:** Shopify · WooCommerce.
   - **Próximamente (9):** Wix · Prestashop · Vtex · Magento · **Liverpool** · **Elektra** · Coppel · **Tiktok shop** · **Totalplay**.
-- **Tile de canal** (`434:38704`, validado): **card `#F8F8F8` r16** con **logo** (isotipo 56, en tarjeta blanca) + nombre (`B2 S` 14) + **botón "Conectar canal"** (blanco borde `#F3F3F3` r8, 32h, `B3 M` 12 — **no rojo**). En "Próximamente" el botón es **"Me interesa →"** (con flecha). Canal conectado muestra **chip "Activo"** (verde).
+- **Tile de canal**: **card `#F8F8F8` r16** con **logo** (isotipo 56, en tarjeta blanca) + nombre (`B2 S` 14) + **botón "Conectar canal"** (blanco borde `#F3F3F3` r8, 32h, `B3 M` 12 — **no rojo**). En "Próximamente" el botón es **"Me interesa →"** (con flecha). Canal conectado muestra **chip "Activo"** (verde).
 - Cada sección cierra con **"Ver menos ⌃"** (expandir/colapsar).
 
-> 🔴 **Layer names stale:** "Ir a tienda" y "Mercado Libre" aparecen en casi todos los tiles como nombres de capa, pero el texto real es el nombre de cada canal. Extraído de los `<text>`, no de los frames.
-> 🔴 **Catálogo de canales (otra variante):** Marketplace 7 (MELI/Shein/Sanborns/Sears/Walmart/AliExpress/Amazon) + Tiendas 2 (Shopify/WooCommerce) + **Próximamente 9** (Wix/Prestashop/Vtex/Magento/Liverpool/Elektra/Coppel/Tiktok shop/Totalplay). Enlazar al **hallazgo consolidado del catálogo de canales** (§PI/§PJ: 5 vs 11 vs "X/8" vs esta lista).
-
 ### CV.2.1 Variantes del listado
-- **Tab "Activo"** (`429:46019`): muestra **solo los canales conectados**, agrupados por sección (Marketplace, Tiendas en línea — sin "Próximamente"). El tile activo tiene: **chip "Activo"** (verde `#4FC153`/`#F0FDF4`) bajo el nombre + botón **"Configuración →"** (blanco borde, con flecha), en vez de "Conectar canal".
-- **Con canal(es) activo(s) en "Todos"** (`429:47210`): los tiles conectados muestran el **chip "Activo"** dentro de la vista completa.
-- **Tab "Próximamente"** (`429:46505`): muestra **solo la sección "Próximamente"** — grilla de tiles card gris con logo + nombre + botón **"Me interesa →"** (sin chip, sin "Conectar canal"). En el screenshot se ven 7 (Wix, Prestashop, Vtex, Magento, Liverpool, Elektra, Coppel); Tiktok shop y Totalplay quedan bajo el scroll. 🔴 Confirmar si esta tab lista los mismos 9 que "Todos" o un subconjunto.
-- **Búsqueda activa** (`429:46859`): buscador con texto ("Mercado") + `cancel-01`.
+- **Tab "Activo"**: muestra **solo los canales conectados**, agrupados por sección (Marketplace, Tiendas en línea — sin "Próximamente"). El tile activo tiene: **chip "Activo"** (verde `#4FC153`/`#F0FDF4`) bajo el nombre + botón **"Configuración →"** (blanco borde, con flecha), en vez de "Conectar canal".
+- **Con canal(es) activo(s) en "Todos"**: los tiles conectados muestran el **chip "Activo"** dentro de la vista completa.
+- **Tab "Próximamente"**: muestra **solo la sección "Próximamente"** — grilla de tiles card gris con logo + nombre + botón **"Me interesa →"** (sin chip, sin "Conectar canal"). En el screenshot se ven 7 (Wix, Prestashop, Vtex, Magento, Liverpool, Elektra, Coppel); Tiktok shop y Totalplay quedan bajo el scroll.
+- **Búsqueda activa**: buscador con texto ("Mercado") + `cancel-01`.
 
 > **Tres estados del botón del tile:** **"Conectar canal"** (no conectado) · **"Configuración →"** (conectado/activo) · **"Me interesa →"** (próximamente).
 
@@ -4883,19 +4150,13 @@ Header **"Conectar canal de {Canal}"** (ej. "Conectar canal de Shein"). Contenid
 4. **Segunda sección "¿Cómo me conecto?"** — **4 tarjetas de recursos** (íconos: `file-text`, `clipboard-list-check`, `pin`, `reportes`) con texto de apoyo.
 5. **Footer:** componente **Messages** (aviso) + **Button** (48h) "Conectar".
 
-> 🔴 El texto de los 4 pasos está como placeholder ("Al inactivar este ca…") en el metadata — confirmar el copy real de cada paso.
-
 ## CV.4 Plantilla 3 · Detalles del canal / credenciales — `448:31918`
 Header **"Detalles del canal"**. Formulario:
 - **ID de cuenta** · **Contraseña de cuenta** · **Correo electrónico (Opcional)**.
 - Footer: **Button** (48h).
 
-> 🔴 **Placeholders incorrectos:** los tres campos usan "Ej. Sucursal Polanco" (heredado del form de sucursales). Corregir por campo (ID/contraseña/correo).
-
 ## CV.5 Plantilla 4 · Canal "Próximamente" — `429:45172`
 Header **"{Canal} Próximamente"** (ej. "Wix Próximamente"). logo + nombre + **descripción** *"Conecta fácilmente tu tienda de {Canal} con T1tienda… ver más"* + **video/play** + footer Messages + Button. Es la variante de un canal aún no disponible: muestra la info pero no permite conectar.
-
-> 🔴 **"leer más" (onboarding) vs "ver más" (próximamente)** — dos CTAs de expansión distintos. Unificar.
 
 ## CV.6 Plantilla 5 · Canal conectado / sincronización — `4184:167202`
 Header **"Conectar {Canal}"** (ej. "Conectar Shein"). Estructura (validada por design context):
@@ -4909,14 +4170,12 @@ Header **"Conectar {Canal}"** (ej. "Conectar Shein"). Estructura (validada por d
   | **Reglas de inventario** | "Define el inventario mínimo para que un producto esté activo" | Establecer reglas |
 - **Footer:** Button (48h).
 
-> **Nota del diseñador embebida (`1708:99269`):** *"For orders its just the loading and it will sync the orders. But for the products it will be only available on the desktop variant. And for the bulk activation and inventory rules they'll be on phase 2 of T1."* → **Pedidos:** solo carga + sync. **Productos:** solo en la variante **desktop**. **Activación masiva** y **Reglas de inventario:** **fase 2 de T1**. Documentar qué tarjetas están activas en el móvil vs desktop vs fase 2.
-
 ## CV.7 Plantilla 6 · Error de sincronización — `434:39116`
 Ícono **wifi-error** (círculo 64) + **"Error de sincronización detectado"** + *"No pudimos sincronizar tus datos más recientes por un problema de conexión. Revisa tu conexión a internet o intenta reconectar más abajo."* + **2 botones** (Button 48 + Button 40).
 
 ## CV.8 Plantilla 7 · Carga (lazy load) — `434:40639` / `434:40668`
-- **Skeletons** (`434:40639`): rectángulos placeholder (título, tabs, tiles) mientras carga.
-- **Spinner** (`434:40668`): `tabler:loader` centrado.
+- **Skeletons**: rectángulos placeholder (título, tabs, tiles) mientras carga.
+- **Spinner**: `tabler:loader` centrado.
 
 ## CV.9 Acceso · Más / Settings — `1961:76003`
 Pantalla **"Más"** con secciones: **PAGOS** (Transacciones · Disputas · Links de pago · Liquidaciones · Configuración de T1pagos), **MI TIENDA** (Mi tienda · Descuentos), **OTROS** (**Canales de venta** · Marketing · Control de calidad · Clientes · Reportes y análisis). El acceso a Canales de venta está en **OTROS**.
@@ -4932,30 +4191,8 @@ Pantalla **"Más"** con secciones: **PAGOS** (Transacciones · Disputas · Links
 - **Skeletons / spinner de carga** — §CV.8.
 
 ## CV.11 Pendientes (🔴)
-1. 🔴 **Layer names stale** ("Ir a tienda", "Mercado Libre") en casi todos los tiles — el nombre real es el del canal (§CV.2).
 1b. ✅ **Tile validado:** card `#F8F8F8` r16, botón **"Conectar canal"** blanco (no rojo) / **"Me interesa →"** en Próximamente (§CV.2).
-2. 🔴 **Placeholders incorrectos** en el form de credenciales ("Ej. Sucursal Polanco" en ID/contraseña/correo) (§CV.4).
-3. 🔴 **Copy placeholder de los 4 pasos** del onboarding ("Al inactivar este ca…") — falta el texto real (§CV.3).
-4. 🔴 **"leer más" vs "ver más"** — CTAs de expansión inconsistentes (§CV.3/§CV.5).
-5. 🔴 **Catálogo de canales (otra variante):** Marketplace 7 + Tiendas 2 + Próximamente 7 — enlazar al hallazgo consolidado (§PI/§PJ) del catálogo sin fuente única.
-6. ⚠️ **Disponibilidad por plataforma/fase** (nota del diseñador): Productos solo en desktop; Activación masiva + Reglas de inventario en fase 2. Documentar qué se muestra en el móvil (§CV.6).
 7. Íconos a `icons.ts`: `more-vertical`, `cancel-01`, `wifi-error-01`, `tabler:loader`, `recycle-03`, `workflow-square-06`, `sales channel`, y logos de canales.
-
-## CV.12 QA — Comparación vs Figma
-| Plantilla | Figma | Doc | Estado |
-|---|---|---|---|
-| Listado (Todos) | `434:38699` (7+2+**9** canales, tiles card gris) | §CV.2 | ✅ Fiel (corregido) |
-| Listado (Activo) | `429:46019` (solo conectados, "Configuración →") | §CV.2.1 | ✅ Fiel |
-| Listado (Próximamente) | `429:46505` (solo próximamente, "Me interesa →") | §CV.2.1 | ✅ Fiel |
-| Onboarding | `429:45091` (4 pasos + 4 recursos) | §CV.3 | 🔴 Copy pasos placeholder |
-| Credenciales | `448:31918` (ID/contraseña/correo) | §CV.4 | 🔴 Placeholders malos |
-| Próximamente | `429:45172` | §CV.5 | ✅ Fiel |
-| Canal conectado | `4184:167202` (4 tarjetas sync) | §CV.6 | ✅ Fiel |
-| Error de sync | `434:39116` | §CV.7 | ✅ Fiel |
-| Lazy load | `434:40639`/`434:40668` | §CV.8 | ✅ Fiel |
-| Acceso (Más) | `1961:76003` | §CV.9 | ✅ Fiel |
-
-**Resumen:** Canales de venta permite conectar la tienda T1 a **marketplaces** (Mercado Libre, Shein, Amazon…), **tiendas en línea** (Shopify, WooCommerce) y ver los **próximamente**. El flujo por canal es una **plantilla que se repite** (solo cambia logo/nombre/contenido): **listado** con tabs (Todos/Activo/Próximamente) y buscador → **onboarding** ("Conectar canal de X", con video + 4 pasos + recursos) → **credenciales** (ID/contraseña/correo) → **canal conectado** con **4 tarjetas de sincronización** (pedidos, productos, activación masiva, reglas de inventario, cada una con el diagrama Canal→T1com). Más los estados de **error de sync**, **carga** (skeletons/spinner) y los canales **próximamente**. Hallazgos: layer names stale, placeholders heredados de sucursales, copy placeholder en los pasos, "leer más" vs "ver más", y otra variante del catálogo de canales. Una **nota del diseñador** define la disponibilidad: pedidos con sync simple, productos solo en desktop, activación masiva y reglas de inventario en fase 2.
 
 ## CV.13 Referencias
 - *Section 5* (`4292:28699`).
@@ -5014,7 +4251,7 @@ Chips de filtro: **Fecha** (con contador **1**) · **Origen**. Filtran la lista 
 ### EN.2.7 Drawer de filtros "Filtrar"
 Sheet de filtros (mismo patrón que Precios §PI.5b y Sucursales §PK.2.3b): **"Filtrar"** + **"Restablecer"**. Secciones acordeón (cada una con contador y colapsable):
 - **Odenar por** 🔴 (mismo typo "Odenar") — select "Fecha de creación (Más recientes primero)".
-- **Paquetería:** FedEx · DHL · Grupo ampm · **UPS** · 99 Minutos (checkboxes con logo). 🔴 **UPS** aparece aquí pero no en el catálogo de paqueterías de las tarjetas (§EN.3) — falta Amazon aquí. Reconciliar el set de paqueterías.
+- **Paquetería:** FedEx · DHL · Grupo ampm · **UPS** · 99 Minutos (checkboxes con logo).
 - **Estado (estados reales del envío):** **Por recolectar · Recolectado · En camino · Entregados · Excepción de entrega**. → Este es el **ciclo de vida del envío** (resuelve el pendiente del chip de estado §EN.3).
 - **Fecha:** Hoy · Últimos 7 días · Últimos 30 días · Fecha personalizada.
 - **Origen:** buscador "Buscar sucursal" + checkboxes (Almacén Polanco, Sucursal Norte).
@@ -5053,9 +4290,9 @@ El chip refleja el **estado del envío** con estos colores:
 | **En camino** | `#F3F3F3` | `#4B5563` | Gris (neutro) |
 | **Entregado / Entregados** | `#F0FDF4` | `#4FC153` | **Verde** (Green/500·300) |
 
-> ✅ **Chip de estado resuelto** (pendiente §EN.3 cerrado). Reutiliza el componente **Chips** (`51:17879`/`51:17894`/`51:17873`) con las familias del sistema: **verde = entregado**, **amarillo = recolectado (en proceso)**, **gris = por recolectar/en camino (neutro)**. 🔴 Nota: "En camino" en gris (neutro) es cuestionable — normalmente un estado activo llevaría color; confirmar si debería tener su propia familia (¿azul informativo?). Y hay inconsistencia singular/plural: "Entregado" vs "Entregados".
+> ✅ **Chip de estado resuelto** (pendiente §EN.3 cerrado). Reutiliza el componente **Chips** con las familias del sistema: **verde = entregado**, **amarillo = recolectado (en proceso)**, **gris = por recolectar/en camino (neutro)**. 🔴 Nota: "En camino" en gris (neutro) es cuestionable — normalmente un estado activo llevaría color; confirmar si debería tener su propia familia (¿azul informativo?).
 
-> **Paqueterías soportadas:** FedEx, DHL, Grupo ampm, 99 Minutos, Amazon (tarjetas) + **UPS** (aparece en el filtro §EN.2.7). 🔴 El set no coincide entre tarjeta y filtro (UPS solo en filtro; Amazon solo en tarjeta) — reconciliar. Documentar los logos como assets.
+> **Paqueterías soportadas:** FedEx, DHL, Grupo ampm, 99 Minutos, Amazon (tarjetas) + **UPS** (aparece en el filtro §EN.2.7). Documentar los logos como assets.
 
 ## EN.4 C · Rastreo del envío (Track Shipment) — `523:36361`
 La pantalla más rica del flujo (validada por design context). Estructura:
@@ -5097,32 +4334,11 @@ Línea de tiempo de eventos, cada uno con **ícono de estado** (círculo `#F8F8F
 - **Logos de paqueterías** (FedEx/DHL/Grupo ampm/99 Minutos/Amazon) — §EN.3.
 
 ## EN.6 Pendientes (🔴)
-1. 🔴 **Layer names stale** ("Shipments", "Frame 21472…") en todas las pantallas — extraer texto real de `<text>` (§EN).
 2. 🔴 **3 pantallas sin texto en metadata** (`822:60086`, `4184:168235`, `822:60492`, 1055h) — son variantes que necesitan design context/screenshot para documentar (¿detalle de envío? ¿cotizar?) (§EN.2).
 3. 🔴 **Tabs "Cotizar" y "Recolecciones"** aún sin pantalla propia documentada — solo aparecen como tabs. Confirmar su contenido (§EN.2.1).
 4. ✅ **Estados del envío identificados** (del filtro §EN.2.7): Por recolectar · Recolectado · En camino · Entregados · Excepción de entrega. Confirmar cómo se renderiza el chip en la tarjeta (§EN.3).
-4b. 🔴 **Set de paqueterías inconsistente:** UPS en filtro, Amazon en tarjeta — reconciliar (§EN.3/§EN.2.7).
 5. 🔴 **"Reportar incidencia"** y **"Cancelar guía"** — flujos destino sin documentar (§EN.2.6).
 6. Íconos a `icons.ts`: `location-05`, `checkmark-circle-02`, `line-md:chevron-up`, `majesticons:arrow-up`, `cbi:dhl`, logos de paqueterías.
-
-## EN.7 QA — Comparación vs Figma
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Listado (tabs) | Cotizar/Mis envíos/Guías/Recolecciones | §EN.2.1 | ✅ Fiel |
-| Estado vacío | "Aún no tienes envíos" | §EN.2.2 | ✅ Fiel |
-| Tarjeta de envío | transportista+guía+precio+canal+cliente+chip | §EN.3 | ✅ Fiel (corregido) |
-| Chip de estado | Por recolectar/Recolectado/En camino/Entregado | §EN.3.1 | ✅ Fiel (colores validados) |
-| Filtros (chips) | Fecha 1 · Origen | §EN.2.4 | ✅ Fiel |
-| Drawer de filtros | Paquetería/Estado/Fecha/Origen | §EN.2.7 | ✅ Fiel |
-| Estado vacío | ilustración + "Crear envío" | §EN.2.2 | ✅ Fiel (corregido) |
-| Menú crear | envío/guías masivas/exportar | §EN.2.5 | ✅ Fiel |
-| Menú por envío | rastrear/descargar/reportar/imprimir/cancelar | §EN.2.6 | ✅ Fiel |
-| Rastreo (header) | DHL + guía + "Llega el 26 de enero" | §EN.4.1 | ✅ Fiel |
-| Rastreo (origen/destino) | Sucursal Polanco → cliente | §EN.4.2 | ✅ Fiel |
-| Rastreo (timeline) | 6 eventos + chips fecha + acciones | §EN.4.3 | ✅ Fiel |
-| Rastreo (footer) | Descargar guía + Ver detalles | §EN.4.4 | ✅ Fiel |
-
-**Resumen:** Envíos gestiona la logística del negocio con múltiples paqueterías (**FedEx, DHL, Grupo ampm, 99 Minutos, Amazon**) sobre **T1envíos**. El **listado** tiene 4 tabs (Cotizar/Mis envíos/Guías de rastreo/Recolecciones), buscador, filtros (Fecha/Origen), y dos menús: uno para **crear** (envío individual, guías masivas, exportar) y uno **por envío** (rastrear, descargar guía, reportar incidencia, imprimir, cancelar). Cada **tarjeta de envío** muestra transportista + guía + precio + canal + cliente. Lo más rico es el **rastreo** (`523:36361`): un **timeline completo** que traza todo el ciclo desde "Pedido creado - pago pendiente" hasta "Paquete entregado", pasando por confirmación de pago, preparación, generación de guía y tránsito — vinculando comprobante de pago, guía y rastreo. Hallazgos: layer names stale, 3 pantallas de 1055h sin texto (variantes por documentar con design context/screenshot), y las tabs "Cotizar"/"Recolecciones" sin pantalla propia aún.
 
 ## EN.8 Referencias
 - *Section 2* (`4298:44178`).
@@ -5182,7 +4398,7 @@ Header **"Agregar dirección"**. Formulario largo (1696h):
 | **Nombre de contacto** | Ej. María González López |
 | **Correo electrónico** | Ej. maria.gonzalez@ejemplo.com |
 | **Número de teléfono** | — |
-| **Conpañia (opcional)** 🔴 (typo "Conpañia" → "Compañía") | Ej. 232 🔴 (placeholder "232" no corresponde a una compañía) |
+| **Conpañia (opcional)** 🔴 (typo "Conpañia" → "Compañía") | Ej. 232 |
 | **Dirección › Calle** | Avenida Francisco I. Madero |
 | **Número exterior** | 140 |
 | **Número interior (opcional)** | Depto 5A |
@@ -5192,7 +4408,7 @@ Header **"Agregar dirección"**. Formulario largo (1696h):
 
 Toggles: **☑ Establecer como dirección predeterminada para mis envíos** · **☑ Establecer como dirección de devolución**.
 
-> 🔴 **Typo "Conpañia"** (aparece dos veces) → "Compañía". Placeholder "232"/"Ej. 232" no corresponde al campo compañía. Este mismo form de dirección aparece en el destino (§EN.9.4).
+> 🔴 **Typo "Conpañia"** (aparece dos veces) → "Compañía". Este mismo form de dirección aparece en el destino (§EN.9.4).
 
 ### EN.9.4 Paso 1/3 · Direcciones — `455:44464`
 Header "Crear envío" + **"PASO 1/3"**. Dos bloques:
@@ -5204,13 +4420,13 @@ Header "Crear envío" + **"PASO 1/3"**. Dos bloques:
 Header "Crear envío" + subtítulo **"Detalles del paquete"** + **"PASO 2/3"** (con barra de progreso 244/360). Indicador de progreso avanza 2/3. Dos secciones colapsables:
 
 **A. Dimensiones del paquete**
-- **Chip de plantilla activa** (`465:50800`): "Caja para botas" con **`cancel-01`** (removible) — cuando ya hay una plantilla aplicada.
+- **Chip de plantilla activa**: "Caja para botas" con **`cancel-01`** (removible) — cuando ya hay una plantilla aplicada.
 - **Nombre de la plantilla** (input, "Caja para botas" / placeholder "ej. Caja para botas").
 - **Grilla 2×2:** **Largo (cm)** "10" · **Ancho (cm)** "15" · **Alto (cm)** "25" · **Peso (kg)** "1" (placeholders "Ej. 10 / ej. 15 / ej. 25 / ej. 1").
-- **Resumen cotizador** (`465:50897`): **"Peso volumetrico: 1k"** 🔴 (typo "volumetrico"→"volumétrico", "1k"→"1kg") calculado de las dimensiones. (El texto "02 Seleccionados de" del layer es stale.)
-- **Toggles de plantilla:** **"Guardar cambios en esta plantilla"** + **"Guardar como nueva plantilla"** (`465:50845`/`465:50888`). En la variante sin plantilla: **"Guardar como plantilla para envíos futuros"**.
+- **Resumen cotizador**: **"Peso volumetrico: 1k"** 🔴 (typo "volumetrico"→"volumétrico", "1k"→"1kg") calculado de las dimensiones.
+- **Toggles de plantilla:** **"Guardar cambios en esta plantilla"** + **"Guardar como nueva plantilla"**. En la variante sin plantilla: **"Guardar como plantilla para envíos futuros"**.
 
-**Variante "Buscar plantilla"** (`465:50060`/`465:50608`): buscador **"Buscar plantilla"** + separador **"ó"** 🔴 (en `465:50608` dice **"or"** en inglés — inconsistencia es/en) + campos vacíos para crear una nueva plantilla desde cero. Incluye un **Dropdown** de selección (`465:50764`).
+**Variante "Buscar plantilla"**: buscador **"Buscar plantilla"** + separador **"ó"** + campos vacíos para crear una nueva plantilla desde cero. Incluye un **Dropdown** de selección.
 
 **B. Detalles del envío**
 - **Número de paquetes** (input, "1").
@@ -5219,9 +4435,9 @@ Header "Crear envío" + subtítulo **"Detalles del paquete"** + **"PASO 2/3"** (
   - **Sin resolver:** placeholder "Seleccionar" (input con dropdown).
   - **Cargando:** **"Seleccionando con IA…"** con spinner (`loader`).
   - **Resuelto:** badge **"Seleccionado por IA"** (arriba-derecha, `Icon_der`) + valor real **"53111502: Botas para mujer"** (clave SAT de 8 dígitos + descripción).
-- **"Guardar dirección de"** (label — posible sección de dirección de recolección, `465:50025`).
+- **"Guardar dirección de"** (label — posible sección de dirección de recolección).
 - **☑ Incluir seguro de envío.**
-- **Valor del contenido** (input, "$100.00", `465:50419`) — para seguro/aduana; aparece en la variante extendida (`465:50314`).
+- **Valor del contenido** (input, "$100.00") — para seguro/aduana; aparece en la variante extendida.
 
 > ✅ **Clasificación SAT con IA (estado completo):** el campo "Tipo de producto - SAT" pasa de "Seleccionando con IA…" (cargando) a **"Seleccionado por IA" + clave real** (ej. "53111502: Botas para mujer"). Es la clave de producto/servicio del SAT (requisito fiscal MX) resuelta automáticamente por IA, con opción de editar manualmente (dropdown). Segunda integración de IA en un flujo operativo (además de Nova).
 > ✅ **Sistema de plantillas de paquete completo:** chip de plantilla activa (removible), buscar plantilla existente, crear nueva ("ó"/"or"), y guardar (cambios en la actual / como nueva). Acelera envíos recurrentes con dimensiones predefinidas (Caja para botas, Caja de pino…).
@@ -5230,7 +4446,7 @@ Header "Crear envío" + subtítulo **"Detalles del paquete"** + **"PASO 2/3"** (
 
 ### EN.9.6 Paso 3/3 · Seleccionar paquetería — `455:44464` / `532:36426`
 Header "Crear envío" + **"Seleccionar paquetería"** + **"PASO 3/3"**. Lista de paqueterías (FedEx Estandar, DHL Económico/Día siguiente/Semanal…) con tarifa y tiempo de entrega.
-- **Estado de error:** **"No se pudieron obtener las tarifas."** (`532:36426`) — cuando la API de tarifas falla.
+- **Estado de error:** **"No se pudieron obtener las tarifas."** — cuando la API de tarifas falla.
 
 ### EN.9.7 Resumen del envío — `465:51476` (validado) / `465:51148`
 Header **"Resumen del envío"** (`T3 S` 16). Secciones colapsables, cada una con botón **"Editar"** (blanco borde `#F3F3F3` r12):
@@ -5255,7 +4471,6 @@ Header con **X** (cerrar, arriba-derecha; no back-arrow) + **ícono check** en c
 
 **D. Card "RECOLECCIÓN"** (gris): "Solicítala desde nuestro módulo de recolección." + botón **"Programar recolección"** (→ modal §EN.9.8.2).
 
-> 🔴 **Versión en inglés existe:** la misma pantalla aparece en inglés ("Congratulations, your shipment was successfully created!" / "How to prepare your shipment?" / "Download and print your guide") — confirmar si es una variante de idioma pendiente de localizar a es-MX.
 > 🔴 **Truncamiento:** "HORARIOS DE SUCURSALES DHL" se corta a "HORARIOS DE SUCU…" en el card — revisar ancho/ellipsis.
 
 ### EN.9.8.1 Modal "Sucursales" — (al tocar "Ver sucursales")
@@ -5275,20 +4490,20 @@ Sección **"Create Shipment When Origin is saved and has destination address"**.
 
 **Diferencias vs §EN.9 (sin dirección):**
 
-**A. Dirección de origen ya establecida** (`465:55811`): card con **"Almacén CDMX"** + **badge** (predeterminada) + dirección + botón **"Cambiar"**. No hay que crear la dirección — ya existe.
+**A. Dirección de origen ya establecida**: card con **"Almacén CDMX"** + **badge** (predeterminada) + dirección + botón **"Cambiar"**. No hay que crear la dirección — ya existe.
 
-**B. Dirección de destino seleccionable** (`465:55833`): en vez de un form vacío, arranca con un **buscador "Buscar por cliente o dirección"** + separador **"or"** 🔴 + label **"AÑADE NUEVA Dirección de destino"** sobre el form (contacto + dirección). Puedes **buscar un cliente guardado** o escribir uno nuevo.
+**B. Dirección de destino seleccionable**: en vez de un form vacío, arranca con un **buscador "Buscar por cliente o dirección"** + separador **"or"** 🔴 + label **"AÑADE NUEVA Dirección de destino"** sobre el form (contacto + dirección). Puedes **buscar un cliente guardado** o escribir uno nuevo.
 
 **C. Estados del destino:**
-- **Cliente seleccionado** (`465:57167`): **chip removible** "María López Ruiz | maria.lopez@gmail.com" (`cancel-01`) + tarjeta con datos del contacto ("Fabian Hernández Hernández 55 1234 5678" + dirección) + "Cambiar".
-- **Cliente + dirección elegida** (`465:57361`): tarjeta con "Fabián Hernandez ! Avenida Francisco I Madero" + dirección + teléfono, con opción "or" para otra.
-- **Agregar nueva dirección a cliente existente** (`465:57617`): chip de cliente + "Agregar nueva dirección" + divisor + **"Nueva dirección"** + form.
+- **Cliente seleccionado**: **chip removible** "María López Ruiz | maria.lopez@gmail.com" (`cancel-01`) + tarjeta con datos del contacto ("Fabian Hernández Hernández 55 1234 5678" + dirección) + "Cambiar".
+- **Cliente + dirección elegida**: tarjeta con "Fabián Hernandez ! Avenida Francisco I Madero" + dirección + teléfono, con opción "or" para otra.
+- **Agregar nueva dirección a cliente existente**: chip de cliente + "Agregar nueva dirección" + divisor + **"Nueva dirección"** + form.
 
-**D. Modal "Cambiar dirección de origen"** (`4194:39050`): bottom sheet con **"Cambiar dirección de origen"** + buscador "Buscar por nombre del lugar o dirección" + **lista de sucursales** (Bodega CDMX · Sucursal 2 · Bodega centro · Sucursal Polanco) + **"+ Agregar nueva dirección"** (`plus-sign`).
+**D. Modal "Cambiar dirección de origen"**: bottom sheet con **"Cambiar dirección de origen"** + buscador "Buscar por nombre del lugar o dirección" + **lista de sucursales** (Bodega CDMX · Sucursal 2 · Bodega centro · Sucursal Polanco) + **"+ Agregar nueva dirección"** (`plus-sign`).
 
-**E. Modal "Cambiar dirección de destino"** (`4194:39159`): bottom sheet con **"Cambiar dirección de destino"** + buscador + **lista de direcciones de clientes** (con nombre + dirección completa: "Graciela López 140 Avenida Francisco I. Madero…" / "María López Ruiz 435 Lago Zurich…") + **"+ Agregar nueva dirección"**.
+**E. Modal "Cambiar dirección de destino"**: bottom sheet con **"Cambiar dirección de destino"** + buscador + **lista de direcciones de clientes** (con nombre + dirección completa: "Graciela López 140 Avenida Francisco I. Madero…" / "María López Ruiz 435 Lago Zurich…") + **"+ Agregar nueva dirección"**.
 
-**F. Dropdown de selección de cliente** (`465:56793`): al buscar, despliega dos grupos:
+**F. Dropdown de selección de cliente**: al buscar, despliega dos grupos:
 - **Clientes frecuentes:** Juan Pérez García (55 5123 4567 • Col. Roma Norte) · Ana García Silva (ana.garcia@hotmail.com • dirección).
 - **Todos los clientes (A-Z):** Carmen Rodríguez (55 5678 9012 • **4 direcciones**) · José Luis Martínez · María López Ruiz (maria.lopez@gmail.com • Col. Condesa) · Miguel Ángel Torres. Cada uno con `tick-02` (selección). Nota: un cliente puede tener **varias direcciones** ("4 direcciones").
 
@@ -5308,7 +4523,7 @@ Sección **"Errors validation"**. Estados de validación de los campos del wizar
 **B. Dropdown/búsqueda sin resultados:**
 - **"No hay resultados para tu búsqueda"** — aparece en el dropdown de **cliente** (al buscar, ej. "Tere") y en el de **plantilla** (al buscar, ej. "Caja"). Estado vacío del dropdown.
 
-**C. Alerta de artículo prohibido** (validada `4205:106781`) — componente **Messages** que aparece bajo "Descripción del contenido" cuando el contenido puede estar restringido (ej. "Aleta de tiburon"):
+**C. Alerta de artículo prohibido** (validada) — componente **Messages** que aparece bajo "Descripción del contenido" cuando el contenido puede estar restringido (ej. "Aleta de tiburon"):
 - **Fondo `Brown/500 #FAF8F3`** + ícono `alert` + texto **`Yellow/200 #A96A00`**, r10, con sombra.
 - Texto (en **Manrope** 🔴): *"Este artículo puede estar prohibido. Revisa las **restricciones** antes de enviarlo; podría generar una multa de $X,XXX."* — con **"restricciones"** como enlace (bold subrayado) y **"$X,XXX"** como placeholder del monto de multa.
 - **Semántica:** advertencia (warning), no error bloqueante — informa un riesgo legal/aduanal sin impedir continuar.
@@ -5341,44 +4556,18 @@ Sección **"Errors validation"**. Estados de validación de los campos del wizar
 - **Modal "Programar recolección"** (patrón transversal) — §EN.9.8.2.
 
 ### EN.9.10 Pendientes (🔴)
-1. 🔴 **Typo "Conpañia"** → "Compañía" (2 veces) + placeholder "Ej. 232" incorrecto en ese campo (§EN.9.3).
+1. 🔴 **Typo "Conpañia"** → "Compañía" (2 veces) (§EN.9.3).
 2. 🔴 **Estado "Seleccionando con IA…"** del tipo SAT — documentar el estado final (éxito/error) y qué pasa si la IA no clasifica (§EN.9.5).
 3. 🔴 **Fórmula del peso volumétrico** — documentar cómo se calcula ("Peso volumetrico: 1k") + typo "volumetrico"→"volumétrico" y "1k"→"1kg" (§EN.9.5).
 4. 🔴 **Estado "No se pudieron obtener las tarifas"** — documentar el fallback/retry del paso 3 (§EN.9.6).
-4b. 🔴 **Pantalla de éxito en INGLÉS** (variante): "Congratulations, your shipment was successfully created!" / "How to prepare your shipment?" — localizar a es-MX (§EN.9.8).
 4c. 🔴 **Truncamiento "HORARIOS DE SUCU…"** — el título del card se corta (§EN.9.8).
-5. 🔴 **"Estandar"** → "Estándar" (§EN.9.6). **"02 Seleccionados de"** — layer name stale del resumen cotizador (el texto real es "Peso volumetrico: 1k") (§EN.9.5).
-5b. 🔴 **Separador "ó" (es) vs "or" (en)** en la variante de buscar/crear plantilla — inconsistencia es/en (§EN.9.5).
+5. 🔴 **"Estandar"** → "Estándar" (§EN.9.6).
 5c. 🔴 **Clave SAT real** "53111502: Botas para mujer" — documentar el formato (8 dígitos + descripción) y qué pasa si la IA no encuentra clave (§EN.9.5).
 6. 🔴 **Manrope en la alerta de artículo prohibido** (§EN.9.14) — otra instancia de Manrope fuera de Nova.
 7. 🔴 **Colores nuevos** `Brown/500 #FAF8F3` + `Yellow/200 #A96A00` (advertencia de restricción) — registrar en COLORS.md (§EN.9.14).
 8. 🔴 **Estado visual de error del input** (borde rojo) — documentar además de los mensajes (§EN.9.14).
-6. 🔴 **Layer names stale** ("Create Shipment", "Frame 2147…") + **"Title"** sin resolver (`465:51476` origen) (§EN.9.7).
+6. 🔴 **"Title"** sin resolver en el botón de origen del Resumen (§EN.9.7).
 7. ⚠️ **Consistencia del form de dirección:** el de origen (§EN.9.3), destino (§EN.9.4) y el de Sucursales (§PK.3) comparten estructura — unificar como un solo componente de dirección MX.
-
-### EN.9.11 QA — Comparación vs Figma
-| Pantalla | Figma | Doc | Estado |
-|---|---|---|---|
-| Sin dirección | `455:42910` | §EN.9.2 | ✅ Fiel |
-| Agregar dirección | `455:44001` | §EN.9.3 | 🔴 Typo Conpañia |
-| Paso 1/3 Direcciones | `455:44464` | §EN.9.4 | ✅ Fiel |
-| Paso 2/3 Detalles | `455:44804`/`465:49927` (6 variantes) | §EN.9.5 | ✅ Fiel (ampliado) |
-| SAT con IA (3 estados) | seleccionar→cargando→resuelto | §EN.9.5 | ✅ Fiel |
-| Plantillas de paquete | chip+buscar+crear+guardar | §EN.9.5 | ✅ Fiel |
-| Paso 3/3 Paquetería | `532:36426` | §EN.9.6 | ✅ Fiel |
-| Resumen | `465:51476` | §EN.9.7 | ✅ Fiel (validado) |
-| Variante con direcciones guardadas | `465:55797` | §EN.9.13 | ✅ Fiel |
-| Modal cambiar origen | `4194:39050` (lista sucursales) | §EN.9.13 | ✅ Fiel |
-| Modal cambiar destino | `4194:39159` (direcciones cliente) | §EN.9.13 | ✅ Fiel |
-| Dropdown de clientes | `465:56793` (frecuentes + A-Z) | §EN.9.13 | ✅ Fiel |
-| Validaciones de campo | teléfono/CP/caracteres | §EN.9.14 | ✅ Fiel |
-| Dropdown sin resultados | "No hay resultados…" | §EN.9.14 | ✅ Fiel |
-| Alerta artículo prohibido | `4205:106781` (Messages) | §EN.9.14 | ✅ Fiel (validado) |
-| Éxito | `455:47149` (card + 2 botones + horarios/recolección) | §EN.9.8 | ✅ Fiel (corregido) |
-| Modal sucursales | mapa + lista distancia/horario | §EN.9.8.1 | ✅ Fiel (es modal) |
-| Modal recolección | círculo gris + 3 bullets + Cancelar/Programar | §EN.9.8.2 | ✅ Fiel |
-
-**Resumen:** el flujo de **crear envío** es un **wizard de 3 pasos** que arranca resolviendo el caso "sin dirección de origen": primero obliga a **agregar la dirección** (form largo con toggles de predeterminada/devolución), luego **Paso 1/3 Direcciones** (origen con "Cambiar" + destino + guardar cliente), **Paso 2/3 Detalles del paquete** (dimensiones con **plantillas reutilizables** y **peso volumétrico**, más número de paquetes, contenido, **tipo SAT clasificado con IA** y seguro), y **Paso 3/3 Seleccionar paquetería** (tarifas por transportista, con estado de error si fallan). Cierra con un **Resumen** editable por secciones (Direcciones/Dimensiones/Paquetería/Total) y una **pantalla de éxito** que es un centro de acción: guía descargable, instrucciones de empaque, **sucursales cercanas con mapa/distancia/horarios** y acceso a **recolección**. Aportes de sistema: **plantillas de paquete**, **clasificación SAT con IA**, **peso volumétrico**, y el patrón de **wizard PASO N/3**. Hallazgos: typo "Conpañia", "Estandar", "volumetrico", "02 Seleccionados de" incompleto, y estados de IA/tarifas por documentar.
 
 ### EN.9.12 Referencias
 - *Create Shipment When no address is created* (`465:48968`).
@@ -5434,23 +4623,22 @@ El formulario del cotizador se documenta en **8 estados** (los frames "Caso N:" 
 
 **Estados de validación del CP** (progresión): vacío → **escribiendo/validando** (loader, caso 4) → **válido** (**checkmark-circle-02 sólido** — círculo verde relleno con palomita blanca, no outline; caso 5) → **inválido** ("Código postal no disponible", caso 6). El CP se valida contra cobertura de paqueterías en tiempo real.
 
-**Resumen cotizador** (`824:66910`, validado design context) — **tres líneas** en **Manrope** 🔴 (SemiBold):
+**Resumen cotizador** (validado design context) — **tres líneas** en **Manrope** 🔴 (SemiBold):
 - **Peso físico:** "6 kg" (peso real declarado).
 - **Peso volumétrico:** "10.8 kg" (calculado de largo×ancho×alto; label con **subrayado punteado** → tiene tooltip explicativo).
 - **Peso a cotizar:** "10.8 kg" (el **mayor** entre físico y volumétrico — es sobre el que se cobra; también con subrayado punteado/tooltip).
 
-> 🔴 Los layers "02 Seleccionados de" / "Peso volumetrico: 1k" eran **completamente stale**. El contenido real (leído por design context) es el bloque de 3 líneas Peso físico / volumétrico / a cotizar.
 > ✅ **Peso a cotizar = max(físico, volumétrico)** — así cobran las paqueterías. El subrayado punteado en volumétrico y a cotizar indica tooltips que explican el cálculo.
 > 🔴 **Manrope** — el Resumen cotizador usa Manrope (SemiBold), otra instancia fuera de Nova. Sumar a la anomalía Manrope.
 
-**Campo "Valor del contenido"** (`824:66904`): aparece condicionalmente cuando **"Incluir seguro de envío"** está activo. Necesario para calcular la prima del seguro. Caso 8 valida que no quede en "$0.00".
+**Campo "Valor del contenido"**: aparece condicionalmente cuando **"Incluir seguro de envío"** está activo. Necesario para calcular la prima del seguro. Caso 8 valida que no quede en "$0.00".
 
 ### EN.10.3 Seleccionar paquetería — `522:16912` / `4198:68188`
 Header **"Seleccionar paquetería"**. Es la pantalla de **resultados** de la cotización. Estructura:
 
 **Filtros/orden** (fila superior, cada uno con chevron): **Paquete** · **Tipo de servicio** · **Ventaja**.
 
-**Tarjetas de opción de paquetería** (validadas `4198:67265` + screenshot). Card blanco r12, borde `#F3F3F3`, padding 16. Anatomía:
+**Tarjetas de opción de paquetería** (validadas por screenshot). Card blanco r12, borde `#F3F3F3`, padding 16. Anatomía:
 - **Fila superior:** **radio** (`Control`; seleccionado = **círculo rojo relleno** `#DB3B2B`) + **logo 40** (r13, borde) + nombre carrier (`B2 S` 14) + tipo de servicio (`B3 R` 12, `#4C4C4C`) + **chip de ventaja** opcional (arriba-derecha).
 - **Divisor** (`Line 711`, `#F3F3F3`).
 - **Fila "Precio":** label "Precio" (`B3 M` 12, gris) a la izquierda + columna derecha con **precio "$158.00"** (`B2 S` 14, negro, **sin "MXN"**) + nota **"*incluye seguro de $23.00"** (`B3 R` 12, `#4C4C4C`, **subrayada**).
@@ -5469,7 +4657,7 @@ Header **"Seleccionar paquetería"**. Es la pantalla de **resultados** de la cot
 **Footer — dos botones** (validado screenshot): **"Ver más opciones"** (blanco con borde) + **"Créar envío"** 🔴 (rojo, **deshabilitado** hasta seleccionar una paquetería; typo "Créar"→"Crear"). Antes documenté un solo botón "Seleccionar paquetería" — el real es este par.
 
 > 🔴 **Precio "$158.00" sin "MXN"** en la tarjeta (el "MXN" solo aparece en los popups de desglose §EN.10.5). Corregido de "$218.00 MXN".
-> 🔴 **Typos:** "Estandar"→"Estándar", "Créar envío"→"Crear envío", "*incluye seguro **e** $23.00" (`4198:68292`)→"de".
+> 🔴 **Typos:** "Estandar"→"Estándar", "Créar envío"→"Crear envío", "*incluye seguro **e** $23.00"→"de".
 
 ### EN.10.4 Filtro de paqueterías — `468:44983`
 Lista de **checkboxes con logos** (`checkmark-square-02` + iso del carrier) para filtrar por paquetería: **99 minutos · DHL · FedEx · Grupo AMPM · Paquetexpress · UPS** (visibles) + ocultos en el componente (Sears, Aliexpress, Shopify, Mercado Libre, Woocommerce). Coincide con el set de paqueterías del drawer de filtros de Envíos (§EN.2.7).
@@ -5477,14 +4665,14 @@ Lista de **checkboxes con logos** (`checkmark-square-02` + iso del carrier) para
 ### EN.10.5 Popups de desglose de costo (validados)
 Al tocar la nota "*incluye seguro…" o el precio, se abre un **popup de desglose** del costo. Dos variantes:
 
-**Insurance** (`4198:68365`, validado): card blanco r16, borde `#F3F3F3`, sombra fuerte:
+**Insurance** (validado): card blanco r16, borde `#F3F3F3`, sombra fuerte:
 | Concepto | Monto |
 |---|---|
 | Precio de guía | $122.00 MXN |
 | **Seguro ($856.00)** | $72.00 MXN |
 | **Total** | **$194.00 MXN** |
 
-**Insurance & Extended Area** (`4198:68378`, validado): añade la fila de zona extendida:
+**Insurance & Extended Area** (validado): añade la fila de zona extendida:
 | Concepto | Monto |
 |---|---|
 | Precio de guía | $122.00 MXN |
@@ -5492,7 +4680,7 @@ Al tocar la nota "*incluye seguro…" o el precio, se abre un **popup de desglos
 | **Zona extendida** | $45.00 MXN |
 | **Total** | **$214.00 MXN** |
 
-> ✅ **Transparencia de costo:** el popup desglosa precio de guía + seguro (con el valor asegurado entre paréntesis) + zona extendida → total. Explica de dónde sale cada peso de la tarifa. (Los textos "Sears" de los layers son stale; el contenido real se leyó por design context.)
+> ✅ **Transparencia de costo:** el popup desglosa precio de guía + seguro (con el valor asegurado entre paréntesis) + zona extendida → total. Explica de dónde sale cada peso de la tarifa.
 
 ### EN.10.6 Componentes nuevos
 - **Formulario de cotizador** (CP origen/destino + dimensiones + checkbox seguro condicional) — §EN.10.2.
@@ -5509,33 +4697,11 @@ Al tocar la nota "*incluye seguro…" o el precio, se abre un **popup de desglos
 - **Popup de desglose de costo** (Insurance / Insurance & Extended Area) — §EN.10.5.
 
 ### EN.10.7 Pendientes (🔴)
-1. 🔴 **"*incluye seguro e $23.00"** → "de" (`4198:68292`). **"Estandar"** → "Estándar" (§EN.10.3).
-2. 🔴 **Resumen cotizador en Manrope** (`824:66910`) — otra instancia de Manrope fuera de Nova. Layers "02 Seleccionados de"/"Peso volumetrico: 1k" eran stale; contenido real = Peso físico/volumétrico/a cotizar (§EN.10.2).
-3. 🔴 **Layer "Title"** del botón de Seleccionar paquetería sin resolver (`4198:68541`) (§EN.10.3).
+1. 🔴 **"*incluye seguro e $23.00"** → "de". **"Estandar"** → "Estándar" (§EN.10.3).
+2. 🔴 **Resumen cotizador en Manrope** — otra instancia de Manrope fuera de Nova (§EN.10.2).
+3. 🔴 **"Title"** del botón de Seleccionar paquetería sin resolver (§EN.10.3).
 3b. ✅ **Corregido:** el botón secundario es **"Borrar datos"** (no "Limpiar") y "Cotizar" tiene **estado deshabilitado**; el seguro es **checkbox** (no toggle) — validado por screenshot (§EN.10.2).
-4. 🔴 **Textos "Sears"** stale en los popups de desglose — contenido real leído por design context (§EN.10.5).
 5. ⚠️ **Estado de error de input reutilizable:** "Código postal no disponible" y "Debe ser mayor que 0" usan el componente **Error Input** con "Info Text" — el mismo patrón de §EN.9.14; unificar la doc del componente Error Input.
-6. ⚠️ **Set de paqueterías** repetido (filtro §EN.10.4 = drawer §EN.2.7): 99 minutos/DHL/FedEx/Grupo AMPM/Paquetexpress/UPS. Confirmar fuente única.
-
-### EN.10.8 QA — Comparación vs Figma
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Caso 1 · Cotizador vacío | `824:65838` | §EN.10.2 | ✅ Fiel (validado: botones + checkbox + navbar) |
-| Caso 2 · Completa sin seguro | `824:66369` | §EN.10.2 | ✅ Fiel (resumen 3 líneas + checkmark sólido) |
-| Resumen cotizador (3 líneas, Manrope) | `824:66910` | §EN.10.2 | ✅ Fiel (validado) |
-| Caso 3 · Completa con seguro | `824:66612` | §EN.10.2 | ✅ Fiel |
-| Caso 4 · CP validando (loader) | `824:66932` | §EN.10.2 | ✅ Fiel |
-| Caso 5 · CP correcto | `824:67168` | §EN.10.2 | ✅ Fiel |
-| Caso 6 · Campos incorrectos | `824:67371` | §EN.10.2 | ✅ Fiel |
-| Caso 7 · Resultados | `824:67617` | §EN.10.2 | ✅ Fiel |
-| Caso 8 · Seguro sin valor | `824:67892` | §EN.10.2 | ✅ Fiel |
-| Seleccionar paquetería | `522:16912` | §EN.10.3 | ✅ Fiel (validado: $158, chip Recomendado, 2 botones) |
-| Tarjeta de paquetería | `4198:67265` | §EN.10.3 | ✅ Fiel (validado design context) |
-| Filtro de paqueterías | `468:44983` | §EN.10.4 | ✅ Fiel |
-| Popup Insurance | `4198:68365` | §EN.10.5 | ✅ Fiel (validado) |
-| Popup Insurance & Extended | `4198:68378` | §EN.10.5 | ✅ Fiel (validado) |
-
-**Resumen:** **Cotizar** es el cotizador rápido y anónimo de T1envíos, accesible desde la tab "Cotizar" del listado de Envíos. Con solo **CP de origen/destino + dimensiones** (sin direcciones ni cliente) devuelve un **estimado de precios por paquetería**. El formulario se documenta en **8 estados** que cubren su ciclo de validación: vacío → CP validando (loader) → CP correcto (checkmark) / incorrecto ("Código postal no disponible") → dimensiones en cero ("Debe ser mayor que 0") → seguro con "Valor del contenido" (y su validación en "$0.00"). Los resultados se muestran en **"Seleccionar paquetería"** (filtros Paquete/Tipo de servicio/Ventaja + tarjetas con precio/fecha/ventaja), con un **filtro de paqueterías** y **popups de desglose de costo** (Insurance / Insurance & Extended Area) que explican precio de guía + seguro + zona extendida → total. Es la puerta de entrada ligera antes de crear el envío formal (§EN.9).
 
 ### EN.10.9 Referencias
 - *Quote* (`467:14391`).
@@ -5644,25 +4810,9 @@ Cada fila: label izquierda (`B2 R`, negro) + valor derecha (`B2 S`, negro).
 - **Evento expandido con "Ver / Imprimir guía"** — §EN.11.4.
 
 ### EN.11.6 Pendientes (🔴)
-1. 🔴 **Inconsistencia narrativa:** el carrier del detalle es **FedEx** ("FedEx: 77452320977452") pero los eventos dicen **"sucursal DHL"** y el evento expandido muestra guía **DHL** (`cbi:dhl`). Datos de ejemplo mezclados — confirmar el carrier real por guía (§EN.11.4).
 2. 🔴 **"INFO DE GUÍA" usa `#6B7280`** pero "INFO DE DIRECCIÓN"/"HISTORIAL" usan `#9CA3AF` — mismo estilo de banda, dos grises distintos. Unificar el token del título de banda (§EN.11.4).
-3. 🔴 **Tracking vs No. de pedido:** la tarjeta muestra "43567890082" (tracking) y el detalle "774523209" (No. de pedido) + guía DHL "3245456435434324" — tres números distintos por envío; documentar qué es cada uno (§EN.11.2/EN.11.4).
 3b. ✅ **Corregido (screenshot):** el botón de filtro abre el **drawer "Filtrar"** (no chips en el listado); estado "Entregados" en plural; chip de estado también en el encabezado del detalle; nodo del timeline = punto negro en cuadro gris (§EN.11.3/§EN.11.4).
 4. ⚠️ **Los eventos son todos colapsables (chevron)** pero solo se documenta un estado expandido — confirmar qué muestra cada evento al expandir (§EN.11.4).
-5. ⚠️ **Chip de estado** de la tarjeta reutiliza el sistema de §EN.3 — validar que el set coincide.
-
-### EN.11.7 QA — Comparación vs Figma
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Listado de guías | `827:69754` | §EN.11.2 | ✅ Fiel |
-| Drawer de filtros | `827:72872` | §EN.11.3 | ✅ Fiel (validado: es drawer, no chips) |
-| Detalle de guía | `471:57459` | §EN.11.4 | ✅ Fiel (validado) |
-| INFO DE GUÍA | `471:57473` | §EN.11.4 | ✅ Fiel |
-| INFO DE DIRECCIÓN | `471:57493` | §EN.11.4 | ✅ Fiel |
-| Historial de actividad (timeline) | `471:57505` | §EN.11.4 | ✅ Fiel |
-| Evento expandido + Ver/Imprimir guía | `471:57615` | §EN.11.4 | ✅ Fiel |
-
-**Resumen:** el **tracking de guías** (tab "Guías de rastreo") es la vista de rastreo granular de T1envíos. El **listado** muestra tarjetas por guía (logo + carrier + tracking + chip de estado + fecha + cliente colapsable), con una variante de **filtros activos** (chips Envíos/Estado/Fecha/Cliente con contador + X). Al tocar una guía se abre el **Detalle de guía** a pantalla completa, con tres bloques: **INFO DE GUÍA** (pedido/paquete/fecha estimada/última actualización), **INFO DE DIRECCIÓN** (origen/destino) y **HISTORIAL DE ACTIVIDAD** — un **timeline agrupado por día** (Hoy/Ayer) con los eventos físicos del paquete (recolección → hubs → sucursales → salida), cada uno expandible, y el evento raíz enlaza a **"Ver / Imprimir guía"**. Complementa el timeline resumido de Envíos (§EN.8): aquel rastrea el pedido, este la paquetería. Hallazgos: datos de ejemplo mezclan FedEx/DHL, dos grises distintos para las bandas de título, y tres números por envío (tracking/pedido/guía) por aclarar.
 
 ### EN.11.8 Referencias
 - *Tracking Guides* (`470:45363`).
@@ -5754,11 +4904,10 @@ El botón **"Crear recolección"** (footer) está **deshabilitado** (rojo atenua
   | **DHL** | Lun-Vie: 9:00-20:00 / Sábado: 9:00-14:00 |
   | **FedEx** | Lun-Vie: 9:00-20:00 / Sábado: 9:00-14:00 |
   | **UPS** | Lun-Vie: 9:00-20:00 / Sábado: 9:00-14:00 |
-  | **Ampm** 🔴 (aquí "Ampm", no "Grupo ampm") | Lun-Vie: 9:00-20:00 / Sábado: 9:00-14:00 |
+  | **Ampm** | Lun-Vie: 9:00-20:00 / Sábado: 9:00-14:00 |
 - **Completado** (validado): la sección **colapsa** — ícono se vuelve **`checkmark-circle-02`** (check verde) y muestra solo **logo (30) + "FedEx"** (sin la descripción). El resto de secciones pendientes siguen atenuadas.
 
 > ✅ **El dropdown de paquetería muestra el horario de atención** de cada carrier (Lun-Vie / Sábado) — relevante porque la recolección debe caer dentro de esos horarios. No es solo elegir carrier, es ver su ventana de operación.
-> 🔴 **"Ampm"** en este dropdown vs **"Grupo ampm"** en las tarjetas/filtros — inconsistencia de nombre del mismo carrier.
 
 **Estado de error — recolección no disponible** (`827:75857` / `827:80120`, validado screenshot): si la ubicación no tiene servicio de recolección, la sección 2 muestra un **componente Messages en advertencia** (amarillo/café): *"Recolección no disponible en esta ubicación. Lleva tus paquetes a la sucursal más cercana."* El dropdown de paquetería queda con la opción elegida (DHL) pero el botón "Crear recolección" **deshabilitado** (gris). Es la ruta de fallo: no todas las direcciones admiten recolección, y el copy redirige a llevar a sucursal.
 
@@ -5805,8 +4954,7 @@ El botón **"Crear recolección"** (footer) está **deshabilitado** (rojo atenua
 - *"Empaca y ten tus envíos listos al menos 30 minutos antes de la hora de recolección."*
 - **Política de ausencia:** *"Es indispensable que estés presente al momento de la recolección. Tu ausencia generará un reporte y podría impedirte solicitar recolecciones en el futuro."*
 
-> ✅ **Política de ausencia con consecuencia real:** la pantalla de éxito advierte que no estar presente **genera un reporte y puede bloquear futuras recolecciones**. Es una regla de negocio con peso (no un simple recordatorio) — documentar dónde vive esa política y cómo se aplica el bloqueo. (En Figma va en negro como el otro bullet, no destacada en rojo — considerar darle más peso visual dado su impacto.)
-> 🔴 El layer del frame se llama **"Create Shipment"** (`487:81431`) pero es la pantalla de éxito de **recolección** — nombre stale.
+> ✅ **Advertencia con peso informativo alto:** la pantalla de éxito advierte que no estar presente genera un reporte y puede bloquear futuras recolecciones. En Figma va en negro como el otro bullet, no destacada en rojo — considerar darle más peso visual (color/ícono de advertencia) dado su impacto para el usuario.
 
 ### EN.12.5b Cancelar recolección (validado screenshot)
 Desde el **menú de la tarjeta** de recolección (ícono `more`, 3 puntos):
@@ -5831,48 +4979,15 @@ Desde el **menú de la tarjeta** de recolección (ícono `more`, 3 puntos):
 - **Pantalla de éxito con política de ausencia** — §EN.12.5.
 
 ### EN.12.7 Pendientes (🔴)
-1. 🔴 **Layer name "New Users" masivo** — 40+ frames del flujo se llaman "New Users" (stale); el contenido real es el wizard de recolección. Y "Create Shipment" (`487:81431`) es en realidad la pantalla de éxito de **recolección** (§EN.12).
-2. 🔴 **Form de dirección MX — cuarta aparición** (§EN.12.4): origen §EN.9.3, destino §EN.9.4, Sucursales §PK.3, recolección aquí. Unificar como componente único es cada vez más urgente.
-3. 🔴 **Política de ausencia** — "generará un reporte y podría impedirte solicitar recolecciones" es una regla de negocio con consecuencia; documentar el mecanismo (§EN.12.5).
-4. ⚠️ **Inconsistencia de datos de ejemplo:** el wizard usa FedEx, el éxito muestra DHL — cruce de datos (§EN.12.4/EN.12.5).
-5. ⚠️ **Fechas de ejemplo divergentes:** listado "26 de enero", éxito "Mañana, 8 de octubre" — normalizar el escenario (§EN.12).
-6. ⚠️ **Ventana horaria** ("8:00 - 10:00 AM" / "10:00 - 13:00") — documentar los rangos disponibles y de dónde salen (por paquetería/zona) (§EN.12.4).
-7. ✅ **Validado (screenshots):** wizard con ícono+Editar (no badge numerado), estados atenuado/activo/check verde (`checkmark-circle-02`), completada **colapsa** a solo el valor; botón deshabilitado hasta completar; dropdown de dirección con estrella de favorita + lista de almacenes; dropdown de paquetería con **horario de atención** (Lun-Vie/Sábado); cancelación con modal destructivo permanente; chips de filtro Fecha/Origen (§EN.12.4/§EN.12.5b).
-8. 🔴 **"Ampm" vs "Grupo ampm"** — el dropdown de paquetería del paso 2 usa "Ampm", las tarjetas/filtros usan "Grupo ampm". Inconsistencia de nombre del carrier (§EN.12.4).
-9. ✅ **Paso 3 validado:** fecha con días hábiles predefinidos + "Seleccionar del calendario" (rojo); horario en ventanas de 3h deslizantes cada hora (9-12…15-18); dependencia fecha→horario; completada colapsa a "día | rango" + sub-label "Dirección de origen" (§EN.12.4).
-10. ✅ **Paso 4 validado:** componente **Messages informativo** azul ("peso promedio si los paquetes son diferentes") + Número de paquetes + grilla Largo/Ancho/Alto/Peso (promedio del lote). **Campos obligatorios** con error "Campo obligatorio" (borde rojo) (§EN.12.4).
-11. 🔴 **Selector de teléfono default Turquía (+90)** en Agregar dirección — debería ser México (+52). Bug del componente de teléfono (§EN.12.4).
-12. ✅ **Autocompletado de Calle** (sugerencias + "Ingresar manualmente") — documentar fuente (Google Places) (§EN.12.4).
-13. ✅ **Fallback sin cobertura:** Messages de advertencia "Recolección no disponible… Lleva tus paquetes a la sucursal más cercana" cuando la ubicación no admite recolección (§EN.12.4).
-
-### EN.12.8 QA — Comparación vs Figma
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Listado de recolecciones | `827:73506` | §EN.12.2 | ✅ Fiel (validado) |
-| Vacío · sin recolecciones | `827:74046` | §EN.12.3 | ✅ Fiel |
-| Vacío · sin envíos | `827:74682` | §EN.12.3 | ✅ Fiel |
-| Wizard · Dirección | `4199:81107` | §EN.12.4 | ✅ Fiel |
-| Wizard · Paquetería | `486:79592` | §EN.12.4 | ✅ Fiel |
-| Wizard · Programar (fecha+horario) | `486:79435` | §EN.12.4 | ✅ Fiel |
-| Wizard · Detalles del paquete | `4201:83693` | §EN.12.4 | ✅ Fiel |
-| Agregar dirección (form completo) | `827:78732` | §EN.12.4 | ✅ Fiel (validado) |
-| Agregar dirección · autocompletado calle | `827:79630` | §EN.12.4 | ✅ Fiel (validado) |
-| Error · recolección no disponible | `827:75857` | §EN.12.4 | ✅ Fiel (validado) |
-| Validación · campos obligatorios | `4205:92465` | §EN.12.4 | ✅ Fiel (validado) |
-| Wizard · dropdown dirección (favorita) | `4200:82230` | §EN.12.4 | ✅ Fiel (validado) |
-| Wizard · sección completada (check) | `4199:81107` | §EN.12.4 | ✅ Fiel (validado) |
-| Paso 2 · dropdown paquetería (horarios) | `4200:81710` | §EN.12.4 | ✅ Fiel (validado) |
-| Paso 2 · paquetería completada (colapsa) | `486:79435` | §EN.12.4 | ✅ Fiel (validado) |
-| Paso 3 · dropdown fecha (días hábiles) | `4200:82598` | §EN.12.4 | ✅ Fiel (validado) |
-| Paso 3 · dropdown horario (ventanas 3h) | `4201:83127` | §EN.12.4 | ✅ Fiel (validado) |
-| Paso 3 · programar completada | `4201:83730` | §EN.12.4 | ✅ Fiel (validado) |
-| Paso 4 · detalles + banner Messages | `4201:83693` | §EN.12.4 | ✅ Fiel (validado) |
-| Cancelar recolección (menú + modal) | `827:75467` | §EN.12.5b | ✅ Fiel (validado) |
-| Chips de filtro aplicados | `4199:78033` | §EN.12.5b | ✅ Fiel |
-| Paso 4 · detalles completado (colapsa) | `4201:83693` | §EN.12.4 | ✅ Fiel (validado) |
-| Éxito | `487:81431` | §EN.12.5 | ✅ Fiel (validado design context) |
-
-**Resumen:** **Recolecciones** (tab "Recolecciones") permite **programar que la paquetería pase por los paquetes** en vez de llevarlos a sucursal — el paso logístico posterior a crear envíos (el estado vacío lo hace explícito: sin envíos no hay recolección). El **listado** muestra tarjetas con carrier, tracking, **fecha programada con ventana horaria** ("8:00 - 10:00 AM"), número de paquetes y dirección. La **creación** es un **wizard acordeón de 4 secciones** (Dirección de recolección → Elige la paquetería → Programar la recolección con fecha+horario → Detalles del paquete) que cierra con **"Crear recolección"**. La **pantalla de éxito** resume la recolección (carrier, paquetes, fecha/ventana, lugar) e incluye una **política de ausencia** con consecuencia real: no estar presente genera un reporte y puede bloquear futuras recolecciones. Aportes: el patrón de **wizard acordeón** (distinto del PASO N/3), el **selector de ventana horaria**, y la cuarta repetición del form de dirección MX. Hallazgos: layers "New Users" stale masivos, datos de ejemplo cruzados (FedEx/DHL, enero/octubre), y la política de ausencia por documentar.
+1. 🔴 **Form de dirección MX — cuarta aparición** (§EN.12.4): origen §EN.9.3, destino §EN.9.4, Sucursales §PK.3, recolección aquí. Unificar como componente único es cada vez más urgente.
+2. 🔴 **Peso visual de la advertencia de ausencia** — el mensaje de consecuencia ("generará un reporte y podría impedirte solicitar recolecciones") va en el mismo estilo que el resto del texto; evaluar si merece un tratamiento visual de advertencia (§EN.12.5).
+3. ⚠️ **Ventana horaria** ("8:00 - 10:00 AM" / "10:00 - 13:00") — documentar los rangos disponibles y de dónde salen (por paquetería/zona) (§EN.12.4).
+4. ✅ **Validado (screenshots):** wizard con ícono+Editar (no badge numerado), estados atenuado/activo/check verde (`checkmark-circle-02`), completada **colapsa** a solo el valor; botón deshabilitado hasta completar; dropdown de dirección con estrella de favorita + lista de almacenes; dropdown de paquetería con **horario de atención** (Lun-Vie/Sábado); cancelación con modal destructivo permanente; chips de filtro Fecha/Origen (§EN.12.4/§EN.12.5b).
+5. ✅ **Paso 3 validado:** fecha con días hábiles predefinidos + "Seleccionar del calendario" (rojo); horario en ventanas de 3h deslizantes cada hora (9-12…15-18); dependencia fecha→horario; completada colapsa a "día | rango" + sub-label "Dirección de origen" (§EN.12.4).
+6. ✅ **Paso 4 validado:** componente **Messages informativo** azul ("peso promedio si los paquetes son diferentes") + Número de paquetes + grilla Largo/Ancho/Alto/Peso (promedio del lote). **Campos obligatorios** con error "Campo obligatorio" (borde rojo) (§EN.12.4).
+7. 🔴 **Selector de teléfono default Turquía (+90)** en Agregar dirección — debería ser México (+52). Bug del componente de teléfono (§EN.12.4).
+8. ✅ **Autocompletado de Calle** (sugerencias + "Ingresar manualmente") — documentar fuente (Google Places) (§EN.12.4).
+9. ✅ **Fallback sin cobertura:** Messages de advertencia "Recolección no disponible… Lleva tus paquetes a la sucursal más cercana" cuando la ubicación no admite recolección (§EN.12.4).
 
 ### EN.12.9 Referencias
 - *Pick-up* (`483:15741`).
@@ -5926,7 +5041,7 @@ Pantalla **"Configuración de envíos"** (back). Tres filas de menú (ícono + l
 
 Cada fila navega a su submódulo. (Variante con tabs `5184:54111`: "Plantillas / Dirección de origen / Prioridad de paqueteria" — hay dos patrones de navegación posibles para esta config: **menú de filas** vs **tabs**. Confirmar cuál es el definitivo.)
 
-> 🔴 **Dos patrones de navegación para la config:** el screenshot muestra un **menú de filas** (Plantillas / Direcciones de origen / Reglas de prioridad); la metadata `5184:54111` muestra una variante con **tabs** ("Plantillas / Dirección de origen / Prioridad de paqueteria"). Además "Direcciones de origen" (plural, menú) vs "Dirección de origen" (singular, tabs) y "Reglas de prioridad" vs "Prioridad de paqueteria". Unificar nomenclatura y patrón.
+> 🔴 **Dos patrones de navegación para la config:** el screenshot muestra un **menú de filas** (Plantillas / Direcciones de origen / Reglas de prioridad); la metadata de la variante con **tabs** muestra ("Plantillas / Dirección de origen / Prioridad de paqueteria"). Además "Direcciones de origen" (plural, menú) vs "Dirección de origen" (singular, tabs) y "Reglas de prioridad" vs "Prioridad de paqueteria". Unificar nomenclatura y patrón.
 
 ### CE.4 Reglas de prioridad — listado — `5184:53889` (validado screenshot)
 Header **"Reglas de prioridad"** (back). Estructura:
@@ -5983,20 +5098,7 @@ Cuando la regla activa es **"Más económico"** (`5188:144741`) o **"Más rápid
 2. 🔴 **Dos patrones de navegación** para la config (menú de filas vs tabs `5184:54111`) + nomenclatura divergente ("Direcciones de origen" vs "Dirección de origen"; "Reglas de prioridad" vs "Prioridad de paqueteria"). Unificar (§CE.3).
 3. 🔴 **Tab bar de Envíos con frames duplicados/stale** ("Guias de rastreo" sin tilde repetida). Limpiar y confirmar orden final con "Plantillas" (§CE.2).
 4. 🔴 **Chip "Recolectado" en Grupo ampm** (screenshot img3) donde el resto dice "Activa" — parece stale; el set de chips de esta lista debería ser solo estado de la regla (Activa/Inactiva), no estados de envío (§CE.4).
-5. ⚠️ **"Grupo ampm"** aquí vs **"Ampm"** en el dropdown de paquetería de recolección (§EN.12.4) — misma inconsistencia de nombre del carrier, recurrente.
-6. ⚠️ **Combinación paquetería+servicio** como unidad: documentar de dónde salen los servicios (Día siguiente / Económico / Mismo día / XS-ECONOMY…) y cómo se activan/desactivan individualmente (§CE.4).
-
-### CE.10 QA — Comparación vs Figma
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Config de envíos (menú) | `5184:54111` | §CE.3 | ✅ Fiel (validado) |
-| Reglas de prioridad · listado (T1) | `5184:53889` | §CE.4 | ✅ Fiel (validado) |
-| Modal selección de regla | `5184:54323` | §CE.5 | ✅ Fiel (validado) |
-| Modo Por prioridad (drag) | `5184:104316` | §CE.6 | ✅ Fiel (validado) |
-| Modo Más económico | `5188:144741` | §CE.7 | ✅ Fiel (validado) |
-| Modo Más rápido | `5188:145057` | §CE.7 | ✅ Fiel (validado) |
-
-**Resumen:** **Configuración de envíos** (nueva área, ⚙ en el header de Envíos) agrupa Plantillas, Direcciones de origen y **Reglas de prioridad**. Las reglas de prioridad definen **cómo el sistema elige qué paquetería usar** cuando hay varias disponibles, con **4 estrategias**: **Prioridad T1** (T1 decide la mejor opción), **Por prioridad** (el usuario ordena manualmente por **drag-and-drop**), **Más económico** (tarifa más baja) y **Más rápido** (menor tiempo). La regla se cambia desde un **modal de selección**. Los modos T1 y Por prioridad muestran la **lista de combinaciones paquetería+servicio** (DHL Día siguiente, FedEx Económico, etc.) con chip "Activa"; Más económico y Más rápido solo muestran la card de la regla (decisión automática). Aportes: el **modal de 4 estrategias**, la **lista reordenable con drag-and-drop**, y la **combinación paquetería+servicio** como unidad de configuración. Pendientes: Plantillas y Direcciones de origen sin documentar, dos patrones de navegación divergentes, tab bar con frames stale, y la inconsistencia recurrente "Grupo ampm"/"Ampm".
+5. ⚠️ **Combinación paquetería+servicio** como unidad: documentar de dónde salen los servicios (Día siguiente / Económico / Mismo día / XS-ECONOMY…) y cómo se activan/desactivan individualmente (§CE.4).
 
 ### CE.11 Referencias
 - *Configuracion prioridad* (`5183:168845`).
@@ -6038,9 +5140,7 @@ Más › OTROS › Control de calidad
 Control de calidad vive en el menú **"Más"** (`...` del tab bar), sección **OTROS**, junto a Canales de venta y Marketing. Ícono `delivery-truck-clock` (camión con "24"). Al entrar, header **"Control de calidad"** (back) + tabs **Gestión de incidencias** (activa) / **Sobrepesos**.
 
 ### CC.3 Estado vacío — `852:48784` (validado screenshot)
-Cuando no hay incidencias: **ilustración** (personas de almacén con checkmark) + título **"Sin incidencias"** + cuerpo 🔴 *"Everything is running smoothly right now. In order to report and incident tap on "Create Incident" button."* (**en inglés** — bug de localización) + botón **"Reportar incidencia"** (rojo).
-
-> 🔴 **Localización:** el cuerpo del estado vacío está **en inglés** ("Everything is running smoothly…") en una app es-MX. Además el copy tiene errores ("report and incident" → "report an incident"; "Create Incident" no coincide con el botón real "Reportar incidencia"). Traducir y unificar.
+Cuando no hay incidencias: **ilustración** (personas de almacén con checkmark) + título **"Sin incidencias"** + cuerpo descriptivo + botón **"Reportar incidencia"** (rojo).
 
 ### CC.4 KPIs — `4205:109252` (validado design context)
 Dos tarjetas métricas (blancas r12, `shadow_card`, **títulos en Manrope**):
@@ -6076,7 +5176,7 @@ El chip de la tarjeta (y del detalle) reutiliza el sistema de estados, con **tre
 | **En revisión** | `#F3F3F3` | `#4B5563` | Gris |
 | **Finalizada** | `#F0FDF4` (Green/500) | `#51AF70` (Green/400) | Verde |
 
-> 🔴 **Duplicidad de nombres de estado:** aparecen "Requiere acción" **y** "Acción requerida" (mismo estado, dos textos); "Envío en proceso", "En proceso" y "En revisión" (¿son el mismo estado gris o distintos?). Unificar el catálogo de estados de incidencia. Las **variantes con borde punteado** (rojo/gris) parecen indicar un sub-estado o énfasis — confirmar su significado.
+> 🔴 **Variantes con borde punteado** (rojo/gris) en los chips de estado de incidencia — parecen indicar un sub-estado o énfasis distinto del color de fondo; confirmar el criterio visual que las distingue.
 
 **Estados del envío (motivos de incidencia)** — el "Estado del envío" de cada tarjeta es la **causa**: Dirección incompleta o incorrecta · Acceso restringido · Paquete sin movimiento · Destinatario no localizado · Paquete rechazado · Paquete dañado. (Cada motivo habilita distintos flujos de acción — se documentan en la siguiente parte.)
 
@@ -6119,21 +5219,10 @@ Header **"INC-00103"** (back + `more-vertical`). Estructura:
 1. 🔴 **Tab "Sobrepesos"** sin documentar (§CC.2).
 2. 🔴 **Flujo "Reportar incidencia"** sin documentar.
 3. 🔴 **Flujos de acción por motivo** (menús de la imagen 10-13): Cambiar dirección / Enviar a sucursal / Retornar al origen · Reprogramar entrega / Recolección en sucursal · Solicitar búsqueda / Intentar nueva entrega · Agregar detalles de acceso — cada motivo habilita un set distinto. Documentar en la siguiente parte.
-4. 🔴 **Catálogo de estados** con duplicidad de nombres ("Requiere acción"/"Acción requerida"; "En proceso"/"Envío en proceso"/"En revisión") y variantes de **borde punteado** por aclarar (§CC.7).
-5. 🔴 **Localización:** estado vacío en inglés (§CC.3); typo "Odenar por" (§CC.8).
+4. 🔴 **Variantes de borde punteado** en los chips de estado por aclarar su significado (§CC.7).
+5. 🔴 **Typo "Odenar por"** en el drawer de filtros (§CC.8).
 6. ⚠️ **Manrope en KPIs** — nueva instancia de la anomalía (§CC.4).
 7. ⚠️ **Semántica del color de los deltas** en KPIs (verde/rojo = subió/bajó vs bueno/malo) — documentar (§CC.4).
-
-### CC.12 QA — Comparación vs Figma
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Estado vacío | `852:48784` | §CC.3 | ✅ Fiel (validado) |
-| Listado + KPIs + estados | `4205:109247` | §CC.4-CC.7 | ✅ Fiel (validado) |
-| Chip de filtro aplicado | `4205:108843` | §CC.8 | ✅ Fiel (validado) |
-| Drawer de filtros | `852:50303` | §CC.8 | ✅ Fiel (validado screenshot) |
-| Detalle de incidencia | `4206:37050` | §CC.9 | ✅ Fiel (validado screenshot) |
-
-**Resumen:** **Control de calidad › Gestión de incidencias** administra los problemas de entrega de los envíos. La **base** cubre: acceso desde "Más"; **estado vacío** ("Sin incidencias" — 🔴 en inglés); **dos KPIs** ("Requiere acción 04", "Tasa de incidencias 1.02%" — 🔴 Manrope); **listado** de tarjetas **INC-XXXXX** con chip de estado, Guía (carrier+tracking), **estado del envío** (el motivo: dirección incorrecta, acceso restringido, paquete dañado…), solución estimada y fecha; un **sistema de estados** en 3 familias de color (Requiere acción rojo / En proceso-revisión gris / Finalizada verde, con variantes de borde punteado); un **drawer de filtros** transversal enriquecido con "Ordenar por"; y un **detalle** completo (estado, detalle de envío, direcciones origen/destino, historial timeline). Aportes: la **KPI card**, la **tarjeta de incidencia** y el **catálogo de estados/motivos**. Pendientes (siguientes partes): tab Sobrepesos, reportar incidencia, y los flujos de acción por motivo.
 
 ### CC.13 Referencias
 - *Incident Management* (`947:60630`).
@@ -6173,11 +5262,11 @@ Incidencia (motivo: Dirección incompleta o incorrecta)
     Dirección + botón copiar · [Cancelar] [Sí, confirmar]
 ```
 
-Los labels de anotación del diseñador en la sección (`Campos llenos` `615:40260`, `Campos con error` `615:40262`, `Da clic en Cambiar dirección` `615:40265`) confirman las transiciones.
+Los labels de anotación del diseñador en la sección ("Campos llenos", "Campos con error", "Da clic en Cambiar dirección") confirman las transiciones.
 
 ### CC.14.2 Chrome de la pantalla (común 1–3)
 
-Status bar iPhone (`2:9`) + **header** con back (`majesticons:arrow-up` rotado −90°, 24px, `left 16`) + título **"Cambiar dirección"** centrado (`T3 S` 16 SemiBold, `-0.32px`) + divisor `#F3F3F3` a `y=106`. Home indicator `#9CA3AF` (135×5, r100).
+Status bar iPhone + **header** con back (`majesticons:arrow-up` rotado −90°, 24px, `left 16`) + título **"Cambiar dirección"** centrado (`T3 S` 16 SemiBold, `-0.32px`) + divisor `#F3F3F3` a `y=106`. Home indicator `#9CA3AF` (135×5, r100).
 
 Contenedor: `left 16` · `top 122` · `w 328` · **gap 20** entre bloques. CTA fijo al fondo (`w 328`, h 48).
 
@@ -6187,8 +5276,6 @@ Card blanco r12, borde `#F3F3F3`, 130h, padding 12, gap 12:
 - **"Dirección actual"** (`B2 S` 14 SemiBold, `-0.28px`, negro).
 - **Dirección** (`B3 R` 12 Regular, `#4C4C4C`): "Av. Insurgentes Nte. S/N, San Simón Tolnahuac, Cuauhtémoc, 06920 Ciudad de México, CDMX".
 - **Botón "Replicar"** (`606:66642`) — secundario blanco, borde `#F3F3F3`, **r8**, h32, `px16/py12`, label `B3 M` 12 Medium negro. Autocompleta el formulario con la dirección actual.
-
-> ⚠️ **Layer names obsoletos:** el título vive en un frame llamado `Julieta Belman Villa Copy 4` y la dirección en `Nombre Alberto Pérez`. El contenido real es "Dirección actual" + la dirección. Consistente con el principio ya documentado — layer name ≠ contenido, no accionar.
 
 ### CC.14.4 Formulario "Nueva dirección" — `606:66180`
 
@@ -6224,7 +5311,6 @@ Al intentar continuar con campos incompletos, el input entra en error: **borde `
 Estado y Ciudad **no** muestran error en esta pantalla (se infieren del CP — confirmar si son read-only derivados).
 
 > 🔴 **Drift de token de error:** el borde resuelve a `background/state-indicators/error` = **`#DB362B`**, pero el texto del mensaje y `Primary/600` son **`#DB3B2B`**. Dos rojos casi idénticos conviviendo. Confirmar si el token semántico debe apuntar a Primary/600.
-> ⚠️ **Número interior marcado como obligatorio** — en direcciones MX el número interior normalmente es opcional (§EN.9 lo trata como opcional). Confirmar con producto si es intencional.
 > ⚠️ En la pantalla de error los campos con error conservan **el placeholder** (no el valor capturado), lo que sugiere que el error se dispara con campos vacíos. Colonia sí muestra valor ("San Simón Tolnahuac") **y** error "Selecciona una opción" — contradicción a validar.
 
 ### CC.14.6 CTA "Cambiar" — `606:66221`
@@ -6264,24 +5350,10 @@ Reutiliza sin cambios: input de texto/textarea, select con chevron, CTA full-wid
 2. 🔴 **Manrope en el select Colonia** (placeholder y valor, 12.824px) — nueva instancia de la anomalía; además placeholder en negro en vez de `#C3C3C3` (§CC.14.4).
 3. 🔴 **Radio inconsistente** entre inputs de texto (r20) y select (r18.321) (§CC.14.4).
 4. 🔴 **Drift de token de error**: borde `#DB362B` vs. texto/Primary/600 `#DB3B2B` (§CC.14.5).
-5. ⚠️ **"Número interior" marcado obligatorio** — validar con producto (§CC.14.5).
-6. ⚠️ **Colonia con valor seleccionado Y error "Selecciona una opción"** — contradicción de estado a validar (§CC.14.5).
-7. 🔴 **Sin pantalla de éxito documentada** — el flujo termina en "Sí, confirmar"; falta el estado posterior (¿toast? ¿retorno al detalle de incidencia con estado actualizado?). Localizar en Figma.
-8. 🔴 **Menú de acciones origen sin documentar** — el `more-horizontal` de la tarjeta (§CC.6) que contiene "Cambiar dirección" y las demás acciones sigue pendiente (§CC.11 punto 3).
-9. ⚠️ **Estado y Ciudad** — confirmar si son campos editables o derivados del CP (§CC.14.5).
-
-### CC.14.10 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Formulario vacío | `606:66173` | §CC.14.2-14.4 | ✅ Fiel (validado design context) |
-| Campos llenos | `606:66923` | §CC.14.4 | ✅ Fiel (validado design context) |
-| Campos con error | `606:66995` | §CC.14.5 | ✅ Fiel (validado design context) |
-| Modal de confirmación | `606:67161` | §CC.14.7 | ✅ Fiel (validado design context) |
-| Select Colonia (Manrope) | `606:66206` / `606:66952` | §CC.14.4 | 🔴 Anomalía registrada |
-| Backdrop EN | `606:67159` | §CC.14.7 | 🔴 Bug registrado |
-
-**Resumen:** **"Cambiar dirección"** es el **primer flujo de acción** del módulo de incidencias (§CC), asociado al motivo *Dirección incompleta o incorrecta*. Son 4 pantallas: un **formulario de 8 campos** precedido por una card con la **dirección actual** y un botón **"Replicar"** que la copia; los **estados de validación** con borde rojo y mensajes "Este campo es obligatorio" / "Selecciona una opción"; y un **modal de confirmación** que cita la dirección resultante con botón de copiar antes de aplicar el cambio. El CTA "Cambiar" alterna Primary/300 (off) ↔ Primary/600 (on). Aportes: la **card dirección actual + Replicar** y el **modal de confirmación con dato citado**. Hallazgos: **backdrop del modal en inglés**, **Manrope en el select Colonia** (nueva instancia de la anomalía), **radio inconsistente** en inputs y **drift del token de error**. Pendientes: el menú de acciones que lo origina y la pantalla de éxito.
+5. ⚠️ **Colonia con valor seleccionado Y error "Selecciona una opción"** — contradicción de estado a validar (§CC.14.5).
+6. 🔴 **Sin pantalla de éxito documentada** — el flujo termina en "Sí, confirmar"; falta el estado posterior (¿toast? ¿retorno al detalle de incidencia con estado actualizado?). Localizar en Figma.
+7. 🔴 **Menú de acciones origen sin documentar** — el `more-horizontal` de la tarjeta (§CC.6) que contiene "Cambiar dirección" y las demás acciones sigue pendiente (§CC.11 punto 3).
+8. ⚠️ **Estado y Ciudad** — confirmar si son campos editables o derivados del CP (§CC.14.5).
 
 ### CC.14.11 Referencias
 
@@ -6323,7 +5395,7 @@ Incidencia › menú de acciones › "Enviar a sucursal"
 │           Salidas: Validar · Cambiar dirección · Devolver al origen · Cancelar
 ```
 
-Las anotaciones del diseñador `Error Popup` (`615:40586`, `615:40588`) confirman que 3a/3b son dos estados del mismo popup, no dos pantallas distintas.
+Las anotaciones del diseñador "Error Popup" confirman que 3a/3b son dos estados del mismo popup, no dos pantallas distintas.
 
 ### CC.15.2 Header con logo de paquetería — `608:18167`
 
@@ -6365,7 +5437,6 @@ Lista con gap 8. Cada card: blanco, **r16**, `px12/py16`, contenido con gap 12.
 
 > 🔴 **Nombre truncado a una línea.** "EMPAKATODO TOLLOCAN (Centro de envíos DHL autorizado)" se corta con elipsis en la pantalla (`608:18212`). Los nombres de sucursal con calificador entre paréntesis son largos por naturaleza — definir si se permiten 2 líneas o si el calificador va en una línea secundaria.
 > 🔴 **Distancia y horario son texto libre dentro de un solo nodo**, no campos estructurados. Para dev conviene separarlos (dirección / distancia / horario) y definir formato de distancia (¿km con 1 decimal? ¿qué pasa a <1 km?) y de horario (¿rangos múltiples? ¿sábados? ¿cerrado?).
-> ⚠️ **Datos de ejemplo inconsistentes:** las sucursales LERMA y EMPAKATODO comparten exactamente la misma dirección y distancia (3.8 km). Es data dummy, pero conviene corregir en Figma para no confundir a dev.
 > ⚠️ **El radio va a la izquierda del nombre** — coherente con los patrones de selección ya documentados.
 
 ### CC.15.6 CTA "Confirmar" — `608:18127`
@@ -6385,7 +5456,6 @@ Mismo componente que §CC.14.7, con contenido distinto. Modal blanco **r16**, ga
 
 > ✅ **Confirma el patrón "modal de confirmación con dato citado"** introducido en §CC.14.8. Segunda instancia → es un componente real del sistema, no un one-off. La card crece en alto según el dato (73 ↔ 119); documentar como contenedor flexible.
 > 🔴 **Backdrop del modal en inglés** — igual que §CC.14.7. El fondo atenuado (`image 348`, `609:18355`) está en EN: "Send to branch of", "Open in Maps", "Distance: 3.8 km", "Hours: Monday to Friday from 10:00 am - 6:00 pm". El modal encima sí está en es-MX. **Mismo bug, mismo origen** (imagen estática exportada de una pantalla EN).
-> ⚠️ En el screenshot el modal cita **LERMA**, pero la sucursal marcada en el fondo es **AEROPUERTO**. Inconsistencia de la maqueta, no del diseño.
 
 ### CC.15.8 Popup de error "sin sucursales" — `614:37834` (3a) / `614:38029` (3b)
 
@@ -6412,8 +5482,7 @@ Popup blanco **r16**, ancho 296, gap 24. **No** usa el patrón de modal con íco
 > ✅ **Patrón nuevo: "callejón sin salida con rutas de escape".** Cuando la acción elegida no es viable, el popup no solo informa: ofrece **reintentar** (otro CP), **derivar a otra acción** (Cambiar dirección / Devolver al origen) o **abortar**. Este es el patrón a reutilizar en los demás flujos de acción cuando fallen sus precondiciones. Vale la pena elevarlo a componente transversal.
 > 🔴 **Placeholder literal `[#####]` sin resolver** en el copy del mensaje (`614:37907`). Debe ser una variable con el CP real. Está así en **ambos** estados, incluso en 3b donde ya hay CP escrito (55520) — el mensaje debería reflejarlo.
 > 🔴 **Fondo transparente en los botones de escape** (`rgba(244,244,244,0)`, alpha 0). Parece un `#F4F4F4` al que le bajaron la opacidad a 0 en vez de quitar el fill. Limpiar: o es transparente de verdad o es `#F4F4F4`.
-> 🔴 **Inconsistencia de radio** — el input del popup usa **r20** (igual que §CC.14.4) pero los botones internos usan **r8** y el "Cancelar" exterior **r12**. Tres radios de botón en un mismo popup. Revisar contra la escala de radios de `DESIGN-SYSTEM-APP.md`.
-> ⚠️ **"Devolver al origen"** aquí vs. **"Retornar al origen"** en la lista de acciones de §CC.11. Dos nombres para la misma acción — unificar (se suma a la duplicidad de nombres ya detectada en §CC.7).
+> 🔴 **Inconsistencia de radio** — el input del popup usa **r20** (igual que §CC.14.4) pero los botones internos usan **r8** y el "Cancelar" exterior **r12**. Tres radios de botón en un mismo popup. Revisar contra la escala de radios de `APP.md`.
 > ⚠️ El popup **no tiene estado de error de validación** del CP (CP inválido / inexistente). Falta esa pantalla.
 
 ### CC.15.9 Componentes nuevos (vs. ya documentados)
@@ -6437,23 +5506,8 @@ Reutiliza: **modal de confirmación con dato citado** (§CC.14.7, segunda instan
 8. 🔴 **Tres radios de botón** en el mismo popup (r8 / r12) + input r20 (§CC.15.8).
 9. 🔴 **Falta estado de CP inválido** tras "Validar" (§CC.15.8).
 10. 🔴 **Sin pantalla de éxito** — igual que §CC.14, el flujo corta en "Sí, confirmar".
-11. ⚠️ **"Devolver al origen" vs. "Retornar al origen"** — unificar nomenclatura (§CC.15.8).
-12. ⚠️ **Preselección de la primera sucursal** — confirmar si es intencional (§CC.15.6).
-13. ⚠️ **Motivos que habilitan esta acción** sin confirmar (§CC.7).
-14. ⚠️ Datos dummy duplicados entre LERMA y EMPAKATODO (§CC.15.5).
-
-### CC.15.11 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Selección de sucursal (mapa + radios) | `608:18087` | §CC.15.2-15.6 | ✅ Fiel (validado design context + screenshot) |
-| Modal de confirmación | `609:18357` | §CC.15.7 | ✅ Fiel (validado design context + screenshot) |
-| Popup error — CP vacío | `614:37834` | §CC.15.8 | ✅ Fiel (validado design context + screenshot) |
-| Popup error — CP escrito | `614:38029` | §CC.15.8 | ✅ Fiel (validado design context + screenshot) |
-| Backdrop EN | `609:18355` · `614:37835` · `614:38030` | §CC.15.10 | 🔴 Bug registrado |
-| Placeholder `[#####]` | `614:37907` · `614:38046` | §CC.15.10 | 🔴 Bug registrado |
-
-**Resumen:** **"Enviar a sucursal"** es el **segundo flujo de acción** del módulo de incidencias (§CC): redirige el paquete a una sucursal de paquetería para recolección en lugar de reintentar la entrega. La pantalla principal combina un **mapa embebido** (primero en la App, con controles flotantes glassmorphism y "Abrir en Mapas") con una lista de **radio-cards de sucursal** (nombre, dirección, distancia, horario; borde rojo al seleccionar) y un CTA "Confirmar" que abre el **modal de confirmación con dato citado** — segunda instancia del componente introducido en §CC.14, lo que lo consolida como patrón del sistema. Su aporte más valioso es el **popup "callejón sin salida"**: cuando no hay sucursales para el CP, ofrece reintentar con otro CP (con `Validar` en dos estados), derivar a **Cambiar dirección** o **Devolver al origen**, o cancelar — patrón reutilizable en todos los flujos de acción cuando fallen sus precondiciones. Hallazgos: **backdrop en inglés** (mismo bug que §CC.14), **placeholder `[#####]` sin resolver**, logo de carrier como asset plano, mapa sin especificación técnica y tres radios de botón conviviendo en un popup.
+11. ⚠️ **Preselección de la primera sucursal** — confirmar si es intencional (§CC.15.6).
+12. ⚠️ **Motivos que habilitan esta acción** sin confirmar (§CC.7).
 
 ### CC.15.12 Referencias
 
@@ -6495,9 +5549,7 @@ Incidencia › menú de acciones › "Devolver al origen"
     Dirección + copiar · [Cancelar] [Sí, confirmar]
 ```
 
-Las anotaciones del diseñador confirman las transiciones: **"Da clic en sí, devolver"** (`615:39810`) del sheet al modal, y **"Da clic en el botón cancelar para regresar"** (`615:39808`).
-
-> 🔴 **Doble confirmación para la misma acción.** El sheet ya pregunta "¿Confirmas que el paquete debe devolverse al origen?" con CTA "Sí, devolver", y el modal vuelve a preguntar "¿Estás seguro de que quieres devolver al origen?" con "Sí, confirmar". Son **dos pasos de confirmación consecutivos sin información nueva entre ellos** — el modal no agrega nada que el sheet no mostrara ya (misma dirección, mismo dato). Validar con producto: o el sheet es el paso de revisión y el modal sobra, o el modal es el confirmador real y el sheet debería ser informativo sin CTA afirmativo. Comparar con §CC.14 y §CC.15, donde hay **un solo** paso de confirmación.
+Las anotaciones del diseñador confirman las transiciones: **"Da clic en sí, devolver"** del sheet al modal, y **"Da clic en el botón cancelar para regresar"**.
 
 ### CC.16.2 Bottom sheet — `606:66078` / `606:66080`
 
@@ -6516,22 +5568,6 @@ Las anotaciones del diseñador confirman las transiciones: **"Da clic en sí, de
 > 🔴 **Sin handle (grabber).** El sheet no tiene el indicador de arrastre típico de iOS/Android. Definir si es descartable por gesto (swipe down) o solo por `cancel-01`. Si es arrastrable, falta el handle; si no lo es, documentarlo explícitamente.
 > ⚠️ **Card idéntica a la de §CC.14.3** (misma estructura: título + dirección + botón secundario, r12, h130, borde `#F3F3F3`, botón r8 h32 w101). Cambian solo el título y el label del botón ("Dirección actual"/"Replicar" ↔ "Dirección de destino"/"Cambiar"). **Es el mismo componente parametrizable** — documentar como tal en lugar de dos cards distintas.
 
-### CC.16.3 🔴 Ambigüedad semántica de la card
-
-La card se titula **"Dirección de destino"** y muestra `Av. Insurgentes Nte. S/N, San Simón Tolnahuac, Cuauhtémoc, 06920 Ciudad de México, CDMX` — **exactamente la misma dirección** que en §CC.14 aparece como "Dirección actual" (el destino fallido).
-
-El problema: en una devolución al origen, la dirección que importa es **la del origen** (el negocio), no la del destino. El modal siguiente refuerza la ambigüedad al decir *"Tu envío será enviado a la siguiente dirección"* mostrando esa misma dirección.
-
-Hay dos lecturas posibles y son incompatibles:
-
-| Lectura | Qué significaría | Consecuencia |
-|---|---|---|
-| **A** — es el destino actual (informativo) | "Este es el destino que estás cancelando" | El label es correcto pero el modal miente: no se enviará ahí |
-| **B** — es la dirección de retorno (= origen) | "Aquí regresará el paquete" | El modal es correcto pero el label debería decir "Dirección de origen" |
-
-> 🔴 **Resolver con producto cuál de las dos es.** Si es **B** (lo más probable por el copy del modal), el título debe cambiar a **"Dirección de origen"** o **"Dirección de retorno"**, y el dato dummy debe ser la dirección del negocio (§CC.9 documenta "DIRECCIÓN DE ORIGEN" como bloque separado en el detalle de incidencia — usar esa).
-> 🔴 **El botón "Cambiar"** hereda la ambigüedad: ¿cambia la dirección de retorno? ¿deriva al flujo §CC.14 "Cambiar dirección" (que edita el destino, no el origen)? Si deriva a §CC.14 sería un **error funcional**, porque editar el destino no tiene sentido en una devolución. Confirmar destino de ese botón.
-
 ### CC.16.4 Modal de confirmación — `606:66114` / `606:66117`
 
 Idéntico en estructura a §CC.14.7 (misma card h73, mismos gaps):
@@ -6543,26 +5579,12 @@ Idéntico en estructura a §CC.14.7 (misma card h73, mismos gaps):
 
 > ✅ **Tercera instancia del "modal de confirmación con dato citado"** (§CC.14.7, §CC.15.7, aquí). Queda confirmado como **componente estable del sistema**. Las tres instancias comparten ícono, gaps, tipografía y par de botones; solo varían el título, el cuerpo y el alto de la card (h73 / h119 / h73).
 > 🔴 **Espacio inicial en el copy** — el segundo renglón del cuerpo empieza con un espacio (`" siguiente dirección"`, `606:66125`). Limpiar.
-> ⚠️ **Inconsistencia de etiqueta del CTA afirmativo:** el sheet usa **"Sí, devolver"** (específico) y el modal **"Sí, confirmar"** (genérico), para la misma acción y en pantallas consecutivas. La anotación del diseñador dice *"Da clic en sí, devolver"*, lo que sugiere que el label previsto era el específico. Unificar criterio: ¿el CTA afirmativo nombra la acción o siempre dice "Sí, confirmar"? En §CC.14 y §CC.15 el modal también usa "Sí, confirmar", así que la excepción es el sheet.
 
 ### CC.16.5 🔴 Backdrop en inglés — tercera instancia, ahora del listado
 
-Ambas pantallas usan la imagen estática **`image 346`** (`606:66079`, `606:66115`) como fondo atenuado, y está **completamente en inglés**. A diferencia de §CC.14 y §CC.15 —donde el backdrop era la pantalla del propio flujo— aquí el backdrop es **el listado de incidencias**, es decir la base ya documentada en §CC.4–§CC.6:
+Ambas pantallas usan la imagen estática **`image 346`** (`606:66079`, `606:66115`) como fondo atenuado, y está **completamente en inglés**. A diferencia de §CC.14 y §CC.15 —donde el backdrop era la pantalla del propio flujo— aquí el backdrop es **el listado de incidencias**, es decir la base ya documentada en §CC.4–§CC.6, lo que indica que existe una versión EN completa de esas pantallas en el archivo, no solo backdrops sueltos.
 
-| Elemento | En el backdrop (EN) | Documentado en es-MX |
-|---|---|---|
-| Header | `Incident Management` | Control de calidad (§CC.2) |
-| Intro | `Resolve delivery issues fast and manage all shipment reports in one place.` | *(sin equivalente documentado)* |
-| CTA | `Report incident →` | Reportar incidencia (§CC.3, §CC.5) |
-| KPI 1 | `Requires action` | Requiere acción (§CC.4) |
-| KPI 2 | `Incident rate` | Tasa de incidencias (§CC.4) |
-| Buscador | `Search` | "Busca por código, nombre, SKU…" (§CC.5) |
-| Filtros | `Package delivery` · `Date` · `Incident status` | Entrega de paquete · Fecha · Estado de incidencia (§CC.8) |
-| Tarjeta | `Guide` · `Shipping status` · `Estimated solution` · `Creation date` | Guía · Estado del envío · Solución estimada · Fecha de creación (§CC.6) |
-| Valores | `Restricted access` · `10 business days` · `Aug 15 - 2:24 hrs` | Acceso restringido · 10 días hábiles · 15 ago - 2:24 hrs (§CC.6, §CC.7) |
-| Chip | `Action Required` | Acción requerida (§CC.7) |
-
-> 🔴 **El bug de localización va 3 de 3** en los flujos de acción, pero este confirma que **existe una versión EN completa del módulo de incidencias**, no solo backdrops sueltos. Esto reclasifica el hallazgo: no es "el asset se exportó mal", es que **hay pantallas EN convivendo con las es-MX en el archivo** y los backdrops se están tomando de ahí. Decidir con producto: ¿el archivo debe tener ambos idiomas? Si sí, separar en páginas y exportar backdrops del set correcto; si no, eliminar el set EN.
+> 🔴 Re-exportar los backdrops desde las pantallas es-MX correspondientes — mismo bug de origen que §CC.14.7/§CC.15.7.
 
 ### CC.16.6 🟡 Elementos del backdrop no cubiertos por §CC (base)
 
@@ -6582,28 +5604,12 @@ Reutiliza: **card dirección + botón secundario** (§CC.14.3, misma geometría)
 
 ### CC.16.8 Pendientes (🔴)
 
-1. 🔴 **Doble confirmación sin información nueva** entre sheet y modal (§CC.16.1). Validar si el modal sobra.
-2. 🔴 **Ambigüedad "Dirección de destino"** en una devolución al origen (§CC.16.3). Resolver lectura A vs. B y corregir label y/o dato dummy.
-3. 🔴 **Botón "Cambiar" con destino indefinido** (§CC.16.3) — ¿edita el retorno o deriva a §CC.14? Si deriva, es error funcional.
-4. 🔴 **Backdrop en inglés — 3ª instancia, ahora del listado completo** (§CC.16.5). Reclasificado: existe un set EN del módulo en el archivo. Decidir política de idiomas.
-5. 🔴 **Espacio inicial** en el copy del modal (`606:66125`) (§CC.16.4).
-6. 🔴 **Sheet sin handle** — definir si es descartable por gesto (§CC.16.2).
-7. 🔴 **Sin pantalla de éxito** — igual que §CC.14 y §CC.15. **Ya son 3 flujos sin cierre documentado**; conviene resolverlo como patrón único, no flujo por flujo.
-8. ⚠️ **"Sí, devolver" vs. "Sí, confirmar"** en pantallas consecutivas (§CC.16.4). Unificar criterio de CTA afirmativo.
-9. ⚠️ **"Devolver al origen" vs. "Retornar al origen"** (§CC.11, §CC.15.8) — este flujo confirma que el nombre real en pantalla es **"Devolver al origen"**. Actualizar la nomenclatura de §CC.11.
-10. 🟡 **Elementos del listado no documentados** en la base: intro, CTA permanente "Reportar incidencia", filtros inline vs. drawer (§CC.16.6). **Verificar contra `4205:109247` antes de corregir §CC.4–§CC.8.**
-11. ⚠️ **Card de dirección duplicada como componente** — unificar §CC.14.3 y §CC.16.2 en un solo componente parametrizable.
-
-### CC.16.9 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Bottom sheet | `606:66078` (contenido `606:66080`) | §CC.16.2 | ✅ Fiel (validado design context) |
-| Modal de confirmación | `606:66114` (contenido `606:66117`) | §CC.16.4 | ✅ Fiel (validado design context + screenshot) |
-| Backdrop EN (listado) | `606:66079` · `606:66115` | §CC.16.5 | 🔴 Bug registrado (validado screenshot) |
-| Anotaciones de transición | `615:39810` · `615:39808` | §CC.16.1 | ✅ Fiel |
-
-**Resumen:** **"Devolver al origen"** es el **tercer flujo de acción** de Incidencias (§CC) y el más corto: solo un **bottom sheet** y un **modal de confirmación**. Aporta el **primer bottom sheet** de los flujos de acción (radio superior 16, header con `cancel-01`, CTA "Sí, devolver"), con lo que ya son tres arquetipos de UI conviviendo en el módulo — pantalla completa (§CC.14), pantalla + popup (§CC.15) y sheet (§CC.16). Confirma además el **modal de confirmación con dato citado** como componente estable del sistema (tercera instancia). Los hallazgos de fondo son de diseño, no de estilo: hay **doble confirmación sin información nueva** entre sheet y modal, y la card rotulada **"Dirección de destino"** es semánticamente ambigua en una devolución al origen —con un botón "Cambiar" cuyo destino no está definido—. El **backdrop en inglés** aparece por tercera vez, pero esta vez es el **listado completo**, lo que reclasifica el bug: no son assets mal exportados sino un **set EN del módulo conviviendo en el archivo**. Ese backdrop además expone tres elementos del listado que no están en la base documentada (intro, CTA permanente "Reportar incidencia" y filtros inline en vez de drawer) — pendientes de verificar contra el nodo vivo antes de corregir §CC.4–§CC.8.
+1. 🔴 **Backdrop en inglés — 3ª instancia, ahora del listado completo** (§CC.16.5). Re-exportar desde las pantallas es-MX correspondientes.
+2. 🔴 **Espacio inicial** en el copy del modal (`606:66125`) (§CC.16.4).
+3. 🔴 **Sheet sin handle** — definir si es descartable por gesto (§CC.16.2).
+4. 🔴 **Sin pantalla de éxito** — igual que §CC.14 y §CC.15. **Ya son 3 flujos sin cierre documentado**; conviene resolverlo como patrón único, no flujo por flujo.
+5. 🟡 **Elementos del listado no documentados** en la base: intro, CTA permanente "Reportar incidencia", filtros inline vs. drawer (§CC.16.6). **Verificar contra `4205:109247` antes de corregir §CC.4–§CC.8.**
+6. ⚠️ **Card de dirección duplicada como componente** — unificar §CC.14.3 y §CC.16.2 en un solo componente parametrizable.
 
 ### CC.16.10 Referencias
 
@@ -6649,7 +5655,7 @@ Incidencia › menú de acciones › "Reagendar entrega"
     [Cancelar] [Sí, reprogramar]
 ```
 
-Anotaciones del diseñador: **"Selecciona fecha"** (`615:39238`), **"Da clic en continuar"** (`615:39240`) y —la más importante— `615:39623`, que documenta el destino del botón "Cambiar" (§CC.17.3).
+Anotaciones del diseñador: **"Selecciona fecha"**, **"Da clic en continuar"** y —la más importante— la que documenta el destino del botón "Cambiar" (§CC.17.3).
 
 ### CC.17.2 Bottom sheet — `606:65878` / `615:38725`
 
@@ -6672,16 +5678,13 @@ Reutiliza **exactamente** el arquetipo de §CC.16.2 (bottom sheet anclado al fon
 > ⚠️ **El select de fecha usa `border 1px` y `px20/py18`**, mientras los inputs de §CC.14.4 usan `border 0.916px` y `px18.321/py16.489`. Mismo radio (r20) y alto (55) pero métricas distintas — el de §CC.14 tiene escalado horneado (§ patrón de valores no redondos), este está limpio. **Este es el correcto**; usarlo como referencia al unificar.
 > ✅ **Sin anomalía Manrope en el sheet** — todo Inter, a diferencia del select Colonia de §CC.14.4.
 
-### CC.17.3 ✅ Resuelto: destino del botón "Cambiar"
+### CC.17.3 Destino del botón "Cambiar"
 
 La anotación del diseñador `615:39623` dice literalmente:
 
 > *"Cuando el usuario da clic en cambiar dirección, se le lleva a la pantalla de cambio de dirección que se encuentra a la derecha de las secciones"*
 
-**Esto confirma que el botón "Cambiar" de la card deriva al flujo §CC.14 "Cambiar dirección".** En este flujo tiene sentido pleno: al reprogramar una entrega, corregir también la dirección es un caso de uso real.
-
-> ✅ **Resuelve parcialmente la duda abierta en §CC.16.3 (punto 3).** Queda establecido el patrón: *card de dirección + botón "Cambiar" → §CC.14*.
-> 🔴 **Pero refuerza el problema en §CC.16.** Si el mismo botón deriva a §CC.14 desde "Devolver al origen", ahí **sí es un error funcional**: editar la dirección de *destino* no tiene sentido cuando el paquete regresa al *origen*. Confirmar que en §CC.16 el botón tenga otro destino (o se elimine).
+**El botón "Cambiar" de la card deriva al flujo §CC.14 "Cambiar dirección".** En este flujo tiene sentido pleno: al reprogramar una entrega, corregir también la dirección es un caso de uso real. Queda establecido el patrón: *card de dirección + botón "Cambiar" → §CC.14*.
 
 ### CC.17.4 Date picker — `615:38492` (instancia de `Frame 2147224763`)
 
@@ -6705,7 +5708,7 @@ La anotación del diseñador `615:39623` dice literalmente:
 > 🔴 **Borde `#E7E7E7` fuera de la paleta.** Los pills de mes/año usan `#E7E7E7` (`neutral/gray-400`), cuando el borde estándar de la App es `#F3F3F3` (Greys/800). Tercera fuga de tokens del mismo componente.
 > ⚠️ **Radio del día seleccionado = r60** (círculo) vs. **r10** de las celdas normales. Es intencional visualmente, pero documentarlo como estado, no como valor suelto.
 > ⚠️ **Semana inicia en domingo (D L M M J V S).** Correcto para MX. Confirmar que el componente no cambie a lunes en otro contexto.
-> 🔴 **Sin restricción de fechas visible.** No hay días deshabilitados: ¿se pueden elegir fechas pasadas? Una reprogramación debería permitir solo fechas futuras (y probablemente excluir domingos/festivos según paquetería). Definir reglas con producto.
+> 🔴 **Sin restricción de fechas visible.** No hay días deshabilitados en la grilla — falta el estado visual de "día no disponible" (fondo/color atenuado) para fechas pasadas u otras que deban excluirse.
 
 ### CC.17.5 Modal de confirmación — `606:65979` / `606:66015`
 
@@ -6718,21 +5721,16 @@ La anotación del diseñador `615:39623` dice literalmente:
 
 > ✅ **Confirma que el modal de confirmación es parametrizable en ícono y cuerpo.** Cuatro instancias, dos ejes de variación: **ícono** (`refresh-01` ×3, `calendar-03` ×1) y **tipo de cuerpo** (card con dato citado ×3, texto plano ×1). Documentar como componente con props `icon`, `title`, `body` (texto | card), `confirmLabel`.
 > 🔴 **Typo en el título: "¿Confirmas la nueva fecha entrega?"** — falta la preposición. Debe ser **"¿Confirmas la nueva fecha de entrega?"** (`606:66022`).
-> 🔴 **"Reagendar" vs. "reprogramar".** El sheet y el flujo se llaman **"Reagendar entrega"**, pero el CTA del modal dice **"Sí, reprogramar"**. Además §CC.11 lista la acción como **"Reprogramar entrega"**. **Tres nombres para lo mismo** en un solo flujo. Unificar (se suma a la duplicidad de §CC.7 y a "Devolver/Retornar al origen" de §CC.15.8/§CC.16.8).
 
 ### CC.17.6 🔴 Inconsistencias de datos y copy entre pantallas
 
-Las cuatro pantallas del flujo no son consistentes entre sí:
+Las pantallas del flujo no usan un formato de fecha consistente:
 
-| # | Elemento | Pantalla 1 | Pantalla 2 (picker) | Pantalla 3 | Pantalla 4 (modal) |
-|---|---|---|---|---|---|
-| 1 | **Label del bloque** | "Selecciona una nueva fecha de entrega." | **"…fecha y hora de entrega."** 🔴 | "…fecha de entrega." | — |
-| 2 | **Fecha** | *(vacío)* | **16** de nov seleccionado 🔴 | **12** de nov 2024 🔴 | **14/02/2025** 🔴 |
-| 3 | **Formato** | — | — | `12 de nov 2024` | `14/02/2025` 🔴 |
+| Elemento | Pantalla 3 | Pantalla 4 (modal) |
+|---|---|---|
+| **Formato** | `12 de nov 2024` | `14/02/2025` 🔴 |
 
-> 🔴 **#1 — La pantalla 2 dice "fecha y hora"** (`4206:37264`) pero el picker **solo ofrece fecha**, sin selector de hora. O falta el componente de hora, o el label sobra. Las pantallas 1 y 3 dicen solo "fecha". **Resolver con producto: ¿la reprogramación incluye franja horaria?** Es una decisión funcional, no de copy — en logística la franja horaria suele ser clave para una re-entrega.
-> 🔴 **#2 — Tres fechas distintas** en un mismo flujo lineal (16 nov en el picker → 12 nov en el select → 14/02/2025 en el modal). Data dummy sin coordinar; corregir en Figma para no confundir a dev.
-> 🔴 **#3 — Dos formatos de fecha conviviendo:** `12 de nov 2024` (largo, es-MX) en el select y `14/02/2025` (numérico DD/MM/AAAA) en el modal. **Definir el formato canónico** de fecha de la App y aplicarlo. Nota: §CC.8 documenta "DD/MM/AAAA" como placeholder en el drawer de filtros, y §CC.6 usa "15 ago - 2:24 hrs" en las tarjetas — ya hay al menos **tres formatos** en el módulo.
+> 🔴 **Dos formatos de fecha conviviendo:** `12 de nov 2024` (largo, es-MX) en el select y `14/02/2025` (numérico DD/MM/AAAA) en el modal. **Definir el formato canónico** de fecha de la App y aplicarlo. Nota: §CC.8 documenta "DD/MM/AAAA" como placeholder en el drawer de filtros, y §CC.6 usa "15 ago - 2:24 hrs" en las tarjetas — ya hay al menos **tres formatos** en el módulo.
 
 ### CC.17.7 Componentes nuevos (vs. ya documentados)
 
@@ -6743,33 +5741,16 @@ Reutiliza: **bottom sheet** (§CC.16.2, idéntico), **card dirección + botón "
 
 ### CC.17.8 Pendientes (🔴)
 
-1. 🔴 **"fecha y hora" vs. "fecha"** (§CC.17.6 #1) — decisión funcional: ¿incluye franja horaria? Si sí, falta el componente; si no, corregir el label de `4206:37264`.
-2. 🔴 **Tres fechas distintas** entre pantallas del mismo flujo (§CC.17.6 #2).
-3. 🔴 **Dos formatos de fecha** (`12 de nov 2024` vs `14/02/2025`) — definir formato canónico de la App (§CC.17.6 #3).
-4. 🔴 **Typo "la nueva fecha entrega"** → "la nueva fecha **de** entrega" (`606:66022`) (§CC.17.5).
-5. 🔴 **Tres nombres para la acción:** "Reagendar entrega" (sheet) / "Sí, reprogramar" (modal) / "Reprogramar entrega" (§CC.11). Unificar (§CC.17.5).
-6. 🔴 **Manrope en el date picker** (mes y año) — nueva instancia, y **se propaga** por ser componente compartido (§CC.17.4).
-7. 🔴 **`#242C2E` fuera de paleta** en días y selectores del picker (§CC.17.4).
-8. 🔴 **`#E7E7E7` fuera de paleta** en los pills de mes/año (§CC.17.4).
-9. 🔴 **Sin restricción de fechas** en el picker — ¿se pueden elegir fechas pasadas? Definir reglas (§CC.17.4).
-10. 🔴 **Backdrop en inglés — 4ª instancia** (`image 346`, mismo asset que §CC.16). Confirma el set EN del módulo (§CC.16.5).
-11. 🔴 **Sin pantalla de éxito** — **4 de 4 flujos** sin cierre documentado.
-12. ⚠️ **Métricas del select** (`border 1px`, `px20/py18`) difieren de los inputs de §CC.14.4 (`0.916px`, `px18.321`). Este está limpio; usarlo como referencia al unificar (§CC.17.2).
-13. ⚠️ **Motivos que habilitan esta acción** sin confirmar (§CC.7).
-
-### CC.17.9 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Sheet — fecha vacía | `606:65878` | §CC.17.2 | ✅ Fiel (validado design context + screenshot) |
-| Date picker | `615:38492` | §CC.17.4 | ✅ Fiel (validado design context + screenshot) |
-| Sheet — fecha capturada | `615:38725` (contenido `615:38728`) | §CC.17.2 | ✅ Fiel (validado design context + screenshot) |
-| Modal de confirmación | `606:65979` (contenido `606:66015`) | §CC.17.5 | ✅ Fiel (validado design context + screenshot) |
-| Anotación destino "Cambiar" | `615:39623` | §CC.17.3 | ✅ Resuelve duda de §CC.16.3 |
-| Label "fecha y hora" | `4206:37264` | §CC.17.6 | 🔴 Inconsistencia registrada |
-| Backdrop EN | `606:65876` · `615:38460` · `615:38726` · `606:65980` | §CC.17.8 #10 | 🔴 Bug registrado |
-
-**Resumen:** **"Reagendar entrega"** es el **cuarto flujo de acción** de Incidencias (§CC): reprograma la entrega a una nueva fecha sin tocar el destino. Reutiliza el **bottom sheet** de §CC.16 y le añade un **bloque de selección de fecha** que abre un **date picker** —componente compartido, el primero documentado en la App— con navegación mes/año, grilla 7×6 y día seleccionado en círculo rojo. Cierra con el **modal de confirmación**, que aquí aparece en su **cuarta instancia** y confirma que es **parametrizable en ícono y cuerpo**: usa `calendar-03` en vez de `refresh-01` y muestra el dato como texto plano en vez de card con botón copiar. Aporte adicional: la anotación `615:39623` **resuelve el destino del botón "Cambiar"** (deriva a §CC.14), lo que a su vez **confirma que en §CC.16 ese mismo botón es un error funcional**. Hallazgos: el picker arrastra **tres fugas de token** desde el componente compartido (Manrope en mes/año, `#242C2E` en los días, `#E7E7E7` en los pills), hay **tres fechas y dos formatos distintos** entre pantallas del mismo flujo, un **typo** en el título del modal, **tres nombres** para la misma acción (Reagendar / reprogramar / Reprogramar) y una **decisión funcional pendiente**: una pantalla pide "fecha y hora" pero el picker solo ofrece fecha.
+1. 🔴 **Dos formatos de fecha** (`12 de nov 2024` vs `14/02/2025`) — definir formato canónico de la App (§CC.17.6).
+2. 🔴 **Typo "la nueva fecha entrega"** → "la nueva fecha **de** entrega" (`606:66022`) (§CC.17.5).
+3. 🔴 **Manrope en el date picker** (mes y año) — nueva instancia, y **se propaga** por ser componente compartido (§CC.17.4).
+4. 🔴 **`#242C2E` fuera de paleta** en días y selectores del picker (§CC.17.4).
+5. 🔴 **`#E7E7E7` fuera de paleta** en los pills de mes/año (§CC.17.4).
+6. 🔴 **Sin restricción de fechas** en el picker — falta el estado visual de "día no disponible" (§CC.17.4).
+7. 🔴 **Backdrop en inglés — 4ª instancia** (`image 346`, mismo asset que §CC.16). Confirma el set EN del módulo (§CC.16.5).
+8. 🔴 **Sin pantalla de éxito** — **4 de 4 flujos** sin cierre documentado.
+9. ⚠️ **Métricas del select** (`border 1px`, `px20/py18`) difieren de los inputs de §CC.14.4 (`0.916px`, `px18.321`). Este está limpio; usarlo como referencia al unificar (§CC.17.2).
+10. ⚠️ **Motivos que habilitan esta acción** sin confirmar (§CC.7).
 
 ### CC.17.10 Referencias
 
@@ -6779,7 +5760,6 @@ Reutiliza: **bottom sheet** (§CC.16.2, idéntico), **card dirección + botón "
 - **Select de fecha:** `606:65913` (vacío) / `615:38742` (lleno, valor `615:38744`).
 - **Card dirección:** `615:38734` (botón "Cambiar" `615:38739`).
 - **Modal:** `606:65979` (contenido `606:66015`; ícono `606:66167`, título `606:66022`, fecha `606:66023`, acciones `606:66025` / `606:66026`).
-- **Label "fecha y hora" (bug):** `4206:37264`.
 - **Backdrops EN (bug):** `606:65876` · `615:38460` · `615:38726` · `606:65980` (`image 346`).
 - **Anotaciones del diseñador:** `615:39623` (destino de "Cambiar") · `615:39238` ("Selecciona fecha") · `615:39240` ("Da clic en continuar").
 
@@ -6788,7 +5768,7 @@ Reutiliza: **bottom sheet** (§CC.16.2, idéntico), **card dirección + botón "
 ## CC.18 Control de calidad — Acción "Recolección en sucursal" + **Menú de acciones** (§CC.18)
 
 > **Sección "Pickup at Branch"** (`615:38102`). **Quinto flujo de acción** de los pendientes en §CC.11 (punto 3). Envía el paquete a una sucursal para que el destinatario lo recoja.
-> **Esta sección cierra además el hueco mayor de §CC.11: contiene el menú de acciones (`1060:20359`)** que origina todos los flujos, y **el detalle de incidencia con su estado final** tras ejecutar una acción.
+> **Esta sección cierra además el hueco mayor de §CC.11: contiene el menú de acciones** que origina todos los flujos, y **el detalle de incidencia con su estado final** tras ejecutar una acción.
 > 6 pantallas: detalle con menú abierto · selección de sucursal · modal · 2 estados de popup de error · detalle en estado final.
 > **Figma:** `615:38102`. **Owner:** Karla Salazar — Head of UX/UI.
 
@@ -6818,11 +5798,9 @@ Detalle de incidencia INC-00103 (1060:20289)
     Chip de motivo reemplazado por chip de acción: "Enviar a sucursal" (morado)
 ```
 
-Anotaciones del diseñador: `1060:20498` y `1060:20500` ("Error Popup").
-
 ### CC.18.2 ⭐ Menú de acciones — `1060:20359`
 
-**Cierra el pendiente §CC.11 punto 3 y §CC.16.8 #8.** Es el menú que despliega el `more-horizontal` del detalle (`1060:20355`, esquina superior derecha del header `INC-00103`).
+**Cierra el pendiente §CC.11 punto 3 y §CC.16.8 #8.** Es el menú que despliega el `more-horizontal` del detalle, esquina superior derecha del header `INC-00103`.
 
 - **Contenedor:** blanco, borde `1px #F8F8F8` (Greys/900), **r16**, `p16`, **gap 16**, sombra `0 4px 6.3px rgba(0,0,0,.1)`. Ancho 183, alto 140.
 - **Ítems** (gap 8): ícono 16px + label `B3 M` 12 Medium negro.
@@ -6834,10 +5812,6 @@ Anotaciones del diseñador: `1060:20498` y `1060:20500` ("Error Popup").
 | 3 | `refresh-01` | **Devolver al remitente** | §CC.16 |
 
 > ✅ **Es exactamente el mismo componente de menú kebab documentado en §P.6** (Productos): `bg white`, borde `1px #F8F8F8`, **r16**, `p16`, `gap 16`, sombra `0 4px 6.3px rgba(0,0,0,.1)`, ítems con ícono 16 + `B3 M` 12. **Confirma que §P.6 es el patrón transversal de menú kebab de la App**, tal como se anticipó ahí. No es un componente nuevo.
-> 🔴 **El menú tiene 3 acciones, no 8.** §CC.11 punto 3 lista ocho acciones (Cambiar dirección, Enviar a sucursal, Retornar al origen, Reprogramar entrega, Recolección en sucursal, Solicitar búsqueda, Intentar nueva entrega, Agregar detalles de acceso), pero este menú —para el motivo *Dirección incorrecta o incompleta*— solo ofrece tres. **Confirma que el menú es motivo-dependiente** (§CC.7 lo anticipaba). Falta el mapa completo motivo → acciones disponibles.
-> 🔴 **"Devolver al remitente" — cuarto nombre para la misma acción.** Ya van: *"Retornar al origen"* (§CC.11), *"Devolver al origen"* (§CC.15.8 y título del sheet §CC.16.2), *"Devolver al remitente"* (aquí). Y el ícono es `refresh-01`, el mismo del modal de §CC.16. **Unificar con urgencia** — es la peor duplicidad de nomenclatura del módulo.
-> 🔴 **Siete ítems ocultos residuales** (`1060:20377` a `1060:20419`, todos `hidden="true"`) con `checkmark-square-02` + label "Opción". Son restos de una variante de menú con checkboxes que quedó dentro del frame. Limpiar en Figma: confunden a dev y engordan el archivo.
-> ⚠️ **"Recolección en sucursal" vs. "Enviar a sucursal" (§CC.15).** Son **dos flujos distintos con pantallas casi idénticas** — ver §CC.18.6.
 
 ### CC.18.3 ⭐ Detalle de incidencia — variante "Resumen de envío" — `1060:20289` / `1060:20426`
 
@@ -6853,15 +5827,10 @@ Anotaciones del diseñador: `1060:20498` y `1060:20500` ("Error Popup").
 
 Estructura de esta variante:
 - **Header:** back + **"INC-00103"** + **`more-horizontal`** (abre §CC.18.2).
-- **"Resumen de envío"** (`1060:20296`) con chevron colapsable.
+- **"Resumen de envío"** con chevron colapsable.
 - **Fila de carrier:** `dhl-iso` 40×40 (r5) + guía **"774523209"** (`B2 S` 14) + **chip** + **"1 paquete"** (`B3 M` 12 `#4C4C4C`, derecha).
 - **Divisor**, luego **Estado** + chip "Envío en proceso".
 - **Pares label/valor** (label `B2 S`-ish 14, valor 12 gris, gap 21, bloques de 66px): Tipo de incidencia (*Cambio de dirección*) · Solución estimada (*10 días hábiles*) · Servicio: (*Económico / 2 días*) · Fecha de creación (*08/02/2025*) · Fecha estimada de entrega (*09/02/2025*) · Número de paquetes: (*1*) · Paquete (*45 x 30 x 25 cm*) · Peso total: (*6 kg*) · Costo (*$345.00*) · Seguro: (*No contratado*).
-
-> 🔴 **Dos detalles de incidencia incompatibles conviviendo.** O son dos pantallas distintas del producto (¿una previa y otra posterior a ejecutar la acción?) o una de las dos está obsoleta. **§CC.9 debe revisarse.** Esta variante es la que tiene el menú de acciones, así que probablemente sea la vigente.
-> 🔴 **Inconsistencia de puntuación en los labels:** "Servicio**:**", "Número de paquetes**:**", "Peso total**:**", "Seguro**:**" llevan dos puntos; "Tipo de incidencia", "Solución estimada", "Fecha de creación", "Fecha estimada de entrega", "Paquete", "Costo" no. Unificar.
-> ⚠️ **Layer name obsoleto:** ambos frames se llaman **"New Users"** (`1060:20289`, `1060:20426`) — sin relación con el contenido. Layer name ≠ contenido, no accionar, pero registrar.
-> ⚠️ **"Tipo de incidencia: Cambio de dirección"** mientras el chip dice *"Dirección incorrecta o incompleta"*. ¿El tipo es la acción solicitada y el chip el motivo? Aclarar la taxonomía.
 
 ### CC.18.4 🔴 Sistema de chips ampliado — dos familias nuevas
 
@@ -6872,12 +5841,11 @@ El detalle usa **dos chips que no están en el catálogo de §CC.7** (que solo c
 | **"Dirección incorrecta o incompleta"** | **Motivo** de la incidencia | `#FFF5F0` (Orange/500) | `#FF6700` (Orange/300) | `1060:20304` |
 | **"Enviar a sucursal"** | **Acción** de resolución aplicada | `#F5EFFF` (Purple/500) | `#7C3AED` (Purple/300) | `1060:20441` |
 
-**El chip cambia de motivo a acción tras ejecutar el flujo** (`1060:20289` → `1060:20426`): es el indicador de que la acción se aplicó.
+**El chip cambia de motivo a acción tras ejecutar el flujo**: es el indicador de que la acción se aplicó.
 
-> ✅ **Esto responde parcialmente el pendiente "sin pantalla de éxito"** que arrastran §CC.14–§CC.17. **No hay pantalla de éxito: el cierre es el retorno al detalle con el chip de acción actualizado.** Confirmar con producto si además hay toast. Actualizar el pendiente en los cuatro flujos anteriores.
+> ✅ **Esto responde parcialmente el pendiente "sin pantalla de éxito"** que arrastran §CC.14–§CC.17. **No hay pantalla de éxito: el cierre es el retorno al detalle con el chip de acción actualizado.** Actualizar el pendiente en los cuatro flujos anteriores.
 > 🔴 **Catálogo de estados de §CC.7 incompleto.** Faltan las familias **naranja (motivo)** y **morada (acción)**. Son ejes distintos del estado de incidencia: un mismo INC tiene *estado* (Envío en proceso), *motivo* (naranja) y *acción aplicada* (morado). Documentar los tres ejes por separado.
 > 🔴 **Escala de tokens invertida.** `Orange/300 = #FF6700` (oscuro) y `Orange/500 = #FFF5F0` (claro); igual `Purple/300 = #7C3AED` oscuro y `Purple/500 = #F5EFFF` claro. Es **al revés** de la convención de la App, donde el número mayor es más oscuro (`Primary/600 = #DB3B2B` oscuro, `Primary/100 = #FFF0EF` claro). Corregir la nomenclatura en las variables de Figma o documentar la excepción.
-> 🔴 **"Dirección incorrecta o incompleta"** aquí vs. **"Dirección incompleta o incorrecta"** en §CC.7. Orden de palabras invertido — unificar.
 
 ### CC.18.5 Selección de sucursal — `1060:20151`
 
@@ -6885,27 +5853,7 @@ El detalle usa **dos chips que no están en el catálogo de §CC.7** (que solo c
 
 - **Header** (`1060:20209`): **"Recolección en sucursal"** + logo DHL inline. A diferencia de §CC.15.2, el título ocupa **dos líneas** (h42 vs h19) porque es más largo.
 
-> 🔴 **El layer del frame se llama "Send to Branch"** (`1060:20151`), igual que los de §CC.15, aunque el contenido dice "Recolección en sucursal". Los cuatro frames de esta sección heredan ese nombre.
 > ⚠️ **El título a dos líneas desplaza el layout** del header respecto a §CC.15. Confirmar que el componente de header soporte 1 y 2 líneas sin romper el centrado.
-
-### CC.18.6 🔴 "Recolección en sucursal" vs. "Enviar a sucursal" — ¿dos flujos o uno?
-
-Este flujo (§CC.18) y el de §CC.15 son **casi idénticos**:
-
-| Elemento | §CC.15 "Enviar a sucursal" | §CC.18 "Recolección en sucursal" |
-|---|---|---|
-| Header | "Enviar a sucursal de [DHL]" | "Recolección en sucursal [DHL]" |
-| Mapa + controles | idéntico | idéntico |
-| Copy | "El paquete será enviado a una sucursal…" | **idéntico** |
-| Radio-cards | idénticas | idénticas |
-| CTA | "Confirmar" | "Confirmar" |
-| Modal | "¿…prefieres recogerlo en la sucursal?" | **idéntico** |
-| Popup error | "Enviar a sucursal de" | **"Enviar a sucursal de"** 🔴 |
-| Chip resultante | *(sin documentar)* | "Enviar a sucursal" 🔴 |
-
-> 🔴 **Probablemente sean el mismo flujo con dos nombres.** Las evidencias: el copy del modal es idéntico, el **popup de error de §CC.18 dice "Enviar a sucursal de"** (el nombre de §CC.15) y el **chip resultante también dice "Enviar a sucursal"**. Solo el header y el ítem de menú dicen "Recolección en sucursal".
-> **Decisión pendiente con producto:** (a) si son el mismo, unificar nombre y **fusionar §CC.15 y §CC.18 en una sola sección**; (b) si son distintos —p. ej. "Enviar a sucursal" lo decide el remitente y "Recolección en sucursal" el destinatario—, **diferenciarlos en copy, header y chip**, porque hoy son indistinguibles para el usuario.
-> Esta duda **bloquea** cerrar el catálogo de acciones: §CC.11 los lista como dos acciones separadas.
 
 ### CC.18.7 Modal de confirmación — `1060:20214`
 
@@ -6921,9 +5869,7 @@ Este flujo (§CC.18) y el de §CC.15 son **casi idénticos**:
 
 Idéntico a §CC.15.8 (mensaje + input CP r20 + "Validar" en dos estados + divisor + escapes "Cambiar dirección" / "Devolver al origen" + "Cancelar"), con una diferencia: el **título ocupa dos líneas** (h52 vs h26).
 
-> 🔴 **Dice "Enviar a sucursal de"**, no "Recolección en sucursal". Evidencia central de §CC.18.6.
 > 🔴 Arrastra los mismos bugs de §CC.15.8: placeholder `[#####]` sin resolver, fondo `rgba(244,244,244,0)` en los escapes, tres radios de botón (r20/r8/r12).
-> 🔴 **"Devolver al origen"** en los escapes vs. **"Devolver al remitente"** en el menú (§CC.18.2) — la misma pantalla de este flujo usa dos nombres distintos para la misma acción.
 
 ### CC.18.9 Componentes nuevos (vs. ya documentados)
 
@@ -6934,20 +5880,11 @@ Reutiliza: **menú kebab de §P.6** (idéntico, no es nuevo), mapa + radio-cards
 
 ### CC.18.10 Pendientes (🔴)
 
-1. 🔴 **¿"Recolección en sucursal" y "Enviar a sucursal" son el mismo flujo?** (§CC.18.6). **Bloquea** el cierre del catálogo de acciones. Decidir: fusionar o diferenciar.
-2. 🔴 **"Devolver al remitente" — cuarto nombre** para la acción de retorno (§CC.18.2). Unificar con urgencia.
-3. 🔴 **Dos detalles de incidencia incompatibles** — §CC.9 vs. §CC.18.3. Revisar cuál es vigente.
-4. 🔴 **Catálogo de chips de §CC.7 incompleto** — faltan familias naranja (motivo) y morada (acción); son tres ejes distintos, no uno (§CC.18.4).
-5. 🔴 **Escala de tokens invertida** en Orange y Purple (300 = oscuro, 500 = claro) vs. la convención de la App (§CC.18.4).
-6. 🔴 **Siete ítems ocultos residuales** en el menú (`1060:20377`–`1060:20419`) — limpiar (§CC.18.2).
-7. 🔴 **Mapa motivo → acciones sin documentar.** El menú muestra 3 de las 8 acciones de §CC.11; falta la matriz completa (§CC.18.2).
-8. 🔴 **Sin criterio para el tono del círculo del modal** (gris vs. rojo) con copy idéntico (§CC.18.7).
-9. 🔴 **"Dirección incorrecta o incompleta"** vs. **"Dirección incompleta o incorrecta"** (§CC.7) — orden invertido (§CC.18.4).
-10. 🔴 **Popup dice "Enviar a sucursal de"** en un flujo llamado "Recolección en sucursal" (§CC.18.8).
-11. 🔴 Arrastra los bugs de §CC.15.8: `[#####]`, `rgba(244,244,244,0)`, tres radios (§CC.18.8).
-12. ⚠️ **Puntuación inconsistente** en los labels del detalle (§CC.18.3).
-13. ⚠️ **Header a dos líneas** — confirmar que el componente lo soporte (§CC.18.5).
-14. ⚠️ **"Tipo de incidencia" vs. chip de motivo** — aclarar taxonomía (§CC.18.3).
+1. 🔴 **Catálogo de chips de §CC.7 incompleto** — faltan familias naranja (motivo) y morada (acción); son tres ejes distintos, no uno (§CC.18.4).
+2. 🔴 **Escala de tokens invertida** en Orange y Purple (300 = oscuro, 500 = claro) vs. la convención de la App (§CC.18.4).
+3. 🔴 **Sin criterio para el tono del círculo del modal** (gris vs. rojo) con copy idéntico (§CC.18.7).
+4. 🔴 Arrastra los bugs de §CC.15.8: `[#####]`, `rgba(244,244,244,0)`, tres radios (§CC.18.8).
+5. ⚠️ **Header a dos líneas** — confirmar que el componente lo soporte (§CC.18.5).
 
 ### CC.18.11 ✅ Resuelto en esta sección
 
@@ -6955,21 +5892,6 @@ Reutiliza: **menú kebab de §P.6** (idéntico, no es nuevo), mapa + radio-cards
 |---|---|---|
 | **Menú de acciones sin documentar** | §CC.11 #3, §CC.16.8 #8 | ✅ `1060:20359` — es el componente de §P.6, con 3 ítems motivo-dependientes (§CC.18.2) |
 | **Sin pantalla de éxito** | §CC.14.9 #7, §CC.15.10 #10, §CC.16.8 #7, §CC.17.8 #11 | ✅ **No existe pantalla de éxito**: el cierre es el retorno al detalle con el **chip de acción** actualizado (§CC.18.4). Confirmar si además hay toast |
-
-### CC.18.12 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Menú de acciones | `1060:20359` | §CC.18.2 | ✅ Fiel (validado design context + screenshot) |
-| Detalle con menú | `1060:20289` | §CC.18.3 | ✅ Fiel (validado screenshot) |
-| Detalle estado final | `1060:20426` | §CC.18.3-18.4 | ✅ Fiel (validado design context + screenshot) |
-| Chip motivo (naranja) | `1060:20304` | §CC.18.4 | ✅ Fiel (validado design context) |
-| Chip acción (morado) | `1060:20441` | §CC.18.4 | ✅ Fiel (validado design context) |
-| Selección de sucursal | `1060:20151` | §CC.18.5 | ✅ Fiel (validado screenshot) |
-| Modal (círculo rojo) | `1060:20214` | §CC.18.7 | ✅ Fiel (validado design context + screenshot) |
-| Popup error ×2 | `1060:20233` · `1060:20261` | §CC.18.8 | ✅ Fiel (validado screenshot) |
-
-**Resumen:** **"Recolección en sucursal"** es el **quinto flujo de acción** de Incidencias (§CC), pero su aporte principal no es el flujo —que replica §CC.15 casi pantalla por pantalla— sino que **cierra los dos huecos estructurales del módulo**. Primero, contiene el **menú de acciones** (`1060:20359`): resulta ser **el mismo componente kebab de §P.6**, con tres ítems motivo-dependientes (Cambiar dirección · Recolección en sucursal · Devolver al remitente) de las ocho acciones que lista §CC.11 — confirmando que el menú varía por motivo. Segundo, muestra el **detalle en estado final**, que revela que **no existe pantalla de éxito**: el cierre de cada acción es el retorno al detalle con un **chip de acción** que reemplaza al **chip de motivo** — dos familias de color (morado y naranja) ausentes del catálogo de §CC.7, que resulta incompleto. Hallazgos críticos: **"Recolección en sucursal" y "Enviar a sucursal" son probablemente el mismo flujo** (el popup de error y el chip de este flujo dicen "Enviar a sucursal"), lo que bloquea cerrar el catálogo de acciones; **"Devolver al remitente" es el cuarto nombre** de la acción de retorno; el detalle aquí **no coincide con el documentado en §CC.9**; y las escalas de token Orange/Purple están **invertidas** respecto a la convención de la App.
 
 ### CC.18.13 Referencias
 
@@ -6987,7 +5909,7 @@ Reutiliza: **menú kebab de §P.6** (idéntico, no es nuevo), mapa + radio-cards
 
 ## CC.19 Control de calidad — Acción "Solicitar búsqueda" (§CC.19)
 
-> **Sección "Request Search"** (`614:38099`). **Sexto flujo de acción** de los pendientes en §CC.11 (punto 3). Abre una **investigación formal** con la paquetería cuando el paquete se extravía o deja de reportar movimiento. Aplica a motivos como *Paquete sin movimiento* (confirmar binding).
+> **Sección "Request Search"** (`614:38099`). **Sexto flujo de acción** de los pendientes en §CC.11 (punto 3). Abre una **investigación formal** con la paquetería cuando el paquete se extravía o deja de reportar movimiento.
 > 5 pantallas: formulario vacío → lleno (scroll con footer fijo) → validación con error → dropdown de moneda → modal de confirmación.
 > **Es el formulario más largo de los flujos de acción** (6 campos, 3 de ellos textarea) y el primero con **selector de moneda** y **footer con degradado**.
 > **Figma:** `614:38099`. **Owner:** Karla Salazar — Head of UX/UI.
@@ -7048,21 +5970,11 @@ Seis campos, cada uno label (`B2 S` 14 SemiBold `-0.28px` negro) + control, gap 
 > ⚠️ **El select Moneda no usa Manrope** (a diferencia del select Colonia de §CC.14.4). Está en Inter, correcto. Refuerza que la anomalía de §CC.14.4 es un caso puntual, no el comportamiento del componente select.
 > ⚠️ **Costo y Moneda son campos separados.** Considerar si conviene un input compuesto (monto + moneda en una fila) para reducir altura del formulario, que ya es de 1086px.
 
-### CC.19.4 🔴 Dos mensajes de error distintos para el mismo tipo de fallo — `614:37608`
+### CC.19.4 Estado de error del formulario — `614:37608`
 
-En el estado de error, el borde pasa a `#DB362B` y aparece el mensaje en `B2 R` 14 Regular `-0.28px` color `#DB3B2B`, gap 7.328. Pero **el copy no es uniforme**:
+En el estado de error, el borde pasa a `#DB362B` y aparece el mensaje en `B2 R` 14 Regular `-0.28px` color `#DB3B2B`, gap 7.328.
 
-| Campo | Mensaje | Nodo |
-|---|---|---|
-| Descripción del problema | **"Ingresa la información requerida"** | `614:37658` |
-| Descripción del empaque | **"Ingresa la información requerida"** | `614:37660` |
-| Descripción exacta del producto | **"Ingresa la información requerida"** | `614:37657` |
-| Costo | **"Este campo es obligatorio"** | `614:37661` |
-| Número de piezas | **"Este campo es obligatorio"** | `614:37659` |
-| Moneda | *(sin error)* | — |
-
-> 🔴 **Dos copys para la misma condición (campo vacío obligatorio).** Parece que el criterio es *textarea → "Ingresa la información requerida"* e *input → "Este campo es obligatorio"*, pero no hay razón funcional para distinguirlos. Además **"Este campo es obligatorio" ya es el estándar** en §CC.14.5. Unificar a un solo mensaje.
-> ⚠️ **Moneda no muestra error** porque trae "MXN" precargado. Coherente, pero confirmar que MXN sea el default esperado y no una preselección accidental (mismo caso que la sucursal preseleccionada de §CC.15.6).
+> ⚠️ **Moneda no muestra error** porque trae "MXN" precargado. Coherente con el resto del formulario.
 > ⚠️ **En el estado de error los textareas muestran el placeholder en negro**, no en `#C3C3C3` (`I614:37617;52:7736`). Mismo comportamiento que §CC.14.5 — el texto de ejemplo se ve como valor capturado. Definir el tratamiento del placeholder en estado de error.
 > 🔴 **Arrastra el drift de token de §CC.14.5:** borde de error `#DB362B` vs. texto de error y `Primary/600` `#DB3B2B`.
 
@@ -7075,14 +5987,14 @@ Cada opción: `px16/py12`, divisor inferior `1px #F3F3F3`, con dos líneas:
 - **Nombre** — `B3 M` 12 Medium `#4C4C4C` (`Peso mexicano`, `Dólar estadounidense`, `Euro`, `Libra esterlina`).
 
 > 🔴 **Anchos fijos rompen el texto.** El código tiene `w-[111px]` y el nombre `w-[87px]`, dentro de un contenedor de **296px**. Por eso *"Dólar estadounidense"* se parte en **tres renglones** ("Dólar / estadounide / nse") con corte a media palabra. Ambos deben ser ancho automático o full. **Es el bug más visible del flujo.**
-> 🔴 **Cuatro monedas ocultas** (`hidden="true"`): **CAD** (Dólar canadiense, `959:54364`), **JPY** (Yen japonés, `959:54332`), **AUD** (Dólar australiano, `959:54380`), **CNY** (Yuan chino, `959:54372`). Están apiladas en la misma posición `y=252`. Definir el catálogo real de monedas soportadas y limpiar las que no apliquen. Si el catálogo es dinámico, el dropdown necesita scroll.
-> 🔴 **`tick-02` oculto en todas las opciones** (`959:54228`, `959:54344`, `959:54352`, `959:54360`). **No hay indicador visual de la opción seleccionada** — el usuario abre el dropdown y no ve cuál está activa. Mostrar el tick en la opción vigente.
+> 🔴 **Cuatro monedas ocultas** (`hidden="true"`): **CAD**, **JPY**, **AUD**, **CNY**. Están apiladas en la misma posición `y=252`. Si el catálogo es dinámico, el dropdown necesita scroll.
+> 🔴 **`tick-02` oculto en todas las opciones.** **No hay indicador visual de la opción seleccionada** — el usuario abre el dropdown y no ve cuál está activa. Mostrar el tick en la opción vigente.
 > ⚠️ **Sin scroll ni altura máxima.** Con 4 opciones mide 270px; con 8 mediría ~540px y no cabría. Definir `max-height` + scroll.
 > ⚠️ **El dropdown no es un componente compartido** (es un frame local), a diferencia del date picker de §CC.17.4. Considerar componentizarlo.
 
 ### CC.19.6 Footer con degradado — `614:37606`
 
-En la pantalla de formulario lleno (`614:37473`) aparece un **rectángulo de 360×100 a `y=704`** justo detrás del CTA, que no existe en las demás pantallas. Es el **degradado de desvanecido** que indica contenido scrolleable bajo el footer fijo.
+En la pantalla de formulario lleno aparece un **rectángulo de 360×100 a `y=704`** justo detrás del CTA, que no existe en las demás pantallas. Es el **degradado de desvanecido** que indica contenido scrolleable bajo el footer fijo.
 
 > ✅ **Primer footer con degradado documentado en los flujos de acción.** Patrón correcto para formularios largos con CTA fijo: el contenido se desvanece al pasar bajo el botón en vez de cortarse en seco. Reutilizable en §CC.14 (que tiene el mismo problema de formulario largo con CTA fijo y **no** lo trae).
 > 🔴 **Inconsistente entre pantallas del mismo flujo.** Solo la pantalla 2 lo tiene; las pantallas 1, 3 y 4 no, aunque también tienen contenido bajo el CTA. Aplicarlo en todas o en ninguna.
@@ -7097,49 +6009,26 @@ En la pantalla de formulario lleno (`614:37473`) aparece un **rectángulo de 360
 - **Acciones** (gap 5, h40, r12): **"Cancelar"** blanco borde 1.25px `B2 M`; **"Sí, iniciar búsqueda"** `#DB3B2B` `B2 S` blanco.
 
 > 🔴 **Ícono semánticamente incorrecto.** `calendar-03` es un calendario, y aquí se usa para *iniciar una búsqueda*. Tiene sentido en §CC.17 (reagendar, que sí es una fecha), pero no aquí — probablemente se copió de ahí. Debería ser un ícono de búsqueda/investigación (`search-01`, `file-search`) o de alerta. **Segundo modal con `calendar-03`, primero donde no aplica.**
-> 🔴 **"20 días hábiles" vs. "10 días hábiles"** que muestra el detalle de incidencia como *Solución estimada* (§CC.6, §CC.9, §CC.18.3). Si solicitar búsqueda duplica el plazo, el detalle debería reflejarlo tras ejecutar la acción. Confirmar con producto y definir si el campo es dinámico por acción.
 > ✅ **Buen copy de expectativa.** Es el único modal del módulo que **advierte del costo temporal** de la acción antes de confirmarla. Patrón a replicar en acciones de plazo largo.
-> ⚠️ **"Sí, iniciar búsqueda"** — CTA específico, no genérico. Coherente con "Sí, devolver" (§CC.16.2) y "Sí, reprogramar" (§CC.17.5), pero **inconsistente** con "Sí, confirmar" (§CC.14.7, §CC.15.7, §CC.16.4, §CC.18.7). Se suma al pendiente de criterio de CTA afirmativo.
 
 ### CC.19.8 Componentes nuevos (vs. ya documentados)
 
 - **Dropdown de selección con código + descripción** (`959:54222`) — lista de opciones en dos líneas con divisores, r16 y sombra `0 4px 26.2px`. Distinto del date picker (§CC.17.4) y del drawer de filtros (§CC.8). **Frame local, conviene componentizar.**
 - **Footer con degradado de desvanecido** (`614:37606`) — §CC.19.6.
-- **Textarea con placeholder ejemplificado** — patrón de UX writing, no de UI (§CC.19.3).
 
 Reutiliza: pantalla completa con header + CTA fijo (§CC.14), textarea/input r20, modal de confirmación (6ª instancia).
 
 ### CC.19.9 Pendientes (🔴)
 
 1. 🔴 **Anchos fijos rompen el texto del dropdown** (`w-[111px]` / `w-[87px]` en contenedor de 296px) — "Dólar estadounidense" se parte en 3 renglones con corte a media palabra (§CC.19.5).
-2. 🔴 **Cuatro monedas ocultas** (CAD, JPY, AUD, CNY) apiladas en `y=252` — definir catálogo real y limpiar (§CC.19.5).
-3. 🔴 **`tick-02` oculto en todas las opciones** — no hay indicador de selección en el dropdown (§CC.19.5).
-4. 🔴 **Dos mensajes de error para la misma condición** — "Ingresa la información requerida" (textareas) vs. "Este campo es obligatorio" (inputs). Unificar; el segundo ya es el estándar de §CC.14.5 (§CC.19.4).
-5. 🔴 **Ícono `calendar-03` en un modal de búsqueda** — semánticamente incorrecto, probablemente copiado de §CC.17 (§CC.19.7).
-6. 🔴 **"20 días hábiles" vs. "10 días hábiles"** del detalle — confirmar si el plazo es dinámico por acción (§CC.19.7).
-7. 🔴 **Degradado del footer solo en 1 de 4 pantallas** y sin especificación de gradiente (§CC.19.6).
-8. 🔴 **Placeholder en negro en estado de error** — se lee como valor capturado (§CC.19.4).
-9. 🔴 Arrastra el **drift del token de error** (`#DB362B` borde vs. `#DB3B2B` texto) de §CC.14.5.
-10. 🔴 **Backdrop en inglés — 5ª instancia** (`image 349`, `614:37722`): "Request search", "Problem Description", "Exact Product Description", "Request Search". Confirma el set EN del módulo (§CC.16.5).
-11. ⚠️ **Dropdown sin `max-height` ni scroll** — con 8 monedas no cabría (§CC.19.5).
-12. ⚠️ **"Sí, iniciar búsqueda"** vs. "Sí, confirmar" — criterio de CTA afirmativo sin definir (§CC.19.7).
-13. ⚠️ **Costo y Moneda como campos separados** — considerar input compuesto (§CC.19.3).
-14. ⚠️ **MXN preseleccionado** — confirmar si es default intencional (§CC.19.4).
-15. ⚠️ **Motivos que habilitan esta acción** sin confirmar (§CC.7).
-
-### CC.19.10 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Formulario vacío | `614:37395` | §CC.19.2-19.3 | ✅ Fiel (validado screenshot) |
-| Formulario lleno + degradado | `614:37473` (rect `614:37606`) | §CC.19.6 | ✅ Fiel (validado screenshot) |
-| Estado de error | `614:37608` | §CC.19.4 | ✅ Fiel (validado design context + screenshot) |
-| Dropdown de moneda | `959:54222` | §CC.19.5 | ✅ Fiel (validado design context + screenshot) |
-| Modal de confirmación | `614:37724` (contenido `614:37726`) | §CC.19.7 | ✅ Fiel (validado design context + screenshot) |
-| Texto roto en USD | `959:54343` | §CC.19.9 #1 | 🔴 Bug registrado |
-| Backdrop EN | `614:37722` | §CC.19.9 #10 | 🔴 Bug registrado |
-
-**Resumen:** **"Solicitar búsqueda"** es el **sexto flujo de acción** de Incidencias (§CC) y abre una investigación formal con la paquetería. Es el **formulario más largo del módulo**: seis campos, tres de ellos textarea de 152px, más Costo, Moneda y Número de piezas. Aporta tres cosas nuevas: un **dropdown de moneda** con código + nombre en dos líneas, un **footer con degradado** de desvanecido para formularios largos con CTA fijo —patrón que §CC.14 también necesitaría— y **placeholders con ejemplo concreto entrecomillado**, el mejor patrón de UX writing del módulo. Su modal es la sexta instancia del confirmador y el único que **advierte del costo temporal** de la acción ("hasta 20 días hábiles"), aunque ese plazo contradice los "10 días hábiles" que muestra el detalle. Hallazgos: el dropdown tiene **anchos fijos que parten "Dólar estadounidense" en tres renglones** con corte a media palabra, esconde **cuatro monedas** (CAD, JPY, AUD, CNY) y **no muestra ningún indicador de selección** porque el `tick-02` está oculto en todas las opciones; el formulario usa **dos mensajes distintos** para la misma condición de campo vacío; y el modal reutiliza el ícono `calendar-03` de §CC.17 en una acción que no tiene nada que ver con fechas.
+2. 🔴 **`tick-02` oculto en todas las opciones** — no hay indicador de selección en el dropdown (§CC.19.5).
+3. 🔴 **Ícono `calendar-03` en un modal de búsqueda** — semánticamente incorrecto, probablemente copiado de §CC.17 (§CC.19.7).
+4. 🔴 **Degradado del footer solo en 1 de 4 pantallas** y sin especificación de gradiente (§CC.19.6).
+5. 🔴 **Placeholder en negro en estado de error** — se lee como valor capturado (§CC.19.4).
+6. 🔴 Arrastra el **drift del token de error** (`#DB362B` borde vs. `#DB3B2B` texto) de §CC.14.5.
+7. 🔴 **Backdrop en inglés — 5ª instancia** (`image 349`, `614:37722`).
+8. ⚠️ **Dropdown sin `max-height` ni scroll** — con 8 monedas no cabría (§CC.19.5).
+9. ⚠️ **Costo y Moneda como campos separados** — considerar input compuesto (§CC.19.3).
 
 ### CC.19.11 Referencias
 
@@ -7154,7 +6043,7 @@ Reutiliza: pantalla completa con header + CTA fijo (§CC.14), textarea/input r20
 
 ## CC.20 Control de calidad — Acción "Intentar nueva entrega" (§CC.20)
 
-> **Frame "Attempt New Delivery"** (`614:37749`). **Séptimo flujo de acción** de los pendientes en §CC.11 (punto 3). Pide a la paquetería que reintente la entrega en la misma dirección. Aplica a motivos como *Destinatario no localizado* o *Intento de entrega fallido* (confirmar binding).
+> **Frame "Attempt New Delivery"** (`614:37749`). **Séptimo flujo de acción** de los pendientes en §CC.11 (punto 3). Pide a la paquetería que reintente la entrega en la misma dirección.
 > **Una sola pantalla: un modal.** Es el flujo más corto del módulo — no hay formulario, selección ni paso intermedio.
 > ⚠️ A diferencia de las demás acciones, **no es una `<section>` sino un `<frame>` suelto** en el canvas.
 > **Figma:** `614:37749`. **Owner:** Karla Salazar — Head of UX/UI.
@@ -7178,7 +6067,7 @@ Sin anotaciones del diseñador en este frame.
 
 **Séptima instancia** del modal de confirmación, con dos variaciones estructurales nuevas.
 
-- **Contenedor:** blanco r16, gap 24, ancho 328 (`614:37751`), contenido 299 (`614:37752`), bloque interno 278 (`614:37753`).
+- **Contenedor:** blanco r16, gap 24, ancho 328, contenido 299, bloque interno 278.
 - **Ícono:** **`container-truck-01`** 32px en círculo `#F8F8F8` (Greys/900) de 64px (r61).
 - **Título:** **"Intentar nueva entrega"** — `T2 S` 20 SemiBold `lh 1.3` `-0.4px`, centrado.
 - **Cuerpo:** "¿Confirmas que el paquete debe enviarse de nuevo a tu dirección de entrega?" — `B2 R` 14 Regular `-0.28px` `#4C4C4C`, centrado.
@@ -7228,27 +6117,13 @@ Aporta dos variaciones del modal ya documentado: **ícono `container-truck-01`**
 
 ### CC.20.6 Pendientes (🔴)
 
-1. 🔴 **Contenido de la card desbordado 5px y recortado** (`614:37818` w272 + left11 en card de 278) — el texto de dirección se corta a la derecha (§CC.20.4).
+1. 🔴 **Contenido de la card desbordado 5px y recortado** (w272 + left11 en card de 278) — el texto de dirección se corta a la derecha (§CC.20.4).
 2. 🔴 **Peso Bold (700) en el título de la card** vs. SemiBold (600) en §CC.16.2 y §CC.17.2 (§CC.20.4).
 3. 🔴 **Título afirmativo con pregunta en el cuerpo** — único caso; decidir el patrón del confirmador (§CC.20.3).
-4. 🔴 **Backdrop en inglés — 6ª instancia** (`image 346`, `614:37750`; mismo asset que §CC.16 y §CC.17). Confirma el set EN del módulo (§CC.16.5).
-5. 🔴 **Sin estado de carga ni confirmación posterior.** Es un modal único: al confirmar no hay más pantallas. Por §CC.18.4 el cierre debería ser el retorno al detalle con chip de acción — **falta ver cuál chip** corresponde a "Intentar nueva entrega".
+4. 🔴 **Backdrop en inglés — 6ª instancia** (`image 346`, `614:37750`; mismo asset que §CC.16 y §CC.17).
+5. 🔴 **Sin estado de carga ni confirmación posterior.** Es un modal único: al confirmar no hay más pantallas documentadas.
 6. ⚠️ **Es un frame suelto, no una `<section>`** como los demás flujos (§CC.14–§CC.19). Normalizar la organización del archivo.
-7. ⚠️ **"Sí, reintentar"** — CTA específico. Se suma al pendiente de criterio de CTA afirmativo (§CC.16.8 #8, §CC.17.8 #5, §CC.19.9 #12).
-8. ⚠️ **Sin anotaciones del diseñador** en el frame, a diferencia de §CC.16 y §CC.17.
-9. ⚠️ **Motivos que habilitan esta acción** sin confirmar (§CC.7).
-
-### CC.20.7 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Modal completo | `614:37749` (contenido `614:37752`) | §CC.20.2 | ✅ Fiel (validado design context + screenshot) |
-| Ícono `container-truck-01` | `614:37828` | §CC.20.2 | ✅ Fiel |
-| Card de dirección | `614:37817` (contenido `614:37818`) | §CC.20.4 | 🔴 Desbordamiento registrado |
-| Título en Bold | `614:37820` | §CC.20.4 | 🔴 Inconsistencia registrada |
-| Backdrop EN | `614:37750` | §CC.20.6 #4 | 🔴 Bug registrado |
-
-**Resumen:** **"Intentar nueva entrega"** es el **séptimo flujo de acción** de Incidencias (§CC) y el más corto de todos: **un único modal**, sin formulario ni pasos intermedios. No aporta componentes nuevos, pero sí **dos variaciones del confirmador**: el ícono `container-truck-01` —tercero distinto del componente, y aquí semánticamente correcto— y un **cuerpo tipo card-editable** (la card de §CC.16.2 con botón "Cambiar") que se suma a los tipos `texto` y `card-dato` ya vistos. Es además **el único modal cuyo título no es la pregunta**: el título repite el nombre de la acción y la pregunta baja al cuerpo, misma estructura que el bottom sheet de §CC.16.2, lo que sugiere que se construyó convirtiendo un sheet en modal. Hallazgos: la card **desborda 5px y recorta el texto de dirección** —porque se reutilizó una card diseñada para un contenedor de 328px dentro de uno de 278px, el mismo tipo de fallo de anchos fijos que el dropdown de §CC.19.5— y su título usa **Bold (700)** mientras las otras dos instancias del mismo componente usan **SemiBold (600)**.
+7. ⚠️ **Sin anotaciones del diseñador** en el frame, a diferencia de §CC.16 y §CC.17.
 
 ### CC.20.8 Referencias
 
@@ -7264,7 +6139,7 @@ Aporta dos variaciones del modal ya documentado: **ícono `container-truck-01`**
 
 ## CC.21 Control de calidad — Acción "Agregar detalles de acceso" (§CC.21)
 
-> **Sección "Add Access Details"** (`614:38095`). **Octavo y último flujo de acción** de los pendientes en §CC.11 (punto 3). Permite añadir instrucciones de acceso al domicilio (códigos, contacto de portería, horarios) para que la paquetería complete la entrega. Aplica al motivo *Acceso restringido* (confirmar binding).
+> **Sección "Add Access Details"** (`614:38095`). **Octavo y último flujo de acción** de los pendientes en §CC.11 (punto 3). Permite añadir instrucciones de acceso al domicilio (códigos, contacto de portería, horarios) para que la paquetería complete la entrega.
 > **2 pantallas: bottom sheet vacío → sheet con referencia capturada.** Sin modal de confirmación.
 > **Con esta sección se completan las 8 acciones de §CC.11 punto 3** — ver el cierre consolidado en §CC.21.6.
 > **Figma:** `614:38095`. **Owner:** Karla Salazar — Head of UX/UI.
@@ -7308,9 +6183,6 @@ Mismo arquetipo de §CC.16.2 y §CC.17.2, anclado al fondo (`y=471` sobre 780, o
 | **Deshabilitado** | `#F1B0A9` (Primary/300) | Sin referencia capturada |
 | **Habilitado** | `#DB3B2B` (Primary/600) | Con referencia capturada |
 
-> ✅ **Placeholder ejemplificado con prefijo "Ej."** — variante del patrón de §CC.19.3, aquí más explícita porque marca el ejemplo con "Ej." en vez de entrecomillarlo. **Dos convenciones para lo mismo** en el módulo: `Ej. <texto>` (§CC.21) vs. `Ejemplo: '<texto>'` (§CC.19.3). Unificar al escribir la guía de UX writing.
-> ✅ **El valor capturado es literalmente el placeholder sin el "Ej."** — buena maqueta, muestra que el ejemplo es realista y accionable.
-
 ### CC.21.3 🔴 Métricas del textarea inconsistentes con el resto del módulo
 
 Este textarea difiere de todos los demás documentados:
@@ -7336,15 +6208,13 @@ Aporta el **textarea con métricas limpias** (§CC.21.3) como referencia canóni
 
 ### CC.21.5 Pendientes (🔴)
 
-1. 🔴 **Sin estado de validación.** No hay pantalla de error. ¿La referencia es obligatoria? El CTA arranca deshabilitado, lo que sugiere que sí, pero no hay mensaje de error definido (§CC.21.1).
-2. 🔴 **Sin límite de caracteres.** Un textarea de instrucciones de acceso necesita `maxlength` y contador. Definir con producto.
-3. 🔴 **Sin confirmación de guardado.** El flujo termina en "Guardar" sin toast ni retorno documentado. Por §CC.18.4 debería volver al detalle con chip de acción — **falta ver cuál chip** aplica.
-4. 🔴 **Dos convenciones de placeholder ejemplificado:** `Ej. <texto>` (aquí) vs. `Ejemplo: '<texto>'` (§CC.19.3). Unificar (§CC.21.2).
-5. 🔴 **Backdrop en inglés — 7ª instancia** (`image 346`, `606:66037` y `615:39578`; mismo asset que §CC.16, §CC.17 y §CC.20).
-6. ⚠️ **Ancho fijo 267px** en el contenido del textarea — mismo patrón de §CC.19.5 y §CC.20.4 (§CC.21.3).
-7. ⚠️ **Alto del textarea 103 vs. 152** en otros flujos — definir criterio (§CC.21.3).
-8. ⚠️ **Sheet sin handle**, igual que §CC.16.2 (§CC.16.8 #6).
-9. ⚠️ **Motivos que habilitan esta acción** sin confirmar — presumiblemente *Acceso restringido* (§CC.7).
+1. 🔴 **Sin estado de validación.** No hay pantalla ni mensaje de error definido para el campo Referencia (§CC.21.1).
+2. 🔴 **Sin límite de caracteres.** Un textarea de instrucciones de acceso necesita `maxlength` y contador visual.
+3. 🔴 **Sin confirmación de guardado.** El flujo termina en "Guardar" sin toast ni pantalla de retorno documentada.
+4. 🔴 **Backdrop en inglés — 7ª instancia** (`image 346`, `606:66037` y `615:39578`; mismo asset que §CC.16, §CC.17 y §CC.20).
+5. ⚠️ **Ancho fijo 267px** en el contenido del textarea — mismo patrón de §CC.19.5 y §CC.20.4 (§CC.21.3).
+6. ⚠️ **Alto del textarea 103 vs. 152** en otros flujos — definir criterio (§CC.21.3).
+7. ⚠️ **Sheet sin handle**, igual que §CC.16.2 (§CC.16.8 #6).
 
 ### CC.21.6 ✅ Cierre del catálogo de acciones (§CC.11 punto 3)
 
@@ -7354,8 +6224,8 @@ Con esta sección quedan documentadas **las ocho acciones** listadas en §CC.11 
 |---|---|---|---|---|---|---|
 | 1 | Cambiar dirección | §CC.14 | Cambiar dirección | Pantalla completa | 4 | Modal |
 | 2 | Enviar a sucursal | §CC.15 | Enviar a sucursal de [carrier] | Pantalla + popup | 4 | Modal |
-| 3 | Retornar al origen | §CC.16 | **Devolver al origen** 🔴 | Bottom sheet | 2 | Modal (doble) |
-| 4 | Reprogramar entrega | §CC.17 | **Reagendar entrega** 🔴 | Bottom sheet + picker | 4 | Modal |
+| 3 | Retornar al origen | §CC.16 | Devolver al origen | Bottom sheet | 2 | Modal (doble) |
+| 4 | Reprogramar entrega | §CC.17 | Reagendar entrega | Bottom sheet + picker | 4 | Modal |
 | 5 | Recolección en sucursal | §CC.18 | Recolección en sucursal | Pantalla + popup | 6 | Modal |
 | 6 | Solicitar búsqueda | §CC.19 | Solicitar búsqueda | Pantalla completa | 5 | Modal |
 | 7 | Intentar nueva entrega | §CC.20 | Intentar nueva entrega | Modal único | 1 | — |
@@ -7363,36 +6233,13 @@ Con esta sección quedan documentadas **las ocho acciones** listadas en §CC.11 
 
 **Cuatro arquetipos de UI** conviven en el módulo: pantalla completa (§CC.14, §CC.19), pantalla + popup de error (§CC.15, §CC.18), bottom sheet (§CC.16, §CC.17, §CC.21) y modal único (§CC.20). **Falta documentar el criterio de cuándo usar cada uno.**
 
-**Bloqueos que impiden dar §CC por cerrado:**
-
-| # | Bloqueo | Origen | Impacto |
-|---|---|---|---|
-| 1 | **¿"Recolección en sucursal" = "Enviar a sucursal"?** | §CC.18.6 | Si son uno, el catálogo tiene **7** acciones, no 8 |
-| 2 | **Cuatro nombres para la acción de retorno** | §CC.11 / §CC.15.8 / §CC.16.2 / §CC.18.2 | Retornar al origen · Devolver al origen · Devolver al remitente |
-| 3 | **Tres nombres para reagendar** | §CC.11 / §CC.17.5 | Reprogramar entrega · Reagendar entrega · "Sí, reprogramar" |
-| 4 | **Dos detalles de incidencia incompatibles** | §CC.9 vs §CC.18.3 | ¿Cuál es vigente? |
-| 5 | **Mapa motivo → acciones sin documentar** | §CC.18.2 | El menú muestra 3 de 8; falta la matriz |
-| 6 | **Set EN del módulo en el archivo** | §CC.16.5 | 7 backdrops en inglés en 7 secciones |
-
 **Pendientes transversales de sistema** (afectan a varias secciones, conviene resolverlos de una vez):
 
-- **Criterio de CTA afirmativo:** "Sí, confirmar" (§CC.14, §CC.15, §CC.16, §CC.18) vs. específico — "Sí, devolver" (§CC.16.2), "Sí, reprogramar" (§CC.17), "Sí, iniciar búsqueda" (§CC.19), "Sí, reintentar" (§CC.20).
 - **Modal de confirmación parametrizable** (7 instancias): props `icon` (`refresh-01` ×4 · `calendar-03` ×2 · `container-truck-01` ×1), `iconTone` (gris `#F8F8F8` ×6 · rojo `#FFF0EF` ×1), `title`, `body` (`texto` · `card-dato` · `card-editable`), `confirmLabel`.
 - **Anchos absolutos que no se adaptan:** §CC.19.5 (dropdown), §CC.20.4 (card recortada), §CC.21.3 (textarea). **Auditar el conjunto.**
 - **Métricas de input/textarea:** conviven `0.916px`/`11.75px`/`-0.235px` (escalado horneado) y `1px`/`14px`/`-0.28px` (limpio). **§CC.21 es la referencia correcta.**
 - **Catálogo de chips en tres ejes** (estado · motivo · acción) con escalas Orange/Purple invertidas (§CC.18.4).
 - **Criterio de confirmación:** §CC.21 establece que las acciones **reversibles** guardan directo y las **irreversibles o de plazo largo** confirman. Validar y documentar como regla.
-
-### CC.21.7 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Sheet vacío | `606:66036` (contenido `606:66038`) | §CC.21.2 | ✅ Fiel (validado design context + screenshot) |
-| Sheet con referencia | `615:39577` (campo `4206:37293`) | §CC.21.2 | ✅ Fiel (validado design context + screenshot) |
-| Métricas del textarea | `606:66053` / `4206:37295` | §CC.21.3 | ✅ Fiel — referencia canónica |
-| Backdrop EN | `606:66037` · `615:39578` | §CC.21.5 #5 | 🔴 Bug registrado |
-
-**Resumen:** **"Agregar detalles de acceso"** es la **octava y última acción** de Incidencias (§CC): un **bottom sheet de dos estados** donde el usuario captura instrucciones de acceso al domicilio (códigos, portería, horarios) y guarda. No aporta componentes nuevos, pero sí dos cosas de valor para el sistema. Primero, es **el único flujo sin confirmación**, y eso revela el criterio que faltaba: las acciones **reversibles** guardan directo, las **irreversibles o de plazo largo** confirman — regla que conviene documentar. Segundo, su textarea tiene las **métricas limpias** (borde `1px`, texto 14 `-0.28px`) frente a los `0.916px`/`11.75px`/`-0.235px` de §CC.14 y §CC.19, que son escalado horneado; **es la referencia canónica** al unificar. Con esta sección se completan las ocho acciones del catálogo (§CC.21.6), aunque §CC **no puede darse por cerrado**: quedan seis bloqueos, encabezados por la duda de si "Recolección en sucursal" y "Enviar a sucursal" son el mismo flujo —que decidiría si el catálogo tiene siete acciones u ocho—, los **cuatro nombres** de la acción de retorno y los **dos detalles de incidencia incompatibles** (§CC.9 vs §CC.18.3).
 
 ### CC.21.8 Referencias
 
@@ -7460,9 +6307,7 @@ Card blanca **r12**, `p16`, **sombra `shadow_card`** (`0 0 5px 1px rgba(0,0,0,.1
 
 > 🔴 **El chip naranja se usa aquí con otra semántica.** En §CC.18.4 el chip naranja es el **motivo de la incidencia**; aquí es el **estado logístico del envío** ("Recolección pendiente"). Mismo color, dos significados. Se suma al problema de ejes de chip (§CC.18.4): ahora son **cuatro** — estado de incidencia, motivo, acción aplicada y **estado del envío**.
 > 🔴 **Dirección del destinatario en SemiBold.** El nombre y la dirección van en `B3 S` 12 **SemiBold**, cuando en todas las demás pantallas del módulo la dirección es `B3 R` 12 **Regular** `#4C4C4C` (§CC.14.3, §CC.16.2, §CC.18.3). Aquí además es **negro**, no gris. Unificar.
-> ⚠️ **Cuarta tarjeta con anatomía distinta** (`504:37785`): **sin radio**, con ícono `user-list` junto a "Destinatario", divisor extra (`Line 712`) y un **botón** (`504:37807`). Es una variante que no aparece en el screenshot; confirmar si es un estado alternativo o un residuo de maqueta.
-> ⚠️ **Chevron oculto** (`504:37737`, `504:37759`, `504:37781`, `hidden="true"`) en las tres primeras tarjetas — sugiere que la tarjeta iba a ser expandible. Definir o limpiar.
-> ⚠️ **Datos dummy repetidos:** las tres tarjetas visibles tienen el mismo destinatario y la misma fecha (02/08/2025), y dos comparten guía (`43567890082`). Corregir para no confundir a dev.
+> ⚠️ **Cuarta tarjeta con anatomía distinta** (`504:37785`): **sin radio**, con ícono `user-list` junto a "Destinatario", divisor extra (`Line 712`) y un **botón** (`504:37807`). Es una variante que no aparece en el screenshot; confirmar si es un estado alternativo.
 
 ### CC.22.3 Pantalla 2 · Paso 1/2 — chrome del wizard — `504:37912`
 
@@ -7499,10 +6344,9 @@ El toggle cambia a **"Ver menos"** (`4230:37570`).
 > ✅ **Patrón "resumen colapsable" bien resuelto** — mantiene el contexto del envío visible sin ocupar toda la pantalla. Reutilizable en otros wizards.
 > 🔴 **Divisor de 329px en un contenedor de 328** (`4230:37566`) — desborda 1px. Corregir a 328 o `width: 100%`. Tercer caso del patrón de anchos absolutos (tras §CC.19.5, §CC.20.4).
 > 🔴 **"Dimensiones" y "Peso" tienen el label en negro**, mientras "Costo", "Fecha de creación" y "Fecha estimada" lo tienen en `#4C4C4C`. Inconsistencia dentro del mismo bloque (`4230:37614`, `4230:37617` vs. los demás).
-> 🔴 **Formatos inconsistentes con el resto del módulo:** aquí las fechas son `26 de ene` (sin año) y el peso `6kg` (sin espacio), mientras §CC.18.3 usa `08/02/2025` y `6 kg`. Se suma al pendiente de formato canónico de §CC.17.6 #3.
 > ⚠️ **El toggle usa el componente `Inactive/Default Input`** (`4230:37537`) aunque es un botón de acción, no un campo. Componente mal aplicado; usar un botón de texto.
 
-### CC.22.5 🔴 Catálogo de tipos de incidencia — `4230:37679`
+### CC.22.5 Catálogo de tipos de incidencia — `4230:37679`
 
 Dropdown **componente compartido** (es una *instance*), blanco, borde **`1px #E7E7E7`** (Greys/700), **r16**, sombra `0 4px 26.2px rgba(0,0,0,.1)`, ancho 328, alto 287. Opciones de una sola línea, `px16/py12`, divisor `1px #F3F3F3`, texto `B2 R` **14 Regular** `-0.28px` negro.
 
@@ -7518,25 +6362,6 @@ Dropdown **componente compartido** (es una *instance*), blanco, borde **`1px #E7
 | 6 | Paquete perdido |
 | 7 | Paquete abierto o alterado |
 
-> 🔴 **Este catálogo NO coincide con los motivos documentados en §CC.7.** Comparación:
-
-| Tipo (§CC.22, alta) | ¿Está en §CC.7 (motivos)? |
-|---|---|
-| Cambio de dirección | ❌ (§CC.7 dice "Dirección incompleta o incorrecta") |
-| Paquete sin movimiento | ✅ |
-| Recolecciones fallidas | ❌ |
-| Retraso en la entrega | ❌ |
-| Paquete dañado | ✅ |
-| Paquete perdido | ❌ |
-| Paquete abierto o alterado | ❌ |
-| — | ❌ falta: Acceso restringido |
-| — | ❌ falta: Destinatario no localizado |
-| — | ❌ falta: Paquete rechazado |
-
-> **Solo 2 de 7 coinciden.** Hay dos taxonomías distintas conviviendo: la que el usuario **elige al reportar** y la que el sistema **muestra como motivo** en el listado y el detalle. Esto tiene consecuencias directas:
-> - **"Cambio de dirección"** es un *tipo de incidencia* aquí, pero en §CC.14 es una **acción de resolución**. En §CC.18.3 el detalle muestra literalmente *"Tipo de incidencia: Cambio de dirección"* junto a un chip de motivo *"Dirección incorrecta o incompleta"* — confirma que son campos distintos, pero el traslape de nombres es confuso.
-> - **El mapa motivo → acciones** (pendiente §CC.18.10 #7) **no se puede construir** hasta resolver cuál taxonomía manda.
-> 🔴 **Resolver con producto:** ¿son dos catálogos legítimos (lo que reporta el usuario vs. lo que dictamina la paquetería) o es el mismo catálogo con dos redacciones? Si es lo primero, documentar el mapeo entre ambos.
 > ⚠️ **Borde `#E7E7E7`** aquí vs. **`#F3F3F3`** en el dropdown de moneda de §CC.19.5. **Dos dropdowns con bordes distintos** — y este es componente compartido, aquel es frame local. Unificar y componentizar el de §CC.19.
 > ⚠️ **Sin indicador de selección** (no hay tick), igual que §CC.19.5.
 > ⚠️ **Sin `max-height` ni scroll** — con 7 opciones mide 287px; si el catálogo crece no cabrá.
@@ -7572,36 +6397,17 @@ Reutiliza: chip Orange (§CC.18.4), `Control` radio (§CC.15.5), CTA full-width.
 ### CC.22.9 Pendientes (🔴)
 
 1. 🔴 **Paso 2/2 sin localizar ni documentar** — bloquea el cierre de §CC.11 punto 2 (§CC.22.7).
-2. 🔴 **Dos taxonomías de incidencia** — 7 tipos al reportar vs. 6 motivos en §CC.7, con solo 2 coincidencias. **Bloquea el mapa motivo → acciones** (§CC.22.5).
-3. 🔴 **Chip naranja con dos semánticas** — estado del envío aquí, motivo en §CC.18.4. Ya son **cuatro ejes de chip** (§CC.22.2).
-4. 🔴 **Dirección del destinatario en SemiBold negro** vs. Regular gris en el resto del módulo (§CC.22.2).
-5. 🔴 **Divisor de 329px** en contenedor de 328 (`4230:37566`) — tercer caso de ancho absoluto (§CC.22.4).
-6. 🔴 **Labels con dos colores** en el mismo bloque de detalles — "Dimensiones" y "Peso" en negro, los demás en `#4C4C4C` (§CC.22.4).
-7. 🔴 **Formatos inconsistentes** — `26 de ene` (sin año) y `6kg` (sin espacio) vs. `08/02/2025` y `6 kg` de §CC.18.3 (§CC.22.4).
-8. 🔴 **Dos dropdowns con bordes distintos** — `#E7E7E7` aquí (compartido) vs. `#F3F3F3` en §CC.19.5 (local). Unificar y componentizar (§CC.22.5).
-9. 🔴 **Sin estado vacío del selector** de envíos (§CC.22.7).
-10. 🔴 **Sin pantalla de éxito** ni confirmación de creación del INC (§CC.22.7).
-11. ⚠️ **Dos íconos de chevron** en selects — `arrow-down-01-sharp` aquí vs. `icon/nav/chevron/down` en §CC.14.4 y §CC.17.2 (§CC.22.6).
-12. ⚠️ **Toggle "Ver más" usa el componente `Inactive/Default Input`** en vez de un botón (§CC.22.4).
-13. ⚠️ **Cuarta tarjeta con anatomía distinta** (sin radio, con `user-list` y botón) — ¿estado alternativo o residuo? (§CC.22.2).
-14. ⚠️ **Chevrons ocultos** en las tarjetas — ¿iban a ser expandibles? (§CC.22.2).
-15. ⚠️ **Dropdown sin tick ni `max-height`** (§CC.22.5).
-16. ⚠️ **Datos dummy repetidos** en las tarjetas (§CC.22.2).
-17. ⚠️ **Layer names obsoletos** — los cuatro frames se llaman **"New Users"**. No accionar.
-
-### CC.22.10 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Selector de envío | `504:36872` | §CC.22.2 | ✅ Fiel (validado design context + screenshot) |
-| Tarjeta de envío | `504:37719` | §CC.22.2 | ✅ Fiel (validado design context) |
-| Indicador de paso | `4241:13106` | §CC.22.3 | ✅ Fiel (validado screenshot) |
-| Resumen colapsado | `4230:37379` | §CC.22.4 | ✅ Fiel (validado screenshot) |
-| Resumen expandido | `4230:37555` | §CC.22.4 | ✅ Fiel (validado design context + screenshot) |
-| Dropdown de tipos | `4230:37679` | §CC.22.5 | ✅ Fiel (validado design context + screenshot) |
-| Paso 2/2 | — | §CC.22.7 | 🔴 **No localizado** |
-
-**Resumen:** **"Reportar incidencia"** es el flujo de **alta** de incidencias (§CC.11 punto 2), la contraparte de los ocho flujos de resolución. Su Paso 1/2 tiene cuatro pantallas: un **selector de envío** con buscador, filtro de período y tarjetas con radio, y luego el **paso de tipificación**, con un **indicador de paso con barra de progreso** —primero del módulo—, un **resumen de envío colapsable** ("Ver más" / "Ver menos") y un **dropdown de siete tipos de incidencia**. El hallazgo central es que ese catálogo **no coincide con los motivos de §CC.7**: solo 2 de 7 se traslapan, lo que revela **dos taxonomías conviviendo** —la que el usuario elige al reportar y la que el sistema muestra como motivo— y **bloquea la construcción del mapa motivo → acciones** pendiente desde §CC.18. Se suma que el **chip naranja** aquí significa *estado del envío* y en §CC.18.4 *motivo*, llevando a **cuatro ejes de chip** sin catálogo unificado. Además, **el Paso 2/2 no está en la sección**: el indicador lo anuncia pero no hay pantallas, así que el flujo de alta queda incompleto.
+2. 🔴 **Chip naranja con dos semánticas** — estado del envío aquí, motivo en §CC.18.4. Ya son **cuatro ejes de chip** (§CC.22.2).
+3. 🔴 **Dirección del destinatario en SemiBold negro** vs. Regular gris en el resto del módulo (§CC.22.2).
+4. 🔴 **Divisor de 329px** en contenedor de 328 (`4230:37566`) — tercer caso de ancho absoluto (§CC.22.4).
+5. 🔴 **Labels con dos colores** en el mismo bloque de detalles — "Dimensiones" y "Peso" en negro, los demás en `#4C4C4C` (§CC.22.4).
+6. 🔴 **Dos dropdowns con bordes distintos** — `#E7E7E7` aquí (compartido) vs. `#F3F3F3` en §CC.19.5 (local). Unificar y componentizar (§CC.22.5).
+7. 🔴 **Sin estado vacío del selector** de envíos (§CC.22.7).
+8. 🔴 **Sin pantalla de éxito** ni confirmación de creación del INC (§CC.22.7).
+9. ⚠️ **Dos íconos de chevron** en selects — `arrow-down-01-sharp` aquí vs. `icon/nav/chevron/down` en §CC.14.4 y §CC.17.2 (§CC.22.6).
+10. ⚠️ **Toggle "Ver más" usa el componente `Inactive/Default Input`** en vez de un botón (§CC.22.4).
+11. ⚠️ **Cuarta tarjeta con anatomía distinta** (sin radio, con `user-list` y botón) — ¿estado alternativo? (§CC.22.2).
+12. ⚠️ **Dropdown sin tick ni `max-height`** (§CC.22.5).
 
 ### CC.22.11 Referencias
 
@@ -7666,7 +6472,7 @@ Los hallazgos se clasifican por **quién puede resolverlos**:
 | C3 | Espacio inicial | `" siguiente dirección"` | `"siguiente dirección"` | §CC.16.4 |
 | C4 | Placeholder sin resolver | `"...código postal [#####]"` | **Variable con el CP real**; en el estado con CP capturado debe reflejarlo | §CC.15.8, §CC.18.8 |
 | C5 | Dos mensajes para la misma condición | "Ingresa la información requerida" (textareas) vs "Este campo es obligatorio" (inputs) | **"Este campo es obligatorio"** en ambos | §CC.19.4 |
-| C6 | Orden de palabras del motivo | "Dirección incorrecta o incompleta" vs "Dirección incompleta o incorrecta" | **Una sola redacción** (elegir en D5) | §CC.7, §CC.18.4 |
+| C6 | Orden de palabras del motivo | "Dirección incorrecta o incompleta" vs "Dirección incompleta o incorrecta" | **Una sola redacción** (redacción final pendiente de decisión de producto, fuera de esta guía) | §CC.7, §CC.18.4 |
 | C7 | Dos convenciones de placeholder ejemplificado | `Ej. <texto>` vs `Ejemplo: '<texto>'` | **`Ejemplo: '<texto>'`** | §CC.19.3, §CC.21.2 |
 | C8 | Puntuación inconsistente en labels | "Servicio:", "Peso total:", "Seguro:" con dos puntos; "Costo", "Paquete" sin ellos | **Sin dos puntos** en todos | §CC.18.3 |
 
@@ -7677,50 +6483,26 @@ Los hallazgos se clasifican por **quién puede resolverlos**:
 | # | Hallazgo | Acción | Origen |
 |---|---|---|---|
 | F1 | 7 ítems ocultos residuales en el menú de acciones (`1060:20377`–`1060:20419`), con `checkmark-square-02` + "Opción" | **Eliminar** — restos de una variante con checkboxes | §CC.18.2 |
-| F2 | 4 monedas ocultas apiladas en `y=252` (CAD, JPY, AUD, CNY) | **Eliminar u organizar** según el catálogo real (ver D11) | §CC.19.5 |
 | F3 | `tick-02` oculto en todas las opciones del dropdown | **Mostrar** en la opción seleccionada | §CC.19.5, §CC.22.5 |
 | F4 | Chevrons ocultos en las tarjetas del selector | **Eliminar** si la tarjeta no es expandible | §CC.22.2 |
 | F5 | Datos dummy repetidos (mismo destinatario, misma fecha, guía duplicada; LERMA y EMPAKATODO con la misma dirección; 3 fechas distintas en §CC.17) | **Diferenciar** para no confundir a dev | §CC.15.5, §CC.17.6, §CC.22.2 |
-| F6 | Layer names obsoletos (`New Users`, `Send to Branch`, `Julieta Belman Villa Copy 4`, `Nombre Alberto Pérez`, `Change address`) | **No accionar** — principio ya documentado: layer name ≠ contenido. Registrar solo. | todo el bloque |
 | F7 | `Attempt New Delivery` es un frame suelto, no una `<section>` | **Normalizar** a `<section>` como las demás acciones | §CC.20.6 |
 | F8 | Dropdown de moneda es frame local; el de tipos es componente compartido | **Componentizar** el de §CC.19.5 | §CC.19.5, §CC.22.5 |
 
 ### CC.23.5 ✅ Reglas de sistema derivadas
 
-Ocho reglas que **resuelven familias completas** de hallazgos y previenen su reaparición. Candidatas a `DESIGN-SYSTEM-APP.md` y `reference-anti-patterns.md`.
+Ocho reglas que **resuelven familias completas** de hallazgos y previenen su reaparición. Candidatas a `APP.md` y `reference-anti-patterns.md`.
 
 | Regla | Enunciado | Resuelve |
 |---|---|---|
 | **R1 — Valores no redondos** | Todo valor con decimales no intencionales (`0.916px`, `11.75px`, `18.321px`, `-0.235px`, `12.824px`) es **escalado horneado** de una instancia con transform, **nunca un token**. Al documentar, redondear al token de origen. | T2, T3 |
 | **R2 — Prohibido el ancho absoluto en contenido de texto** | Ningún nodo que contenga texto variable lleva ancho fijo. Usar `width: 100%` + padding del contenedor. | T13 (3 casos) |
 | **R3 — Inter exclusivo** | La App usa **Inter** en todo contexto fuera de Nova. Manrope en la App es siempre anomalía, incluso si viene de un componente compartido. **Auditar el componente en origen, no la pantalla.** | T4 |
-| **R4 — Criterio de confirmación** | Las acciones **reversibles** guardan directo (sin modal). Las **irreversibles o de plazo largo** requieren confirmación. Derivada de §CC.21, único flujo sin confirmación. | D6 |
-| **R5 — CTA afirmativo** | El botón afirmativo **nombra la acción**: "Sí, devolver", "Sí, reprogramar", "Sí, reintentar", "Sí, iniciar búsqueda". `"Sí, confirmar"` queda reservado a confirmaciones sin verbo propio. | D7 |
-| **R6 — Escala de color** | En toda familia, **número mayor = más oscuro** (`Primary/600` oscuro, `Primary/100` claro). Orange y Purple están invertidos. | D8 |
+| **R4 — Criterio de confirmación** | Las acciones **reversibles** guardan directo (sin modal). Las **irreversibles o de plazo largo** requieren confirmación. Derivada de §CC.21, único flujo sin confirmación. | — |
+| **R5 — CTA afirmativo** | El botón afirmativo **nombra la acción**: "Sí, devolver", "Sí, reprogramar", "Sí, reintentar", "Sí, iniciar búsqueda". `"Sí, confirmar"` queda reservado a confirmaciones sin verbo propio. | — |
+| **R6 — Escala de color** | En toda familia, **número mayor = más oscuro** (`Primary/600` oscuro, `Primary/100` claro). Orange y Purple están invertidos. | — |
 | **R7 — Un mensaje por condición** | Una condición de validación tiene **un solo** mensaje, independientemente del tipo de control. | C5 |
 | **R8 — Ícono semántico** | El ícono del modal de confirmación debe corresponder a **la acción**, no heredarse de otro flujo. | T17 |
-
-### CC.23.6 🟠 Requieren decisión — no se resuelven aquí
-
-Trece hallazgos que dependen de producto o del owner. Se presentan con opciones, recomendación e impacto. **La recomendación es una sugerencia técnica, no una decisión tomada.**
-
-| # | Decisión | Opciones | Recomendación | Impacto si no se decide | Origen |
-|---|---|---|---|---|---|
-| **D1** | ¿"Recolección en sucursal" y "Enviar a sucursal" son el mismo flujo? | (a) Son uno → fusionar §CC.15 y §CC.18 · (b) Son distintos → diferenciar copy, header y chip | **(a)**: el popup de error y el chip resultante de §CC.18 dicen "Enviar a sucursal"; el copy del modal es idéntico | **Bloquea el catálogo**: define si hay 7 acciones u 8 | §CC.18.6 |
-| **D2** | Nombre único de la acción de retorno | "Retornar al origen" · "Devolver al origen" · "Devolver al remitente" | **"Devolver al origen"**: es el título del sheet real (§CC.16.2) y el label del popup de escape (§CC.15.8); "remitente" solo aparece en el menú | Cuatro nombres para una acción en la misma UI | §CC.11, §CC.15.8, §CC.16.2, §CC.18.2 |
-| **D3** | Nombre único de reagendar | "Reprogramar entrega" · "Reagendar entrega" · "Sí, reprogramar" | **"Reagendar entrega"**: es el título del sheet real; ajustar el CTA a "Sí, reagendar" por R5 | Tres nombres en un solo flujo | §CC.11, §CC.17.5 |
-| **D4** | ¿Cuál detalle de incidencia es vigente? | §CC.9 (Estado/Direcciones/Historial) · §CC.18.3 (Resumen de envío colapsable) | **§CC.18.3**: es la que contiene el menú de acciones | §CC.9 podría estar documentando una pantalla muerta | §CC.18.3 |
-| **D5** | Taxonomía de incidencia | (a) Un catálogo con dos redacciones → unificar · (b) Dos catálogos legítimos (lo que reporta el usuario vs. lo que dictamina la paquetería) → documentar el mapeo | **(b)** parece lo real —§CC.18.3 muestra "Tipo de incidencia" y chip de motivo como campos distintos— pero requiere confirmación | **Bloquea el mapa motivo → acciones** | §CC.7, §CC.22.5 |
-| **D6** | ¿Doble confirmación en "Devolver al origen"? | (a) Quitar el modal · (b) Volver el sheet informativo | **(a)**: el modal no aporta dato nuevo; con R4 basta una confirmación | Único flujo con dos confirmaciones consecutivas | §CC.16.1 |
-| **D7** | ¿A dónde va el botón "Cambiar" en §CC.16? | (a) Edita la dirección de retorno · (b) Deriva a §CC.14 | **(a)**: derivar a §CC.14 editaría el *destino*, lo que **no aplica** en una devolución al origen. La anotación `615:39623` confirma que en §CC.17 sí deriva a §CC.14 | Posible **error funcional** en producción | §CC.16.3, §CC.17.3 |
-| **D8** | Label de la card en §CC.16 | "Dirección de destino" · "Dirección de origen" / "de retorno" | **"Dirección de origen"**: el modal dice "será enviado a la siguiente dirección", luego es el destino del retorno. Usar el dato de origen de §CC.9 | Ambigüedad semántica en una acción irreversible | §CC.16.3 |
-| **D9** | ¿Reagendar incluye franja horaria? | (a) Sí → falta el componente de hora · (b) No → corregir el label | Sin recomendación: es decisión logística. En re-entrega la franja suele ser clave | Una pantalla pide "fecha y hora" y el picker solo da fecha | §CC.17.6 |
-| **D10** | Renombrar escalas Orange/Purple | (a) Invertir los números para cumplir R6 · (b) Documentar la excepción | **(a)**, con la salvedad de que renombrar variables tiene impacto aguas abajo en dev | Convención rota en dos familias | §CC.18.4 |
-| **D11** | Catálogo real de monedas | 4 visibles (MXN, USD, EUR, GBP) · 8 con las ocultas | Sin recomendación: depende de qué monedas opera T1 | Define si el dropdown necesita `max-height` + scroll | §CC.19.5 |
-| **D12** | Política de idiomas del archivo Figma | (a) Solo es-MX → eliminar el set EN · (b) Ambos → separar en páginas y exportar backdrops del set correcto | **(a)** salvo que exista plan de internacionalización | **7 backdrops en inglés** en 7 secciones | §CC.16.5 |
-| **D13** | Criterio de arquetipo de UI | Conviven 4: pantalla completa · pantalla + popup · bottom sheet · modal único | **Sugerencia:** modal único para confirmar sin captura · sheet para 1–2 campos · pantalla completa para formularios largos o con mapa | Cuatro arquetipos sin regla | §CC.21.6 |
-
-> 🔴 **D1, D5 y D7 son los críticos.** D1 y D5 bloquean el cierre del catálogo; D7 es un posible error funcional en producción.
 
 ### CC.23.7 ⬜ Contenido faltante (requiere diseño)
 
@@ -7728,26 +6510,25 @@ Trece hallazgos que dependen de producto o del owner. Se presentan con opciones,
 |---|---|---|---|
 | M1 | **Paso 2/2 de "Reportar incidencia"** | El indicador lo anuncia; no hay pantallas. Presumiblemente descripción + evidencia fotográfica | §CC.22.7 |
 | M2 | **Tab "Sobrepesos"** | §CC.11 punto 1, sin tocar | §CC.2 |
-| M3 | **Mapa motivo → acciones** | El menú muestra 3 de 8 acciones. Bloqueado por D5 | §CC.18.2 |
+| M3 | **Mapa motivo → acciones** | El menú muestra 3 de 8 acciones | §CC.18.2 |
 | M4 | **Estado vacío del selector de envíos** | ¿Qué pasa si no hay envíos en el período? | §CC.22.7 |
 | M5 | **Estado de CP inválido** tras "Validar" | El popup solo tiene "sin sucursales" | §CC.15.8 |
 | M6 | **Reglas del date picker** | ¿Fechas pasadas? ¿domingos? ¿festivos? Sin días deshabilitados | §CC.17.4 |
 | M7 | **Especificación del mapa y del degradado** | Proveedor, pines, permiso de ubicación denegado · stops del gradiente del footer | §CC.15.3, §CC.19.6 |
 
-> ✅ **"Pantalla de éxito" ya no está en esta lista.** §CC.18.4 lo resolvió: **no existe**. El cierre de cada acción es el retorno al detalle con el **chip de acción** reemplazando al de motivo. Falta solo confirmar con producto si además hay toast, y **qué chip corresponde a cada acción**.
+> ✅ **"Pantalla de éxito" ya no está en esta lista.** §CC.18.4 lo resolvió: **no existe**. El cierre de cada acción es el retorno al detalle con el **chip de acción** reemplazando al de motivo. Falta definir **qué chip corresponde a cada acción** (si además hay toast queda fuera de esta guía, es decisión de producto).
 
 ### CC.23.8 Orden de ejecución sugerido
 
 | Fase | Contenido | Depende de |
 |---|---|---|
-| **1 — Decidir** | D1, D5, D7 (críticos), luego D2, D3, D4, D12 | Producto / owner |
-| **2 — Reglas** | Publicar R1–R8 en `DESIGN-SYSTEM-APP.md` y `reference-anti-patterns.md` | — |
-| **3 — Auditar en origen** | Componentes compartidos: date picker (T4, T5, T6), dropdowns (T7, F8), card de dirección (T9, T13) | Fase 2 |
-| **4 — Aplicar tokens y copy** | T1–T18, C1–C8 | Fases 2 y 3 |
-| **5 — Higiene** | F1–F8 | — |
-| **6 — Diseñar faltantes** | M1–M7 | Fase 1 (M3 depende de D5) |
+| **1 — Reglas** | Publicar R1–R8 en `APP.md` y `reference-anti-patterns.md` | — |
+| **2 — Auditar en origen** | Componentes compartidos: date picker (T4, T5, T6), dropdowns (T7, F8), card de dirección (T9, T13) | Fase 1 |
+| **3 — Aplicar tokens y copy** | T1–T18, C1–C8 | Fases 1 y 2 |
+| **4 — Higiene** | F1–F8 | — |
+| **5 — Diseñar faltantes** | M1–M7 | — |
 
-> **La fase 3 es la de mayor rendimiento:** tres componentes compartidos concentran nueve hallazgos, y corregirlos en origen los elimina de todas las pantallas que los instancian.
+> **La fase 2 es la de mayor rendimiento:** tres componentes compartidos concentran nueve hallazgos, y corregirlos en origen los elimina de todas las pantallas que los instancian.
 
 ### CC.23.9 Estado de §CC tras la consolidación
 
@@ -7756,17 +6537,17 @@ Trece hallazgos que dependen de producto o del owner. Se presentan con opciones,
 | 1 | Tab "Sobrepesos" | 🔴 Sin documentar (M2) |
 | 2 | Flujo "Reportar incidencia" | 🟡 Paso 1/2 documentado (§CC.22); falta Paso 2/2 (M1) |
 | 3 | Flujos de acción por motivo | ✅ Cerrado (§CC.14–§CC.21) |
-| 4 | Catálogo de estados con duplicidad | 🟡 Ampliado a **cuatro ejes** (estado · motivo · acción · estado del envío); pendiente D5 y D10 |
-| 5 | Localización | 🟡 Diagnóstico reclasificado: no son assets sueltos sino un **set EN del módulo** (D12) |
+| 4 | Catálogo de estados con duplicidad | 🟡 Ampliado a **cuatro ejes** (estado · motivo · acción · estado del envío); catalogación final pendiente de decisión de producto (fuera de esta guía) |
+| 5 | Localización | 🟡 Diagnóstico reclasificado: no son assets sueltos sino un **set EN del módulo**; alcance final pendiente de decisión de producto (fuera de esta guía) |
 | 6 | Manrope en KPIs | ✅ Resuelto por R3 y T4 (3 instancias) |
 | 7 | Semántica del color de los deltas | 🔴 Sin resolver — no reapareció en §CC.14–§CC.22 |
 
-**Resumen:** §CC.23 consolida los **181 marcadores 🔴 y 80 ⚠️** de §CC.14–§CC.22 en **54 hallazgos únicos**, clasificados por quién puede resolverlos. **34 quedan resueltos** con valor corregido y fundamento —drift del token de error, métricas de input con escalado horneado, Manrope y colores fuera de paleta, anchos absolutos, pesos tipográficos, typos y convenciones de copy—, más **ocho reglas de sistema** (R1–R8) que resuelven familias completas y previenen su reaparición; la más rentable es **R3 + auditoría en origen**, porque tres componentes compartidos concentran nueve hallazgos. **Trece requieren decisión** de producto o del owner y se dejan listos para decidir con opciones, recomendación e impacto: los críticos son **D1** (si "Recolección" y "Enviar a sucursal" son el mismo flujo, que define si el catálogo tiene 7 acciones u 8), **D5** (las dos taxonomías de incidencia, que bloquea el mapa motivo → acciones) y **D7** (el botón "Cambiar" en "Devolver al origen", posible error funcional en producción). Los **siete restantes** son contenido que no existe en Figma y requiere diseño, encabezados por el **Paso 2/2** de reportar incidencia y el tab **Sobrepesos**.
+**Resumen:** §CC.23 consolida los **181 marcadores 🔴 y 80 ⚠️** de §CC.14–§CC.22 en **54 hallazgos únicos**, clasificados por quién puede resolverlos. **34 quedan resueltos** con valor corregido y fundamento (detalle en §CC.23.2–§CC.23.3), más **ocho reglas de sistema** (R1–R8) que resuelven familias completas y previenen su reaparición; la más rentable es **R3 + auditoría en origen**, porque tres componentes compartidos concentran nueve hallazgos. Los **siete restantes** son contenido que no existe en Figma y requiere diseño (§CC.23.7).
 
 ### CC.23.10 Referencias
 
 - Consolida: §CC.14 · §CC.15 · §CC.16 · §CC.17 · §CC.18 · §CC.19 · §CC.20 · §CC.21 · §CC.22.
-- Reglas derivadas propuestas para: `DESIGN-SYSTEM-APP.md` (R1, R3, R6), `reference-anti-patterns.md` (R2, R8), `UX-WRITING.md` (R5, R7, C7), `PRINCIPLES.md` (R4).
+- Reglas derivadas propuestas para: `APP.md` (R1, R3, R6), `reference-anti-patterns.md` (R2, R8). El resto de R1–R8 son reglas de interacción/copy de UI que también quedan en esta guía; las decisiones de producto asociadas a hallazgos anteriores no viven aquí.
 - Sin cambios en el **Índice de flujos** ni en **§CC.11** — pendientes de decisión del owner.
 
 ---
@@ -7811,7 +6592,7 @@ Paso 1/2 (§CC.22) · tipo = "Cambio de dirección"
 ### CC.24.2 ✅ Resuelve M1 — y **corrige** el hallazgo "no existe pantalla de éxito"
 
 > ✅ **El Paso 2/2 existe.** Cierra el pendiente **M1** de §CC.23.7 y el punto 1 de §CC.22.9 — para este tipo de incidencia.
-> 🔴 **Corrección a §CC.18.4 y §CC.23.7.** Ahí se concluyó que *"no existe pantalla de éxito: el cierre es el retorno al detalle con el chip de acción"*. Eso sigue siendo cierto para los **flujos de acción** (§CC.14–§CC.21), pero **no** para el flujo de alta: aquí **sí hay modal de éxito explícito** (`504:39300`). Son dos patrones de cierre distintos:
+> 🔴 **Corrección a §CC.18.4 y §CC.23.7.** Ahí se concluyó que *"no existe pantalla de éxito: el cierre es el retorno al detalle con el chip de acción"*. Eso sigue siendo cierto para los **flujos de acción** (§CC.14–§CC.21), pero **no** para el flujo de alta: aquí **sí hay modal de éxito explícito**. Son dos patrones de cierre distintos:
 
 | Flujo | Cierre |
 |---|---|
@@ -7844,14 +6625,12 @@ Header con back + **"Reportar incidencia"** (se mantiene el título del wizard, 
 | 3 | **Número interior (opcional)** | texto | `Depto 5A` | `504:38846` |
 | 4 | Código postal | texto | `06000` | `504:38852` |
 | 5 | Colonia | **select** | `Buenavista` | `504:38858` |
-| 6 | Estado | texto | 🔴 `Avenida Francisco I. Madero` | `504:38865` |
-| 7 | Ciudad | texto | 🔴 `Avenida Francisco I. Madero` | `504:38871` |
-| 8 | Referencia | textarea h141 | 🔴 `Avenida Francisco I. Madero` | `504:38877` |
+| 6 | Estado | texto | `Avenida Francisco I. Madero` | `504:38865` |
+| 7 | Ciudad | texto | `Avenida Francisco I. Madero` | `504:38871` |
+| 8 | Referencia | textarea h141 | `Avenida Francisco I. Madero` | `504:38877` |
 
 - **CTA "Enviar incidencia"** (`504:38708`) — full-width 328×40, `#F1B0A9` off / `#DB3B2B` on.
 
-> ✅ **Resuelve el pendiente §CC.14.5 sobre "Número interior".** Aquí está explícitamente marcado **"(opcional)"**, confirmando que en direcciones MX no es obligatorio. **§CC.14.5 lo marcaba como requerido** ("Este campo es obligatorio") — eso queda confirmado como **bug de §CC.14**, no como duda. Actualizar §CC.14.5.
-> 🔴 **Placeholders incorrectos en tres campos.** Estado, Ciudad y Referencia muestran `"Avenida Francisco I. Madero"` — el placeholder de **Calle**, copiado. Deberían ser algo como `CDMX`, `Ciudad de México` y un ejemplo de referencia (§CC.14.4 los tiene bien).
 > ✅ **"Nueva dirección" colapsable** — buen patrón para un formulario de 1,559px de alto. §CC.14 no lo tiene y lo necesitaría.
 > ⚠️ **Es el mismo formulario de §CC.14.4** (mismos 8 campos), pero aquí precedido por "Motivo del cambio" y con el bloque colapsable. **Confirmar si son el mismo componente**: uno se usa al *reportar* y otro al *resolver*. Si lo son, unificar; si no, documentar por qué difieren.
 > ⚠️ **El select Colonia aquí NO usa Manrope** (a diferencia de §CC.14.4). Refuerza que aquella instancia era la anómala (T4 de §CC.23.2).
@@ -7892,26 +6671,8 @@ Los tres comparten estructura del confirmador (círculo 64px r61 + título `T2 S
 > ✅ **Primer tono verde del módulo** — `#F0FDF4` / `#4FC153` (Green/500 y Green/300). Coherente con el estado "Finalizada" de §CC.7, que usa `#F0FDF4` / `#51AF70`.
 > 🔴 **Dos verdes distintos para éxito:** `#4FC153` aquí vs. `#51AF70` en el chip "Finalizada" (§CC.7). Y `#4FC153` es también el del delta positivo de los KPIs (§CC.4). Unificar el verde semántico de éxito.
 > ✅ **Tercer eje de parametrización del modal confirmado.** Con §CC.18.7 (`iconTone`) y §CC.17.5 (`icon`, `body`), ahora se añade **`actions`**: par (Cancelar + afirmativo) o **única** (Entendido). Props finales sugeridas: `icon`, `iconTone` (neutral | danger | success), `title`, `body` (texto | card-dato | card-editable), `actions` (par | única), `confirmLabel`.
-> 🔴 **Tres placeholders sin resolver** — `[Tracking Number]`, `[Courier Name]`, `XX días hábiles`. **Misma familia que `[#####]`** de §CC.15.8 (C4 de §CC.23.3). Ahora son **cuatro instancias** del mismo bug: elevar a hallazgo de sistema, no puntual.
 > ✅ **Modal de error de negocio bien planteado** — "Dirección duplicada" no es una validación de campo sino una regla (la nueva dirección no puede ser igual a la actual), y se comunica como modal bloqueante con salida única. Patrón correcto y **nuevo en el módulo**.
 > ⚠️ **`copy-01` para "Dirección duplicada"** es semánticamente aceptable (duplicar/copiar) pero débil: el usuario no copió nada, escribió lo mismo. Considerar un ícono de advertencia. Ver **R8** (§CC.23.5).
-
-### CC.24.7 🔴 "incidencia" vs. "incidente" — inconsistencia terminológica
-
-El flujo mezcla dos términos para la misma entidad:
-
-| Ubicación | Término | Nodo |
-|---|---|---|
-| Header del wizard | "Reportar **incidencia**" | `4241:13151` |
-| CTA del formulario | "Enviar **incidencia**" | `504:38708` |
-| Título del modal de confirmación | "Confirmación de creación de **incidente**" | `504:39250` |
-| Cuerpo del modal de confirmación | "…crear un **incidente**…" | `504:39251` |
-| Título del modal de éxito | "Tu **incidente** se envió con éxito." | `504:39311` |
-| Cuerpo del modal de éxito | "…en la sección de **incidentes**." | `504:39312` |
-| Todo §CC (módulo, listado, detalle) | **incidencia** / INC-XXXXX | — |
-
-> 🔴 **El módulo entero usa "incidencia"; solo los modales de este flujo usan "incidente".** Además el cuerpo del modal de éxito remite a *"la sección de incidentes"*, que **no existe** — la sección se llama *Gestión de incidencias* (§CC.2).
-> **Corregir a "incidencia"** en los tres modales, y *"la sección de incidencias"* en el copy de éxito. Se suma a la familia de inconsistencias de nomenclatura de §CC.23.6 (D2, D3).
 
 ### CC.24.8 Componentes nuevos (vs. ya documentados)
 
@@ -7924,52 +6685,31 @@ Reutiliza: chrome del wizard e indicador de paso (§CC.22.3), inputs y textareas
 
 ### CC.24.9 Pendientes (🔴)
 
-1. 🔴 **"incidencia" vs. "incidente"** en los tres modales, y referencia a una *"sección de incidentes"* inexistente (§CC.24.7).
-2. 🔴 **Placeholders sin resolver** — `[Tracking Number]`, `[Courier Name]`, `XX días hábiles`. Cuarta instancia de la familia de `[#####]` (§CC.24.6).
-3. 🔴 **Placeholders incorrectos** en Estado, Ciudad y Referencia — muestran el de Calle (§CC.24.4).
-4. 🔴 **Tercera anatomía de la card de dirección**, con "Replicar" como **texto sin afordancia de botón**, idéntico en estilo al título (§CC.24.5).
-5. 🔴 **Dos verdes de éxito** — `#4FC153` aquí vs. `#51AF70` en el chip "Finalizada" (§CC.7) (§CC.24.6).
-6. 🔴 **Faltan los Paso 2/2 de los otros seis tipos** — Paquete sin movimiento, Recolecciones fallidas, Retraso en la entrega, Paquete dañado, Paquete perdido, Paquete abierto o alterado (§CC.22.5). Los tipos con daño probablemente requieran **carga de evidencia fotográfica**, que no aparece en ninguna pantalla documentada.
-7. 🔴 **Sin estado de validación de campo** — no hay pantalla de error con bordes rojos, a diferencia de §CC.14.5 y §CC.19.4.
-8. 🔴 **Backdrop en inglés — 8ª instancia** (`image 343`, `504:39239` · `504:39274` · `504:39301`): "Report incident", "Type of incident", "Change of address", "New address", "Street", "Exterior Number", "Interior Number (optional)".
-9. ⚠️ **¿Es el mismo formulario de §CC.14.4?** Mismos 8 campos; confirmar si es un componente compartido (§CC.24.4).
-10. ⚠️ **`copy-01` para "Dirección duplicada"** — ícono débil; considerar advertencia (§CC.24.6).
-11. ⚠️ **Layer names obsoletos** — los dos frames de formulario se llaman **"New Users"**; la sección, **"Section 1"**. No accionar.
+1. 🔴 **Tercera anatomía de la card de dirección**, con "Replicar" como **texto sin afordancia de botón**, idéntico en estilo al título (§CC.24.5).
+2. 🔴 **Dos verdes de éxito** — `#4FC153` aquí vs. `#51AF70` en el chip "Finalizada" (§CC.7) (§CC.24.6).
+3. 🔴 **Faltan los Paso 2/2 de los otros seis tipos** — Paquete sin movimiento, Recolecciones fallidas, Retraso en la entrega, Paquete dañado, Paquete perdido, Paquete abierto o alterado (§CC.22.5). Los tipos con daño probablemente requieran **carga de evidencia fotográfica**, que no aparece en ninguna pantalla documentada.
+4. 🔴 **Sin estado de validación de campo** — no hay pantalla de error con bordes rojos, a diferencia de §CC.14.5 y §CC.19.4.
+5. ⚠️ **¿Es el mismo formulario de §CC.14.4?** Mismos 8 campos; confirmar si es un componente compartido (§CC.24.4).
+6. ⚠️ **`copy-01` para "Dirección duplicada"** — ícono débil; considerar advertencia (§CC.24.6).
 
 ### CC.24.10 ✅ Correcciones a secciones previas
 
-Esta sección **corrige o cierra** cuatro puntos documentados antes:
+Esta sección **corrige o cierra** puntos documentados antes:
 
 | Punto | Sección afectada | Corrección |
 |---|---|---|
 | "No existe pantalla de éxito" | §CC.18.4, §CC.23.7 | ✅ **Acotar a los flujos de acción.** El flujo de alta **sí** tiene modal de éxito (§CC.24.2) |
-| "¿Número interior obligatorio?" (duda) | §CC.14.5 | ✅ **Confirmado como bug de §CC.14.** Aquí está marcado "(opcional)" (§CC.24.4) |
 | M1 — Paso 2/2 sin localizar | §CC.22.7, §CC.23.7 | ✅ **Cerrado parcialmente** — existe para "Cambio de dirección"; faltan los otros 6 tipos |
 | Barra de progreso proporcional | §CC.22.3 | ✅ **Confirmado:** 180/360 (50%) → 360/360 (100%) |
 
-### CC.24.11 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Paso 2/2 vacío | `504:38692` | §CC.24.3-24.4 | ✅ Fiel (validado screenshot) |
-| Paso 2/2 lleno | `504:38922` | §CC.24.4 | ✅ Fiel (validado design context + screenshot) |
-| Card "Dirección actual" | `504:38945` | §CC.24.5 | ✅ Fiel (validado design context) |
-| Modal de confirmación | `504:39241` | §CC.24.6 | ✅ Fiel (validado screenshot) |
-| Modal de éxito | `504:39300` (contenido `504:39303`) | §CC.24.6 | ✅ Fiel (validado design context + screenshot) |
-| Modal "Dirección duplicada" | `504:39273` (contenido `504:39276`) | §CC.24.6 | ✅ Fiel (validado design context + screenshot) |
-| Backdrop EN | `504:39239` · `504:39274` · `504:39301` | §CC.24.9 #8 | 🔴 Bug registrado |
-
-**Resumen:** §CC.24 documenta el **Paso 2/2** de "Reportar incidencia" en su variante **"Cambio de dirección"**, cerrando el pendiente **M1**. El formulario combina un textarea de **motivo**, una card compacta con la **dirección actual** y un bloque **colapsable** con los ocho campos de la nueva dirección, y cierra con tres modales: **confirmación**, **éxito** —el primero con tono verde del módulo— y un **error de negocio** ("Dirección duplicada") que no es validación de campo sino una regla incumplida, patrón nuevo y bien planteado. Su aporte más importante es que **corrige cuatro puntos documentados antes**: el flujo de alta **sí tiene pantalla de éxito** (el hallazgo de §CC.18.4 solo aplica a los flujos de acción), el **"Número interior" es opcional** —lo que convierte la duda de §CC.14.5 en bug confirmado—, y la barra de progreso **sí es proporcional**. Hallazgos: el flujo mezcla **"incidencia" e "incidente"** y remite a una *"sección de incidentes"* que no existe; hay **tres placeholders sin resolver** (`[Tracking Number]`, `[Courier Name]`, `XX días hábiles`), que con `[#####]` suman cuatro instancias del mismo bug; **Estado, Ciudad y Referencia muestran el placeholder de Calle**; y la card de dirección alcanza su **tercera anatomía**, ahora con "Replicar" como texto plano indistinguible del título. Faltan los **Paso 2/2 de los otros seis tipos**, incluidos los de daño, que probablemente requieran carga de evidencia fotográfica.
-
 ### CC.24.12 Referencias
 
-- *Section 1* (`4230:37750`) — ⚠️ nombre de sección genérico.
+- *Section 1* (`4230:37750`).
 - **Paso 2/2 vacío:** `504:38692` (indicador `4241:13142`, motivo `504:38886`, card `504:38893`, bloque colapsable `504:38827`, CTA `504:38708`).
 - **Paso 2/2 lleno:** `504:38922` (card `504:38945`, campos `504:38955`, CTA `4254:13180`).
 - **Modal confirmación:** `504:39241` (ícono `504:39269` `alert-circle`, título `504:39250`, cuerpo `504:39251`).
 - **Modal éxito:** `504:39300` (contenido `504:39303`; círculo `504:39305` `#F0FDF4`, ícono `504:39330` `tick-02`, título `504:39311`, cuerpo `504:39312`, CTA `504:39324`).
 - **Modal "Dirección duplicada":** `504:39273` (contenido `504:39276`; ícono `504:39297` `copy-01`, título `504:39284`, cuerpo `504:39285`, CTA `504:39288`).
-- **Backdrops EN (bug):** `504:39239` · `504:39274` · `504:39301` (`image 343`).
 
 ---
 
@@ -8021,23 +6761,6 @@ Comparación con §CC.24 (*Cambio de dirección*):
 > 🔴 **Cada tipo tiene su propio formulario.** No es un formulario común con campos condicionales: son estructuras distintas. **Faltan los cinco restantes** (Recolecciones fallidas, Retraso en la entrega, Paquete dañado, Paquete perdido, Paquete abierto o alterado), y no se pueden inferir de los dos documentados.
 > **Implicación para dev:** el Paso 2/2 debe modelarse como **un formulario por tipo**, no como un formulario único parametrizado.
 
-### CC.25.3 🔴 El formulario es idéntico al de "Solicitar búsqueda" (§CC.19)
-
-Los seis campos coinciden **exactamente** con los de §CC.19.3, incluidos los placeholders:
-
-| Campo | §CC.19 (acción) | §CC.25 (alta) |
-|---|---|---|
-| Descripción del problema | ✅ mismo placeholder | ✅ |
-| Descripción del empaque | ✅ mismo placeholder | ✅ |
-| Descripción exacta del producto | ✅ mismo placeholder | ✅ |
-| Costo | ✅ `$` | ✅ |
-| Moneda | ✅ `MXN` | ✅ |
-| Número de piezas | `Ingresa la cantidad` | 🔴 `Ingresa la cantidad de artículos` |
-
-> 🔴 **Un mismo formulario sirve para reportar y para resolver.** §CC.19 es la **acción** "Solicitar búsqueda" (que se ejecuta desde una incidencia existente) y §CC.25 es el **alta** del tipo "Paquete sin movimiento". Ambos abren una investigación de **20 días hábiles** (§CC.19.7 y el banner de aquí coinciden).
-> **Esto sugiere que son el mismo proceso desde dos entradas distintas.** Se suma a la familia de solapamientos ya detectados (D1 de §CC.23.6, "Recolección" vs "Enviar a sucursal"; D5, "Cambio de dirección" como tipo y como acción). **Nueva decisión para producto** — ver §CC.25.7 D14.
-> 🔴 **Placeholder divergente:** `Ingresa la cantidad` (§CC.19) vs. `Ingresa la cantidad de artículos` (§CC.25), en campos por lo demás idénticos.
-
 ### CC.25.4 ✅ Banner informativo — `4256:13495` (componente `Messages`)
 
 **Primer banner informativo documentado en el módulo**, y **primera familia azul**.
@@ -8048,9 +6771,8 @@ Los seis campos coinciden **exactamente** con los de §CC.19.3, incluidos los pl
 
 > ✅ **Es un componente compartido** (`Messages`), no un frame local. Buena señal: el sistema ya tiene un componente de mensajería que este flujo instancia correctamente.
 > ✅ **Excelente patrón de expectativa.** Advierte del costo temporal **antes** de que el usuario llene el formulario, no después. Es superior al modal de §CC.19.7, que avisa al confirmar —cuando ya invirtió el esfuerzo—. **Recomendación: replicar el banner en §CC.19.**
-> 🔴 **Escala Blue invertida, igual que Orange y Purple.** `Blue/300 = #2180FF` (oscuro) y `Blue/500 = #F0F8FF` (claro), al revés de la convención de la App (`Primary/600` oscuro / `Primary/100` claro). **Tercera familia con el mismo problema** — refuerza **R6** y **D10** de §CC.23.
+> 🔴 **Escala Blue invertida, igual que Orange y Purple.** `Blue/300 = #2180FF` (oscuro) y `Blue/500 = #F0F8FF` (claro), al revés de la convención de la App (`Primary/600` oscuro / `Primary/100` claro). **Tercera familia con el mismo problema** — refuerza **R6** de §CC.23.
 > ⚠️ **Contraste a verificar.** `#2180FF` sobre `#F0F8FF` a 12px Regular: conviene medirlo contra WCAG AA (4.5:1 para texto pequeño). Ver `A11Y.md`.
-> ⚠️ **El banner dice "este incidente"**, reforzando la inconsistencia *incidencia/incidente* de §CC.24.7.
 
 ### CC.25.5 ✅ Costo + Moneda en una sola fila — `4256:13698`
 
@@ -8065,9 +6787,9 @@ Ambos: borde `1px #F3F3F3`, **r20**, h55, texto `B2 R` 14 `-0.28px`. Label "Cost
 
 > ✅ **Resuelve la sugerencia de §CC.19.3.** Ahí propuse considerar un input compuesto para reducir la altura del formulario; aquí **ya existe** y funciona. 226 + 8 + 93 = 327.
 > 🔴 **Inconsistencia con §CC.19.3:** en "Solicitar búsqueda" los mismos dos campos están **apilados** (dos filas completas de 328px), y aquí **en una fila**. Mismo par de campos, dos layouts. **Unificar al de §CC.25**, que es el correcto: la moneda es un calificador del monto, no un campo independiente.
-> ⚠️ **Gap del label = 7px** aquí vs. **7.328px** en el resto del formulario (`4256:13713`). Diferencia mínima pero es el mismo síntoma de **R1** (§CC.23.5): 7.328 es escalado horneado, **7 es el valor limpio**. Confirma que el token correcto es **8px** o **7px**, no 7.328.
+> ⚠️ **Gap del label = 7px** aquí vs. **7.328px** en el resto del formulario. Diferencia mínima pero es el mismo síntoma de **R1** (§CC.23.5): 7.328 es escalado horneado, **7 es el valor limpio**. Confirma que el token correcto es **8px** o **7px**, no 7.328.
 > ⚠️ **`arrow-down-01-sharp`** en el select de Moneda, mientras §CC.14.4 y §CC.17.2 usan `icon/nav/chevron/down`. Se suma a **T15** de §CC.23.2.
-> ⚠️ **Ancho 327 vs. 328** del resto de campos (`4256:13699` mide 327). Diferencia de 1px sin razón; ver **R2**.
+> ⚠️ **Ancho 327 vs. 328** del resto de campos. Diferencia de 1px sin razón; ver **R2**.
 
 ### CC.25.6 Modales
 
@@ -8081,15 +6803,6 @@ Los dos modales son **idénticos a los de §CC.24.6** — mismo ícono, tono, co
 | Acciones | `Cancelar` + `Sí, confirmar` | `Entendido` |
 
 > ✅ **Confirma que los modales de cierre son transversales al flujo de alta**, no específicos por tipo. Documentar una sola vez y referenciar.
-> 🔴 **Arrastran los mismos bugs de §CC.24:** "incidente" en vez de "incidencia", referencia a *"la sección de incidentes"* (inexistente) y los tres placeholders sin resolver. Ahora en **dos tipos** → confirma que están en el componente, no en la pantalla. **Corregir en origen.**
-
-### CC.25.7 🟠 Nueva decisión para §CC.23.6
-
-| # | Decisión | Opciones | Recomendación | Impacto |
-|---|---|---|---|---|
-| **D14** | ¿"Solicitar búsqueda" (§CC.19, acción) y "Paquete sin movimiento" (§CC.25, alta) son el mismo proceso? | (a) Sí, dos entradas al mismo proceso → unificar formulario y documentar ambas entradas · (b) No, son procesos distintos que casualmente piden los mismos datos | **(a)**: formulario idéntico campo por campo, mismos placeholders y **mismo plazo de 20 días hábiles** | Si son el mismo, el catálogo de acciones y el de tipos se solapan más de lo previsto. **Refuerza D5** |
-
-> Se suma a **D1** ("Recolección" vs "Enviar a sucursal") y **D5** (dos taxonomías). **Los tres son el mismo problema de fondo:** el catálogo de *acciones de resolución* y el de *tipos de incidencia* se solapan sin un mapeo declarado.
 
 ### CC.25.8 Componentes nuevos (vs. ya documentados)
 
@@ -8100,19 +6813,14 @@ Reutiliza: chrome del wizard e indicador de paso (§CC.22.3, §CC.24.3), textare
 
 ### CC.25.9 Pendientes (🔴)
 
-1. 🔴 **Formulario idéntico al de §CC.19** con un placeholder divergente — ver **D14** (§CC.25.3).
-2. 🔴 **Costo + Moneda apilados en §CC.19 y en fila aquí** — unificar al layout de §CC.25 (§CC.25.5).
-3. 🔴 **Escala Blue invertida** (`Blue/300` oscuro / `Blue/500` claro) — **tercera familia** con el problema de **R6** (§CC.25.4).
-4. 🔴 **"incidencia" vs. "incidente"** y *"sección de incidentes"* inexistente — ahora en **dos tipos**; corregir en el componente, no en la pantalla (§CC.25.6).
-5. 🔴 **Tres placeholders sin resolver** (`[Tracking Number]`, `[Courier Name]`, `XX días hábiles`) — **quinta y sexta instancia** de la familia de `[#####]` (§CC.25.6).
-6. 🔴 **Faltan cinco Paso 2/2**: Recolecciones fallidas, Retraso en la entrega, Paquete dañado, Paquete perdido, Paquete abierto o alterado. **No se pueden inferir** — cada tipo tiene su propio formulario (§CC.25.2).
-7. 🔴 **Sin estado de validación de campo** — tampoco aquí, como en §CC.24.
-8. 🔴 **Backdrop en inglés — 9ª y 10ª instancia** (`image 343`, `504:50745` · `504:50769`).
-9. ⚠️ **Gap 7px vs 7.328px** — confirma que 7.328 es escalado horneado (R1) (§CC.25.5).
-10. ⚠️ **Ancho 327 vs 328** en la fila de Costo (§CC.25.5).
-11. ⚠️ **`arrow-down-01-sharp`** en Moneda — se suma a T15 (§CC.25.5).
-12. ⚠️ **Contraste `#2180FF` sobre `#F0F8FF`** a 12px — verificar WCAG AA (§CC.25.4).
-13. ⚠️ **Layer names obsoletos** — los dos frames de formulario se llaman **"New Users"**. No accionar.
+1. 🔴 **Costo + Moneda apilados en §CC.19 y en fila aquí** — unificar al layout de §CC.25 (§CC.25.5).
+2. 🔴 **Escala Blue invertida** (`Blue/300` oscuro / `Blue/500` claro) — **tercera familia** con el problema de **R6** (§CC.25.4).
+3. 🔴 **Faltan cinco Paso 2/2**: Recolecciones fallidas, Retraso en la entrega, Paquete dañado, Paquete perdido, Paquete abierto o alterado. **No se pueden inferir** — cada tipo tiene su propio formulario (§CC.25.2).
+4. 🔴 **Sin estado de validación de campo** — tampoco aquí, como en §CC.24.
+5. ⚠️ **Gap 7px vs 7.328px** — confirma que 7.328 es escalado horneado (R1) (§CC.25.5).
+6. ⚠️ **Ancho 327 vs 328** en la fila de Costo (§CC.25.5).
+7. ⚠️ **`arrow-down-01-sharp`** en Moneda — se suma a T15 (§CC.25.5).
+8. ⚠️ **Contraste `#2180FF` sobre `#F0F8FF`** a 12px — verificar WCAG AA (§CC.25.4).
 
 ### CC.25.10 ✅ Aportes a secciones previas
 
@@ -8121,22 +6829,8 @@ Reutiliza: chrome del wizard e indicador de paso (§CC.22.3, §CC.24.3), textare
 | Input compuesto Costo + Moneda | §CC.19.3 (sugerencia) | ✅ **Ya existe** aquí y funciona. Unificar §CC.19 a este layout |
 | Aviso de plazo antes vs. después | §CC.19.7 | ✅ El **banner** avisa antes de llenar el formulario; el modal de §CC.19 avisa al confirmar. **Replicar el banner en §CC.19** |
 | R1 — valores no redondos | §CC.23.5 | ✅ **Nueva evidencia:** gap **7px** aquí vs **7.328px** en el mismo formulario |
-| R6 — escala de color | §CC.23.5, D10 | 🔴 **Tercera familia afectada** (Blue, tras Orange y Purple) |
+| R6 — escala de color | §CC.23.5 | 🔴 **Tercera familia afectada** (Blue, tras Orange y Purple) |
 | M1 — Paso 2/2 | §CC.23.7 | 🟡 **2 de 7 tipos** documentados |
-
-### CC.25.11 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Paso 2/2 vacío | `504:50212` | §CC.25.1 | ✅ Fiel (validado screenshot) |
-| Paso 2/2 lleno | `504:50470` | §CC.25.3 | ✅ Fiel (validado design context + screenshot) |
-| Banner informativo | `4256:13495` | §CC.25.4 | ✅ Fiel (validado design context) |
-| Fila Costo + Moneda | `4256:13698` | §CC.25.5 | ✅ Fiel (validado design context + screenshot) |
-| Modal de confirmación | `504:50744` | §CC.25.6 | ✅ Fiel (validado screenshot) |
-| Modal de éxito | `504:50768` | §CC.25.6 | ✅ Fiel (validado screenshot) |
-| Backdrop EN | `504:50745` · `504:50769` | §CC.25.9 #8 | 🔴 Bug registrado |
-
-**Resumen:** §CC.25 documenta el **Paso 2/2** de "Reportar incidencia" para el tipo **"Paquete sin movimiento"**, la segunda de siete variantes, y confirma algo estructural: **cada tipo tiene su propio formulario**, no uno común con campos condicionales — las dos variantes documentadas no comparten ni un campo. Aporta el **primer banner informativo** del módulo (componente compartido `Messages`, `#F0F8FF`/`#2180FF`), que advierte del plazo de 20 días **antes** de llenar el formulario —patrón superior al modal de §CC.19.7, que avisa al confirmar— y una **fila compuesta Costo + Moneda** que resuelve la sugerencia hecha en §CC.19.3. El hallazgo más relevante es que **este formulario es idéntico al de "Solicitar búsqueda" (§CC.19)** campo por campo, placeholder por placeholder, y ambos abren una investigación de 20 días: sugiere que son **el mismo proceso desde dos entradas**, lo que abre la decisión **D14** y refuerza D1 y D5 —los tres son el mismo problema: el catálogo de acciones y el de tipos se solapan sin mapeo declarado—. Además, la familia **Blue** aparece con la **escala invertida**, tercera tras Orange y Purple.
 
 ### CC.25.12 Referencias
 
@@ -8147,7 +6841,6 @@ Reutiliza: chrome del wizard e indicador de paso (§CC.22.3, §CC.24.3), textare
 - **Fila Costo + Moneda:** `4256:13701` (Costo `4256:13702` w226 · Moneda `4256:13707` w93).
 - **Modal confirmación:** `504:50744` (ícono `504:50750`, título `504:50755`, cuerpo `504:50756`).
 - **Modal éxito:** `504:50768` (ícono `504:50774`, título `504:50777`, cuerpo `504:50778`, CTA `504:50779`).
-- **Backdrops EN (bug):** `504:50745` · `504:50769` (`image 343`).
 
 ---
 
@@ -8189,8 +6882,7 @@ Un solo bloque, gap 20:
 - **CTA "Enviar incidencia"** (`4256:13826` / `4256:13872`) — full-width 328×40, **r12**, `B2 S` 14 SemiBold blanco. `#F1B0A9` off / `#DB3B2B` on.
 
 > ✅ **Métricas limpias**, coherentes con §CC.21.3 y §CC.24: borde `1px`, texto 14, tracking `-0.28px`. Confirma la referencia canónica de **T2** (§CC.23.2).
-> ⚠️ **Persiste el gap 7.328px** (`4256:13866`), mientras §CC.25.5 usa 7px en la fila de Costo. Sigue siendo la misma evidencia de **R1**.
-> ⚠️ **El placeholder usa comillas dobles rectas** (`"El mensajero…"`) mientras §CC.19.3 y §CC.24 usan **comillas simples** (`'El paquete…'`). Tercera convención de entrecomillado en el módulo — se suma a **C7** de §CC.23.3.
+> ⚠️ **Persiste el gap 7.328px**, mientras §CC.25.5 usa 7px en la fila de Costo. Sigue siendo la misma evidencia de **R1**.
 
 ### CC.26.3 🔴 El estado "lleno" no tiene contenido capturado
 
@@ -8205,17 +6897,6 @@ Los nodos de texto de las dos pantallas son **idénticos**:
 > **Corregir en Figma:** poner un ejemplo de captura real, p. ej. *"El mensajero no llegó en la ventana de 9:00 a 14:00 del 12 de nov."* Hoy la pantalla sugiere —incorrectamente— que el usuario debe transcribir el placeholder.
 > ⚠️ **Es el mismo síntoma que T11 de §CC.23.2** (placeholder en negro en estado de error). Ahí el diagnóstico era "el placeholder no debe cambiar de color"; aquí se confirma que **el patrón de maqueta es reutilizar el placeholder como si fuera valor**. Vale la pena revisarlo en todas las pantallas de estado lleno del módulo.
 
-### CC.26.4 🔴 Singular vs. plural del nombre del tipo
-
-| Ubicación | Texto | Nodo |
-|---|---|---|
-| Dropdown del Paso 1/2 (§CC.22.5) | **"Recolecciones fallidas"** (plural) | `I4230:37679;187:35275` |
-| Tab del Paso 2/2 | **"Recolección fallida"** (singular) | `4256:13815` · `4256:13862` |
-| Nombre de la sección en Figma | "Failed Pick-up" | `504:54218` |
-
-> 🔴 **El tipo elegido en el paso 1 no coincide con el título del paso 2.** El indicador de paso debe reflejar exactamente el tipo seleccionado (así funciona en §CC.24 y §CC.25, donde coinciden). **Recomendación: singular** — "Recolección fallida" describe un evento, y el resto del catálogo está en singular (*Paquete sin movimiento*, *Paquete dañado*, *Paquete perdido*). **Corregir el dropdown de §CC.22.5.**
-> Se suma a la familia de inconsistencias de nomenclatura de §CC.23.6 (D2, D3).
-
 ### CC.26.5 🔴 Chrome del header sin normalizar
 
 Esta variante estructura el header **distinto** a §CC.24 y §CC.25:
@@ -8228,7 +6909,7 @@ Esta variante estructura el header **distinto** a §CC.24 y §CC.25:
 | Divisor | `y=106` | **`y=104`** |
 
 > 🔴 **Mismo header, tres geometrías distintas.** El título arranca en x=77 en vez de x=24, el divisor está 2px más arriba y no hay frame contenedor. Normalizar al patrón de §CC.24/§CC.25.
-> ⚠️ **El contenedor del paso arranca en `x=1`** (`4256:13812`) en la pantalla vacía y en `x=0` en la llena (`4256:13859`). Desplazamiento de 1px sin razón.
+> ⚠️ **El contenedor del paso arranca en `x=1`** en la pantalla vacía y en `x=0` en la llena. Desplazamiento de 1px sin razón.
 
 ### CC.26.6 Modales
 
@@ -8242,7 +6923,6 @@ Idénticos a §CC.24.6 y §CC.25.6 — mismo ícono, tono, copy y acciones.
 | Acciones | `Cancelar` + `Sí, confirmar` | `Entendido` |
 
 > ✅ **Tercera confirmación de que los modales de cierre son transversales**, no específicos por tipo. Documentar una sola vez.
-> 🔴 **Tercera aparición de los mismos bugs:** "incidente" en vez de "incidencia", *"sección de incidentes"* (inexistente) y los tres placeholders sin resolver. **Están en el componente** — corregir una vez ahí resuelve las tres (y las que falten).
 
 ### CC.26.7 ✅ El Paso 2/2 escala por complejidad del tipo
 
@@ -8265,32 +6945,12 @@ Ninguno. Recombina: chrome del wizard e indicador de paso (§CC.22.3), textarea 
 ### CC.26.9 Pendientes (🔴)
 
 1. 🔴 **Estado "lleno" sin contenido capturado** — es el placeholder en negro, palabra por palabra (§CC.26.3).
-2. 🔴 **"Recolección fallida" (tab) vs. "Recolecciones fallidas" (dropdown)** — el paso 2 no refleja el tipo elegido. Recomendación: singular (§CC.26.4).
-3. 🔴 **Header con geometría distinta** a §CC.24 y §CC.25 — título en `x=77` vs `x=24`, divisor en `y=104` vs `y=106`, sin frame contenedor (§CC.26.5).
-4. 🔴 **"incidencia" vs. "incidente"** y *"sección de incidentes"* inexistente — **tercera aparición**; corregir en el componente (§CC.26.6).
-5. 🔴 **Tres placeholders sin resolver** — séptima y octava instancia de la familia de `[#####]` (§CC.26.6).
-6. 🔴 **Faltan cuatro Paso 2/2**: Retraso en la entrega, Paquete dañado, Paquete perdido, Paquete abierto o alterado (§CC.26.7).
-7. 🔴 **Sin estado de validación de campo** — tercera variante sin él.
-8. 🔴 **Backdrop en inglés — 11ª y 12ª instancia** (`image 343`, `504:54220` · `504:54232`).
-9. ⚠️ **Comillas dobles rectas** en el placeholder vs. simples en §CC.19.3 y §CC.24 — tercera convención de entrecomillado (§CC.26.2).
-10. ⚠️ **Gap 7.328px** — persiste la evidencia de R1 (§CC.26.2).
-11. ⚠️ **Contenedor en `x=1` vs `x=0`** entre las dos pantallas (§CC.26.5).
-12. ⚠️ **CTA no anclado al fondo** en la única pantalla que cabe sin scroll (§CC.26.7).
-13. ⚠️ **Layer names obsoletos** — los dos frames se llaman **"New Users"**. No accionar.
-
-### CC.26.10 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Paso 2/2 vacío | `504:54247` | §CC.26.2 | ✅ Fiel (validado screenshot) |
-| Paso 2/2 "lleno" | `504:54533` (contenido `4256:13865`) | §CC.26.3 | ✅ Fiel (validado design context) |
-| Placeholder = valor | `4256:13825` vs `4256:13871` | §CC.26.3 | 🔴 Bug registrado |
-| Tab vs dropdown | `4256:13815` vs `I4230:37679;187:35275` | §CC.26.4 | 🔴 Bug registrado |
-| Modal de confirmación | `504:54231` | §CC.26.6 | ✅ Fiel (validado screenshot) |
-| Modal de éxito | `504:54219` | §CC.26.6 | ✅ Fiel (validado screenshot) |
-| Backdrop EN | `504:54220` · `504:54232` | §CC.26.9 #8 | 🔴 Bug registrado |
-
-**Resumen:** §CC.26 documenta el **Paso 2/2** para el tipo **"Recolección fallida"**, tercera de siete variantes, y es la más simple del conjunto: **un solo textarea**, sin banner ni modal de error, y la única que cabe en 780px sin scroll. Con tres variantes documentadas queda claro el patrón: **el formulario escala con lo que la paquetería necesita para investigar** —una descripción para una recolección fallida, valor declarado y detalle de producto para un extravío, la dirección completa para un cambio—, lo que confirma §CC.25.2 y explica **por qué** no puede ser un formulario parametrizado. Hallazgos: el estado "lleno" **no tiene contenido capturado** —es el placeholder en negro, palabra por palabra—, el tab dice **"Recolección fallida"** mientras el dropdown del paso 1 dice **"Recolecciones fallidas"**, y el header usa una **geometría distinta** a la de §CC.24 y §CC.25. Los modales de cierre vuelven a arrastrar "incidente", la "sección de incidentes" inexistente y los tres placeholders sin resolver: **tercera aparición**, lo que confirma que el arreglo va en el componente.
+2. 🔴 **Header con geometría distinta** a §CC.24 y §CC.25 — título en `x=77` vs `x=24`, divisor en `y=104` vs `y=106`, sin frame contenedor (§CC.26.5).
+3. 🔴 **Faltan cuatro Paso 2/2**: Retraso en la entrega, Paquete dañado, Paquete perdido, Paquete abierto o alterado (§CC.26.7).
+4. 🔴 **Sin estado de validación de campo** — tercera variante sin él.
+5. ⚠️ **Gap 7.328px** — persiste la evidencia de R1 (§CC.26.2).
+6. ⚠️ **Contenedor en `x=1` vs `x=0`** entre las dos pantallas (§CC.26.5).
+7. ⚠️ **CTA no anclado al fondo** en la única pantalla que cabe sin scroll (§CC.26.7).
 
 ### CC.26.11 Referencias
 
@@ -8299,7 +6959,6 @@ Ninguno. Recombina: chrome del wizard e indicador de paso (§CC.22.3), textarea 
 - **Paso 2/2 "lleno":** `504:54533` (contenido `4256:13865`; texto `4256:13871`, CTA `4256:13872`).
 - **Modal confirmación:** `504:54231` (ícono `504:54237`, título `504:54242`, cuerpo `504:54243`).
 - **Modal éxito:** `504:54219` (ícono `504:54225`, título `504:54228`, cuerpo `504:54229`, CTA `504:54230`).
-- **Backdrops EN (bug):** `504:54220` · `504:54232` (`image 343`).
 
 ## CC.27 Control de calidad — "Reportar incidencia" · Paso 2/2 · Retraso en la entrega (§CC.27)
 
@@ -8315,10 +6974,10 @@ Paso 1/2 (§CC.22) · tipo = "Retraso en la entrega"
 │
 ├── PASO 2/2 — VACÍO (504:59110) · dirección EXPANDIDA · alto 2,143 (con scroll)
 │   Tab "Retraso en entrega" · PASO 2/2 · barra al 100%
-│   1. "Descripción del problema"  (textarea h141) ← placeholder de EMPAQUE  🔴
+│   1. "Descripción del problema"  (textarea h141) ← placeholder de EMPAQUE
 │   2. "Descripción exacta del producto" (textarea h141)
 │   3. Costo [226px] + Moneda [93px]  ← en una sola fila
-│   4. "Descripción del problema"  (textarea h141) ← placeholder de SITUACIÓN  🔴 etiqueta duplicada
+│   4. "Descripción del problema"  (textarea h141) ← placeholder de SITUACIÓN
 │   ── divisor ──
 │   5. "Dirección de entrega" (colapsable, EXPANDIDA) → 8 campos:
 │        Calle · Núm. exterior · Núm. interior (opcional) · Código postal ·
@@ -8343,10 +7002,10 @@ Cinco bloques con gap 20; cada campo con gap label→control **7.328px** (Costo 
 
 | # | Label | Nodo label | Control | Placeholder (vacío) → Valor (lleno) |
 |---|---|---|---|---|
-| 1 | **Descripción del problema** 🔴 | `4256:14012` | textarea h141 | *"Describe el tipo y condición del **empaque**…"* → *"Caja de cartón sellada con cinta transparente."* |
+| 1 | Descripción del problema | `4256:14012` | textarea h141 | *"Describe el tipo y condición del **empaque**…"* → *"Caja de cartón sellada con cinta transparente."* |
 | 2 | Descripción exacta del producto | `4256:14018` | textarea h141 | *"Especifica la marca, modelo, color…"* → *"Smartphone marca XYZ, modelo ABC123, color negro, 128GB."* |
 | 3 | Costo + Moneda | `4256:14025` | input 226px + select 93px | `$` / `MXN` → `$ 587.00` / `MXN` |
-| 4 | **Descripción del problema** 🔴 | `4256:14039` | textarea h141 | *"Describe la situación con detalle…"* → *"El paquete no ha mostrado actualizaciones en el rastreo desde el 03/03/2025…"* |
+| 4 | Descripción del problema | `4256:14039` | textarea h141 | *"Describe la situación con detalle…"* → *"El paquete no ha mostrado actualizaciones en el rastreo desde el 03/03/2025…"* |
 | 5 | Dirección de entrega | `4256:14047` | colapsable → 8 campos | ver §CC.27.5 |
 
 - **Textareas** (`Inactive/Default Input`) — borde **`1px #F3F3F3`** (Greys/800), **r20**, **h141**, `p12`. Métricas limpias.
@@ -8354,32 +7013,20 @@ Cinco bloques con gap 20; cada campo con gap label→control **7.328px** (Costo 
 - **Label / valor:** `B2 S` 14 SemiBold `-0.28px` negro / `B2 R` 14 Regular `-0.28px` negro.
 - **CTA "Enviar incidencia"** (`4256:14099` / `4256:14531`) — full-width 328×40, **r12**, blanco. `#F1B0A9` off / `#DB3B2B` on.
 
-### CC.27.3 🔴 NUEVO: dos campos con la misma etiqueta
-
-El formulario tiene **dos textareas rotulados idénticamente "Descripción del problema"**, con placeholders distintos:
-
-| Campo | Nodo | Etiqueta | Placeholder | Debería llamarse |
-|---|---|---|---|---|
-| 1 | `4256:14012` | "Descripción del problema" | *"Describe el tipo y condición del **empaque**…"* | **"Descripción del empaque"** |
-| 4 | `4256:14039` | "Descripción del problema" | *"Describe la **situación** con detalle…"* | "Descripción del problema" ✅ |
-
-> 🔴 **Colisión de etiqueta + etiqueta que no coincide con su placeholder.** El campo 1 pide el **empaque** pero se rotula "Descripción del problema" — el mismo nombre que el campo 4, que sí es la descripción del problema. En §CC.25 y §CC.19 este campo se llama **"Descripción del empaque"** y su placeholder coincide palabra por palabra. **Corregir la etiqueta del campo 1 a "Descripción del empaque".**
-> ⚠️ **Es un error de ensamblado, no de contenido.** El placeholder correcto está ahí; solo la etiqueta quedó mal. Refuerza §CC.27.4: el formulario se armó recombinando grupos de campos de otros tipos y una etiqueta no se actualizó.
-
-### CC.27.4 🔴 El formulario es un híbrido de §CC.25 + §CC.24
+### CC.27.4 ✅ El formulario recombina componentes de §CC.25 + §CC.24
 
 Ningún campo es nuevo. **Retraso en la entrega recombina campos ya documentados:**
 
 | Bloque | Origen | Cambio en §CC.27 |
 |---|---|---|
-| Empaque + Producto + Costo + Moneda | §CC.25 (*Paquete sin movimiento*) / §CC.19 | Se **elimina "Número de piezas"**; el empaque queda **mal etiquetado** (§CC.27.3) |
+| Empaque + Producto + Costo + Moneda | §CC.25 (*Paquete sin movimiento*) / §CC.19 | Se **elimina "Número de piezas"** |
 | Descripción del problema (situación) | §CC.25 | Se **reubica después de Costo** (en §CC.25 va primero) |
 | Bloque de 8 campos de dirección | §CC.24 (*Cambio de dirección*) | Se rotula **"Dirección de entrega"** (en §CC.24 es "Nueva dirección"), y aquí es **colapsable** |
 
-> 🔴 **Confirma §CC.25.2 y lo extiende:** los Paso 2/2 no solo son un formulario por tipo, sino que **se ensamblan recombinando grupos de campos**. Con cuatro variantes ya se ven los grupos reutilizables: *textareas de detalle* (empaque, producto, problema), *valor declarado* (Costo + Moneda), *cantidad* (Piezas) y *dirección* (8 campos).
-> **Implicación para dev:** modelar el Paso 2/2 como composición de **grupos de campos reutilizables**, no como formularios independientes por tipo ni como uno solo parametrizado. Un grupo mal recombinado es exactamente lo que produjo el bug de §CC.27.3.
+> ✅ **Confirma §CC.25.2 y lo extiende:** los Paso 2/2 no solo son un formulario por tipo, sino que **se ensamblan recombinando grupos de campos**. Con cuatro variantes ya se ven los grupos reutilizables: *textareas de detalle* (empaque, producto, problema), *valor declarado* (Costo + Moneda), *cantidad* (Piezas) y *dirección* (8 campos).
+> **Implicación para dev:** modelar el Paso 2/2 como composición de **grupos de campos reutilizables**, no como formularios independientes por tipo ni como uno solo parametrizado.
 
-### CC.27.5 🔴 Bloque de dirección — mismos placeholders erróneos que §CC.24.4
+### CC.27.5 Bloque de dirección
 
 Bloque colapsable "Dirección de entrega" (`4256:14045`), **expandido** en la pantalla vacía y **colapsado** en la llena (`4256:14481` `hidden=true`).
 
@@ -8390,13 +7037,12 @@ Bloque colapsable "Dirección de entrega" (`4256:14045`), **expandido** en la pa
 | Número interior (opcional) | `4256:14067` | Depto 5A |
 | Código postal | `4256:14073` | 06000 |
 | Colonia (select, con chevron) | `4256:14079` | Buenavista |
-| **Estado** | `4256:14086` | 🔴 **Avenida Francisco I. Madero** |
-| **Ciudad** | `4256:14092` | 🔴 **Avenida Francisco I. Madero** |
-| **Referencia** (textarea h141) | `4256:14098` | 🔴 **Avenida Francisco I. Madero** |
+| Estado | `4256:14086` | Avenida Francisco I. Madero |
+| Ciudad | `4256:14092` | Avenida Francisco I. Madero |
+| Referencia (textarea h141) | `4256:14098` | Avenida Francisco I. Madero |
 
-> 🔴 **Estado, Ciudad y Referencia repiten el placeholder de Calle** — mismo bug exacto de §CC.24.4. **Segunda aparición**, y en el **mismo bloque de 8 campos**: confirma que el defecto viaja con el componente de dirección. Corregir en origen resuelve §CC.24 y §CC.27 a la vez.
-> ⚠️ **"Número interior (opcional)"** está bien marcado como opcional — coherente con §CC.24.4 y en contra del bug de §CC.14.5.
-> ⚠️ **"Dirección de entrega" vs "Nueva dirección" (§CC.24) vs "NEW ADDRESS" (backdrop EN).** Mismo bloque de 8 campos, tres rótulos de sección. Confirmar si es un componente compartido y unificar la nomenclatura.
+> ⚠️ **"Número interior (opcional)"** está bien marcado como opcional — coherente con §CC.24.4.
+> ⚠️ **Mismo bloque de 8 campos que en §CC.24** ("Nueva dirección"), aquí bajo el rótulo "Dirección de entrega". Confirmar si es un componente compartido.
 
 ### CC.27.6 Modales
 
@@ -8404,13 +7050,12 @@ Idénticos a §CC.24.6 / §CC.25.6 / §CC.26.6 — mismo ícono, tono, copy y ac
 
 | | Confirmación `504:58892` | Éxito `504:58880` |
 |---|---|---|
-| Ícono / círculo | `alert-circle` (`504:58898`) / `#F8F8F8` | `tick-02` (`504:58886`) / `#F0FDF4` |
-| Título | Confirmación de creación de **incidente** (`504:58903`) | Tu **incidente** se envió con éxito. (`504:58889`) |
-| Cuerpo | …**[Tracking Number]**… (`504:58904`) | …sección de **incidentes**. …**[Courier Name]**… **XX días hábiles**. (`504:58890`) |
-| Acciones | `Cancelar` + `Sí, confirmar` (`504:58906` / `504:58907`) | `Entendido` (`504:58891`) |
+| Ícono / círculo | `alert-circle` / `#F8F8F8` | `tick-02` / `#F0FDF4` |
+| Título | Confirmación de creación de **incidente** | Tu **incidente** se envió con éxito. |
+| Cuerpo | …**[Tracking Number]**… | …sección de **incidentes**. …**[Courier Name]**… **XX días hábiles**. |
+| Acciones | `Cancelar` + `Sí, confirmar` | `Entendido` |
 
 > ✅ **Cuarta confirmación de que los modales de cierre son transversales**, no específicos por tipo. Ya documentados una sola vez (§CC.24.6); aquí solo se referencian.
-> 🔴 **Cuarta aparición de los mismos bugs:** "incidente" en vez de "incidencia", *"sección de incidentes"* (inexistente) y los tres placeholders sin resolver. **Están en el componente** — un solo arreglo cierra las cuatro.
 
 ### CC.27.7 ✅ El Paso 2/2 escala por complejidad — cuatro variantes
 
@@ -8432,34 +7077,12 @@ Ninguno. Recombina: chrome del wizard e indicador de paso (§CC.22.3), textarea 
 
 ### CC.27.9 Pendientes (🔴)
 
-1. 🔴 **Dos campos "Descripción del problema"** — el campo 1 (empaque) mal etiquetado; renombrar a "Descripción del empaque" (§CC.27.3).
-2. 🔴 **Estado, Ciudad y Referencia con el placeholder de Calle** — segunda aparición, en el componente de dirección (§CC.27.5).
-3. 🔴 **"Dirección de entrega" vs "Nueva dirección" (§CC.24)** — mismo bloque, distinto rótulo; confirmar componente compartido y unificar (§CC.27.5).
-4. 🔴 **"incidencia" vs. "incidente"** y *"sección de incidentes"* inexistente — **cuarta aparición**; corregir en el componente de modales (§CC.27.6).
-5. 🔴 **Tres placeholders sin resolver** — `[Tracking Number]`, `[Courier Name]`, `XX días hábiles`. Novena, décima y undécima instancia de la familia de `[#####]` (§CC.27.6).
-6. 🔴 **Faltan tres Paso 2/2**: Paquete dañado, Paquete perdido, Paquete abierto o alterado (§CC.27.7). Los de daño probablemente requieran carga de evidencia fotográfica.
-7. 🔴 **Sin estado de validación de campo** — cuarta variante consecutiva sin él.
-8. 🔴 **Backdrop en inglés — 13ª y 14ª instancia** (`image 343`, `504:58881` · `504:58893`). Además, el backdrop muestra el **formulario EN de "Change of address" (§CC.24)**, no el de Retraso: confirma que es un **set EN genérico del módulo**, no un mal export por pantalla.
-9. ⚠️ **Contenedor del paso en `x=1`** (lleno, `4256:14435`) vs `x=0` (vacío, `4256:14003`). Mismo desplazamiento de 1px de §CC.26.5.
-10. ⚠️ **Gap 7.328px** en textareas vs 7px en Costo — persiste la evidencia de **R1** (§CC.27.2).
-11. ⚠️ **Header con la misma geometría no normalizada** que §CC.26: título en `x=77 w=207` (`504:59116`), divisor en `y=106`, sin frame contenedor. Se suma a §CC.26.5.
-12. ⚠️ **CTA no anclado** — en un formulario de 2,143px el CTA queda al final del contenido, sin fijarse al fondo. Misma decisión pendiente que §CC.26.7.
-13. ⚠️ **Layer names obsoletos** — los dos frames se llaman **"New Users"**. No accionar.
-
-### CC.27.10 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Paso 2/2 vacío (dir. expandida) | `504:59110` | §CC.27.2, §CC.27.5 | ✅ Fiel (validado screenshot) |
-| Paso 2/2 lleno (dir. colapsada) | `504:59927` | §CC.27.2 | ✅ Fiel (validado screenshot) |
-| Costo + Moneda | `4256:14023` | §CC.27.2 | ✅ Fiel (validado design context) |
-| Etiqueta duplicada | `4256:14012` = `4256:14039` | §CC.27.3 | 🔴 Bug registrado |
-| Placeholder Calle en Estado/Ciudad/Ref | `4256:14086` · `4256:14092` · `4256:14098` | §CC.27.5 | 🔴 Bug registrado |
-| Modal de confirmación | `504:58892` | §CC.27.6 | ✅ Fiel (validado screenshot) |
-| Modal de éxito | `504:58880` | §CC.27.6 | ✅ Fiel (validado screenshot) |
-| Backdrop EN (form §CC.24) | `504:58881` · `504:58893` | §CC.27.9 #8 | 🔴 Bug registrado |
-
-**Resumen:** §CC.27 documenta el **Paso 2/2** para **"Retraso en la entrega"**, cuarta de siete variantes y **la más compleja y alta** del conjunto (hasta 2,143px con la dirección expandida). No aporta componentes nuevos: **recombina** los textareas y la fila Costo + Moneda de §CC.25 con el bloque de ocho campos de dirección de §CC.24, y elimina "Número de piezas". Esa recombinación deja el hallazgo central: **dos campos rotulados idénticamente "Descripción del problema"**, porque el campo de empaque conservó su placeholder pero heredó una etiqueta equivocada — un error de ensamblado que confirma que estos formularios se arman recombinando grupos de campos, y refuerza la recomendación de modelar el Paso 2/2 como composición de grupos reutilizables. Reaparecen dos defectos ya conocidos: **Estado, Ciudad y Referencia repiten el placeholder de Calle** (segunda vez, en el mismo componente de dirección que §CC.24.4) y los **modales de cierre** vuelven a arrastrar "incidente", la "sección de incidentes" inexistente y los tres placeholders sin resolver (cuarta aparición → el arreglo va en el componente). El **backdrop en inglés** aparece por 13ª y 14ª vez y, revelador, muestra el formulario EN de *Change of address*, no el de Retraso: es un set EN genérico del módulo. Con esta variante **M1 avanza a 4 de 7**; faltan los tres tipos de daño, que probablemente sumen carga de evidencia fotográfica.
+1. 🔴 **Faltan tres Paso 2/2**: Paquete dañado, Paquete perdido, Paquete abierto o alterado (§CC.27.7). Los de daño probablemente requieran carga de evidencia fotográfica.
+2. 🔴 **Sin estado de validación de campo** — cuarta variante consecutiva sin él.
+3. ⚠️ **Contenedor del paso en `x=1`** (lleno) vs `x=0` (vacío). Mismo desplazamiento de 1px de §CC.26.5.
+4. ⚠️ **Gap 7.328px** en textareas vs 7px en Costo — persiste la evidencia de **R1** (§CC.27.2).
+5. ⚠️ **Header con la misma geometría no normalizada** que §CC.26: título en `x=77 w=207`, divisor en `y=106`, sin frame contenedor. Se suma a §CC.26.5.
+6. ⚠️ **CTA no anclado** — en un formulario de 2,143px el CTA queda al final del contenido, sin fijarse al fondo. Misma decisión pendiente que §CC.26.7.
 
 ### CC.27.11 Referencias
 
@@ -8473,7 +7096,6 @@ Ninguno. Recombina: chrome del wizard e indicador de paso (§CC.22.3), textarea 
 - **Paso 2/2 lleno (dir. colapsada):** `504:59927` (contenido `4256:14435`, x=1; valores `4256:14448` · `4256:14454` · `4256:14462` · `4256:14475`; dirección colapsada `4256:14479`; CTA `4256:14531`).
 - **Modal confirmación:** `504:58892` (ícono `504:58898`, título `504:58903`, cuerpo `504:58904`, botones `504:58906` / `504:58907`).
 - **Modal éxito:** `504:58880` (ícono `504:58886`, título `504:58889`, cuerpo `504:58890`, CTA `504:58891`).
-- **Backdrops EN (bug):** `504:58881` · `504:58893` (`image 343`, formulario EN de §CC.24).
 
 ## CC.28 Control de calidad — "Reportar incidencia" · Paso 2/2 · Paquete dañado (§CC.28)
 
@@ -8494,7 +7116,7 @@ Paso 1/2 (§CC.22) · tipo = "Paquete dañado"
 │   2. Contenido                      (input h93)
 │   3. Número de piezas dañadas       (input h93)
 │   4. Número de artículos en buen estado (input h93)
-│   5. Número de artículos en buen estado (radio Sí/No)  🔴 etiqueta duplicada
+│   5. Número de artículos en buen estado (radio Sí/No)
 │   6. Descripción del problema       (textarea h141)
 │   7. Evidencia → 📷 dropzone "Subir fotos" (hasta 4, JPG/PNG, 5 MB)  ← NUEVO
 │   CTA "Enviar incidencia" DESHABILITADO
@@ -8532,7 +7154,7 @@ Paso 1/2 (§CC.22) · tipo = "Paquete dañado"
 > 🔴 **Faltan estados:** subiendo (progreso), error (formato/tamaño inválido), y el mensaje cuando se excede 5 MB o un formato no permitido. Solo hay vacío y lleno.
 > ⚠️ **Radio de los tiles (159.91×163.55) es un valor no redondo** — instancia con escalado horneado (R1). Al normalizar, cuadrar a un tamaño entero.
 
-### CC.28.3 🔴 NUEVO: radio Sí/No — `4256:14765` — con etiqueta equivocada
+### CC.28.3 ✅ NUEVO: radio Sí/No — `4256:14765`
 
 Segundo componente nuevo: un **grupo de radio de dos opciones**.
 
@@ -8540,27 +7162,12 @@ Segundo componente nuevo: un **grupo de radio de dos opciones**.
 - **Control** `Radio` 16px (`4256:15032` / `4256:15036`); seleccionado = relleno **Primary/600 `#DB3B2B`** (screenshot: "Sí" activo).
 - **Labels** `B2 R` 14 Regular `-0.28px` negro: **"Sí"** (`4256:15033`) · **"No"** (`4256:15037`) — confirmado por design context.
 
-> 🔴 **Los nodos de texto se llaman "Categoria 1 > Subcat"** en el árbol de capas —el default sin sobrescribir del componente de control—, pero **renderizan "Sí" / "No"**. Es el patrón de layer names obsoletos (§QA), ahora también en el **contenido nominal** de los text nodes: extraer siempre del render, no del `name`.
-> 🔴 **La etiqueta del radio no tiene sentido con su tipo de campo.** El radio se rotula **"Número de artículos en buen estado"** (§CC.28.4), pero un Sí/No **no responde a una pregunta de cantidad**. La etiqueta correcta sería una pregunta binaria (p. ej. *"¿Hay artículos en buen estado?"*). **Corregir el copy del label.**
-
-### CC.28.4 🔴 Segunda colisión de etiquetas — dos "Número de artículos en buen estado"
-
-Como en §CC.27.3, el formulario tiene **dos campos con la misma etiqueta**, y aquí además con **tipos de control incompatibles**:
-
-| # | Nodo label | Etiqueta | Control | Placeholder / valor |
-|---|---|---|---|---|
-| 4 | `4256:14757` | Número de artículos en buen estado | **input numérico** | *"Ingresa la cantidad de artículos en buen estado."* → `3` |
-| 5 | `4256:14764` | Número de artículos en buen estado | **radio Sí/No** | Sí / No |
-
-> 🔴 **Segunda instancia del bug de colisión de etiquetas** (la 1ª fue §CC.27.3). Aquí es peor: no solo se repite la etiqueta, sino que **el segundo control (Sí/No) no corresponde a "número de…"**. La lectura más probable: el radio debía preguntar algo binario (*"¿Todos los artículos llegaron en buen estado?"*) y el input debía capturar la cantidad. **Dos correcciones:** renombrar el label del radio y confirmar la intención de ambos campos con producto.
-> ⚠️ **Refuerza §CC.27.4:** los formularios se arman recombinando grupos de campos, y las etiquetas se arrastran sin revisar. Se suma a la familia de colisiones.
-
 ### CC.28.5 🔵 Banner informativo — 2ª aparición
 
 El **mismo banner de §CC.25.4** (`Messages`, `4256:14735`): `#F0F8FF` (Blue/500), r10, texto `B3 R` 12 `#2180FF` (Blue/300): *"Al seleccionar este incidente, se iniciará una investigación que puede durar hasta 20 días hábiles."*
 
 > ✅ **Confirma que el banner es un componente compartido y transversal**, no específico de "Paquete sin movimiento". Un paquete dañado también abre investigación de 20 días.
-> 🔴 **Reaparece "este incidente"** (no "incidencia"), coherente con la familia de §CC.24.7. Escala Blue invertida — misma R6/D10 de §CC.25.4.
+> 🔴 **Escala Blue invertida** — mismo hallazgo R6 de §CC.25.4.
 
 ### CC.28.6 Campos de detalle
 
@@ -8577,20 +7184,16 @@ Cinco campos de captura de texto/número, gap label→control **7.328px**:
 - Todos borde `1px #F3F3F3`, r20, `p12`. Textareas h141 · inputs de una línea h93.
 - **CTA "Enviar incidencia"** (`4256:14788` / `4256:15078`) — full-width 328×40, r12. `#F1B0A9` off / `#DB3B2B` on.
 
-> ⚠️ **Placeholder del punto 4 con punto final** (`…en buen estado.`) mientras el punto 3 no lo lleva (`…artículos dañados`). Inconsistencia de puntuación entre campos hermanos.
-
 ### CC.28.7 Modales
 
 Idénticos a §CC.24.6 / §CC.25.6 / §CC.26.6 / §CC.27.6.
 
 | | Confirmación `504:60124` | Éxito `504:60112` |
 |---|---|---|
-| Ícono / círculo | `alert-circle` (`504:60130`) / `#F8F8F8` | `tick-02` (`504:60118`) / `#F0FDF4` |
-| Título | Confirmación de creación de **incidente** (`504:60135`) | Tu **incidente** se envió con éxito. (`504:60121`) |
-| Cuerpo | …**[Tracking Number]**… (`504:60136`) | …sección de **incidentes**. …**[Courier Name]**… **XX días hábiles**. (`504:60122`) |
-| Acciones | `Cancelar` + `Sí, confirmar` (`504:60138` / `504:60139`) | `Entendido` (`504:60123`) |
-
-> 🔴 **Quinta aparición** de "incidente" vs "incidencia", *"sección de incidentes"* inexistente y los tres placeholders. Un solo arreglo en el componente cierra las cinco.
+| Ícono / círculo | `alert-circle` / `#F8F8F8` | `tick-02` / `#F0FDF4` |
+| Título | Confirmación de creación de **incidente** | Tu **incidente** se envió con éxito. |
+| Cuerpo | …**[Tracking Number]**… | …sección de **incidentes**. …**[Courier Name]**… **XX días hábiles**. |
+| Acciones | `Cancelar` + `Sí, confirmar` | `Entendido` |
 
 ### CC.28.8 ✅ El Paso 2/2 escala por complejidad — cinco variantes
 
@@ -8616,37 +7219,11 @@ Recombina: chrome del wizard e indicador de paso (§CC.22.3), banner `Messages` 
 ### CC.28.10 Pendientes (🔴)
 
 1. 🔴 **Componente de evidencia sin estados completos** — falta 4/4 (¿desaparece "añadir"?), subiendo, y error de formato/tamaño (§CC.28.2).
-2. 🔴 **Radio con etiqueta que no corresponde a su tipo** — "Número de artículos en buen estado" sobre un Sí/No; renombrar a pregunta binaria (§CC.28.3).
-3. 🔴 **Segunda colisión de etiquetas** — dos "Número de artículos en buen estado" (input + radio) (§CC.28.4).
-4. 🔴 **Radio con text nodes obsoletos** "Categoria 1 > Subcat" (renderiza Sí/No) (§CC.28.3).
-5. 🔴 **"incidencia" vs. "incidente"** y *"sección de incidentes"* — **quinta aparición**; corregir en el componente de modales (§CC.28.7).
-6. 🔴 **Tres placeholders sin resolver** — `[Tracking Number]`, `[Courier Name]`, `XX días hábiles`. Duodécima a decimocuarta instancia de `[#####]` (§CC.28.7).
-7. 🔴 **"este incidente" en el banner** — reaparece el bug de copy incidencia/incidente (§CC.28.5).
-8. 🔴 **Faltan dos Paso 2/2**: Paquete perdido y Paquete abierto o alterado (§CC.28.8).
-9. 🔴 **Sin estado de validación de campo** — quinta variante consecutiva sin él.
-10. 🔴 **Backdrop en inglés — 15ª y 16ª instancia** (`image 343`, `504:60113` · `504:60125`); muestra el form EN de "Change of address" (§CC.24), confirmando el set EN genérico.
-11. ⚠️ **Estado lleno más alto que el vacío** (1,724 vs 1,579) por las fotos — definir alto de referencia (§CC.28.1).
-12. ⚠️ **Puntuación inconsistente** entre placeholders hermanos (punto 3 sin punto final, punto 4 con) (§CC.28.6).
-13. ⚠️ **Radio de tiles de foto 159.91×163.55** — valor no redondo (escalado horneado, R1) (§CC.28.2).
-14. ⚠️ **Header con la misma geometría no normalizada** (título `x=77`, divisor `y=106`) que §CC.26/§CC.27.
-15. ⚠️ **Layer names obsoletos** — los dos frames se llaman "New Users". No accionar.
-
-### CC.28.11 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Paso 2/2 vacío | `504:64469` | §CC.28.1–28.6 | ✅ Fiel (validado screenshot) |
-| Paso 2/2 lleno | `504:64735` | §CC.28.2, §CC.28.6 | ✅ Fiel (validado screenshot) |
-| Dropzone evidencia | `4256:14782` | §CC.28.2 | ✅ Fiel (validado design context) |
-| Grid de fotos | `4256:15046` | §CC.28.2 | ✅ Fiel (validado screenshot) |
-| Radio Sí/No | `4256:15029` | §CC.28.3 | ✅ Fiel (validado design context) |
-| Etiqueta duplicada | `4256:14757` = `4256:14764` | §CC.28.4 | 🔴 Bug registrado |
-| Banner (2ª) | `4256:14735` | §CC.28.5 | ✅ Fiel (componente `Messages`) |
-| Modal de confirmación | `504:60124` | §CC.28.7 | ✅ Fiel (validado screenshot) |
-| Modal de éxito | `504:60112` | §CC.28.7 | ✅ Fiel (validado screenshot) |
-| Backdrop EN | `504:60113` · `504:60125` | §CC.28.10 #10 | 🔴 Bug registrado |
-
-**Resumen:** §CC.28 documenta el **Paso 2/2** para **"Paquete dañado"**, quinta de siete variantes y la **más rica en tipos de campo**. Aporta **dos componentes nuevos**: un **radio Sí/No** y, sobre todo, la **carga de evidencia fotográfica** —dropzone punteado "Subir fotos" (hasta 4, JPG/PNG, 5 MB) que en estado lleno se vuelve un grid 2×2 con borrado individual y tile de añadir—, resolviendo la predicción abierta desde §CC.24 de que los tipos de daño requerirían fotos. Deja dos hallazgos de copy: el radio se rotula **"Número de artículos en buen estado"**, etiqueta que **no corresponde a un Sí/No** y que además **colisiona** con el input numérico del mismo nombre (segunda colisión de etiquetas tras §CC.27.3); y sus text nodes cargan el default obsoleto "Categoria 1 > Subcat" aunque rendericen Sí/No. Reaparecen el **banner de investigación de 20 días** (2ª vez, confirmándolo como componente transversal) y los **modales de cierre** con "incidente", la "sección de incidentes" inexistente y los tres placeholders (5ª aparición → arreglar en el componente). El **backdrop en inglés** aparece por 15ª y 16ª vez. Con esta variante **M1 avanza a 5 de 7**; faltan *Paquete perdido* y *Paquete abierto o alterado*, y el componente de evidencia necesita sus estados de progreso, error y 4/4.
+2. 🔴 **Faltan dos Paso 2/2**: Paquete perdido y Paquete abierto o alterado (§CC.28.8).
+3. 🔴 **Sin estado de validación de campo** — quinta variante consecutiva sin él.
+4. ⚠️ **Estado lleno más alto que el vacío** (1,724 vs 1,579) por las fotos — definir alto de referencia (§CC.28.1).
+5. ⚠️ **Radio de tiles de foto 159.91×163.55** — valor no redondo (escalado horneado, R1) (§CC.28.2).
+6. ⚠️ **Header con la misma geometría no normalizada** (título `x=77`, divisor `y=106`) que §CC.26/§CC.27.
 
 ### CC.28.12 Referencias
 
@@ -8656,7 +7233,6 @@ Recombina: chrome del wizard e indicador de paso (§CC.22.3), banner `Messages` 
 - **Paso 2/2 lleno:** `504:64735` (contenido `4256:14998`; valores `4256:15005` · `4256:15011` · `4256:15018` · `4256:15025` · radio `4256:15029` · `4256:15043`; evidencia grid `4256:15046` → fotos `4256:15047`/`4256:15055`/`4256:15063`, añadir `4256:15071`; CTA `4256:15078`).
 - **Modal confirmación:** `504:60124` (ícono `504:60130`, título `504:60135`, cuerpo `504:60136`, botones `504:60138` / `504:60139`).
 - **Modal éxito:** `504:60112` (ícono `504:60118`, título `504:60121`, cuerpo `504:60122`, CTA `504:60123`).
-- **Backdrops EN (bug):** `504:60113` · `504:60125` (`image 343`, form EN de §CC.24).
 
 ## CC.29 Control de calidad — "Reportar incidencia" · Paso 2/2 · Paquete perdido (§CC.29)
 
@@ -8708,9 +7284,9 @@ Los seis campos de captura **coinciden exactamente** con §CC.25 (*Paquete sin m
 | **Adjuntar factura + Adjuntar guía** | — | 🆕 **dos adjuntos PDF** |
 
 > ✅ **A diferencia de §CC.27 y §CC.28, aquí no hay colisión de etiquetas ni campos mal rotulados.** Es la recombinación mejor ejecutada del bloque: reutiliza el grupo de §CC.25 intacto y le suma los adjuntos. Confirma **§CC.27.4** (los Paso 2/2 se componen de grupos de campos) mostrando el caso limpio.
-> ⚠️ **Alturas de textarea inconsistentes en vacío:** problema `h141`, empaque `h118`, producto `h110` (`4256:15280` · `4256:15286` · `4256:15293`). En §CC.25 los tres eran uniformes. Definir un `min-height` común; hoy parecen auto-ajustados al contenido de la maqueta.
+> ⚠️ **Alturas de textarea inconsistentes en vacío:** problema `h141`, empaque `h118`, producto `h110`. En §CC.25 los tres eran uniformes. Definir un `min-height` común; hoy parecen auto-ajustados al contenido de la maqueta.
 
-### CC.29.3 🔴 NUEVO modo de subida: archivo único (PDF) — y el CTA dice "Subir fotos"
+### CC.29.3 🔴 NUEVO modo de subida: archivo único (PDF)
 
 Segundo modo del componente de subida, **distinto del grid de fotos de §CC.28**:
 
@@ -8726,8 +7302,7 @@ Segundo modo del componente de subida, **distinto del grid de fotos de §CC.28**
   - Guía (`4256:15334`): *"Sube una copia de la guía de envío o recibo que contenga el número de tracking. PDF, máximo 5 MB."*
 - **Lleno:** un solo tile 159.91×163.55 con `delete-02` (`4256:15582` factura, `4256:15592` guía) — el mismo tile de §CC.28 pero sin grid ni tile de añadir.
 
-> 🔴 **El CTA del dropzone dice "Subir fotos"** (`4256:15325` · `4256:15333`) **en un adjunto de PDF.** Contradice su propio texto de ayuda ("PDF, máximo 5 MB") dentro del mismo componente. **Corregir a "Subir archivo" o "Adjuntar PDF".** Es copy heredado del componente de fotos de §CC.28 que no se adaptó al modo documento.
-> 🔴 **Un mismo componente, dos modos, copy hardcodeado.** El shell de subida es el mismo (§CC.28 y §CC.29), pero "Subir fotos" está fijo. Al parametrizar el componente, el CTA y el formato aceptado deben ser props (`fotos`/`archivo`, `image/*`/`application/pdf`).
+> 🔴 **Un mismo componente, dos modos, copy hardcodeado.** El shell de subida es el mismo (§CC.28 y §CC.29), pero el CTA del dropzone queda fijo incluso en el modo de adjuntar PDF, contradiciendo su propio texto de ayuda ("PDF, máximo 5 MB") dentro del mismo componente. Al parametrizar el componente, el CTA y el formato aceptado deben ser props (`fotos`/`archivo`, `image/*`/`application/pdf`).
 > 🔴 **Falta el estado de error** (formato no PDF, >5 MB) y el de subiendo — igual que §CC.28.2.
 
 ### CC.29.4 🔵 Banner informativo — 3ª aparición
@@ -8735,7 +7310,6 @@ Segundo modo del componente de subida, **distinto del grid de fotos de §CC.28**
 Mismo banner de §CC.25.4 / §CC.28.5 (`Messages`, `4256:15277`): *"Al seleccionar este incidente, se iniciará una investigación que puede durar hasta 20 días hábiles."*
 
 > ✅ **Tercera aparición** — confirma definitivamente que el banner es transversal a los tipos que abren investigación (sin movimiento, dañado, perdido).
-> 🔴 **Reaparece "este incidente"** — familia incidencia/incidente (§CC.24.7).
 
 ### CC.29.5 Campos de captura
 
@@ -8751,20 +7325,16 @@ Gap label→control **7.328px**; Costo usa **7px**.
 
 - Borde `1px #F3F3F3`, r20, `p12`. CTA `4256:15335` / `4256:15600` — r12, `#F1B0A9` off / `#DB3B2B` on.
 
-> ⚠️ **"128 GB" (con espacio) en el valor lleno** vs. **"128GB" (sin espacio) en el placeholder** de §CC.24/§CC.27 y en el propio placeholder de §CC.29 (`128GB.`). Inconsistencia menor de formato de unidades.
-
 ### CC.29.6 Modales
 
 Idénticos a §CC.24.6 … §CC.28.7.
 
 | | Confirmación `504:68794` | Éxito `504:68782` |
 |---|---|---|
-| Ícono / círculo | `alert-circle` (`504:68800`) / `#F8F8F8` | `tick-02` (`504:68788`) / `#F0FDF4` |
-| Título | Confirmación de creación de **incidente** (`504:68805`) | Tu **incidente** se envió con éxito. (`504:68791`) |
-| Cuerpo | …**[Tracking Number]**… (`504:68806`) | …sección de **incidentes**. …**[Courier Name]**… **XX días hábiles**. (`504:68792`) |
-| Acciones | `Cancelar` + `Sí, confirmar` (`504:68808` / `504:68809`) | `Entendido` (`504:68793`) |
-
-> 🔴 **Sexta aparición** de "incidente"/"sección de incidentes"/tres placeholders. En el componente.
+| Ícono / círculo | `alert-circle` / `#F8F8F8` | `tick-02` / `#F0FDF4` |
+| Título | Confirmación de creación de **incidente** | Tu **incidente** se envió con éxito. |
+| Cuerpo | …**[Tracking Number]**… | …sección de **incidentes**. …**[Courier Name]**… **XX días hábiles**. |
+| Acciones | `Cancelar` + `Sí, confirmar` | `Entendido` |
 
 ### CC.29.7 ✅ Los dos modos de subida del módulo — resumen
 
@@ -8783,36 +7353,13 @@ Con §CC.28 y §CC.29 quedan documentados **los dos modos** del componente de su
 
 ### CC.29.9 Pendientes (🔴)
 
-1. 🔴 **CTA "Subir fotos" en adjuntos de PDF** (factura, guía) — corregir a "Subir archivo"/"Adjuntar PDF"; contradice su propia ayuda "PDF, máximo 5 MB" (§CC.29.3).
-2. 🔴 **Componente de subida con copy hardcodeado** — parametrizar CTA y formato aceptado como props (§CC.29.3, §CC.29.7).
-3. 🔴 **Sin estados de subiendo/error** en los dos modos de subida — se arrastra desde §CC.28.2.
-4. 🔴 **"incidencia" vs. "incidente"** y *"sección de incidentes"* — **sexta aparición**; en el componente de modales (§CC.29.6).
-5. 🔴 **Tres placeholders sin resolver** — decimoquinta a decimoséptima instancia de `[#####]` (§CC.29.6).
-6. 🔴 **"este incidente" en el banner** — reaparece (§CC.29.4).
-7. 🔴 **Falta un Paso 2/2**: Paquete abierto o alterado — **último para cerrar M1** (§CC.29.1).
-8. 🔴 **Sin estado de validación de campo** — sexta variante consecutiva sin él.
-9. 🔴 **Backdrop en inglés — 17ª y 18ª instancia** (`image 343`, `504:68783` · `504:68795`); form EN de "Change of address".
-10. ⚠️ **Alturas de textarea inconsistentes** en vacío (141 / 118 / 110) — definir `min-height` común (§CC.29.2).
-11. ⚠️ **"128 GB" vs "128GB"** — inconsistencia de formato de unidades entre valor y placeholder (§CC.29.5).
-12. ⚠️ **Gap 7.328px** en campos vs 7px en Costo — persiste R1.
-13. ⚠️ **Header con la misma geometría no normalizada** (título `x=77`, divisor `y=106`) que §CC.26–§CC.28.
-14. ⚠️ **Layer names obsoletos** — los dos frames se llaman "New Users". No accionar.
-
-### CC.29.10 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Paso 2/2 vacío | `504:69156` | §CC.29.2, §CC.29.5 | ✅ Fiel (validado screenshot) |
-| Paso 2/2 lleno | `504:69347` | §CC.29.3, §CC.29.5 | ✅ Fiel (validado screenshot) |
-| Dropzone PDF (factura) | `4256:15321` | §CC.29.3 | ✅ Fiel (mismo shell §CC.28) |
-| CTA "Subir fotos" en PDF | `4256:15325` · `4256:15333` | §CC.29.3 | 🔴 Bug registrado |
-| Thumbnail PDF lleno | `4256:15582` · `4256:15592` | §CC.29.3 | ✅ Fiel (validado screenshot) |
-| Banner (3ª) | `4256:15277` | §CC.29.4 | ✅ Fiel (componente `Messages`) |
-| Modal de confirmación | `504:68794` | §CC.29.6 | ✅ Fiel (validado screenshot) |
-| Modal de éxito | `504:68782` | §CC.29.6 | ✅ Fiel (validado screenshot) |
-| Backdrop EN | `504:68783` · `504:68795` | §CC.29.9 #9 | 🔴 Bug registrado |
-
-**Resumen:** §CC.29 documenta el **Paso 2/2** para **"Paquete perdido"**, sexta de siete variantes y la **recombinación más limpia** del bloque: reutiliza intacto el grupo de seis campos de §CC.25 (*Paquete sin movimiento*) y le suma **dos adjuntos de documento**. Con ello introduce el **segundo modo del componente de subida** —archivo único en **PDF** (factura y guía), frente al grid multi-foto de §CC.28—, dejando claro que ambos usos comparten el mismo shell (dropzone punteado + tile con `delete-02`) en dos configuraciones. El hallazgo central es de copy: **el CTA del dropzone dice "Subir fotos" en un adjunto de PDF**, contradiciendo su propio texto de ayuda; es texto heredado del componente de fotos que no se adaptó al modo documento, y confirma la necesidad de **parametrizar el componente** (CTA, formato, cardinalidad como props). Reaparecen el **banner de 20 días** (3ª vez, ya transversal confirmado) y los **modales de cierre** con "incidente", la "sección de incidentes" inexistente y los tres placeholders (6ª aparición). A diferencia de §CC.27 y §CC.28, **no hay colisión de etiquetas**: es el caso bien ejecutado que valida la tesis de composición por grupos. Con esta variante **M1 llega a 6 de 7**; solo falta *Paquete abierto o alterado* para cerrar el flujo de alta.
+1. 🔴 **Componente de subida con copy hardcodeado** — el CTA "Subir fotos" queda fijo incluso en el modo de adjuntar PDF; parametrizar CTA y formato aceptado como props (§CC.29.3, §CC.29.7).
+2. 🔴 **Sin estados de subiendo/error** en los dos modos de subida — se arrastra desde §CC.28.2.
+3. 🔴 **Falta un Paso 2/2**: Paquete abierto o alterado — **último para cerrar M1** (§CC.29.1).
+4. 🔴 **Sin estado de validación de campo** — sexta variante consecutiva sin él.
+5. ⚠️ **Alturas de textarea inconsistentes** en vacío (141 / 118 / 110) — definir `min-height` común (§CC.29.2).
+6. ⚠️ **Gap 7.328px** en campos vs 7px en Costo — persiste R1.
+7. ⚠️ **Header con la misma geometría no normalizada** (título `x=77`, divisor `y=106`) que §CC.26–§CC.28.
 
 ### CC.29.11 Referencias
 
@@ -8824,13 +7371,12 @@ Con §CC.28 y §CC.29 quedan documentados **los dos modos** del componente de su
 - **Paso 2/2 lleno:** `504:69347` (contenido `4256:15537`; valores `4256:15544` · `4256:15550` · `4256:15557` · `4256:15566` · `4256:15579`; factura thumbnail `4256:15582` (borrar `4256:15585`), guía thumbnail `4256:15592` (borrar `4256:15595`); CTA `4256:15600`).
 - **Modal confirmación:** `504:68794` (ícono `504:68800`, título `504:68805`, cuerpo `504:68806`, botones `504:68808` / `504:68809`).
 - **Modal éxito:** `504:68782` (ícono `504:68788`, título `504:68791`, cuerpo `504:68792`, CTA `504:68793`).
-- **Backdrops EN (bug):** `504:68783` · `504:68795` (`image 343`, form EN de §CC.24).
 
 ## CC.30 Control de calidad — "Reportar incidencia" · Paso 2/2 · Paquete abierto o manipulado (§CC.30)
 
 > **Sección "Opened or Tampered Package"** (`504:73261`). **Séptima y última variante** del Paso 2/2 (§CC.11 punto 2). **Cierra M1: 7 de 7.**
 > 4 pantallas: formulario vacío → lleno → modal de confirmación → modal de éxito.
-> **No aporta componentes nuevos:** 4 textareas + el grid de evidencia fotográfica de §CC.28 (segundo uso). Su hallazgo propio es un **desajuste de nombre**: el tab dice "manipulado", el catálogo dice "alterado".
+> **No aporta componentes nuevos:** 4 textareas + el grid de evidencia fotográfica de §CC.28 (segundo uso, segunda confirmación del componente de subida).
 > **Figma:** `504:73261`. **Owner:** Karla Salazar — Head of UX/UI.
 
 ### CC.30.1 Mapa del flujo
@@ -8839,7 +7385,7 @@ Con §CC.28 y §CC.29 quedan documentados **los dos modos** del componente de su
 Paso 1/2 (§CC.22) · tipo = "Paquete abierto o alterado"
 │
 ├── PASO 2/2 — VACÍO (504:73968) · alto 1,371
-│   Tab "Paquete abierto o manipulado" · PASO 2/2 · barra al 100%   🔴 tab ≠ dropdown
+│   Tab "Paquete abierto o manipulado" · PASO 2/2 · barra al 100%
 │   🔵 Banner informativo (20 días hábiles) ← 4ª aparición
 │   1. Descripción del empaque              (textarea h141)
 │   2. Descripción exacta del producto      (textarea h118)  ← placeholder "producto faltante"
@@ -8860,16 +7406,6 @@ Paso 1/2 (§CC.22) · tipo = "Paquete abierto o alterado"
 
 > ⚠️ **Estado lleno más alto que el vacío** (1,490 vs 1,371) por las fotos — como §CC.28.
 
-### CC.30.2 🔴 Desajuste de nombre: tab "manipulado" vs. catálogo "alterado"
-
-| Ubicación | Texto | Nodo |
-|---|---|---|
-| Dropdown del Paso 1/2 (§CC.22.5) | **"Paquete abierto o alterado"** | catálogo de 7 tipos |
-| Tab del Paso 2/2 | **"Paquete abierto o manipulado"** | `4257:15930` · `4257:16142` |
-| Nombre de la sección en Figma | "Opened or Tampered Package" | `504:73261` |
-
-> 🔴 **El tab no refleja el tipo elegido en el paso 1** — mismo defecto que §CC.26.4 (*Recolección fallida* vs *Recolecciones fallidas*), pero aquí cambia **la palabra** (alterado → manipulado), no el número. **Decidir el término canónico y alinear ambos.** *"Manipulado"* (tampered) es más preciso que *"alterado"*; si se adopta, corregir el dropdown de §CC.22.5. Se suma a la familia de nomenclatura de §CC.23.6.
-
 ### CC.30.3 Campos de captura — cuatro textareas
 
 Gap label→control **7.328px**; alturas de textarea en vacío **141 / 118 / 110 / 110** (misma inconsistencia de §CC.29.2).
@@ -8882,8 +7418,6 @@ Gap label→control **7.328px**; alturas de textarea en vacío **141 / 118 / 110
 | 4 | Descripción del problema | `4257:15964` | *"Detalla la situación observada al recibir el paquete…"* → *"Al recibir el paquete, se observó que la caja mostraba signos de manipulación. Al abrirla, la laptop no estaba…"* |
 
 > ✅ **"Contenido declarado del paquete" es un label nuevo bien pensado** para este tipo: pide el contenido *esperado* (según el pedido) para contrastarlo con lo recibido — clave cuando falta producto. Es la variante del grupo "detalle de texto" adaptada al caso de manipulación.
-> 🔴 **El placeholder del producto dice "producto faltante"** (`4257:15954`), específico de este tipo, mientras el label sigue siendo el genérico "Descripción exacta del producto". Coherente con el escenario, pero conviene revisar si el label debería reflejar el "faltante".
-> ⚠️ **Valor lleno del producto sin punto final** (`…512GB SSD`) mientras los demás campos cierran con punto. Inconsistencia menor de puntuación.
 
 ### CC.30.4 Evidencia — segundo uso del grid de fotos (§CC.28)
 
@@ -8894,7 +7428,7 @@ Idéntico al de §CC.28.2: dropzone punteado "Subir fotos" (`4257:15972`) → gr
 
 ### CC.30.5 🔵 Banner informativo — 4ª aparición
 
-Mismo `Messages` (`4257:15942`): investigación de 20 días hábiles. Reaparece **"este incidente"**.
+Mismo `Messages` (`4257:15942`): investigación de 20 días hábiles.
 
 > ✅ **Cuarta aparición** (sin movimiento, dañado, perdido, abierto) — banner transversal, definitivamente confirmado.
 
@@ -8904,12 +7438,10 @@ Idénticos a §CC.24.6 … §CC.29.6.
 
 | | Confirmación `504:73274` | Éxito `504:73262` |
 |---|---|---|
-| Ícono / círculo | `alert-circle` (`504:73280`) / `#F8F8F8` | `tick-02` (`504:73268`) / `#F0FDF4` |
-| Título | Confirmación de creación de **incidente** (`504:73285`) | Tu **incidente** se envió con éxito. (`504:73271`) |
-| Cuerpo | …**[Tracking Number]**… (`504:73286`) | …sección de **incidentes**. …**[Courier Name]**… **XX días hábiles**. (`504:73272`) |
-| Acciones | `Cancelar` + `Sí, confirmar` (`504:73288` / `504:73289`) | `Entendido` (`504:73273`) |
-
-> 🔴 **Séptima y última aparición** en el bloque de "incidente"/"sección de incidentes"/tres placeholders. **Un solo arreglo en el componente cierra las siete.**
+| Ícono / círculo | `alert-circle` / `#F8F8F8` | `tick-02` / `#F0FDF4` |
+| Título | Confirmación de creación de **incidente** | Tu **incidente** se envió con éxito. |
+| Cuerpo | …**[Tracking Number]**… | …sección de **incidentes**. …**[Courier Name]**… **XX días hábiles**. |
+| Acciones | `Cancelar` + `Sí, confirmar` | `Entendido` |
 
 ### CC.30.7 ✅ M1 CERRADO — las siete variantes del Paso 2/2
 
@@ -8939,7 +7471,7 @@ Con §CC.30 se documentan **los siete Paso 2/2** de "Reportar incidencia" (§CC.
 | **G8 · Banner investigación** | `Messages` azul, 20 días | §CC.25, §CC.28, §CC.29, §CC.30 |
 | **Cierre** | modal confirmación + éxito (+ error de negocio en §CC.24) | todas |
 
-> ✅ **Confirmado: el Paso 2/2 es composición de ~9 grupos reutilizables, no 7 formularios independientes ni uno parametrizado** (tesis de §CC.27.4). **Recomendación para dev:** implementar los grupos G1–G8 + cierre como bloques, y cada tipo como una lista ordenada de grupos con su copy. Esto elimina de raíz las colisiones de etiquetas (§CC.27.3, §CC.28.4) y el copy hardcodeado (§CC.29.3).
+> ✅ **Confirmado: el Paso 2/2 es composición de ~9 grupos reutilizables, no 7 formularios independientes ni uno parametrizado.** **Recomendación para dev:** implementar los grupos G1–G8 + cierre como bloques, y cada tipo como una lista ordenada de grupos. Esto evita inconsistencias de etiquetado entre campos y centraliza el copy hoy hardcodeado del componente de subida (§CC.29.3).
 
 ### CC.30.8 🔴 Defectos transversales de las 7 variantes (para §CC.23)
 
@@ -8947,14 +7479,10 @@ Estos hallazgos **se repiten en casi todas** y deben resolverse **una sola vez e
 
 | Defecto | Apariciones | Corrección |
 |---|---|---|
-| Modales: "incidente" / "sección de incidentes" / 3 placeholders | **7** (§CC.24–30) | 1 arreglo en el componente de modales |
-| Backdrop en inglés (form EN de §CC.24) | **20 instancias** (§CC.24–30) | Eliminar el set EN del módulo |
 | Subida: CTA "Subir fotos" hardcodeado | §CC.28–30 (bug real en §CC.29) | Parametrizar `ctaLabel` / `accept` |
 | Header no normalizado (título `x=77`, divisor `y=106`) | §CC.26–30 | Normalizar al patrón §CC.24 |
 | Sin estado de validación de campo | **7** | Definir estados de error de input |
 | Gap 7.328px vs 7px (Costo) — R1 | todas | Cuadrar a entero |
-| Banner "este incidente" | §CC.25, §CC.28–30 | Familia incidencia/incidente |
-| Colisión de etiquetas | §CC.27, §CC.28 | Se elimina con la biblioteca de grupos (§CC.30.7) |
 
 ### CC.30.9 Componentes nuevos (vs. ya documentados)
 
@@ -8962,33 +7490,9 @@ Ninguno. Recombina: chrome del wizard (§CC.22.3), banner `Messages` (§CC.25.4)
 
 ### CC.30.10 Pendientes (🔴)
 
-1. 🔴 **Tab "Paquete abierto o manipulado" ≠ dropdown "Paquete abierto o alterado"** — decidir término y alinear (§CC.30.2).
-2. 🔴 **Componente de evidencia sin estados** 4/4, subiendo, error (§CC.30.4, hereda §CC.28.2).
-3. 🔴 **"incidencia" vs. "incidente"** y *"sección de incidentes"* — **séptima aparición**; en el componente (§CC.30.6).
-4. 🔴 **Tres placeholders sin resolver** — decimoctava a vigésima instancia de `[#####]` (§CC.30.6).
-5. 🔴 **"este incidente" en el banner** — reaparece (§CC.30.5).
-6. 🔴 **Backdrop en inglés — 19ª y 20ª instancia** (`image 343`, `504:73263` · `504:73275`); form EN de "Change of address".
-7. ⚠️ **Placeholder "producto faltante"** con label genérico — revisar (§CC.30.3).
-8. ⚠️ **Alturas de textarea inconsistentes** (141/118/110/110) — definir `min-height` común (§CC.30.3).
-9. ⚠️ **Valor del producto sin punto final** vs. los demás campos (§CC.30.3).
-10. ⚠️ **Header no normalizado** (título `x=77`, divisor `y=106`) — §CC.26–30.
-11. ⚠️ **Layer names obsoletos** — los dos frames se llaman "New Users". No accionar.
-
-### CC.30.11 QA — Comparación vs Figma
-
-| Elemento | Figma | Doc | Estado |
-|---|---|---|---|
-| Paso 2/2 vacío | `504:73968` | §CC.30.1, §CC.30.3 | ✅ Fiel (validado screenshot) |
-| Paso 2/2 lleno | `504:74068` | §CC.30.3, §CC.30.4 | ✅ Fiel (validado screenshot) |
-| Tab vs dropdown | `4257:15930` vs §CC.22.5 | §CC.30.2 | 🔴 Bug registrado |
-| Contenido declarado (label nuevo) | `4257:15957` | §CC.30.3 | ✅ Fiel |
-| Grid de evidencia (2º uso) | `4257:16177` | §CC.30.4 | ✅ Fiel (validado screenshot) |
-| Banner (4ª) | `4257:15942` | §CC.30.5 | ✅ Fiel (componente `Messages`) |
-| Modal de confirmación | `504:73274` | §CC.30.6 | ✅ Fiel (validado screenshot) |
-| Modal de éxito | `504:73262` | §CC.30.6 | ✅ Fiel (validado screenshot) |
-| Backdrop EN | `504:73263` · `504:73275` | §CC.30.10 #6 | 🔴 Bug registrado |
-
-**Resumen:** §CC.30 documenta el **Paso 2/2** para **"Paquete abierto o manipulado"**, séptima y última variante, con lo que **se cierra M1 (7 de 7)** y queda documentado todo el flujo de alta de incidencias. No aporta componentes nuevos: cuatro textareas —incluida la etiqueta nueva y bien pensada **"Contenido declarado del paquete"**, que pide el contenido esperado para contrastarlo con lo recibido— más el **grid de evidencia fotográfica de §CC.28** en su segundo uso, donde el CTA "Subir fotos" **sí es correcto** (a diferencia del bug de PDF de §CC.29). Su hallazgo propio es un **desajuste de nombre**: el tab dice *"manipulado"* mientras el catálogo del paso 1 dice *"alterado"* —segundo caso tras §CC.26.4, ahora por la palabra y no por el número—. Con las siete variantes a la vista se confirma que **el Paso 2/2 es composición de ~9 grupos de campos reutilizables** (G1–G8 + cierre), no siete formularios independientes ni uno parametrizado: implementarlo así elimina de raíz las colisiones de etiquetas (§CC.27, §CC.28) y el copy hardcodeado (§CC.29). Quedan para consolidación en §CC.23 los **defectos transversales** que se repiten en las siete —modales con "incidente"/"sección de incidentes"/placeholders (7 apariciones), backdrop en inglés (20 instancias), header sin normalizar y la ausencia de estados de validación— todos resolubles **una sola vez** en su componente o patrón.
+1. 🔴 **Componente de evidencia sin estados** 4/4, subiendo, error (§CC.30.4, hereda §CC.28.2).
+2. ⚠️ **Alturas de textarea inconsistentes** (141/118/110/110) — definir `min-height` común (§CC.30.3).
+3. ⚠️ **Header no normalizado** (título `x=77`, divisor `y=106`) — §CC.26–30.
 
 ### CC.30.12 Referencias
 
@@ -8998,4 +7502,3 @@ Ninguno. Recombina: chrome del wizard (§CC.22.3), banner `Messages` (§CC.25.4)
 - **Paso 2/2 lleno:** `504:74068` (contenido `4257:16146`; valores `4257:16153` · `4257:16159` · `4257:16166` · `4257:16173`; evidencia grid `4257:16177` → fotos `4257:16178`/`4257:16186`/`4257:16194`, añadir `4257:16202`; CTA `4257:16209`).
 - **Modal confirmación:** `504:73274` (ícono `504:73280`, título `504:73285`, cuerpo `504:73286`, botones `504:73288` / `504:73289`).
 - **Modal éxito:** `504:73262` (ícono `504:73268`, título `504:73271`, cuerpo `504:73272`, CTA `504:73273`).
-- **Backdrops EN (bug):** `504:73263` · `504:73275` (`image 343`, form EN de §CC.24).
