@@ -391,6 +391,7 @@ Logos de marcas externas organizados por categoría. Todos los logos de terceros
 | T1ai | `t1ai-imagotipo` | Default, White |
 | T1 Cuenta | `t1cuenta-imagotipo` | Default, White |
 | T1store | `t1store-imagotipo` | Default, White |
+| T1 (logotipo alterno) | `t1-logotipo-2` | color, gray |
 
 > **Nota de uso:** Los imagotipos T1 combinan el isotipo (N) con el nombre de la plataforma. Usar siempre la versión correcta según el fondo (Default = fondo blanco/claro, White = fondo oscuro/de color).
 
@@ -435,6 +436,12 @@ Logos de marcas externas organizados por categoría. Todos los logos de terceros
 | Liverpool | `liverpool-iso-marketplace` | color, black |
 | TikTok Shop | `tiktokshop` | Default, off |
 | TikTok (logo completo) | `TikTok-logo` | Default, off |
+| Amazon (marketplace) | `amazon-iso-marketplace` | color, black |
+| MercadoLibre (marketplace) | `meli-iso-marketplace` | color, black |
+| Shein (marketplace) | `shein-iso-marketplace` | color, black |
+| Telmex (marketplace) | `telmex-iso-marketplace` | color, black |
+| Totalplay | `total-iso` | ml, Variant2 |
+| Totalplay (set alterno) | `total-iso-v2` | ml, Variant2 |
 
 ### Plataformas e-commerce / ERP
 
@@ -452,6 +459,8 @@ Logos de marcas externas organizados por categoría. Todos los logos de terceros
 | Siigo | `siigo-iso-plataforma` | Color, Black |
 | Pulpos | `pulpos-iso-plataforma` | Color, Black |
 | Sicar | `sicar-iso-plataforma` | Color, Black |
+| Shopify (plataforma) | `shopify-iso-plataforma` | Color, Black |
+| Tienda Nube (set alterno) | `icono/plataforma/Tienda nube` | Color, Black |
 
 ### CARRIER — Paqueterías y logística
 
@@ -507,6 +516,14 @@ Logos de marcas externas organizados por categoría. Todos los logos de terceros
 | Google Ads | `googleads-iso` |
 | WhatsApp Business | `whatsapp-iso` |
 | FB & IG (Meta) | `fb&IG-iso` |
+
+---
+
+> **Procedencia de esta sección:** las filas se verificaron una a una contra el frame
+> `Icons-logos` (`244:12451`) del archivo Figma **Nexus V2** el 3 de septiembre de 2026.
+> Los nombres de componente y sus variantes son los que existen hoy en Figma.
+> Las erratas detectadas en el archivo de diseño están recogidas en
+> **[FIGMA-ERRATAS.md](./FIGMA-ERRATAS.md)** — se corrigen en Figma, no aquí.
 
 ---
 
