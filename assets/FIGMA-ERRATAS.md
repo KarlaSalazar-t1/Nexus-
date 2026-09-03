@@ -169,22 +169,43 @@ describe el archivo.
 
 ## 6. La clasificación de tipo no coincide con el arte
 
-`BRAND-ASSETS.md §5` clasifica cada logo en una columna «Notas» — *Isotipo*, *Logo horizontal*,
-*Imagotipo*. Esa clasificación se comprobó abriendo el arte, no solo leyendo nombres.
+El tipo de logo se declara en dos sitios: la columna «Notas» de `BRAND-ASSETS.md §5` y el sufijo
+del propio nombre (`-isotipo`, `-logotipo`, `-imagotipo`). Se comprobó abriendo el arte.
 
-**Alcance de esta comprobación: 2 de 93 assets.** Los dos revisados están mal clasificados, lo que
-sugiere revisar el resto — pero no es una muestra suficiente para afirmar nada sobre los otros 91.
+**Alcance: 17 de 93 assets** — las secciones CARRIER, PAYMENT y SOCIAL MEDIA renderizadas a
+resolución completa. Los 76 restantes no se revisaron.
 
-| Componente | Dice el canon | Muestra el arte |
+### Mal clasificados (5 confirmados)
+
+| Componente | Dice | Muestra el arte |
 |---|---|---|
-| `dhl-iso` | Isotipo | **Logotipo** — las 4 variantes son la palabra «DHL» en tipografía de marca, sin símbolo |
-| `ups-iso` | Isotipo | **Isologo** — escudo con «ups» escrito dentro; texto y símbolo son indivisibles |
+| `dhl-iso` | Isotipo | **Logotipo** — las 4 variantes son la palabra «DHL», sin símbolo |
+| `ups-iso` | Isotipo | **Isologo** — escudo con «ups» dentro; texto y símbolo indivisibles |
+| `oxxo-isotipo` | Isotipo | **Logotipo** — la palabra «OXXO» en su recuadro rojo |
+| `spei-imagotipo` | Imagotipo | **Logotipo** — solo la palabra «SPEI» |
+| `getnet-imagotipo` | Imagotipo | **Logotipo** — solo la palabra «Getnet» |
 
-Un *isotipo* es el símbolo **sin** texto. Ninguno de los dos lo es. El sufijo `-iso` del nombre
-arrastra el mismo error.
+Un *isotipo* es el símbolo **sin** texto; un *imagotipo* combina símbolo y texto separables.
+En los cinco casos el arte es solo tipografía.
 
-> Comprobar los 91 restantes requiere abrir cada componente. Si el equipo quiere la revisión
-> completa, es un trabajo aparte y conviene planificarlo.
+### Bien clasificados (11)
+
+`visa-logotipo` · `mastercard-isotipo` · `conekta-imagotipo` · `7-eleven-imagotipo` ·
+`openpay-imagotipo` · `kueski-imagotipo` · `stripe-logotipo` · `fedex-logo` · `estafeta-logo` ·
+`redpack-logo` · y los `-isotipo` de SOCIAL MEDIA, que sí son símbolos sin texto.
+
+### Un caso mixto
+
+`99min-iso` — el canon lo llama Imagotipo. El set tiene ambas cosas: el círculo con «99»
+(isotipo) y la versión «99minutos.com» (imagotipo). El nombre solo describe una.
+
+---
+
+## 6b. Iconos de acción dentro de la sección CARRIER
+
+Entre los logos de paquetería del frame hay tres piezas etiquetadas **`incidencia`**,
+**`transferir`** y **`flash`** que no son logos de marca: son iconos de acción del sistema.
+O se mueven a la sección de iconos, o se documenta por qué viven entre los carriers.
 
 ---
 
@@ -208,6 +229,8 @@ nombre no menciona NEXUS. Conviene confirmar que es la librería vigente y, si l
 | 7 | Igualar la tabla de tamaños de §1 con las medidas reales | canon **o** Figma |
 | 8 | Documentar `-iso-plataforma` y `-iso-marketplace` en §8 | canon |
 | 9 | Unificar el tamaño de las variantes dentro de cada set | Figma |
-| 10 | Revisar la clasificación isotipo/logotipo/imagotipo de los 91 assets no comprobados | canon |
+| 10 | Corregir la clasificación de los 5 assets mal tipados | canon |
+| 11 | Revisar los 76 assets cuyo arte no se comprobó | canon |
+| 12 | Reubicar `incidencia`, `transferir` y `flash` fuera de CARRIER | Figma |
 
 Las acciones 1–6 no pueden resolverse con un pull request: requieren editar el archivo de diseño.
