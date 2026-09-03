@@ -152,6 +152,36 @@ El canon declara 31. El frame `Icon-menu` contiene 37 nombres únicos:
 
 ---
 
+## 3b. Lo que sale de Figma al exportar
+
+Se descargaron 5 iconos como SVG para montar el pipeline. Lo que trae cada archivo:
+
+| Aspecto | Lo que dice el canon | Lo que sale de Figma |
+|---|---|---|
+| Color | `currentColor` (§7, regla 3) | `#4C4C4C` fijo — y **`#272532`**, que **no está en `COLORS.md`** |
+| Stroke | `1.5px` (§1) | `1.2` y `2` |
+| Contenido | solo el icono | incluye el **rect de fondo del artboard** (`1646×3499`) y un rect de fondo del propio icono |
+
+Los tres se corrigen al generar `icons.ts`, pero conviene arreglarlos en Figma: mientras estén
+así, cualquiera que exporte a mano se lleva el artboard entero dentro del SVG.
+
+`#272532` es el hallazgo que más importa: es un color fuera del sistema de tokens.
+
+---
+
+## 3c. Estado del `icons.ts`
+
+`components/icon/icons.ts` está generado y validado, con **5 de 197 iconos**.
+
+El pipeline está probado de punta a punta: descarga → limpieza del artboard → normalización a
+`currentColor` y stroke 1.5 → volcado al formato de `ICON-COMPONENT.md §3.1`.
+
+Completar los 192 restantes requiere una descarga por icono contra la API de Figma. Los nodeIds
+ya están inventariados (126 de los 160 los tienen identificables); es trabajo mecánico, pero no
+cabe en una sola sesión.
+
+---
+
 ## 4. Qué hacer con esto
 
 | # | Acción | Dónde | Bloquea a |
