@@ -1,0 +1,165 @@
+# nombre_en_figma	node_id
+# archivo Figma Nexus V2 · frames Icons (25:4520) e Icon-menu (25:3428)
+icon-info/abacus	25:4678
+icon-action/check-patch	25:4690
+icon-action/check	25:4775
+icon-info/lightbulb	25:4784
+icon-ruler	25:4867
+icon/math/minus	66:3755
+icon/math/hashtag	66:3756
+icon/math/at	66:3757
+icon/system/ia	66:3715
+icon-info/card-ine	61:3808
+icon/t1pagos/user	61:3874
+icon/t1pagos/perfiles	61:3920
+icon/system/qr	66:3712
+icon/system/atom	66:3714
+icon/system/radio	66:3713
+icon/commerce/store	50:3923
+icon/commerce/refund	49:3913
+icon/math/percentage	66:3758
+icon/finance/cupon	55:4001
+icon/action/search	46:4332
+icon/system/laptop	65:3731
+icon/transform/reply	65:3730
+icon/transform/repeat	65:3729
+icon/system/desktop	66:3710
+icon/system/mobil	66:3711
+icon/action/attach	46:4323
+icon/action/print	46:4324
+icon/commerce/variant	49:3912
+icon/data/new-window	61:3932
+icon/data/full	61:3934
+icon/time/calendar-switch	65:3711
+icon/time/calendar	65:3710
+icon/time/watch	65:3712
+icon/finance/calculator	55:4000
+icon/finance/ticket	55:3999
+icon/data/filter	61:3931
+icon/action/backup	46:4325
+icon/action/download	46:4329
+icon/action/upload	46:4327
+icon/action/export	46:4331
+icon/finance/currency	55:3997
+icon/finance/collect	55:3998
+icon/finance/cash	50:3857
+icon/finance/store-credit	55:3994
+icon/commerce/market	49:3911
+icon/commerce/products	49:3909
+icon-edit/text-left	25:5588
+icon/commerce/cart	49:3908
+icon/commerce/addcart	49:3907
+icon/communication/emotion	48:4143
+icon/communication/sms	48:4142
+icon/communication/comment	48:4141
+icon/finance/money	61:3807
+icon/communication/mail	48:4140
+icon/status/info	65:3715
+icon/status/help	65:3717
+icon/status/alert	65:3716
+icon/clipboard/data	44:4203
+icon/clipboard/list	44:4204
+icon/file/files	42:4483
+icon/file/bill	42:4480
+icon/file/excel	43:4196
+icon/file/pdf	43:4197
+icon/file/text	42:4481
+icon/nav/arrow/left	26:11459
+icon/nav/chevron/double-left	26:11542
+icon/nav/chevron/double-right	26:11544
+icon/nav/arrow/right-short	26:11514
+icon/nav/arrow/left-short	26:11468
+icon/nav/arrow/down	26:11517
+icon/nav/arrow/up	26:11518
+icon/nav/chevron/up&down	26:11545
+icon/nav/arrow/bar-right	26:11448
+icon/nav/arrow/down-short	26:11482
+icon/nav/arrow/up-short	26:11516
+icon-nav/arrow-right	25:5960
+icon/builder/text	46:4249
+icon/builder/input	46:4248
+icon/data/column	59:3829
+icon/action/share	46:4322
+icon/finance/transfer	55:3996
+icon/status/visible	65:3713
+icon/status/hide	65:3714
+icon/builder/video	46:4246
+icon/text/list/check	39:4334
+icon-info/catalog-list	46:4245
+icon/text/list/number	39:4333
+icon/text/list/dot	39:4332
+icon/media/multimedia	46:4252
+icon/media/camara	46:4253
+icon/data/list	59:3828
+icon/data/grid	59:3826
+icon/builder/table	46:4244
+icon/action/trash	46:4307
+icon/builder/header	46:4235
+icon/builder/product	46:4242
+icon/builder/product-list	46:4243
+icon/nav/menu/drag	38:4325
+icon/nav/menu/hamburguer 	25:6292
+icon/nav/menu/kebab	25:6295
+icon/nav/menu/meatballs	25:6305
+icon/builder/image-banner	46:4240
+icon/builder/image+text	46:4238
+icon-edit/image+prod	46:4239
+icon/builder/image-column	46:4241
+icon/builder/form	46:4237
+icon/builder/footer	46:4236
+icon/text/align/right	38:4329
+icon/text/location	39:4335
+icon/text/list/expanded	41:4336
+icon/text/align/center	26:11624
+icon/text/indent/decrease	39:4331
+icon/text/indent/increase	38:4330
+icon/text/align/justify	38:4326
+icon/text/align/left	38:4327
+icon/builder/brand	46:4250
+icon/communication/whatsapp	48:4144
+icon-info/box-2	37:4305
+icon-info/box-1	37:4306
+icon-info/envelope	37:4311
+icon/media/image	46:4251
+icon/commerce/product	49:3910
+icon/finance/wallet	50:3855
+icon/status/lock	105:3900
+icon/transform/color	108:3914
+Icon/tablet	109:3919
+menu/antifraude 2/Default	25:4425
+menu/Property 1=Line	25:3605
+menu/Property 1=Color	25:3608
+menu/payments	234:10045
+menu/marketing	234:9910
+menu/gallery	234:9917
+menu/insumos 3	234:10036
+menu/Saldos nuevo	685:7829
+menu/Facturacion nuevo	685:7877
+menu/Nuevo seguridad	685:7882
+menu/Nuevo pin	685:7880
+menu/Nuevo card	685:7824
+menu/Nuevo datos	685:7883
+menu/Nuevo llave	685:7884
+menu/Nuevo permisos	685:7881
+menu/Nuevos planes	685:7894
+menu/Nuevo venta	1285:9398
+menu/Nuevo transacciones 2	685:7827
+menu/Nuevo liquidacion	685:7879
+menu/Nuevo control caja	1285:9385
+menu/Nuevo descuento	685:7766
+menu/Nuevo producto	685:7765
+menu/Nuevo reportes	685:7822
+menu/Nuevo canales	685:7764
+menu/Nuevo pedidos	685:7763
+menu/User nuevo	685:7767
+menu/Nuevo home	685:7768
+menu/Nuevo envios	685:7821
+menu/Nuevo online store	561:9469
+menu/Nuevo control	685:7904
+menu/Nuevo Hub	685:7878
+menu/Nuevo config	685:7826
+menu/Nuevo link	685:7828
+menu/Nuevo develop	685:7825
+menu/Nuevo money	685:7823
+menu/cashier	1285:9367
+menu/shopping-bag-03	1285:9363

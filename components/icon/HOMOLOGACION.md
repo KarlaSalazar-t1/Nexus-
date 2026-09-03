@@ -169,16 +169,44 @@ así, cualquiera que exporte a mano se lleva el artboard entero dentro del SVG.
 
 ---
 
-## 3c. Estado del `icons.ts`
+## 3c. Cómo generar el `icons.ts` completo
 
-`components/icon/icons.ts` está generado y validado, con **5 de 197 iconos**.
+`components/icon/icons.ts` está generado y validado, hoy con **5 de 197 iconos**. Para completarlo
+no hace falta repetir el trabajo a mano: el script **`generar-icons.py`** lo hace de una pasada.
 
-El pipeline está probado de punta a punta: descarga → limpieza del artboard → normalización a
-`currentColor` y stroke 1.5 → volcado al formato de `ICON-COMPONENT.md §3.1`.
+### Uso
 
-Completar los 192 restantes requiere una descarga por icono contra la API de Figma. Los nodeIds
-ya están inventariados (126 de los 160 los tienen identificables); es trabajo mecánico, pero no
-cabe en una sola sesión.
+```bash
+export FIGMA_TOKEN=figd_xxxxxxxxxxxxxxxx
+cd components/icon
+python3 generar-icons.py                 # los 163 con nodeId conocido
+python3 generar-icons.py --solo math     # solo una categoría
+python3 generar-icons.py --dry-run       # lista sin descargar nada
+```
+
+**El token** se saca en Figma → avatar → *Settings* → *Security* → *Personal access tokens* →
+*Generate new token*, con permiso de lectura de contenido. Es personal: no se sube al repo.
+
+### Qué hace
+
+1. Lee `figma-nodes.tsv` — el mapa `nombre en Figma → node_id`, ya inventariado:
+   **126 iconos** del frame `Icons` y **37** de `Icon-menu`.
+2. Pide los SVG a la API de Figma en lotes de 40, con pausa entre peticiones.
+3. Limpia cada uno: retira el rect del artboard y los fondos sin `id`.
+4. Normaliza al canon: `currentColor` y `stroke-width` 1.5.
+5. Escribe `icons.ts` en el formato de `ICON-COMPONENT.md §3.1`.
+6. Avisa si algo quedó sucio y lista los iconos que no pudo descargar.
+
+Al escribir la clave elimina el prefijo (`icon/math/at` → `math/at`,
+`icon-info/abacus` → `info/abacus`), con lo que **los 15 renombrados mecánicos de la sección 1
+quedan resueltos automáticamente**. Los 15 de la sección 2 salen con su nombre tal cual, y ahí sí
+hace falta la decisión de diseño.
+
+### Lo que el script no cubre
+
+Los **34 iconos sin nodeId identificable** (160 − 126). Están anidados de forma que el volcado de
+metadatos no los expone como nodo propio; hay que localizarlos a mano en Figma y añadirlos a
+`figma-nodes.tsv`.
 
 ---
 
