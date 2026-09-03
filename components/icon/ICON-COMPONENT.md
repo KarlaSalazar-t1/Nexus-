@@ -86,13 +86,15 @@ El archivo `icons.ts` contiene el mapa completo de **222 íconos** organizados e
 ```ts
 // Estructura de cada entrada
 export const icons: Record<string, { vb: string; p: string }> = {
-  'arrow-left': {
-    vb: "0 0 17.0 16.16",       // viewBox calculado del bounding box real
+  'nav/arrow/left': {
+    vb: "0 0 24 24",            // siempre el lienzo canónico
     p: "<path d=\"...\" fill=\"currentColor\"/>"  // SVG inner HTML normalizado
   },
-  'menu/home': {
-    vb: "0 0 24.23 55.5",
-    p: "<path d=\"...\" fill=\"currentColor\"/>..."
+  'data/order/active': {
+    vb: "0 0 24 24",
+    // el componente medía 16×16 en Figma: se encaja en el lienzo y el
+    // stroke-width viene compensado para que el trazo siga siendo 1.5px
+    p: "<g transform=\"scale(1.5)\"><path stroke-width=\"1\" .../></g>"
   },
   // ...
 }
@@ -103,7 +105,36 @@ export const menuIconNames = iconNames.filter(n => n.startsWith('menu/'))
 export const systemIconNames = iconNames.filter(n => !n.startsWith('menu/'))
 ```
 
-> **Nota técnica:** Los viewBoxes son los bounding boxes reales de cada ícono en Figma — no el canvas 24×24 estándar. El componente `<Icon />` escala correctamente vía `width`/`height` y preserva la proporción del diseño original.
+> **Nota técnica — el viewBox es siempre `0 0 24 24`.** No siempre lo fue: Figma exporta cada
+> componente con su marco, y los marcos no son uniformes (hay de 16×16, 25×25, 30×30, 25×17…).
+> Como `<Icon />` pinta `width=size height=size viewBox=vb`, un ícono de caja 16 dibujado a 24px
+> escalaba ×1.5 y su trazo pasaba de 1.5 a 2.25px; uno de caja 30 lo adelgazaba a 1.2px. **27 de
+> los 222 estaban afectados.** Ahora `generar-icons.py` encaja y centra el bounding box real en el
+> lienzo de 24×24 y compensa el `stroke-width` con la inversa de la escala, así que los 222 dan
+> **1.5px exactos** en pantalla y ocupan la misma caja óptica.
+
+#### El calado: `--icon-knockout`
+
+7 íconos —`commerce/box/fill`, `file/excel`, `file/pdf`, `info/abacus`, `math/plus/fill`,
+`nav/menu/waffle/variant2`, `t1envios/flash-on`— tienen zonas *caladas*: una forma blanca encima
+de otra rellena, para simular un hueco. Ese blanco no es tinta, es **el color de la superficie de
+detrás**, así que como literal se queda blanco sobre fondo oscuro.
+
+Sale del generador como variable CSS con blanco por defecto:
+
+```
+fill="var(--icon-knockout, #FFFFFF)"
+```
+
+Basta con definirla donde cambie la superficie:
+
+```css
+.card         { --icon-knockout: #FFFFFF; }  /* color/brand/base/white */
+.dashboard-dk { --icon-knockout: #1F2937; }  /* color/brand/gray/900  */
+```
+
+Si no se define, el comportamiento es el de antes. Lo definitivo sigue siendo dibujar el hueco
+como tal en Figma (`fill-rule="evenodd"`) — ver **[HOMOLOGACION.md](./HOMOLOGACION.md) §4**.
 
 ### 3.2 Implementación `Icon.tsx`
 

@@ -18,12 +18,17 @@ TOKEN
     El token es personal: no lo subas al repo.
 
 NORMALIZACIÓN (según el canon)
-    - `fill` y `stroke` → `currentColor`   ICONOGRAPHY.md §7, regla 3
-    - `stroke-width`    → 1.5              ICONOGRAPHY.md §1
-    - se retiran los rects de fondo del artboard que Figma incluye al exportar
+    - `fill` y `stroke`  → `currentColor`             ICONOGRAPHY.md §7, regla 3
+    - blanco de calado   → `var(--icon-knockout, …)`  no es tinta, es la superficie
+    - lienzo             → `0 0 24 24` siempre        ICONOGRAPHY.md §1
+    - `stroke-width`     → 1.5px en pantalla          ICONOGRAPHY.md §1
+    - se retiran los fondos del artboard y los `filter` de sombra
 
-Los viewBox se conservan como salen: §3.1 especifica que son los bounding boxes
-reales de cada icono, no el canvas 24×24.
+El lienzo no se conserva como sale de Figma. Los componentes miden 16×16, 25×25,
+30×30… y `<Icon>` pinta `width=size height=size viewBox=vb`, así que un icono de
+caja 16 a 24px escalaba ×1.5 y su trazo pasaba de 1.5 a 2.25px. Aquí se encaja
+el bounding box real en 24×24 y se reparte la inversa de esa escala en el
+`stroke-width`, con lo que los 222 dan 1.5px exactos.
 """
 import json, os, re, sys, time, urllib.request, urllib.error
 import xml.etree.ElementTree as ET
@@ -32,6 +37,10 @@ FILE_KEY = "agWwqm17qIvfveD8CQwSRz"
 AQUI     = os.path.dirname(os.path.abspath(__file__))
 NODOS    = os.path.join(AQUI, "figma-nodes.tsv")
 SALIDA   = os.path.join(AQUI, "icons.ts")
+LIENZO   = 24.0        # lienzo canónico, ICONOGRAPHY.md §1
+VIEWBOX  = "0 0 24 24"
+TRAZO    = 1.5         # grosor de trazo del canon, ICONOGRAPHY.md §1
+KNOCKOUT = "var(--icon-knockout, #FFFFFF)"   # el blanco de calado, como token
 LOTE     = 40          # ids por petición; la API acepta varios a la vez
 PAUSA    = 0.5         # segundos entre peticiones, para no chocar con el rate limit
 
@@ -183,6 +192,37 @@ def _ids_unicos(cuerpo, clave_icono):
     return cuerpo
 
 
+def _num(v):
+    """4 decimales como mucho, sin ceros de cola."""
+    return ("%.4f" % v).rstrip("0").rstrip(".") or "0"
+
+
+def _a_lienzo(cuerpo, vb):
+    """Encaja el bounding box real de Figma en el lienzo canonico de 24x24.
+
+    Figma exporta cada componente con su marco, y los marcos no son uniformes:
+    hay iconos de 16x16, 25x25, 30x30, 25x17... Como `<Icon>` pinta
+    `width=size height=size viewBox=vb`, un icono de caja 16 dibujado a 24px
+    escala x1.5 y su trazo pasa de 1.5 a 2.25 en pantalla; uno de caja 30 lo
+    adelgaza. Aqui se centra y se escala al lienzo; el `stroke-width` ya viene
+    compensado con la inversa, asi que el trazo mide 1.5px en todos.
+    """
+    x, y, w, h = vb
+    if w <= 0 or h <= 0:
+        return cuerpo
+    s = LIENZO / max(w, h)
+    tx = (LIENZO - w * s) / 2 - x * s
+    ty = (LIENZO - h * s) / 2 - y * s
+    partes = []
+    if abs(tx) > 1e-9 or abs(ty) > 1e-9:
+        partes.append("translate(%s %s)" % (_num(tx), _num(ty)))
+    if abs(s - 1) > 1e-9:
+        partes.append("scale(%s)" % _num(s))
+    if not partes:
+        return cuerpo
+    return '<g transform="%s">%s</g>' % (" ".join(partes), cuerpo)
+
+
 def limpiar(raw, clave_icono=""):
     """Quita el envoltorio del artboard y normaliza color y stroke.
 
@@ -200,6 +240,8 @@ def limpiar(raw, clave_icono=""):
     except ValueError:
         vb = [0.0, 0.0, 24.0, 24.0]
 
+    escala = LIENZO / max(vb[2], vb[3]) if vb[2] > 0 and vb[3] > 0 else 1.0
+
     _sin_ns(root)
     _podar(root, vb)
     _sin_sombras(root)
@@ -208,14 +250,21 @@ def limpiar(raw, clave_icono=""):
     for el in root.iter():
         for a in ("fill", "stroke"):
             v = el.get(a)
-            if v and (v.startswith("#") or v.lower() in ("black", "#000")):
+            if not v:
+                continue
+            if v.lower() in ("white", "#fff", "#ffffff"):
+                # calado: no es tinta, es "el color del fondo". Como literal se
+                # queda blanco en modo oscuro, asi que sale como variable CSS
+                # para que el contexto decida (ICONOGRAPHY.md sec.7).
+                el.set(a, KNOCKOUT)
+            elif v.startswith("#") or v.lower() == "black":
                 el.set(a, "currentColor")
         if el.get("stroke-width"):
-            el.set("stroke-width", "1.5")
+            el.set("stroke-width", _num(TRAZO / escala))
 
     cuerpo = "".join(ET.tostring(h, encoding="unicode") for h in root)
     cuerpo = _ids_unicos(re.sub(r"\s+", " ", cuerpo).strip(), clave_icono)
-    return _sin_ids_decorativos(cuerpo)
+    return _a_lienzo(_sin_ids_decorativos(cuerpo), vb)
 
 
 def clave(nombre):
@@ -293,12 +342,8 @@ def main():
                 print("  ! %s: %s" % (nombre, e))
                 fallos.append(nombre)
                 continue
-            vb = re.search(r'viewBox="([^"]+)"', raw)
             k = clave(nombre)
-            entradas[k] = {
-                "vb": vb.group(1) if vb else "0 0 24 24",
-                "p": limpiar(raw, k),
-            }
+            entradas[k] = {"vb": VIEWBOX, "p": limpiar(raw, k)}
         time.sleep(PAUSA)
 
     cuerpo = "".join(
@@ -318,10 +363,13 @@ def main():
     # avisos de calidad sobre lo generado
     texto = open(SALIDA, encoding="utf-8").read()
     cuerpo_txt = texto[texto.index("export const icons"):]
-    for aviso, patron in (("restos del artboard", r'width=\\"1646'),
-                          ("colores hardcodeados", r"#[0-9A-Fa-f]{6}"),
-                          ("blancos de knockout", r"white")):
-        n = len(re.findall(patron, cuerpo_txt))
+    sin_knockout = cuerpo_txt.replace(KNOCKOUT.replace('"', '\\\\"'), "")
+    for aviso, patron, donde in (
+            ("restos del artboard", r'width=\\"1646', cuerpo_txt),
+            ("colores hardcodeados", r"#[0-9A-Fa-f]{6}", sin_knockout),
+            ("blancos sin tokenizar", r'"white"', sin_knockout),
+            ("iconos con calado (--icon-knockout)", re.escape(KNOCKOUT.replace('"', '\\\\"')), cuerpo_txt)):
+        n = len(re.findall(patron, donde))
         if n:
             print("  aviso: %d %s" % (n, aviso))
 

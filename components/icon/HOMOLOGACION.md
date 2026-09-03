@@ -203,11 +203,14 @@ API. Sirve cuando no hay token a mano: las URLs pueden venir del MCP de Figma, o
 2. Pide los SVG a la API de Figma en lotes de 40, con pausa entre peticiones.
 3. Parsea cada SVG como XML y poda lo que no es el icono: el rect del artboard, el `path` de
    fondo del frame padre, los grupos vacíos y los `<filter>` de sombra.
-4. Normaliza al canon: `currentColor` (también sobre `black`) y `stroke-width` 1.5.
-5. Prefija los ids de `<defs>` con la clave del icono y borra los `id` decorativos que nadie
+4. Normaliza el color al canon: `currentColor` (también sobre `black`), y el blanco de calado a
+   `var(--icon-knockout, #FFFFFF)` para que no se quede blanco en fondo oscuro.
+5. Encaja el bounding box real en el lienzo de **24×24**, centrado, y compensa el `stroke-width`
+   con la inversa de la escala: el trazo mide 1.5px en pantalla en los 222.
+6. Prefija los ids de `<defs>` con la clave del icono y borra los `id` decorativos que nadie
    referencia, para que dos iconos en la misma página no choquen.
-6. Escribe `icons.ts` en el formato de `ICON-COMPONENT.md §3.1`.
-7. Avisa de lo que quedó sucio: restos de artboard, colores fijos, blancos de knockout, ids
+7. Escribe `icons.ts` en el formato de `ICON-COMPONENT.md §3.1`.
+8. Avisa de lo que quedó sucio: restos de artboard, colores fijos, blancos sin tokenizar, ids
    repetidos, y lista lo que no pudo descargar.
 
 Al escribir la clave elimina el prefijo (`icon/math/at` → `math/at`,
@@ -246,13 +249,40 @@ Cuatro cosas que no se veían con 5 iconos y sí con 222:
 | 1 | El recorte por regex desbalanceaba las etiquetas y dejaba un `</g>` huérfano | 3 de los 5 iconos que ya estaban commiteados | **corregido** — `limpiar()` ahora parsea el SVG como XML |
 | 2 | **`clip0_0_1` repetido en 12 iconos.** Figma exporta cada icono como documento suelto y numera desde cero. Con dos en la misma página, el `clip-path` del segundo apunta al recorte del primero | 12 iconos | **corregido** — los ids de `<defs>` se prefijan con la clave del icono |
 | 3 | `action/check` traía una **sombra** (`<filter>`) con un morado fijo fuera de tokens. Viene de la instancia colocada en el artboard, no del icono | 1 icono | **corregido** — se retiran los `filter` |
-| 4 | **7 iconos usan blanco de *knockout*** (`fill="white"` / `stroke="white"`) para calar sobre una forma rellena | `commerce/box/fill`, `file/excel`, `file/pdf`, `info/abacus`, `math/plus/fill`, `nav/menu/waffle/variant2`, `t1envios/flash-on` | **abierto** — ver abajo |
+| 4 | **7 iconos usan blanco de *knockout*** (`fill="white"` / `stroke="white"`) para calar sobre una forma rellena | `commerce/box/fill`, `file/excel`, `file/pdf`, `info/abacus`, `math/plus/fill`, `nav/menu/waffle/variant2`, `t1envios/flash-on` | **corregido en código** — sale como `var(--icon-knockout, #FFFFFF)` |
+| 5 | **27 iconos no medían 24×24.** Figma exporta cada componente con su marco, y los marcos no son uniformes: 16×16, 25×25, 30×30, 25×17… Como `<Icon>` pinta `width=size height=size viewBox=vb`, un icono de caja 16 a 24px escalaba ×1.5 y su trazo pasaba de 1.5 a **2.25px**; uno de caja 30 lo adelgazaba a 1.2px | 27 iconos | **corregido** — se encajan en el lienzo de 24×24 y el `stroke-width` se compensa con la inversa |
 
-**El blanco de knockout es el único que queda abierto, y necesita decisión de diseño.** Ese blanco
-no es tinta: es «el color del fondo». Mientras esté escrito como `white`, en modo oscuro esos
-siete iconos se calan en blanco sobre fondo oscuro y se ven mal. Las salidas son dos: dibujar el
-calado como hueco real (`fill-rule="evenodd"`, sin blanco) en Figma, o exponer un segundo token
-de superficie en el componente. La primera es la que deja el icono monocromo de verdad.
+Los dos últimos merecen detalle.
+
+**El calado (4).** Ese blanco no es tinta: es «el color de la superficie de detrás». Como literal
+se queda blanco sobre fondo oscuro. Ahora sale del generador como
+`var(--icon-knockout, #FFFFFF)`: sin definir nada se comporta igual que antes, y quien pinte sobre
+otra superficie define la variable. **Esto es un parche en el consumidor, no el arreglo de fondo:**
+lo correcto sigue siendo dibujar el hueco como hueco en Figma (`fill-rule="evenodd"`, sin blanco
+encima), que es lo único que deja el icono monocromo de verdad. Sigue en la lista de acciones.
+
+**El lienzo (5).** Este era el que de verdad se veía: rompía la regla de 1.5px del canon en 27 de
+222 iconos, y hacía que a igual `size` unos ocuparan más caja óptica que otros. La normalización
+va en el generador, no a mano: se centra y escala el bounding box real dentro de 24×24 y se
+reparte la inversa de esa escala en el `stroke-width`. Comprobado: **los 222 dan 1.5px exactos**.
+Lo de fondo también es de Figma — los componentes deberían medir todos 24×24.
+
+---
+
+### Estado del archivo Figma
+
+Comprobado contra la API el **3 de septiembre de 2026**: los SVG que devuelve Figma son byte a
+byte los mismos que generaron este `icons.ts`. El `rect` de fondo `#272532`, los blancos de
+calado y los marcos que no son 24×24 **siguen ahí**. Si se han corregido en el editor, el cambio
+no ha llegado a la API todavía — suele ser porque está sin guardar, en una *branch* de Figma, o
+en otro archivo.
+
+Cuando esté publicado, basta con volver a correr:
+
+```bash
+export FIGMA_TOKEN=figd_xxxxxxxx
+python3 generar-icons.py
+```
 
 ---
 
@@ -264,12 +294,15 @@ de superficie en el componente. La primera es la que deja el icono monocromo de 
 | 2 | Decidir categoría de los 15 restantes | equipo de diseño | 1 |
 | 3 | Retirar `icon-action/`, `minus 1`, `plus 1` | Figma | — |
 | 4 | Actualizar los conteos de §4 a 160 + 37 nombres / **222 glifos** | canon | — |
-| 5 | Resolver el **blanco de knockout** de los 7 iconos | equipo de diseño | modo oscuro |
+| 5 | Dibujar el calado de los 7 iconos como hueco real (`fill-rule="evenodd"`) | Figma | retirar `--icon-knockout` |
 | 6 | Arreglar en Figma el `#272532` de fondo y los `stroke-width` 1.2 / 2 | Figma | exportación manual |
 | 7 | Confirmar `icon/t1pagos/{pos, pos-profile, top-badge}` | equipo de diseño | 1 |
+| 8 | Llevar a 24×24 los 27 componentes con marco distinto | Figma | retirar el `<g transform>` |
 
-> Las acciones 1–3 son de **higiene en Figma**: el pipeline ya normaliza el nombre al generar, así
-> que el código no está bloqueado por ellas. La 5 sí afecta a lo que se ve.
+> Ninguna bloquea al código: el pipeline ya normaliza nombre, lienzo, trazo y color al generar.
+> Son **higiene en Figma** — mientras no se hagan, el `icons.ts` sale correcto pero llevando
+> encima el arreglo (`<g transform>` en 27 iconos, `--icon-knockout` en 7), y quien exporte a mano
+> desde Figma se lleva el problema sin corregir.
 | 5 | Añadir `t1pagos` y `clipboard` a las categorías de §4 | canon | — |
 | 6 | Resolver si `USER` y `MISC` existen | equipo de diseño | 5 |
 | 7 | Regenerar `icons.ts` con los nombres homologados | código | 1, 2 |
