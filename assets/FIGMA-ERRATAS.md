@@ -3,7 +3,8 @@
 **Archivo:** [Nexus V2](https://www.figma.com/design/agWwqm17qIvfveD8CQwSRz/Nexus-V2?node-id=244-12451) · frame `Icons-logos` (`244:12451`)
 **Librería de componentes:** `SD T1_1`
 **Fecha de la revisión:** 3 de septiembre de 2026
-**Alcance:** 92 componentes y 205 variantes del frame `Icons-logos`, más los `icon-*` y `flag/*` de la librería.
+**Alcance:** 123 componentes e instancias del frame `Icons-logos` (196 variantes medidas),
+más los `icon-*` y `flag/*` de la librería. Incluye revisión visual del frame renderizado.
 
 > Este documento **no propone cambios al canon**. Recoge lo que hay que corregir **en el archivo de
 > Figma**, porque el canon documenta el estado correcto y Figma se ha desviado de él.
@@ -17,10 +18,13 @@ La correspondencia entre Figma y el canon es alta:
 
 | Medida | Resultado |
 |---|---|
-| Componentes en `Icons-logos` | 92 |
+| Componentes e instancias en `Icons-logos` | 123 |
 | Assets documentados en `ICONOGRAPHY.md §4–§6` | 93 |
-| **Coinciden por nombre exacto** | **82 (89 %)** |
+| **Documentados que existen en Figma** | **93 (100 %)** |
 | **Variantes idénticas** (de 73 comparables) | **69 (95 %)** |
+
+Todo lo que el canon documenta existe en el archivo de diseño. Lo que falta es al revés:
+componentes que se crearon en Figma y no llegaron al canon.
 
 Las erratas de abajo son, en su mayoría, acumulación de trabajo reciente sin pasar por el canon.
 
@@ -37,6 +41,15 @@ Las erratas de abajo son, en su mayoría, acumulación de trabajo reciente sin p
 | `Component` | *(pendiente de nombrar)* | `Icons-logos` — nombre por defecto de Figma, variantes `Color · app` |
 
 `emex` es el más urgente: American Express aparece mal escrito en el set de tarjetas de pago.
+
+### Dos hallazgos de la revisión visual del frame
+
+- **`T1careers`** aparece dibujado en la fila BRAND del frame, pero **no existe ningún componente
+  publicado con ese nombre** ni en `Icons-logos` ni en la librería `SD T1_1`. O se componentiza,
+  o se retira del frame.
+- **`t1store-imagotipo` se lee «T1tienda»** en el arte. El archivo va en inglés y el logo en
+  español; el README del canon llama al producto «T1 Tienda». Conviene alinear el nombre del
+  componente con el producto.
 
 ---
 
@@ -106,28 +119,51 @@ ya lo transforma en `_` (`fb_IG-iso`), lo que rompe la correspondencia entre nom
 
 ---
 
-## 5. Documentado en el canon, ausente en Figma
+## 5. Tamaños: el canon describe un sistema que Figma no sigue
 
-La sección **SOCIAL MEDIA** de `ICONOGRAPHY.md §4` lista siete componentes que no se encontraron
-ni en el frame `Icons-logos` ni al buscarlos en la librería `SD T1_1`:
+`ICONOGRAPHY.md §1` define cuatro tamaños — 16, 24, 30 y 64 px — y presenta **30×30** como el
+estándar de logos de terceros. Los tamaños medidos en las 196 variantes del frame dicen otra cosa:
 
-```
-x-isotipo · reddit-isotipo · linkedin-isotipo · facebook-isotipo · google-isotipo · Insta · Whatsapp
-```
-
-Sí existen, en la sección MARKETING: `fb&IG-iso`, `meta-iso` y `whatsapp-iso`.
-
-Además:
-
-| Documentado | Situación en Figma |
+| Tamaño real | Variantes |
 |---|---|
-| `aplazo-logo` | solo existe como variante dentro de `payment card`, no como componente propio |
-| `logo-kometia` · `logo-mercadoshop` · `logo-spincommerce` | no encontrados |
+| **64 × 64** | 79 |
+| 30 × 30 | 29 |
+| 64 × 40 | 16 |
+| 137 × 42 | 11 |
+| 60 × 60 | 11 |
+| 40 × 30 | 11 |
+| 40 × 40 · 64 × 24 · 24 × 24 · 58 × 24 · 55 × 55 · 122 × 42 · 64 × 42 … | resto |
 
-> `Insta` y `Whatsapp` rompen además la convención `{marca}-{tipo}` que el propio canon define.
+**64×64 es el tamaño dominante**, no 30×30. Y aparecen medidas que el canon no menciona:
+`40×40`, `55×55`, `58×24`, `60×60`, `60×42`, `64×42`, `122×42`, `137×42`, `181×101`.
 
-**Decisión pendiente:** o se crean en Figma, o se retiran del canon. Hoy la documentación
-promete assets que quien la lee no va a encontrar.
+La mayoría de los logos **no son cuadrados**, mientras el canon los describe con un solo valor.
+
+### Variantes del mismo componente con tamaños distintos
+
+24 componentes cambian de tamaño al cambiar de variante. Los casos más marcados:
+
+| Componente | Tamaños entre sus variantes |
+|---|---|
+| `99min-iso` | 42×42 · 60×60 · 64×24 · 64×40 · 64×64 |
+| `ups-iso` | 34×34 · 60×60 · 64×40 · 64×64 |
+| `conekta-imagotipo` | 24×24 · 64×11 |
+| `kueski-imagotipo` | 24×24 · 64×15 |
+| `openpay-imagotipo` | 24×24 · 64×64 |
+| `tienda-nube-iso-plataforma` | 30×30 · 64×64 |
+
+Cambiar de variante mueve el layout de quien lo consume. Las variantes de un set deberían
+compartir caja.
+
+### Imagotipos T1
+
+La altura sí es consistente (**42 px** en los ocho), el ancho no —y no tiene por qué serlo, son
+logos de distinta longitud. La excepción es `t1ai-imagotipo`, de **64×42**, muy por debajo de los
+**137×42** de `t1cuenta`, `t1envios`, `t1partners` y `t1score`.
+
+**Decisión pendiente:** o `ICONOGRAPHY.md §1` documenta los tamaños reales por familia, o el
+equipo de diseño normaliza los componentes a la escala declarada. Hoy la tabla del canon no
+describe el archivo.
 
 ---
 
@@ -148,7 +184,8 @@ nombre no menciona NEXUS. Conviene confirmar que es la librería vigente y, si l
 | 4 | Resolver el duplicado `t1score-imagotipo` | Figma |
 | 5 | Unificar el vocabulario de variantes (negro, sin fondo) | Figma |
 | 6 | Renombrar `Variant2/11/12` a algo descriptivo | Figma |
-| 7 | Decidir sobre los 7 componentes de SOCIAL MEDIA | Figma **o** canon |
+| 7 | Igualar la tabla de tamaños de §1 con las medidas reales | canon **o** Figma |
 | 8 | Documentar `-iso-plataforma` y `-iso-marketplace` en §8 | canon |
+| 9 | Unificar el tamaño de las variantes dentro de cada set | Figma |
 
 Las acciones 1–6 no pueden resolverse con un pull request: requieren editar el archivo de diseño.
