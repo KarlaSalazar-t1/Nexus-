@@ -269,6 +269,27 @@ Lo de fondo también es de Figma — los componentes deberían medir todos 24×2
 
 ---
 
+### Verlos: `hoja-iconos.html`
+
+`generar-hoja.py` construye una hoja de contacto con los 222 en una rejilla, leyendo `icons.ts` y
+`figma-nodes.tsv`. Es la forma de comprobar de un vistazo que todos dibujan lo que deben — las
+validaciones del generador son estructurales, no visuales.
+
+```bash
+cd components/icon
+python3 generar-hoja.py        # escribe hoja-iconos.html
+open hoja-iconos.html
+```
+
+Trae búsqueda, filtro por categoría, cambio de tamaño (20/24/32/48) y un botón **Invertir fondo**,
+que es como se comprueba el calado: la hoja redefine `--icon-knockout` y se ve si los 7 iconos
+afectados siguen el fondo en vez de quedarse blancos. Cada celda muestra el marco original en
+Figma y el node id, y al hacer clic copia la clave.
+
+Conviene regenerarla después de cada pasada de `generar-icons.py`.
+
+---
+
 ### Estado del archivo Figma
 
 Comprobado contra la API el **3 de septiembre de 2026**: los SVG que devuelve Figma son byte a
