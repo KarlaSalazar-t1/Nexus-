@@ -27,10 +27,10 @@ Confirmado: `canon/platform/` en Phoenix solo tiene `DASHBOARD.md` y `LANDING.md
 
 | | Nexus/Figma | `t1components` |
 |---|---|---|
-| Definidos | 222 | 772 archivos físicos, **248 exportados** (524 huérfanos) |
+| Definidos | 222 | 728 archivos físicos, **248 exportados** (480 huérfanos) |
 | Coincidencia de nombre | — | **18 de 222 (8%)** |
 
-170 archivos `RectangleIcon{N}.svg` + 159 `ArrowIcon{N}.svg` = 43% del total sin nombre real. Logos: 93 en Figma vs. 41 exportados en código (menos de la mitad).
+170 archivos `RectangleIcon{N}.svg` + 159 `ArrowIcon{N}.svg` = 45% del total sin nombre real. Logos: 93 en Figma vs. 42 exportados en código (todos los físicos sí se exportan, pero es menos de la mitad de lo que Figma documenta).
 
 ---
 
@@ -77,7 +77,7 @@ Comparación de nombres entre los **52 componentes de `t1components`** (el códi
 
 1. **El skeleton `l3-nexus-react` no es un punto de partida útil para migrar `t1components`.** Trae landing + primitivos genéricos, no los componentes de negocio reales (Dashboard/App). Migrar no es "completar el skeleton" — es traer los ~40+ componentes reales de `t1components` desde cero, y decidir caso por caso si los ~5 que coinciden por nombre (`Button`, `Checkbox`, `Switch`, `Select`, `PageHeader`) se reutilizan o se reemplazan.
 2. **El naming es la primera decisión, no la última.** Antes de portar código, hay que resolver el mismo problema que `HOMOLOGACION.md` ya diagnosticó en Figma: qué nombre final tiene cada componente. Migrar `t1components/Table` a Phoenix con el nombre `DataTable` (ya ocupado por otra cosa en el skeleton) o con su nombre propio es una decisión de una sola vez — hacerla mal la primera vez duplica el trabajo.
-3. **`icons.ts` de Nexus (222, ya normalizado) es más confiable que ambos lados de código** — ni los 772 archivos de `t1components` ni el `Icon.tsx` de `l3-nexus-react` tienen ese nivel de curación. Migrar los íconos desde `icons.ts` (no desde `t1components`) evita arrastrar los 524 huérfanos y el ruido de `RectangleIcon`/`ArrowIcon`.
+3. **`icons.ts` de Nexus (222, ya normalizado) es más confiable que ambos lados de código** — ni los 728 archivos de `t1components` ni el `Icon.tsx` de `l3-nexus-react` tienen ese nivel de curación. Migrar los íconos desde `icons.ts` (no desde `t1components`) evita arrastrar los 480 huérfanos y el ruido de `RectangleIcon`/`ArrowIcon`.
 
 ## 5. Siguiente paso sugerido
 
