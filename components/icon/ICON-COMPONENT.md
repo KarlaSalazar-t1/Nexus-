@@ -3,7 +3,7 @@
 **Repositorio:** `t1-design-system`  
 **Ruta:** `components/ICON-COMPONENT.md`  
 **Audiencia:** Desarrolladores · Claude instances  
-**Relacionado con:** [`assets/ICONOGRAPHY.md`](../assets/ICONOGRAPHY.md) · [`foundation/COLORS.md`](../foundation/COLORS.md) · [`accessibility/A11Y.md`](../accessibility/A11Y.md)
+**Relacionado con:** [`assets/ICONOGRAPHY.md`](../../assets/ICONOGRAPHY.md) · [`foundation/COLORS.md`](../../foundation/COLORS.md) · [`accessibility/A11Y.md`](../../accesibility/A11Y.md)
 
 ---
 
@@ -27,7 +27,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 
 | Tipo | Mecanismo | Componente | Color |
 |------|-----------|------------|-------|
-| Íconos del sistema (~150) | Inline SVG via TypeScript | `<Icon />` | `currentColor` — hereda del texto |
+| Íconos del sistema (160) + menú sidebar (37) | Inline SVG via TypeScript | `<Icon />` | `currentColor` — hereda del texto |
 | Íconos de menú sidebar (31) | Inline SVG via TypeScript | `<Icon name="menu/..." />` | `currentColor` |
 | Logos de terceros (300+) | Archivo `.svg` en `/public/` | `<BrandLogo />` | Colores propios del logo |
 | Banderas ISO (250+) | Archivo `.svg` en `/public/` | `<Flag />` | Colores propios |
@@ -38,7 +38,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 **Íconos del sistema → inline SVG:**
 - Son monocromáticos (stroke `#4C4C4C`, heredan `currentColor`)
 - Necesitan cambiar de color en estados (hover, active, disabled, semántico)
-- ~150 íconos caben bien en un bundle TypeScript sin impacto significativo en peso
+- 222 íconos (185 del sistema + 37 de menú, generados desde Figma) caben bien en un bundle TypeScript sin impacto significativo en peso
 - Elimina 150+ peticiones HTTP o configuración de sprite
 
 **Logos y banderas → archivos en `/public/`:**
@@ -55,7 +55,7 @@ El ecosistema T1 usa **dos mecanismos distintos** para íconos y logos, según e
 components/
 └── Icon/
     ├── Icon.tsx              ← Componente principal <Icon />
-    ├── icons.ts              ← Mapa de 153 SVG paths (sistema + menú)
+    ├── icons.ts              ← Mapa de 222 SVG paths (sistema + menú), generado
     └── index.ts              ← Re-export limpio
 
 public/
@@ -75,21 +75,26 @@ public/
 
 ### 3.1 Archivo `icons.ts`
 
-El archivo `icons.ts` contiene el mapa completo de **153 íconos** organizados en dos grupos:
+El archivo `icons.ts` contiene el mapa completo de **222 íconos** organizados en dos grupos:
 
-- **122 íconos del sistema** — extraídos del artboard `Icons` de Figma
-- **31 íconos de menú** — extraídos del artboard `Icon-menu`, accesibles con prefijo `menu/`
+- **185 íconos del sistema** — extraídos del artboard `Icons` de Figma
+- **37 íconos de menú** — extraídos del artboard `Icon-menu`, accesibles con prefijo `menu/`
+
+> **Generado, no escrito a mano.** Lo produce `generar-icons.py` desde Figma; los cambios hechos
+> a mano se pierden en la siguiente pasada. Ver **[HOMOLOGACION.md](./HOMOLOGACION.md) §3c**.
 
 ```ts
 // Estructura de cada entrada
 export const icons: Record<string, { vb: string; p: string }> = {
-  'arrow-left': {
-    vb: "0 0 17.0 16.16",       // viewBox calculado del bounding box real
+  'nav/arrow/left': {
+    vb: "0 0 24 24",            // siempre el lienzo canónico
     p: "<path d=\"...\" fill=\"currentColor\"/>"  // SVG inner HTML normalizado
   },
-  'menu/home': {
-    vb: "0 0 24.23 55.5",
-    p: "<path d=\"...\" fill=\"currentColor\"/>..."
+  'data/order/active': {
+    vb: "0 0 24 24",
+    // el componente medía 16×16 en Figma: se encaja en el lienzo y el
+    // stroke-width viene compensado para que el trazo siga siendo 1.5px
+    p: "<g transform=\"scale(1.5)\"><path stroke-width=\"1\" .../></g>"
   },
   // ...
 }
@@ -100,7 +105,36 @@ export const menuIconNames = iconNames.filter(n => n.startsWith('menu/'))
 export const systemIconNames = iconNames.filter(n => !n.startsWith('menu/'))
 ```
 
-> **Nota técnica:** Los viewBoxes son los bounding boxes reales de cada ícono en Figma — no el canvas 24×24 estándar. El componente `<Icon />` escala correctamente vía `width`/`height` y preserva la proporción del diseño original.
+> **Nota técnica — el viewBox es siempre `0 0 24 24`.** No siempre lo fue: Figma exporta cada
+> componente con su marco, y los marcos no son uniformes (hay de 16×16, 25×25, 30×30, 25×17…).
+> Como `<Icon />` pinta `width=size height=size viewBox=vb`, un ícono de caja 16 dibujado a 24px
+> escalaba ×1.5 y su trazo pasaba de 1.5 a 2.25px; uno de caja 30 lo adelgazaba a 1.2px. **27 de
+> los 222 estaban afectados.** Ahora `generar-icons.py` encaja y centra el bounding box real en el
+> lienzo de 24×24 y compensa el `stroke-width` con la inversa de la escala, así que los 222 dan
+> **1.5px exactos** en pantalla y ocupan la misma caja óptica.
+
+#### El calado: `--icon-knockout`
+
+7 íconos —`commerce/box/fill`, `file/excel`, `file/pdf`, `info/abacus`, `math/plus/fill`,
+`nav/menu/waffle/variant2`, `t1envios/flash-on`— tienen zonas *caladas*: una forma blanca encima
+de otra rellena, para simular un hueco. Ese blanco no es tinta, es **el color de la superficie de
+detrás**, así que como literal se queda blanco sobre fondo oscuro.
+
+Sale del generador como variable CSS con blanco por defecto:
+
+```
+fill="var(--icon-knockout, #FFFFFF)"
+```
+
+Basta con definirla donde cambie la superficie:
+
+```css
+.card         { --icon-knockout: #FFFFFF; }  /* color/brand/base/white */
+.dashboard-dk { --icon-knockout: #1F2937; }  /* color/brand/gray/900  */
+```
+
+Si no se define, el comportamiento es el de antes. Lo definitivo sigue siendo dibujar el hueco
+como tal en Figma (`fill-rule="evenodd"`) — ver **[HOMOLOGACION.md](./HOMOLOGACION.md) §4**.
 
 ### 3.2 Implementación `Icon.tsx`
 
@@ -167,16 +201,16 @@ import { Icon } from '@/components/Icon'
 <Icon name="trash" size={24} />
 
 // Ícono con color via Tailwind (className en el SVG)
-<Icon name="search" size={20} className="text-gray-500" />
+<Icon name="search" size={24} className="text-gray-500" />
 
 // Ícono funcional en botón — el aria-label va en el botón, no en el ícono
 <button aria-label="Eliminar producto">
-  <Icon name="action-trash" size={20} aria-hidden="true" />
+  <Icon name="action-trash" size={24} aria-hidden="true" />
 </button>
 
 // Ícono semántico con color de estado
-<Icon name="status-alert" size={20} className="text-orange-500" />
-<Icon name="status-info"  size={20} className="text-blue-500" />
+<Icon name="status-alert" size={24} className="text-orange-500" />
+<Icon name="status-info"  size={24} className="text-blue-500" />
 
 // Ícono de menú sidebar
 <Icon name="menu/home"         size={24} className="text-gray-500" />
@@ -198,7 +232,7 @@ Los íconos heredan `currentColor` del padre. Para colorear, aplicar `text-{colo
 
 // ✅ Correcto — color heredado del padre
 <span className="text-orange-500">
-  <Icon name="status-alert" size={20} />
+  <Icon name="status-alert" size={16} />
   <span>Advertencia</span>
 </span>
 
@@ -226,7 +260,12 @@ Solo en el contexto de **landing pages**:
 
 ## 4. Catálogo de íconos disponibles
 
-### Íconos del sistema (122)
+### Íconos del sistema (185 en `icons.ts` · 122 catalogados abajo)
+
+> El catálogo de esta sección quedó en 122. El frame `Icons` de Figma tiene 160 nombres, que al
+> desplegar los *component sets* dan **185 glifos** — los que hoy están en `icons.ts`.
+> Ver **[HOMOLOGACION.md](./HOMOLOGACION.md)** para el inventario completo y el mapeo.
+
 
 Organizados por categoría. Tamaño base: **24×24px**. Stroke: **1.5px**.
 
@@ -251,7 +290,7 @@ Organizados por categoría. Tamaño base: **24×24px**. Stroke: **1.5px**.
 | SYSTEM | `system-` | 9 | `system-laptop`, `system-mobile`, `system-tablet`, `system-pos`, `system-qr`, `system-ai` |
 | MATH & MISC | `math-`, `misc-` | 12 | `math-plus`, `math-minus`, `misc-star`, `misc-bookmark`, `misc-lightbulb`, `misc-cvv` |
 
-### Íconos de menú sidebar (31)
+### Íconos de menú sidebar (37 en Figma · 37 en `icons.ts` · 31 catalogados abajo)
 
 Prefijo: `menu/`. Uso exclusivo en sidebar de navegación del dashboard.
 
@@ -386,9 +425,9 @@ import { BrandLogo } from '@/components/Icon/BrandLogo'
 | `t1pagos-white` | T1 Pagos — blanco, sobre fondo oscuro o rojo |
 | `t1envios-default` | T1 Envíos — color, sobre fondo claro |
 | `t1score-default` | T1 Score — color, sobre fondo claro |
-| `t1marketing-default` | T1 Marketing — color, sobre fondo claro |
+| `t1marketing-default` | T1 Marketing — color, sobre fondo claro · ⚠️ **no encontrado en Figma** (ver [FIGMA-ERRATAS.md](../../assets/FIGMA-ERRATAS.md)) |
 
-> Para el listado completo de logos de terceros disponibles, ver **[ICONOGRAPHY.md — sección 4](../assets/ICONOGRAPHY.md#4-logos-de-terceros-icons-logos)**.
+> Para el listado completo de logos de terceros disponibles, ver **[ICONOGRAPHY.md — sección 4](../../assets/ICONOGRAPHY.md#4-logos-de-terceros-icons-logos)**.
 
 ---
 
@@ -486,6 +525,13 @@ Los íconos de menú cambian de color según el estado del nav item:
 <Icon name="menu/orders" size={24} className="text-gray-300" />
 ```
 
+> **Sobre el naming en Figma.** Conviven varias convenciones según el archivo:
+> la librería `SD T1_1` publica `icon-nav/`, `icon-edit/`, `icon-info/` y `icon-action/`
+> (plano, con guion), mientras el archivo **POS-web** usa `icon/{categoría}/{nombre}`
+> —`icon/finance/collect`, `icon/data/order`, `icon/math/plus`— que es la forma que
+> documenta `ICONOGRAPHY.md §8`. Los nombres de este catálogo siguen la forma corta
+> (`action-trash`), una tercera. Unificarlas es una decisión pendiente del equipo de diseño.
+
 ### Anti-patrones
 
 ❌ Usar íconos de Heroicons, Lucide, Phosphor u otras librerías externas sin aprobación del equipo de diseño.  
@@ -518,7 +564,7 @@ Cuando el ícono es el único elemento comunicativo, el contexto semántico va e
 ```tsx
 // ✅ Ícono funcional — aria-label en el botón
 <button aria-label="Eliminar producto">
-  <Icon name="action-trash" size={20} aria-hidden="true" />
+  <Icon name="action-trash" size={24} aria-hidden="true" />
 </button>
 
 // ✅ Ícono con tooltip — aria-label en el ícono
@@ -531,11 +577,11 @@ El componente `<Icon />` aplica `aria-hidden="true"` automáticamente cuando no 
 
 ```tsx
 // Equivalentes — ambos ocultan el ícono de lectores de pantalla
-<Icon name="arrow-right" size={20} />
-<Icon name="arrow-right" size={20} aria-hidden="true" />
+<Icon name="arrow-right" size={24} />
+<Icon name="arrow-right" size={24} aria-hidden="true" />
 
 // Ícono accesible — solo cuando el ícono comunica información sin texto visible
-<Icon name="status-alert" size={20} aria-label="Advertencia: saldo insuficiente" />
+<Icon name="status-alert" size={24} aria-label="Advertencia: saldo insuficiente" />
 ```
 
 ### Contraste
@@ -570,7 +616,7 @@ El color de un ícono sobre su fondo debe cumplir mínimo **WCAG AA (4.5:1)**. L
 
 ## Referencias cruzadas
 
-- **[assets/ICONOGRAPHY.md](../assets/ICONOGRAPHY.md)** — Catálogo visual completo: qué íconos existen, naming de Figma, logos de terceros, reglas de uso.
-- **[foundation/COLORS.md](../foundation/COLORS.md)** — Tokens de color para estados semánticos de íconos.
-- **[accessibility/A11Y.md](../accessibility/A11Y.md)** — Requisitos completos de contraste, ARIA y touch targets.
-- **[components/ATOMS.md](../components/ATOMS.md)** — Cómo se integran íconos dentro de botones, badges, chips e inputs.
+- **[assets/ICONOGRAPHY.md](../../assets/ICONOGRAPHY.md)** — Catálogo visual completo: qué íconos existen, naming de Figma, logos de terceros, reglas de uso.
+- **[foundation/COLORS.md](../../foundation/COLORS.md)** — Tokens de color para estados semánticos de íconos.
+- **[accessibility/A11Y.md](../../accesibility/A11Y.md)** — Requisitos completos de contraste, ARIA y touch targets.
+- **[components/ATOMS.md](../ATOMS.md)** — Cómo se integran íconos dentro de botones, badges, chips e inputs.

@@ -35,6 +35,7 @@ Antes de comenzar cualquier tarea, identifica el tipo de proyecto por las keywor
 |---|---|---|
 | **Landing** | "landing", "página pública", "sitio web", "home", "landing page", "página de inicio", "marketing site" | `references/landing.md` |
 | **Dashboard** | "admin", "dashboard", "panel", "backoffice", "back office", "plataforma interna", "sistema" | `references/dashboard.md` |
+| **App** | "app", "app móvil", "aplicación móvil", "T1app", "app nativa", "iOS", "Android" | `references/app.md` |
 | **Componente sin contexto claro** | nombre de componente sin plataforma definida | Pregunta antes de continuar |
 | **Ambos contextos** | request que menciona landing Y dashboard | Carga ambos references |
 
@@ -60,6 +61,9 @@ SI landing detectado:
 
 SI dashboard detectado:
   → references/dashboard.md
+
+SI app detectado:
+  → references/app.md
 
 SI se piden componentes específicos:
   → references/components.md
@@ -278,6 +282,7 @@ Los archivos de `references/` son versiones condensadas de la documentación com
 | `references/anti-patterns.md` | Guardrails NEXUS: qué nunca hacer y qué hacer en su lugar | Siempre |
 | `references/landing.md` | Tokens + patrones específicos de landing pages | Contexto landing |
 | `references/dashboard.md` | Tokens + patrones específicos del admin/backoffice | Contexto dashboard |
+| `references/app.md` | Tokens + patrones específicos de la app móvil nativa | Contexto app móvil |
 | `references/components.md` | Catálogo compacto de componentes con variantes y estados | Cuando se piden componentes |
 | `references/marketing-copy.md` | Reglas accionables de copy de landing y marketing | Contexto landing / copy de marketing |
 

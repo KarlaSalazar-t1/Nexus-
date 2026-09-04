@@ -1,0 +1,271 @@
+/* Paleta y tipografia salen del canon del propio sistema:
+   foundation/COLORS.md (oxford #4C4C4C, rojo 500 #DB3B2B, grises 50-300)
+   foundation/TYPOGRAPHY.md (Manrope = contexto dashboard). El mono es para
+   los identificadores: claves y node ids son codigo, no prosa. */
+:root {
+  --ground:   #F4F4F5;
+  --surface:  #FFFFFF;
+  --surface-2:#FAFAFA;
+  --line:     #E4E3E2;
+  --line-2:   #D3D1CF;
+  --ink:      #1F2937;
+  --ink-2:    #4C4C4C;
+  --ink-3:    #8A8785;
+  --accent:   #DB3B2B;
+  --accent-bg:#FEF4F4;
+  --accent-ln:#F1B0A9;
+  --glyph:    #4C4C4C;
+  --celda:    #FFFFFF;
+  --sombra:   0 1px 2px rgba(31,41,55,.05);
+  --r: 6px;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:   #17181A;
+    --surface:  #1F2124;
+    --surface-2:#232629;
+    --line:     #33363A;
+    --line-2:   #44484D;
+    --ink:      #ECEDEE;
+    --ink-2:    #B8B6B4;
+    --ink-3:    #85837F;
+    --accent:   #E9897E;
+    --accent-bg:#2A1D1B;
+    --accent-ln:#5C332D;
+    --glyph:    #D6D4D1;
+    --celda:    #1F2124;
+    --sombra:   0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"] {
+  --ground:   #17181A;
+  --surface:  #1F2124;
+  --surface-2:#232629;
+  --line:     #33363A;
+  --line-2:   #44484D;
+  --ink:      #ECEDEE;
+  --ink-2:    #B8B6B4;
+  --ink-3:    #85837F;
+  --accent:   #E9897E;
+  --accent-bg:#2A1D1B;
+  --accent-ln:#5C332D;
+  --glyph:    #D6D4D1;
+  --celda:    #1F2124;
+  --sombra:   0 1px 2px rgba(0,0,0,.3);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: Manrope, "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+code, .mono { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+/* ---------- cabecera ---------- */
+.cab { border-bottom: 1px solid var(--line); background: var(--surface); }
+.cab-in { max-width: 1240px; margin: 0 auto; padding: 44px 28px 34px; }
+.eyebrow {
+  margin: 0 0 14px; font-size: 11px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.eyebrow code { font-size: 11px; letter-spacing: 0; text-transform: none; }
+h1 {
+  margin: 0 0 12px; font-size: clamp(26px, 3.4vw, 40px); font-weight: 800;
+  letter-spacing: -.025em; line-height: 1.1; text-wrap: balance; max-width: 17ch;
+}
+.sub { margin: 0; max-width: 66ch; color: var(--ink-2); font-size: 15px; }
+.sub code, .aviso code, footer code {
+  font-size: .88em; background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 4px; padding: .08em .34em;
+}
+.cifras {
+  display: flex; flex-wrap: wrap; gap: 0; margin: 30px 0 0; padding: 0;
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
+  width: fit-content; max-width: 100%;
+}
+.cifras > div {
+  padding: 12px 22px; border-right: 1px solid var(--line);
+  background: var(--surface-2); min-width: 96px;
+}
+.cifras > div:last-child { border-right: 0; }
+.cifras dt {
+  font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-3); margin: 0 0 2px;
+}
+.cifras dd {
+  margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+}
+.cifras .alerta { background: var(--accent-bg); }
+.cifras .alerta dd { color: var(--accent); }
+.cifras .ok dd::after {
+  content: "\2713"; font-size: 15px; margin-left: 6px; vertical-align: 2px; color: #2E7D52;
+}
+
+/* ---------- aviso ---------- */
+.aviso {
+  max-width: 1240px; margin: 0 auto; padding: 32px 28px 8px;
+}
+.aviso > h2 {
+  margin: 0 0 18px; font-size: 12px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.aviso-cols { display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.aviso-cols > div { background: var(--surface); padding: 20px 22px; }
+.aviso-cols h3 {
+  margin: 0 0 8px; font-size: 15px; font-weight: 700; letter-spacing: -.01em;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.aviso-cols p { margin: 0 0 8px; color: var(--ink-2); font-size: 13.5px; }
+.aviso-cols p:last-child { margin-bottom: 0; }
+.lista { line-height: 2; }
+.lista code { font-size: 11.5px; }
+
+/* ---------- barra ---------- */
+.barra {
+  position: sticky; top: 0; z-index: 20; margin-top: 26px;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.barra-in {
+  max-width: 1240px; margin: 0 auto; padding: 12px 28px;
+  display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center;
+}
+.buscar { display: flex; align-items: center; gap: 8px; flex: 0 0 250px;
+  background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--r);
+  padding: 0 10px; height: 34px; }
+.buscar svg { width: 15px; height: 15px; color: var(--ink-3); flex: none; }
+.buscar input {
+  border: 0; background: none; color: var(--ink); font: inherit; font-size: 13px;
+  width: 100%; height: 100%; outline: none; padding: 0;
+}
+.buscar:focus-within { border-color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; flex: 1 1 300px; }
+.chip {
+  font: inherit; font-size: 11.5px; font-weight: 600; cursor: pointer;
+  background: var(--surface); color: var(--ink-2);
+  border: 1px solid var(--line); border-radius: 999px; padding: 3px 5px 3px 10px;
+  display: inline-flex; align-items: center; gap: 6px; line-height: 1.6;
+}
+.chip span {
+  font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--ink-3);
+  background: var(--surface-2); border-radius: 999px; padding: 1px 6px;
+  font-variant-numeric: tabular-nums;
+}
+.chip:hover { border-color: var(--line-2); color: var(--ink); }
+.chip.activo { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.chip.activo span { background: color-mix(in srgb, var(--ground) 22%, transparent); color: var(--ground); }
+.chip-fit { font-family: inherit; }
+.chip-ko { border-color: var(--accent-ln); color: var(--accent); }
+.chip-ko span { color: var(--accent); background: var(--accent-bg); }
+.chip-ko.activo { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chip-ko.activo span { background: rgba(255,255,255,.22); color: #fff; }
+.ctrl { display: flex; gap: 8px; align-items: center; margin-left: auto; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.seg button, .seg-btn {
+  font: inherit; font-size: 11.5px; font-weight: 600; cursor: pointer;
+  background: var(--surface); color: var(--ink-2); border: 0; padding: 0 10px; height: 32px;
+  font-variant-numeric: tabular-nums;
+}
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button.activo { background: var(--ink); color: var(--ground); }
+.seg-btn { border: 1px solid var(--line); border-radius: var(--r); }
+.seg-btn[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+
+/* ---------- rejilla ---------- */
+main { max-width: 1240px; margin: 0 auto; padding: 30px 28px 10px; }
+.grupo { margin-bottom: 34px; }
+.grupo h2 {
+  display: flex; align-items: baseline; gap: 10px; margin: 0 0 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+.grupo .cat {
+  font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink);
+}
+.grupo .n {
+  font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.rejilla {
+  display: grid; gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(var(--celda-w, 126px), 1fr));
+}
+.cell {
+  position: relative; font: inherit; text-align: center; cursor: copy;
+  background: var(--celda); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 16px 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--ink); box-shadow: var(--sombra); transition: border-color .12s, transform .12s;
+}
+.cell:hover { border-color: var(--line-2); transform: translateY(-1px); }
+.cell.copiada { border-color: var(--accent); }
+.cell.copiada::after {
+  content: "copiado"; position: absolute; inset: auto 0 auto 0; top: 50%;
+  transform: translateY(-50%); font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: #fff; background: var(--accent);
+  padding: 3px 0; pointer-events: none;
+}
+.glyph { display: grid; place-items: center; height: 52px; }
+.glyph svg {
+  width: var(--sz, 24px); height: var(--sz, 24px); color: var(--glyph);
+  overflow: visible;
+}
+.name {
+  font-size: 11.5px; font-weight: 600; line-height: 1.3; color: var(--ink);
+  word-break: break-word; hyphens: auto;
+}
+.meta {
+  display: flex; flex-direction: column; gap: 1px; margin-top: auto;
+  font-family: "IBM Plex Mono", monospace; font-size: 9.5px; color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.vb-off { color: var(--accent); }
+.mk {
+  position: absolute; top: 5px; font-size: 8.5px; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; border-radius: 3px; padding: 1px 4px; line-height: 1.5;
+}
+.mk-ko { right: 5px; background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-ln); }
+.mk-df { left: 5px; background: var(--surface-2); color: var(--ink-3); border: 1px solid var(--line); }
+.mk-fit { left: 5px; background: var(--surface-2); color: var(--ink-3); border: 1px solid var(--line);
+  font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+.aviso-cols .mk { position: static; }
+
+/* La variable que expone icons.ts. Por defecto, la superficie de la celda;
+   al invertir, la tinta: es la demostracion de que el calado ya sigue al fondo. */
+body { --icon-knockout: var(--celda); }
+body.invertido { --icon-knockout: var(--ink); }
+
+/* fondo invertido: la prueba real del calado */
+body.invertido .cell { background: var(--ink); border-color: var(--ink); }
+body.invertido .glyph svg { color: var(--ground); }
+body.invertido .name { color: var(--ground); }
+body.invertido .meta { color: color-mix(in srgb, var(--ground) 55%, transparent); }
+body.invertido .vb-off { color: var(--accent-ln); }
+
+.nada { text-align: center; color: var(--ink-3); padding: 40px 0 20px; margin: 0; }
+footer { border-top: 1px solid var(--line); margin-top: 40px; background: var(--surface); }
+footer p {
+  max-width: 1240px; margin: 0 auto; padding: 22px 28px 30px;
+  color: var(--ink-3); font-size: 12.5px; max-width: 84ch;
+}
+@media (max-width: 640px) {
+  .cab-in, .aviso, .barra-in, main, footer p { padding-left: 18px; padding-right: 18px; }
+  .ctrl { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  .cell:hover { transform: none; }
+}
+
+.pie-aviso {
+  margin: 14px 0 0; font-size: 12.5px; color: var(--ink-3); max-width: 92ch;
+}

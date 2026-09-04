@@ -84,7 +84,8 @@ t1-design-system/
 │
 ├── platforms/                         ← Estilos específicos por contexto
 │   ├── LANDING.md                     ← Sora+Inter, radius 24px, contenedor 1018px
-│   └── DASHBOARD.md                   ← Manrope, sidebar 284px, contenedor 1600px
+│   ├── DASHBOARD.md                   ← Manrope, sidebar 284px, contenedor 1600px
+│   └── APP.md                         ← Inter, mobile-first fijo, sin breakpoints desktop
 │
 └── workflows/                         ← Instrucciones operativas para AI y devs
     ├── CLAUDE-CONTROLLER.md           ← Entry point unificado: routing + references
@@ -93,12 +94,15 @@ t1-design-system/
     │   ├── components.md              ← Catálogo de componentes (condensado)
     │   ├── landing.md                 ← Tokens + patrones landing (condensado)
     │   ├── dashboard.md               ← Tokens + patrones dashboard (condensado)
+    │   ├── app.md                     ← Tokens + patrones app móvil (condensado)
     │   └── anti-patterns.md           ← Guardrails NEXUS
     ├── SCREENSHOT-QA.md              ← Proceso de QA visual
     └── TECH-STACK.md                  ← Stack técnico y convenciones
 ```
 
-**Total: 37 archivos** (3 root + 8 foundation + 5 components + 6 patterns + 2 content + 2 assets + 1 accessibility + 2 platforms + 3 workflows + 5 references)
+Además, `patterns/APP-FLOWS.md` documenta los ~27 flujos de la app móvil (nivel de implementación, como `patterns/FLOWS.md`), y `plataform/T1APP.md` es su detalle profundo pantalla-por-pantalla con trazabilidad a Figma.
+
+**Total: 40 archivos** (3 root + 8 foundation + 5 components + 7 patterns + 2 content + 2 assets + 1 accessibility + 3 platforms + 3 workflows + 6 references + 1 detalle profundo App)
 
 ---
 
@@ -116,6 +120,7 @@ Dependiendo de tu rol o tarea, estos son los archivos que te conviene leer prime
 | **Nuevo en el equipo** | Este `README.md` → `foundation/PRINCIPLES.md` → `foundation/COLORS.md` | Explora según tu rol |
 | **Construir una landing** | `platforms/LANDING.md` → `patterns/LANDING-SECTIONS.md` | `foundation/`, `components/ATOMS.md` |
 | **Construir un dashboard** | `platforms/DASHBOARD.md` → `patterns/DASHBOARD-LAYOUTS.md` | `foundation/`, `components/TABLES.md` |
+| **Construir la app móvil** | `platforms/APP.md` → `patterns/APP-FLOWS.md` | `foundation/`, `plataform/T1APP.md` (detalle profundo) |
 
 ---
 
@@ -131,18 +136,18 @@ Todo proyecto del ecosistema T1 usa el siguiente stack obligatorio:
 
 Detalle completo en [workflows/TECH-STACK.md](./workflows/TECH-STACK.md).
 
-### Dos contextos, un sistema
+### Tres contextos, un sistema
 
-NEXUS maneja dos contextos visuales distintos que comparten los mismos fundamentos pero difieren en ejecución. Las variaciones entre plataformas están documentadas formalmente en [foundation/THEMES.md](./foundation/THEMES.md).
+NEXUS maneja tres contextos visuales distintos que comparten los mismos fundamentos pero difieren en ejecución. Las variaciones entre plataformas están documentadas formalmente en [foundation/THEMES.md](./foundation/THEMES.md).
 
-| | Landing (público) | Dashboard (admin) |
-|---|---|---|
-| **Tipografía** | Sora + Inter | Manrope |
-| **Contenedor** | 1018px | 1600px |
-| **Border radius** | 24px (cards), 18px (buttons) | 10-20px (cards), 8px (buttons) |
-| **Color primario** | Red 600 (`#E26153`) | Red 500 (`#DB3B2B`) |
+| | Landing (público) | Dashboard (admin) | App (móvil nativa) |
+|---|---|---|---|
+| **Tipografía** | Sora + Inter | Manrope | Inter |
+| **Contenedor** | 1018px | 1600px | Mobile-first fijo (360px, sin breakpoints) |
+| **Border radius** | 24px (cards), 18px (buttons) | 10-20px (cards), 8px (buttons) | 12-20px (cards), 16px (buttons) |
+| **Color primario** | Red 600 (`#E26153`) | Red 500 (`#DB3B2B`) | Red 500 (`#DB3B2B`) |
 
-Más detalle en `platforms/LANDING.md` y `platforms/DASHBOARD.md`.
+Más detalle en `platforms/LANDING.md`, `platforms/DASHBOARD.md` y `platforms/APP.md`.
 
 ---
 
